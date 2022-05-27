@@ -22,7 +22,12 @@ steps:
 
 - script: |
     terraform fmt -check
-  displayName: 'Terraform Format'
+  displayName: 'Terraform fmt check'
   workingDirectory: environment/
   enabled: 'true'
 
+- script: |
+    terraform init
+  displayName: 'Terraform init'
+  workingDirectory: environment/
+  enabled: 'true'
