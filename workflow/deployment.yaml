@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Terraform plan, fmt, validate.
+
+pr:
+  branches:
+    include:
+      - 'dev'
+      - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- checkout: self
+
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.14.6'
+  displayName: 'Install Terraform'
+
+- script: |
+    terraform fmt -check
+  displayName: 'Terraform Format'
+  workingDirectory: environment/
+  enabled: 'true'
+
