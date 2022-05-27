@@ -15,6 +15,7 @@ steps:
 
 - checkout: self
 
+
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: '0.14.6'
@@ -22,7 +23,35 @@ steps:
 
 - script: |
     terraform fmt -check
-  displayName: 'Terraform Format'
+  displayName: 'Terraform fmt check'
   workingDirectory: environment/
   enabled: 'true'
 
+- task: TerraformCLI@0
+  displayName: 'Terraform init'
+  inputs:
+    command: 'init'
+    commandOptions: '-input=false'
+    backendType: 'azurerm'
+    backendServiceArm: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
+    backendAzureRmResourceGroupName: 'home'
+    backendAzureRmStorageAccountName: 'tfbackendsahome'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'prod.terraform.state'
+    allowTelemetryCollection: false
+    workingDirectory: environment/
+
+- script: |
+    terraform validate
+  displayName: 'Terraform validate'
+  workingDirectory: environment/
+  enabled: 'true'
+
+- task: TerraformCLI@0
+  displayName: 'Terraform plan'
+  inputs:
+    command: 'plan'
+    commandOptions: '-lock=false -var-file ./variables.tfvars -input=false'
+    environmentServiceName: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
+    allowTelemetryCollection: false
+    workingDirectory: environment/
