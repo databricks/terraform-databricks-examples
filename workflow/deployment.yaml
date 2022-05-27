@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Terraform plan, fmt, validate.
+
+pr:
+  branches:
+    include:
+      - 'dev'
+      - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- checkout: self
+
+- task: InstallSSHKey@0
+  inputs:
+    knownHostsEntry: $(known_host)
+    sshPublicKey: $(ssh_public_key)
+    sshKeySecureFile: id_rsa
+
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.14.6'
+  displayName: 'Install Terraform'
+
+- script: |
+    export TF_VAR_access_key=$(TF_VAR_access_key)
+  displayName: 'Export env variables'
+  enabled: 'true'
+
+- script: |
+    terraform fmt -check
+  displayName: 'Terraform Format'
+  enabled: 'true'
+
