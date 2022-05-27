@@ -16,14 +16,14 @@ resource "azurerm_public_ip_prefix" "this" {
 }
 
 resource "azurerm_nat_gateway" "this" {
-  name                                                = "${var.prefix}-nat-gw"
-  location                                            = azurerm_resource_group.this.location
-  resource_group_name                                 = azurerm_resource_group.this.name
+  name                = "${var.prefix}-nat-gw"
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
   #azurerm_nat_gateway_public_ip_association           = [azurerm_public_ip.this.id]
   #azurerm_nat_gateway_public_ip_prefix_association    = [azurerm_public_ip_prefix.this.id]
-  sku_name                                            = "Standard"
-  idle_timeout_in_minutes                             = 10
-  zones                                               = ["1"]
+  sku_name                = "Standard"
+  idle_timeout_in_minutes = 10
+  zones                   = ["1"]
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "this" {

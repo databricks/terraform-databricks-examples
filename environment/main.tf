@@ -6,10 +6,10 @@ resource "random_string" "naming" {
 }
 
 module "multiworkspace_demo" {
-  source = "../modules/azure-vnet-injection"
-  cidr_block   = var.cidr_block
-  prefix   = var.prefix
-  location = var.location
+  source     = "../modules/azure-vnet-injection"
+  cidr_block = var.cidr_block
+  prefix     = var.prefix
+  location   = var.location
   tags = {
     Environment = var.environment
     Owner       = lookup(data.external.me.result, "name")

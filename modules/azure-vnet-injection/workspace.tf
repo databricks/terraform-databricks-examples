@@ -3,11 +3,11 @@ variable "no_public_ip" {
 }
 
 resource "azurerm_databricks_workspace" "this" {
-  sku                                   = "premium"
-  name                                  = "${var.prefix}-workspace"
-  managed_resource_group_name           = "${var.prefix}-workspace-rg"
-  resource_group_name                   = azurerm_resource_group.this.name
-  location                              = azurerm_resource_group.this.location
+  sku                         = "premium"
+  name                        = "${var.prefix}-workspace"
+  managed_resource_group_name = "${var.prefix}-workspace-rg"
+  resource_group_name         = azurerm_resource_group.this.name
+  location                    = azurerm_resource_group.this.location
   #load_balancer_backend_address_pool_id = azurerm_lb_backend_address_pool.this.id
   custom_parameters {
     no_public_ip                                         = var.no_public_ip
