@@ -12,7 +12,7 @@ module "multiworkspace_demo" {
   location   = var.location
   tags = {
     Environment = var.environment
-    Owner       = lookup(data.external.me.result, "name")
+    Owner       = "yassine.essawabi@databricks.com"
     Epoch       = random_string.naming.result
   }
 }
