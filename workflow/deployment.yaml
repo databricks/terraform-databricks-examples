@@ -27,6 +27,7 @@ steps:
   enabled: 'true'
 
 - task: TerraformCLI@0
+  displayName: 'Terraform init'
   inputs:
     command: 'init'
     commandOptions: '-input=false'
@@ -37,3 +38,4 @@ steps:
     backendAzureRmContainerName: 'tfstate'
     backendAzureRmKey: 'prod.terraform.state'
     allowTelemetryCollection: false
+    workingDirectory: environment/
