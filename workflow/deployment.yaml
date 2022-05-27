@@ -39,3 +39,18 @@ steps:
     backendAzureRmKey: 'prod.terraform.state'
     allowTelemetryCollection: false
     workingDirectory: environment/
+
+- script: |
+    terraform validate
+  displayName: 'Terraform validate'
+  workingDirectory: environment/
+  enabled: 'true'
+
+- task: TerraformCLI@0
+  displayName: 'Terraform plan'
+  inputs:
+    command: 'plan'
+    commandOptions: '-lock=false -input=false'
+    environmentServiceName: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
+    allowTelemetryCollection: false
+    workingDirectory: environment/
