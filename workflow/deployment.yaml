@@ -31,7 +31,7 @@ steps:
     command: 'init'
     commandOptions: '-input=false'
     backendType: 'azurerm'
-    backendServiceArm: 'Databricks_CS(6369c148-f8a9-4fb5-8a9d-ac1b2c8e756e)'
+    backendServiceArm: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
     backendAzureRmResourceGroupName: 'home'
     backendAzureRmStorageAccountName: 'tfbackendsahome'
     backendAzureRmContainerName: 'tfstate'
