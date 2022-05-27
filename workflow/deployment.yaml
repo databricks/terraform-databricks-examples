@@ -26,8 +26,14 @@ steps:
   workingDirectory: environment/
   enabled: 'true'
 
-- script: |
-    terraform init
-  displayName: 'Terraform init'
-  workingDirectory: environment/
-  enabled: 'true'
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    commandOptions: '-input=false'
+    backendType: 'azurerm'
+    backendServiceArm: 'Databricks_CS(6369c148-f8a9-4fb5-8a9d-ac1b2c8e756e)'
+    backendAzureRmResourceGroupName: 'home'
+    backendAzureRmStorageAccountName: 'tfbackendsahome'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'prod.terraform.state'
+    allowTelemetryCollection: false
