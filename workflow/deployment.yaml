@@ -23,6 +23,6 @@ steps:
 - script: |
     terraform fmt -check
   displayName: 'Terraform Format'
-  workingDirectory: 'environment/'
+  workingDirectory: environment/
   enabled: 'true'
 
