@@ -36,7 +36,7 @@ steps:
   displayName: 'Set up Databricks cli profile for Terraform provider'
   
 - script: |
-    databricks jobs list --profile databricks-profile
+    databricks clusters list --profile databricks-profile
   displayName: 'Debug'
   workingDirectory: environment/
   enabled: 'true'
