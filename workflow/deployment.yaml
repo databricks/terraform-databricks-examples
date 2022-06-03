@@ -31,8 +31,8 @@ steps:
     echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
     echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
   env:
-    QA_HOST: $(DATABRICKS_HOST)
-    QA_TOKEN: $(DATABRICKS_TOKEN)
+    DATABRICKS_HOST: $(DATABRICKS_HOST)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
   displayName: 'Set up Databricks cli profile for Terraform provider'
   
 - script: |
