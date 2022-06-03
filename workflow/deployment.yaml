@@ -21,7 +21,7 @@ steps:
     terraformVersion: '0.14.6'
   displayName: 'Install Terraform'
 
-  - script: |
+- script: |
     echo "[databricks-profile]" >> ~/.databrickscfg
     echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
     echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
