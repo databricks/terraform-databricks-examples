@@ -21,10 +21,10 @@ steps:
     terraformVersion: '0.14.6'
   displayName: 'Install Terraform'
 
-  - script: |
-      python -m pip install --upgrade pip
-      pip install databricks-cli
-    displayName: 'Install python dependencies'
+- script: |
+    python -m pip install --upgrade pip
+    pip install databricks-cli
+  displayName: 'Install python dependencies'
     
 - script: |
     echo "[databricks-profile]" >> ~/.databrickscfg
