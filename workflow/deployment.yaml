@@ -24,7 +24,7 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install databricks-cli
-  displayName: 'Install python dependencies'
+  displayName: 'Install Databricks cli'
     
 - script: |
     echo "[databricks-profile]" >> ~/.databrickscfg
@@ -34,13 +34,6 @@ steps:
     DATABRICKS_HOST: $(DATABRICKS_HOST)
     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
   displayName: 'Set up Databricks cli profile for Terraform provider'
-  
-- script: |
-    cat ~/.databrickscfg
-    databricks clusters list --profile databricks-profile
-  displayName: 'Debug'
-  workingDirectory: environment/
-  enabled: 'true'
 
 - script: |
     terraform fmt -check
