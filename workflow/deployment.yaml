@@ -21,6 +21,15 @@ steps:
     terraformVersion: '0.14.6'
   displayName: 'Install Terraform'
 
+  - script: |
+    echo "[databricks-profile]" >> ~/.databrickscfg
+    echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+    echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+  env:
+    QA_HOST: $(DATABRICKS_HOST)
+    QA_TOKEN: $(QA_TODATABRICKS_TOKENKEN)
+  displayName: 'Set up Databricks cli profile for Terraform provider'
+  
 - script: |
     terraform fmt -check
   displayName: 'Terraform fmt check'
@@ -52,6 +61,6 @@ steps:
   inputs:
     command: 'plan'
     commandOptions: '-lock=false -var-file ./variables.tfvars -input=false'
-    environmentServiceName: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
+    environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
     workingDirectory: environment/

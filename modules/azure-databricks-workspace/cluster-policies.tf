@@ -16,9 +16,9 @@ resource "databricks_cluster_policy" "fair_use" {
       "hidden" : true
     },
     "spark_version" : {
-       "type" : "regex",
-       "pattern" : "6\\.[0-9]+\\.x-scala.*",
-       "defaultValue" : "6.6.x-scala2.11"
+      "type" : "regex",
+      "pattern" : "6\\.[0-9]+\\.x-scala.*",
+      "defaultValue" : "6.6.x-scala2.11"
     },
     "driver_node_type_id" : {
       "type" : "fixed",
