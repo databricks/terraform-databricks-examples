@@ -33,15 +33,10 @@ steps:
     command: 'init'
     commandOptions: '-input=false'
     backendType: 'azurerm'
-    #backendServiceArm: 'Azure subscription 1(ea03101c-5276-4bbf-8ba6-aa35de47234f)'
     backendServiceArm: $(SERVICE_CONNECTION_NAME)
-    #backendAzureRmResourceGroupName: 'home'
     backendAzureRmResourceGroupName: $(BACKEND_RG_NAME)
-    #backendAzureRmStorageAccountName: 'tfbackendsahome'
     backendAzureRmStorageAccountName: $(BACKEND_SA_NAME)
-    #backendAzureRmContainerName: 'tfstate'
     backendAzureRmContainerName: $(BACKEND_CONTAINER_NAME)
-    #backendAzureRmKey: 'prod.terraform.state'
     backendAzureRmKey: $(BACKEND_KEY)
     allowTelemetryCollection: false
     workingDirectory: environment/
