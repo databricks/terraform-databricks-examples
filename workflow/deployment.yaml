@@ -73,5 +73,6 @@ steps:
   inputs:
     command: 'plan'
     commandOptions: '-lock=false -var-file ./variables.tfvars -input=false'
+    environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
     workingDirectory: environment/
