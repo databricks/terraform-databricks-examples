@@ -1,11 +1,10 @@
 module "azure_databricks_demo" {
-  source       = "../modules/azure-databricks-workspace"
+  source       = "../modules/databricks-department-clusters"
   cluster_name = var.cluster_name
   department   = var.department
-  user_name    = var.user_name
+  user_names   = var.user_names
   group_name   = var.group_name
   prefix       = var.prefix
   tags = {
-    Owner = "yassine.essawabi@databricks.com"
   }
 }

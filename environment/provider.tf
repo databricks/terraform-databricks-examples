@@ -1,6 +1,12 @@
-provider "azurerm" {
-  features {}
+terraform {
+  required_providers {
+    databricks = {
+      source = "databrickslabs/databricks"
+    }
+  }
 }
 
-provider "random" {
+provider "databricks" {
+  # profile = "databricks-profile"
+  # auth_type = "databricks-cli"
 }

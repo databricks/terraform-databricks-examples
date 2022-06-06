@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Terraform plan, fmt, validate.
+name: Validate Databricks Terraform pipeline
 
 pr:
   branches:
@@ -15,19 +15,13 @@ steps:
 
 - checkout: self
 
-
 - task: TerraformInstaller@0
   inputs:
-    terraformVersion: '0.14.6'
+    terraformVersion: '1.0.11'
   displayName: 'Install Terraform'
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install databricks-cli
-  displayName: 'Install Databricks cli'
-    
-- script: |
-    echo "[databricks-profile]" >> ~/.databrickscfg
+    echo "[DEFAULT]" >> ~/.databrickscfg
     echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
     echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
   env:
@@ -65,7 +59,7 @@ steps:
   displayName: 'Terraform plan'
   inputs:
     command: 'plan'
-    commandOptions: '-lock=false -var-file ./variables.tfvars -input=false'
+    commandOptions: '-lock=false -input=false'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
     workingDirectory: environment/

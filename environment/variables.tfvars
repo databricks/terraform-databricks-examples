@@ -1,5 +1,0 @@
-cluster_name = "terraform-demo"
-department   = "terraform"
-user_name    = "yassine.essawabi@example.com"
-group_name   = "Data engineering"
-prefix       = "tf"
