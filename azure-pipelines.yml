@@ -2,6 +2,9 @@
 
 name: Validate Databricks Terraform pipeline
 
+variables:
+  - group: 'TerraformProdDeploy'
+
 pr:
   branches:
     include:
