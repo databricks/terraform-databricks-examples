@@ -5,12 +5,21 @@ name: Validate Databricks Terraform pipeline
 variables:
   - group: 'TerraformProdDeploy'
 
+
+trigger:
+  branches:
+    include:
+    - main
+
 pr:
   branches:
     include:
-      - 'dev'
-      - 'main'
-
+    - main
+  paths:
+    exclude:
+    - README.md
+    - images
+    
 pool:
   vmImage: 'ubuntu-latest'
 
