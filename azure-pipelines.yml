@@ -5,11 +5,8 @@ name: Validate Databricks Terraform pipeline
 variables:
   - group: 'TerraformProdDeploy'
 
-
-trigger:
-  branches:
-    include:
-    - main
+# We disable builds for any commits as everything should go through pull requests
+trigger: none
 
 pr:
   branches:
