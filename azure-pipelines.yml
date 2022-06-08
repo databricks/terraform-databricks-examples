@@ -51,7 +51,7 @@ steps:
   displayName: 'Terraform init'
   inputs:
     command: 'init'
-    commandOptions: '-input=false'
+    commandOptions: '-input=false -no-color'
     backendType: 'azurerm'
     backendServiceArm: $(SERVICE_CONNECTION_NAME)
     backendAzureRmResourceGroupName: $(BACKEND_RG_NAME)
@@ -61,17 +61,26 @@ steps:
     allowTelemetryCollection: false
     workingDirectory: environment/
 
-- script: |
-    terraform validate
+# - script: |
+#     terraform validate -no-color
+#   displayName: 'Terraform validate'
+#   workingDirectory: environment/
+#   enabled: 'true'
+
+- task: TerraformCLI@0
   displayName: 'Terraform validate'
-  workingDirectory: environment/
-  enabled: 'true'
+  inputs:
+    command: 'validate'
+    commandOptions: '-no-color'
+    environmentServiceName: $(SERVICE_CONNECTION_NAME)
+    allowTelemetryCollection: false
+    workingDirectory: environment/
 
 - task: TerraformCLI@0
   displayName: 'Terraform plan'
   inputs:
     command: 'plan'
-    commandOptions: '-lock=false -input=false'
+    commandOptions: '-lock=false -input=false -no-color'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
     workingDirectory: environment/
