@@ -5,12 +5,21 @@ name: Validate Databricks Terraform pipeline
 variables:
   - group: 'TerraformProdDeploy'
 
+
+trigger:
+  branches:
+    include:
+    - main
+
 pr:
   branches:
     include:
-      - 'dev'
-      - 'main'
-
+    - main
+  paths:
+    exclude:
+    - README.md
+    - images
+    
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -30,7 +39,7 @@ steps:
   env:
     DATABRICKS_HOST: $(DATABRICKS_HOST)
     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-  displayName: 'Set up Databricks cli profile for Terraform provider'
+  displayName: 'Set up Databricks CLI profile for Terraform provider'
 
 - script: |
     terraform fmt -check
