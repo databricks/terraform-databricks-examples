@@ -6,6 +6,6 @@ module "azure_databricks_demo" {
   group_name   = var.group_name
   prefix       = var.prefix
   tags = {
-    "Project" = "Test project"
+    "Project" = "New project"
   }
 }
