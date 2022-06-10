@@ -10,22 +10,13 @@ This module creates specific Databricks objects for a given department:
 +----------+-----------+---------+----------+----------+
 |Name      |Description|Type     |Default   |Required  |
 |----------|-----------|---------|----------|:--------:|
-|          |          |          |          |          |
+|`cluster_name`|Name of the shared cluster to create|string||yes|
 +----------+----------+----------+----------+----------+
-|          |          |          |          |          |
+|`department`|Department name|string||yes|
 +----------+----------+----------+----------+----------+
-|          |          |          |          |          |
+|`user_names`|List of users to create in the specified group|list(string)|empty|no|
 +----------+----------+----------+----------+----------+
-|          |          |          |          |          |
+|`group_name`|Name of the group to create|string||yes|
 +----------+----------+----------+----------+----------+
-|          |          |          |          |          |
+|`tags`|Additional tags applied to all resources created|map(string)|empty map|no|
 +----------+----------+----------+----------+----------+
-|          |          |          |          |          |
-+----------+----------+----------+----------+----------+
-|          |          |          |          |          |
-+----------+----------+----------+----------+----------+
-|          |          |          |          |          |
-+----------+----------+----------+----------+----------+
-|          |          |          |          |          |
-+----------+----------+----------+----------+----------+
-

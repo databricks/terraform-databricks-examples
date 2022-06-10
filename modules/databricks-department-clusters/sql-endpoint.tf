@@ -7,9 +7,9 @@ resource "databricks_sql_endpoint" "this" {
 
   tags {
     dynamic "custom_tags" {
-      for_each = merge(var.tags, {Team = var.department})
+      for_each = merge(var.tags, { Team = var.department })
       content {
-        key = custom_tags.key
+        key   = custom_tags.key
         value = custom_tags.value
       }
     }
