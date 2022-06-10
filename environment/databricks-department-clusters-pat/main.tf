@@ -4,8 +4,5 @@ module "azure_databricks_demo" {
   department   = var.department
   user_names   = var.user_names
   group_name   = var.group_name
-  prefix       = var.prefix
-  tags = {
-    "Project" = "New project"
-  }
+  tags         = var.tags
 }
