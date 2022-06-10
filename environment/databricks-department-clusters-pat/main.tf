@@ -1,5 +1,5 @@
 module "azure_databricks_demo" {
-  source       = "../modules/databricks-department-clusters"
+  source       = "../../modules/databricks-department-clusters"
   cluster_name = var.cluster_name
   department   = var.department
   user_names   = var.user_names
