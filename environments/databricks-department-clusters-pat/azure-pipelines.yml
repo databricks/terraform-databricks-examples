@@ -1,6 +1,6 @@
 # This is a basic Azure DevOps pipeline to validate Terraform
 
-name: Validate Databricks Terraform pipeline
+name: ' Validate Terraform code: '
 
 variables:
   - group: 'TerraformProdDeploy'
@@ -13,9 +13,13 @@ pr:
     include:
     - main
   paths:
+    # We want to handle only changes relevant for this pipeline
+    include:
+    - environments/databricks-department-clusters-pat/
+    - modules/databricks-department-clusters/
     exclude:
-    - README.md
-    - images
+    - environments/databricks-department-clusters-pat/README.md
+    - modules/databricks-department-clusters/README.md
     
 pool:
   vmImage: 'ubuntu-latest'
@@ -40,7 +44,7 @@ steps:
 
 - script: |
     terraform fmt -check
-  displayName: 'Terraform fmt check'
+  displayName: 'Check formatting of Terraform code'
   workingDirectory: environments/databricks-department-clusters-pat/
   enabled: 'true'
 

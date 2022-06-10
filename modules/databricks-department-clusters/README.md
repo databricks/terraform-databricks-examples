@@ -1,4 +1,8 @@
+# databricks-department-clusters
+
+
 This module creates specific Databricks objects for a given department:
+
 * User group for a department with specific users added to it
 * A shared Databricks cluster that could be used by users of the group
 * A Databricks SQL Endpoint
