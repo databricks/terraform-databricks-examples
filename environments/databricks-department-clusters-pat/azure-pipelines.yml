@@ -41,7 +41,7 @@ steps:
 - script: |
     terraform fmt -check
   displayName: 'Terraform fmt check'
-  workingDirectory: environment/databricks-department-clusters-pat/
+  workingDirectory: environments/databricks-department-clusters-pat/
   enabled: 'true'
 
 - task: TerraformCLI@0
@@ -56,7 +56,7 @@ steps:
     backendAzureRmContainerName: $(BACKEND_CONTAINER_NAME)
     backendAzureRmKey: $(BACKEND_KEY)
     allowTelemetryCollection: false
-    workingDirectory: environment/databricks-department-clusters-pat/
+    workingDirectory: environments/databricks-department-clusters-pat/
 
 - task: TerraformCLI@0
   displayName: 'Terraform validate'
@@ -65,7 +65,7 @@ steps:
     commandOptions: '-no-color'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
-    workingDirectory: environment/databricks-department-clusters-pat/
+    workingDirectory: environments/databricks-department-clusters-pat/
 
 - task: TerraformCLI@0
   displayName: 'Terraform plan'
@@ -74,4 +74,4 @@ steps:
     commandOptions: '-lock=false -input=false -no-color'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
-    workingDirectory: environment/databricks-department-clusters-pat/
+    workingDirectory: environments/databricks-department-clusters-pat/
