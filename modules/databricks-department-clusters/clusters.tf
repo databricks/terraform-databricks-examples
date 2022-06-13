@@ -22,7 +22,7 @@ resource "databricks_cluster" "team_cluster" {
   })
 }
 
-resource "databricks_permissions" "can_use_team_cluster" {
+resource "databricks_permissions" "can_manage_team_cluster" {
   cluster_id = databricks_cluster.team_cluster.id
   access_control {
     group_name       = databricks_group.data_eng.display_name
