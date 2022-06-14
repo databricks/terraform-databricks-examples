@@ -6,7 +6,7 @@ This repository contains multiple examples of implementing CI/CD pipelines to de
 
 The general workflow for examples looks as following:
 
-![Workflow](../../images/terraform-databricks-pipeline.png)
+![Workflow](images/terraform-databricks-pipeline.png)
 
 * Changes to code are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
