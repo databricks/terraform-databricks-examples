@@ -139,3 +139,41 @@ echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
 The final step of the configuration for release pipeline is configuration of approvals.  Click on the "⚡", select the "After release" trigger, and then toggle the "Pre-deployment approvals" button. Put names of the approvers into the "Approvers" box - they will get notification when release is triggered, and they will need to approve deployment of the changes.
 
+## Configuring Github Actions pipeline
+
+As described above, we need two jobs in the Github actions workflow:
+
+* build job is responsible for validation of changes in pull request.
+* release job is responsible for deploying the changes.
+
+In order to use this pipeline, we have two prerequisites:
+
+* Create a Service Principale and grant it Contributor access to the Azure subscription for the remote state.
+* Store credentials for the Service Principale and the Databricks workspace where ressources will be deployed.
+
+### List of Github Actions secrets
+
+We need to define the following secrets:
+
+![Secrets](../../images/github-actions-secrets.png)
+
+* `DATABRICKS_HOST` - URL of the Databricks workspace where resources will be deployed.
+* `DATABRICKS_TOKEN` - personal access token for the Databricks workspace (follow [documentation](https://docs.databricks.com/dev-tools/api/latest/authentication.html) for instructions on how to obtain it).
+* `AZURE_AD_CLIENT_ID` – ID of the Azure service principal.
+* `AZURE_AD_CLIENT_SECRET` – Secret of the Azure Service Principal.
+* `AZURE_AD_TENANT_ID` – Azure AD tenant ID to where the service principal was created.
+* `AZURE_SUBSCRIPTION_ID` – Subscription ID of where you want to deploy the Terraform
+
+
+### Configuring the Github Actions workflow 
+
+In order to create a new Github Actions workflow, follow these steps:
+
+* Create a .github/workflows directory in your repository on GitHub if this directory does not already exist.
+* In the .github/workflows directory, create a file named terraform-databricks-demo.yml.
+* Copy the content from [github-actions-demo.yml](github-actions.yml) into the new terraform-databricks-demo.yml file.
+* Commit and push your changes.
+* Create a new pull request to the `main` branch
+
+Committing the workflow file to a `main` branch in your repository will trigger the build job and runs your workflow.
+
