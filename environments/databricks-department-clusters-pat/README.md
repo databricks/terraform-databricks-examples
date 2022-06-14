@@ -6,6 +6,8 @@ This directory contains Terraform code that shows how to use [databricks-departm
 
 The general workflow looks as following:
 
+![Workflow](../../images/terraform-databricks-pipeline.png)
+
 * Changes to code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
   * Initializes Terraform using a remote backend to store a [Terraform state](https://www.terraform.io/language/state).
