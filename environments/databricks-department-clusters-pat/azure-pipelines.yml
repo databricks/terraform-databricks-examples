@@ -19,6 +19,7 @@ pr:
     - modules/databricks-department-clusters/
     exclude:
     - environments/databricks-department-clusters-pat/README.md
+    - environments/databricks-department-clusters-pat/github-actions.yml
     - modules/databricks-department-clusters/README.md
     
 pool:

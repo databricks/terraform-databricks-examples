@@ -148,10 +148,10 @@ As described above, we need two jobs in the Github actions workflow:
 
 In order to use this pipeline, we have two prerequisites:
 
-* Create a Service Principale and grant it one of the following permissions:
+* Create a Service Principal and grant it one of the following permissions:
   * Contributor access to the Azure Databricks workspace and blob contributor access to the storage account used for the remote state. 
   * Contributor access to the resource group containing both the Azure Databricks workspace and the storage account. 
-* Store credentials for the Service Principale and the Databricks workspace where ressources will be deployed.
+* Store credentials for the Service Principal and the Databricks workspace where resources will be deployed.
 
 ### List of Github Actions secrets
 
@@ -168,15 +168,14 @@ We need to define the following secrets:
 * `BACKEND_RG_NAME` - name of resource group containing storage account.
 * `BACKEND_SA_NAME` - name of the storage account.
 * `BACKEND_CONTAINER_NAME` - name of the container inside the storage account.
-* `BACKEND_KEY` - name of the blob (file) object that will be used to store Terraform state of our deployment.
+* `BACKEND_KEY` - name of the blob (file) object that will be used to store the Terraform state of our deployment.
 
 
 ### Configuring the Github Actions workflow 
 
 In order to create a new Github Actions workflow, follow these steps:
 
-* Create a .github/workflows directory in your repository on GitHub if this directory does not already exist.
-* In the .github/workflows directory, create a file named terraform-databricks-demo.yml.
-* Copy the [github-actions.yml](github-actions.yml) into the ``terraform-databricks-demo.yml`` file.
+* Create a `.github/workflows` directory in your repository on GitHub if this directory does not already exist.
+* Copy the [github-actions.yml](github-actions.yml) into the `.github/workflows/terraform-databricks.yml` file.
 * Commit and push your changes to the `main` branch. This will automatically create a new Github Actions workflow. 
 
