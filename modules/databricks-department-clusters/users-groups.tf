@@ -1,8 +1,5 @@
-
 resource "databricks_group" "data_eng" {
   display_name = var.group_name
-  #  allow_cluster_create       = true
-  #  allow_instance_pool_create = true
 }
 
 resource "databricks_user" "de" {
