@@ -146,7 +146,7 @@ As described above, we need two jobs in the Github actions workflow:
 * Build job is responsible for validation of changes in pull request. It is triggered by any new pull request event on the `main` branch.
 * Release job is responsible for deploying the changes:
   * It is triggered by any new merge event on the `main` branch.
-  * It requires a manual approval before deploying the changes. See bel
+  * It requires a manual approval before deploying the changes. See [Configuring the Github Actions release job](#configuring-the-github-actions-release-job) for more details.
 
 In order to use this pipeline, we have two prerequisites:
 
