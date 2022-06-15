@@ -143,12 +143,14 @@ The final step of the configuration for release pipeline is configuration of app
 
 As described above, we need two jobs in the Github actions workflow:
 
-* build job is responsible for validation of changes in pull request.
-* release job is responsible for deploying the changes.
+* Build job is responsible for validation of changes in pull request. It is triggered by any new pull request event on the `main` branch.
+* Release job is responsible for deploying the changes. It is triggered by any new merge event on the `main` branch.
 
 In order to use this pipeline, we have two prerequisites:
 
-* Create a Service Principale and grant it Contributor access to the Azure subscription for the remote state.
+* Create a Service Principale and grant it one of the following permissions:
+  * Contributor access to the Azure Databricks workspace and blob contributor access to the storage account used for the remote state. 
+  * Contributor access to the resource group containing both the Azure Databricks workspace and the storage account. 
 * Store credentials for the Service Principale and the Databricks workspace where ressources will be deployed.
 
 ### List of Github Actions secrets
@@ -163,6 +165,10 @@ We need to define the following secrets:
 * `AZURE_AD_CLIENT_SECRET` – Secret of the Azure Service Principal.
 * `AZURE_AD_TENANT_ID` – Azure AD tenant ID to where the service principal was created.
 * `AZURE_SUBSCRIPTION_ID` – Subscription ID of where you want to deploy the Terraform
+* `BACKEND_RG_NAME` - name of resource group containing storage account.
+* `BACKEND_SA_NAME` - name of the storage account.
+* `BACKEND_CONTAINER_NAME` - name of the container inside the storage account.
+* `BACKEND_KEY` - name of the blob (file) object that will be used to store Terraform state of our deployment.
 
 
 ### Configuring the Github Actions workflow 
@@ -171,9 +177,6 @@ In order to create a new Github Actions workflow, follow these steps:
 
 * Create a .github/workflows directory in your repository on GitHub if this directory does not already exist.
 * In the .github/workflows directory, create a file named terraform-databricks-demo.yml.
-* Copy the content from [github-actions-demo.yml](github-actions.yml) into the new terraform-databricks-demo.yml file.
-* Commit and push your changes.
-* Create a new pull request to the `main` branch
-
-Committing the workflow file to a `main` branch in your repository will trigger the build job and runs your workflow.
+* Copy the [github-actions.yml](github-actions.yml) into the ``terraform-databricks-demo.yml`` file.
+* Commit and push your changes to the `main` branch. This will automatically create a new Github Actions workflow. 
 
