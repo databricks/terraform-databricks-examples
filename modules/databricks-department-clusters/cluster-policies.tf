@@ -5,11 +5,6 @@ resource "databricks_cluster_policy" "fair_use" {
       "type" : "range",
       "maxValue" : 10
     },
-    # "spark_conf.spark.databricks.cluster.profile" : {
-    #   "type" : "fixed",
-    #   "value" : "serverless",
-    #   "hidden" : true
-    # },
     "instance_pool_id" : {
       "type" : "forbidden",
       "hidden" : true
