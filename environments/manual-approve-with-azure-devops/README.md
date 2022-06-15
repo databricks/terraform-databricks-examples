@@ -8,13 +8,13 @@ The general workflow looks as following:
 
 ![Workflow](../../images/terraform-databricks-pipeline-azure-devops.png)
 
-* Changes to code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
+* Changes to the code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
   * Initializes Terraform using a remote backend to store a [Terraform state](https://www.terraform.io/language/state).
-  * Perform check of the Terraform code for formatting consistence.
+  * Perform check of the Terraform code for formatting consistency.
   * Performs check of the Terraform code using [terraform validate](https://www.terraform.io/cli/commands/validate).
-  * Executes `terraform plan` to get the list changes that will be made.
-* If build pipeline executed without errors, results of `terraform plan` and code could be reviewed by reviewer, and merged into the `main` branch.
+  * Executes `terraform plan` to get the list changes that will be made during deployment.
+* If the build pipeline is executed without errors, results of `terraform plan` and the code could be reviewed by reviewer, and merged into the `main` branch.
 * When code is merged into the `main` branch, the release pipeline is triggered, and after a manual approval, changes are applied to the deployment using the `terraform apply` command.
 
 As result of the pipeline execution, following resources will be created:
@@ -39,8 +39,8 @@ You can customize this project by modifying the `terraform.tfvars` file that def
 
 As described above, we need two pipelines:
 
-* build pipeline is responsible for validation of changes in pull request.
-* release pipeline is responsible for deploying the changes.
+* The build pipeline is responsible for validation of changes in pull requests.
+* The release pipeline is responsible for deploying the changes.
 
 Both pipelines are using the [Azure Pipelines Terraform Tasks](https://marketplace.visualstudio.com/items?itemName=charleszipp.azure-pipelines-tasks-terraform) that is available on the Visual Studio marketplace.  Just add this extension to your Azure DevOps project
 
@@ -48,17 +48,17 @@ We also need to define auxiliary objects in the Azure DevOps project that will b
 
 * Azure Data Lake Storage (ADLS) account and container that will be used to store Terraform state.
 * Service connection for Github that will be used to detect the changes in the repository (not necessary if you use Azure DevOps Repos).
-* [Service connection for Azure Resource Manager](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-resource-manager-service-connection) that will be used to access data of Terraform state in Azure Data Lake Storage (ADLS) container via [azure remote backend](https://www.terraform.io/language/settings/backends/azurerm).  The configured identity need to have write access to the configured ADLS container.
+* [Service connection for Azure Resource Manager](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#azure-resource-manager-service-connection) that will be used to access data of Terraform state in Azure Data Lake Storage (ADLS) container via [azure remote backend](https://www.terraform.io/language/settings/backends/azurerm).  The configured identity needs to have write access to the configured ADLS container.
 * [Azure DevOps variable group](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups) will store all variables used by the both pipelines.
 
 ### Configuring the variable group
 
-We need to configure a variable group with name `TerraformProdDeploy`.  It should contain following variables:
+We need to configure a variable group with the name `TerraformProdDeploy`.  It should contain following variables:
 
 * `BACKEND_RG_NAME` - name of resource group containing storage account.
 * `BACKEND_SA_NAME` - name of the storage account.
 * `BACKEND_CONTAINER_NAME` - name of the container inside the storage account.
-* `BACKEND_KEY` - name of the blob (file) object that will be used to store Terraform state of our deployment.
+* `BACKEND_KEY` - name of the blob (file) object that will be used to store the Terraform state of our deployment.
 * `SERVICE_CONNECTION_NAME` - name of the Azure DevOps service connection for Azure Resource Manager that was defined earlier.
 * `DATABRICKS_HOST` - URL of the Databricks workspace where resources will be deployed.
 * `DATABRICKS_TOKEN` - personal access token for the Databricks workspace (follow [documentation](https://docs.databricks.com/dev-tools/api/latest/authentication.html) for instructions on how to obtain it).  Please mark this variable as **secret** to avoid exposing its value.
@@ -97,7 +97,7 @@ At the end your release pipeline should look as following (don't forget to press
 
 Release artifact is configured as following:
 
-* Click on "Add an artifact" button, then select your Git implementation (GitHub, Azure DevOps, ...), and select repository with the code.
+* Click on the "Add an artifact" button, then select your Git implementation (GitHub, Azure DevOps, ...), and select a repository with the code.
 * Select the default branch - set it to `main`
 * Set the "Default version" field to value "Latest from the default branch"
 * Set the "Source alias" field to something easy to remember - we'll use that value in the stages.  For example, `terraform-databricks-pipeline`
@@ -121,11 +121,11 @@ echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
 echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 ```
 
-  We also need to define two environment variables that will link script with our variable group.  First one is the `DATABRICKS_TOKEN` with value `$(DATABRICKS_TOKEN)`, and second - `DATABRICKS_HOST` with value `$(DATABRICKS_HOST)`
+  We also need to define two environment variables that will link the script with our variable group.  First one is the `DATABRICKS_TOKEN` with value `$(DATABRICKS_TOKEN)`, and second - `DATABRICKS_HOST` with value `$(DATABRICKS_HOST)`
   
-2. Task that will install Terraform - search for task with name "Terraform installer" and after adding it, define version of Terraform to use.
+2. Task that will install Terraform - search for a task with name "Terraform installer" and after adding it, define a version of Terraform to use.
 
-3. Task to perform initialization of Terraform using the state in remote backend. Search for "Terraform CLI" task, select the `init` command, and configure it as following:
+3. Task to perform initialization of Terraform using the state in the remote backend. Search for "Terraform CLI" task, select the `init` command, and configure it as following:
 
   * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/databricks-department-clusters-pat` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
   * Put `-input=false -no-color` into the `Command Options` field
