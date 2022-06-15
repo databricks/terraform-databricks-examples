@@ -14,23 +14,24 @@ defaults:
   run:
     working-directory: environments/databricks-department-clusters-pat
 
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+  DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_TOKEN }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+  BACKEND_RG_NAME: ${{ secrets.BACKEND_RG_NAME }}
+  BACKEND_SA_NAME: ${{ secrets.BACKEND_SA_NAME }}
+  BACKEND_CONTAINER_NAME: ${{ secrets.BACKEND_CONTAINER_NAME }}
+  BACKEND_KEY: ${{ secrets.BACKEND_KEY }}
+
 jobs:
   build:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
-    env:
-      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-      DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_TOKEN }}
-      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-      BACKEND_RG_NAME: ${{ secrets.BACKEND_RG_NAME }}
-      BACKEND_SA_NAME: ${{ secrets.BACKEND_SA_NAME }}
-      BACKEND_CONTAINER_NAME: ${{ secrets.BACKEND_CONTAINER_NAME }}
-      BACKEND_KEY: ${{ secrets.BACKEND_KEY }}
 
     steps:
       - uses: actions/checkout@v3
@@ -105,19 +106,9 @@ jobs:
   release:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       max-parallel: 4
-    env:
-      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-      DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_TOKEN }}
-      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-      BACKEND_RG_NAME: ${{ secrets.BACKEND_RG_NAME }}
-      BACKEND_SA_NAME: ${{ secrets.BACKEND_SA_NAME }}
-      BACKEND_CONTAINER_NAME: ${{ secrets.BACKEND_CONTAINER_NAME }}
-      BACKEND_KEY: ${{ secrets.BACKEND_KEY }}
 
     steps:
       - uses: actions/checkout@v3
