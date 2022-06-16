@@ -11,8 +11,9 @@ This module creates specific Databricks objects for a given department:
 
 ## Inputs
 
-|Name      |Description|Type     |Default   |Required  |
-|`cluster_name`|Name of the shared cluster to create|string||yes|
+| Name           | Description                          | Type   | Default | Required |
+|----------------|--------------------------------------|--------|---------|----------|
+|`cluster_name` | Name of the shared cluster to create | string |         | yes      |
 |`department`|Department name|string||yes|
 |`user_names`|List of users to create in the specified group|list(string)|empty|no|
 |`group_name`|Name of the group to create|string||yes|
