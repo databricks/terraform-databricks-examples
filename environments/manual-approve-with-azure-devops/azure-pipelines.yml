@@ -15,11 +15,11 @@ pr:
   paths:
     # We want to handle only changes relevant for this pipeline
     include:
-    - environments/databricks-department-clusters-pat/
+    - environments/manual-approve-with-azure-devops/
     - modules/databricks-department-clusters/
     exclude:
-    - environments/databricks-department-clusters-pat/README.md
-    - environments/databricks-department-clusters-pat/github-actions.yml
+    - environments/manual-approve-with-azure-devops/README.md
+    - environments/manual-approve-with-github-actions/
     - modules/databricks-department-clusters/README.md
     
 pool:
