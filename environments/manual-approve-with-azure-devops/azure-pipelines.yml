@@ -37,7 +37,7 @@ steps:
 - script: |
     terraform fmt -check
   displayName: 'Check formatting of Terraform code'
-  workingDirectory: environments/databricks-department-clusters-pat/
+  workingDirectory: environments/manual-approve-with-azure-devops/
   enabled: 'true'
 
 - task: TerraformCLI@0
@@ -52,7 +52,7 @@ steps:
     backendAzureRmContainerName: $(BACKEND_CONTAINER_NAME)
     backendAzureRmKey: $(BACKEND_KEY)
     allowTelemetryCollection: false
-    workingDirectory: environments/databricks-department-clusters-pat/
+    workingDirectory: environments/manual-approve-with-azure-devops/
 
 - task: TerraformCLI@0
   displayName: 'Terraform validate'
@@ -61,8 +61,14 @@ steps:
     commandOptions: '-no-color'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
-    workingDirectory: environments/databricks-department-clusters-pat/
+    workingDirectory: environments/manual-approve-with-azure-devops/
 
+- script: |
+    env|sort
+  displayName: 'get debugging information'
+  workingDirectory: environments/manual-approve-with-azure-devops/
+  enabled: 'true'
+    
 - task: TerraformCLI@0
   displayName: 'Terraform plan'
   env:
@@ -73,4 +79,4 @@ steps:
     commandOptions: '-lock=false -input=false -no-color'
     environmentServiceName: $(SERVICE_CONNECTION_NAME)
     allowTelemetryCollection: false
-    workingDirectory: environments/databricks-department-clusters-pat/
+    workingDirectory: environments/manual-approve-with-azure-devops/
