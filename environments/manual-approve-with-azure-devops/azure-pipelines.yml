@@ -35,15 +35,6 @@ steps:
   displayName: 'Install Terraform'
 
 - script: |
-    echo "[DEFAULT]" >> ~/.databrickscfg
-    echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-    echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
-  env:
-    DATABRICKS_HOST: $(DATABRICKS_HOST)
-    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-  displayName: 'Set up Databricks CLI profile for Terraform provider'
-
-- script: |
     terraform fmt -check
   displayName: 'Check formatting of Terraform code'
   workingDirectory: environments/databricks-department-clusters-pat/
@@ -74,6 +65,9 @@ steps:
 
 - task: TerraformCLI@0
   displayName: 'Terraform plan'
+  env:
+    DATABRICKS_HOST: $(DATABRICKS_HOST)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
   inputs:
     command: 'plan'
     commandOptions: '-lock=false -input=false -no-color'
