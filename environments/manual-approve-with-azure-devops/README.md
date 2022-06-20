@@ -73,7 +73,7 @@ The configured variable group should see as following:
 Create a build pipeline by navigating to the "Pipelines" section of your Azure DevOps project, and click "New pipeline" that will walk you through configuration:
 
 * Select Git repository with the code
-* Select the "Existing Azure Pipelines YAML file" option, and select `/environments/databricks-department-clusters-pat/azure-pipelines.yml` from the dropdown
+* Select the "Existing Azure Pipelines YAML file" option, and select `/environments/manual-approve-with-azure-devops/azure-pipelines.yml` from the dropdown
 * Select "Save" from the dropdown in the "Run" button
 
 This will create a new build pipeline that will be triggered on the pull request to the `main` branch & validate proposed changes.
@@ -127,13 +127,13 @@ echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
 
 3. Task to perform initialization of Terraform using the state in the remote backend. Search for "Terraform CLI" task, select the `init` command, and configure it as following:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/databricks-department-clusters-pat` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
   * Put `-input=false -no-color` into the `Command Options` field
   * Select `azurerm` in the "Backend Type" dropdown, and fill all necessary parameters in the "AzureRM Backend Configuration" section. 
   
 4. Task to apply changes - search for "Terraform CLI" task, select the `apply` command, and configure following parameters:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/databricks-department-clusters-pat` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
   * Put `-input=false -no-color` into the `Command Options` field
   
 
