@@ -42,8 +42,6 @@ As described above, we need two pipelines:
 * The build pipeline is responsible for validation of changes in pull requests.
 * The release pipeline is responsible for deploying the changes.
 
-Both pipelines are using the [Azure Pipelines Terraform Tasks](https://marketplace.visualstudio.com/items?itemName=charleszipp.azure-pipelines-tasks-terraform) that is available on the Visual Studio marketplace.  Just add this extension to your Azure DevOps project
-
 We also need to define auxiliary objects in the Azure DevOps project that will be used by the both pipelines:
 
 * Azure Data Lake Storage (ADLS) account and container that will be used to store Terraform state.
@@ -113,28 +111,54 @@ Configure stage by pressing "Add a stage":
 * Switch to Tasks tab to configure agent - select "Azure pipelines" in the "Agent pool", and in the "Agent Specification" select "ubuntu-latest"
 * Use "+" on the "Agent job" to add tasks. We need to define 4 tasks:
 
-1. Task that will be used to create a Databricks CLI configuration file. Search for "Command line" tasks and add it.  Give it name like "Generate Databricks CLI config file" and enter following code into the "Script" field:
+1. Task that will be used to install Terraform. Search for "Command line" task and add it.  Give it name like "Install Terraform" and enter following code into the "Script" field:
 
 ```sh
-echo "[DEFAULT]" > ~/.databrickscfg
-echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
 ```
 
-  We also need to define two environment variables that will link the script with our variable group.  First one is the `DATABRICKS_TOKEN` with value `$(DATABRICKS_TOKEN)`, and second - `DATABRICKS_HOST` with value `$(DATABRICKS_HOST)`
-  
-2. Task that will install Terraform - search for a task with name "Terraform installer" and after adding it, define a version of Terraform to use.
 
-3. Task to perform initialization of Terraform using the state in the remote backend. Search for "Terraform CLI" task, select the `init` command, and configure it as following:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
-  * Put `-input=false -no-color` into the `Command Options` field
-  * Select `azurerm` in the "Backend Type" dropdown, and fill all necessary parameters in the "AzureRM Backend Configuration" section. 
-  
-4. Task to apply changes - search for "Terraform CLI" task, select the `apply` command, and configure following parameters:
+2. Task that will extract necessary data for authentication against the state backend. Search for "Azure CLI" task and add it.  Give it name like "Extract information from Azure CLI", and set parameters as following:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Configuration Directory" field (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
-  * Put `-input=false -no-color` into the `Command Options` field
-  
+  * Select your service connection in "Azure Resource Manager connection" dropdown
+  * In "Script Type" select "Shell"
+  * In "Script Location" select "Inline script"
+  * Make sure that "Access service principal details in script" is checked
+  * Put following into "Inline Script" text block:
+
+  ```sh
+  subscription_id=$(az account list --query "[?isDefault].id"|jq -r '.[0]')
+  echo "##vso[task.setvariable variable=ARM_CLIENT_ID]${servicePrincipalId}"
+  echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;issecret=true]${servicePrincipalKey}"
+  echo "##vso[task.setvariable variable=ARM_TENANT_ID]${tenantId}"
+  echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]${subscription_id}"
+  ```
+
+3. Task to perform initialization of Terraform using the state in the remote backend. Search for Command line" task, add it, and configure following parameters:
+
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Add environment variable with name `ARM_CLIENT_SECRET` and value `$(ARM_CLIENT_SECRET)`
+  * Put following code into "Script" field:
+
+  ```sh
+  terraform init -input=false -no-color \
+    -backend-config="resource_group_name=$BACKEND_RG_NAME" \
+    -backend-config="storage_account_name=$BACKEND_SA_NAME" \
+    -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
+    -backend-config="key=$BACKEND_KEY"
+  ```
+
+4. Task to apply changes. Search for Command line" task, add it, and configure following parameters:
+
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Add two environment variables. One with name `ARM_CLIENT_SECRET` and value `$(ARM_CLIENT_SECRET)`, and another with name `DATABRICKS_TOKEN` and value `$(DATABRICKS_TOKEN)`
+  * Put following code into "Script" field:
+
+  ```sh
+  terraform apply -input=false -no-color
+  ```
+
 
 The final step of the configuration for release pipeline is configuration of approvals.  Click on the "⚡", select the "After release" trigger, and then toggle the "Pre-deployment approvals" button. Put names of the approvers into the "Approvers" box - they will get notification when release is triggered, and they will need to approve deployment of the changes.

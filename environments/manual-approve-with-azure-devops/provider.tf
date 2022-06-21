@@ -7,6 +7,5 @@ terraform {
 }
 
 provider "databricks" {
-  # profile = "databricks-profile"
-  auth_type = "databricks-cli"
+  auth_type = "pat"
 }
