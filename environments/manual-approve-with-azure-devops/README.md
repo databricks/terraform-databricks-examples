@@ -157,7 +157,7 @@ brew install hashicorp/tap/terraform
   * Put following code into "Script" field:
 
   ```sh
-  terraform apply -input=false -no-color
+  terraform apply -input=false -no-color -auto-approve
   ```
 
 
