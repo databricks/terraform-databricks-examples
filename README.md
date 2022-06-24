@@ -1,6 +1,6 @@
 # terraform-databricks-examples
 
-This repository contains multiple examples of implementing CI/CD pipelines to deploy Databricks resources using Terraform.
+This repository contains multiple examples of implementing CI/CD pipelines to deploy Databricks resources using [Databricks Terraform provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
 
 ## General workflow
 
