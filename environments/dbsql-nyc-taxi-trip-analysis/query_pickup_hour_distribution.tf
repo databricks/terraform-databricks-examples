@@ -39,6 +39,15 @@ resource "databricks_sql_query" "pickup_hour_distribution" {
   query = file("query_pickup_hour_distribution.sql")
 }
 
+resource "databricks_permissions" "query_pickup_hour_distribution" {
+  sql_query_id = databricks_sql_query.pickup_hour_distribution.id
+
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_RUN"
+  }
+}
+
 resource "databricks_sql_visualization" "pickup_hour_distribution_chart" {
   query_id = databricks_sql_query.pickup_hour_distribution.id
   type     = "chart"

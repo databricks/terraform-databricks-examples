@@ -39,6 +39,15 @@ resource "databricks_sql_query" "total_trips" {
   query = file("query_total_trips.sql")
 }
 
+resource "databricks_permissions" "query_total_trips" {
+  sql_query_id = databricks_sql_query.total_trips.id
+
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_RUN"
+  }
+}
+
 resource "databricks_sql_visualization" "total_trips_counter" {
   query_id = databricks_sql_query.total_trips.id
   type     = "counter"

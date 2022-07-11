@@ -5,6 +5,15 @@ resource "databricks_sql_dashboard" "nyc_taxi_trip_analysis" {
   ]
 }
 
+resource "databricks_permissions" "dashboard_nyc_taxi_trip_analysis" {
+  sql_dashboard_id = databricks_sql_dashboard.nyc_taxi_trip_analysis.id
+
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_RUN"
+  }
+}
+
 resource "databricks_sql_widget" "daily_fare_trends" {
   dashboard_id     = databricks_sql_dashboard.nyc_taxi_trip_analysis.id
   visualization_id = databricks_sql_visualization.daily_fare_to_distance_analysis_chart.id

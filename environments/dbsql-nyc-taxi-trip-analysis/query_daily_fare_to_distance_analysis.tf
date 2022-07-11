@@ -39,6 +39,15 @@ resource "databricks_sql_query" "daily_fare_to_distance_analysis" {
   query = file("query_daily_fare_to_distance_analysis.sql")
 }
 
+resource "databricks_permissions" "query_daily_fare_to_distance_analysis" {
+  sql_query_id = databricks_sql_query.daily_fare_to_distance_analysis.id
+
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_RUN"
+  }
+}
+
 resource "databricks_sql_visualization" "daily_fare_to_distance_analysis_chart" {
   query_id = databricks_sql_query.daily_fare_to_distance_analysis.id
   type     = "chart"

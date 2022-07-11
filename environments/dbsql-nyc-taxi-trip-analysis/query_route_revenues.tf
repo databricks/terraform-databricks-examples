@@ -39,6 +39,15 @@ resource "databricks_sql_query" "route_revenues" {
   query = file("query_route_revenues.sql")
 }
 
+resource "databricks_permissions" "query_route_revenues" {
+  sql_query_id = databricks_sql_query.route_revenues.id
+
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_RUN"
+  }
+}
+
 resource "databricks_sql_visualization" "route_revenues_table" {
   query_id = databricks_sql_query.route_revenues.id
   type     = "table"
