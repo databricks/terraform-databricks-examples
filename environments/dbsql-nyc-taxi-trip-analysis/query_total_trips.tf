@@ -36,7 +36,7 @@ resource "databricks_sql_query" "total_trips" {
     }
   }
 
-  query = file("query_total_trips.sql")
+  query = file("${path.module}/files/total_trips.sql")
 }
 
 resource "databricks_permissions" "query_total_trips" {

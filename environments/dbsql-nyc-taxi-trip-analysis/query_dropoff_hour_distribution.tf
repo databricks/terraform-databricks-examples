@@ -36,7 +36,7 @@ resource "databricks_sql_query" "dropoff_hour_distribution" {
     }
   }
 
-  query = file("query_dropoff_hour_distribution.sql")
+  query = file("${path.module}/files/dropoff_hour_distribution.sql")
 }
 
 resource "databricks_permissions" "query_dropoff_hour_distribution" {

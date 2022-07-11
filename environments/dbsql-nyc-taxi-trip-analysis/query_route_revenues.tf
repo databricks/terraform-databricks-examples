@@ -36,7 +36,7 @@ resource "databricks_sql_query" "route_revenues" {
     }
   }
 
-  query = file("query_route_revenues.sql")
+  query = file("${path.module}/files/route_revenues.sql")
 }
 
 resource "databricks_permissions" "query_route_revenues" {

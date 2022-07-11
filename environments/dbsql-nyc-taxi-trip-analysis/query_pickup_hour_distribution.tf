@@ -36,7 +36,7 @@ resource "databricks_sql_query" "pickup_hour_distribution" {
     }
   }
 
-  query = file("query_pickup_hour_distribution.sql")
+  query = file("${path.module}/files/pickup_hour_distribution.sql")
 }
 
 resource "databricks_permissions" "query_pickup_hour_distribution" {

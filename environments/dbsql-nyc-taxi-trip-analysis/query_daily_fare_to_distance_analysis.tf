@@ -36,7 +36,7 @@ resource "databricks_sql_query" "daily_fare_to_distance_analysis" {
     }
   }
 
-  query = file("query_daily_fare_to_distance_analysis.sql")
+  query = file("${path.module}/files/daily_fare_to_distance_analysis.sql")
 }
 
 resource "databricks_permissions" "query_daily_fare_to_distance_analysis" {
