@@ -1,7 +1,7 @@
 resource "databricks_sql_query" "dropoff_hour_distribution" {
   data_source_id = databricks_sql_endpoint.this.data_source_id
 
-  name = "Dropoff Hour Distribution"
+  name = "${local.name_prefix}Dropoff Hour Distribution"
   tags = [
     "Sample",
   ]
