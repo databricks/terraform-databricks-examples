@@ -1,5 +1,5 @@
 resource "databricks_sql_dashboard" "nyc_taxi_trip_analysis" {
-  name = "${local.name_prefix}NYC Taxi Trip Analysis"
+  name = "${var.name_prefix}NYC Taxi Trip Analysis"
   tags = [
     "Sample",
   ]

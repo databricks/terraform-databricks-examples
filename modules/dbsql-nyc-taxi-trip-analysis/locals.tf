@@ -129,7 +129,4 @@ locals {
     "7974",
     "8876",
   ]
-
-  # Wrap prefix in brackets, if specified.
-  name_prefix = var.prefix != "" ? "[${var.prefix}] " : ""
 }

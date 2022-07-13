@@ -1,7 +1,7 @@
 resource "databricks_sql_query" "pickup_hour_distribution" {
   data_source_id = databricks_sql_endpoint.this.data_source_id
 
-  name = "${local.name_prefix}Pickup Hour Distribution"
+  name = "${var.name_prefix}Pickup Hour Distribution"
   tags = [
     "Sample",
   ]

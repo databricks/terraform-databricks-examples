@@ -1,4 +1,4 @@
-variable "prefix" {
+variable "name_prefix" {
   type        = string
-  description = "Prefix the names of the dashboard and queries with this string value."
+  description = "Prefix for the names of this module's dashboard and queries."
 }

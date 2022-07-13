@@ -1,7 +1,7 @@
 resource "databricks_sql_query" "daily_fare_to_distance_analysis" {
   data_source_id = databricks_sql_endpoint.this.data_source_id
 
-  name = "${local.name_prefix}Daily Fare to Distance Analysis"
+  name = "${var.name_prefix}Daily Fare to Distance Analysis"
   tags = [
     "Sample",
   ]
