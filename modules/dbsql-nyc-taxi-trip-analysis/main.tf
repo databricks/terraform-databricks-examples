@@ -7,11 +7,6 @@ terraform {
   }
 }
 
-provider "databricks" {
-  # For an overview of possible authentication mechanisms, please refer to:
-  # https://registry.terraform.io/providers/databricks/databricks/latest/docs#authentication
-}
-
 data "databricks_group" "users" {
   display_name = "users"
 }
