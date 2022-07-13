@@ -10,11 +10,3 @@ terraform {
 data "databricks_group" "users" {
   display_name = "users"
 }
-
-resource "databricks_sql_endpoint" "this" {
-  name         = "Sample endpoint"
-  cluster_size = "Small"
-
-  enable_photon             = true
-  enable_serverless_compute = true
-}

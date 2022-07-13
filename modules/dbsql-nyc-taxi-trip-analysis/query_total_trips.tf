@@ -1,5 +1,5 @@
 resource "databricks_sql_query" "total_trips" {
-  data_source_id = databricks_sql_endpoint.this.data_source_id
+  data_source_id = var.data_source_id
 
   name = "${var.name_prefix}Total Trips"
   tags = [

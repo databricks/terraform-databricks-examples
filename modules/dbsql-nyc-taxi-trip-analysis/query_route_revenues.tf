@@ -1,5 +1,5 @@
 resource "databricks_sql_query" "route_revenues" {
-  data_source_id = databricks_sql_endpoint.this.data_source_id
+  data_source_id = var.data_source_id
 
   name = "${var.name_prefix}Route Revenues"
   tags = [
