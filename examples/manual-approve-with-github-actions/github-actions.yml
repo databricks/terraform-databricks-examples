@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: environments/databricks-department-clusters-pat
+    working-directory: examples/databricks-department-clusters-pat
 
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}

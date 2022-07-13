@@ -24,6 +24,6 @@ Code in the repository is organized into following folders:
 
 * `modules` - implementation of specific Terraform modules:
   * [databricks-department-clusters](modules/databricks-department-clusters/) - Terraform module that creates Databricks resources for a team.
-* `environments` - specific instances that use Terraform modules, providing CI/CD capabilities for deployment. Refer to `README.md` files inside specific folder:
-  * [manual-approve-with-azure-devops](environments/manual-approve-with-azure-devops) - implementation of `databricks-department-clusters` module using Azure DevOps. 
-  * [manual-approve-with-github-actions](environments/manual-approve-with-github-actions) - implementation of `databricks-department-clusters` module using GitHub Actions. 
+* `examples` - specific instances that use Terraform modules, providing CI/CD capabilities for deployment. Refer to `README.md` files inside specific folder:
+  * [manual-approve-with-azure-devops](examples/manual-approve-with-azure-devops) - implementation of `databricks-department-clusters` module using Azure DevOps. 
+  * [manual-approve-with-github-actions](examples/manual-approve-with-github-actions) - implementation of `databricks-department-clusters` module using GitHub Actions. 

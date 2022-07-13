@@ -71,7 +71,7 @@ The configured variable group should see as following:
 Create a build pipeline by navigating to the "Pipelines" section of your Azure DevOps project, and click "New pipeline" that will walk you through configuration:
 
 * Select Git repository with the code
-* Select the "Existing Azure Pipelines YAML file" option, and select `/environments/manual-approve-with-azure-devops/azure-pipelines.yml` from the dropdown
+* Select the "Existing Azure Pipelines YAML file" option, and select `/examples/manual-approve-with-azure-devops/azure-pipelines.yml` from the dropdown
 * Select "Save" from the dropdown in the "Run" button
 
 This will create a new build pipeline that will be triggered on the pull request to the `main` branch & validate proposed changes.
@@ -138,7 +138,7 @@ brew install hashicorp/tap/terraform
 
 3. Task to perform initialization of Terraform using the state in the remote backend. Search for Command line" task, add it, and configure following parameters:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/examples/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
   * Add environment variable with name `ARM_CLIENT_SECRET` and value `$(ARM_CLIENT_SECRET)`
   * Put following code into "Script" field:
 
@@ -152,7 +152,7 @@ brew install hashicorp/tap/terraform
 
 4. Task to apply changes. Search for Command line" task, add it, and configure following parameters:
 
-  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/environments/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
+  * Put `$(System.DefaultWorkingDirectory)/terraform-databricks-pipeline/examples/manual-approve-with-azure-devops` into the "Working Directory" field under "Advanced" block (`terraform-databricks-pipeline` is the value of the "Source alias" that we defined in Artifact.
   * Add two environment variables. One with name `ARM_CLIENT_SECRET` and value `$(ARM_CLIENT_SECRET)`, and another with name `DATABRICKS_TOKEN` and value `$(DATABRICKS_TOKEN)`
   * Put following code into "Script" field:
 

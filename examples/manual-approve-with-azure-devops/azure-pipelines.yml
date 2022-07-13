@@ -15,11 +15,11 @@ pr:
   paths:
     # We want to handle only changes relevant for this pipeline
     include:
-    - environments/manual-approve-with-azure-devops/
+    - examples/manual-approve-with-azure-devops/
     - modules/databricks-department-clusters/
     exclude:
-    - environments/manual-approve-with-azure-devops/README.md
-    - environments/manual-approve-with-github-actions/
+    - examples/manual-approve-with-azure-devops/README.md
+    - examples/manual-approve-with-github-actions/
     - modules/databricks-department-clusters/README.md
 
 pool:
@@ -60,7 +60,7 @@ steps:
 - script: |
     terraform fmt -check
   displayName: 'Check formatting of Terraform code'
-  workingDirectory: environments/manual-approve-with-azure-devops/
+  workingDirectory: examples/manual-approve-with-azure-devops/
   enabled: 'true'
 
 - script: |
@@ -70,7 +70,7 @@ steps:
       -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
       -backend-config="key=$BACKEND_KEY"
   displayName: 'Terraform init'
-  workingDirectory: environments/manual-approve-with-azure-devops/
+  workingDirectory: examples/manual-approve-with-azure-devops/
   enabled: 'true'
   env:
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -78,13 +78,13 @@ steps:
 - script: |
     terraform validate -no-color
   displayName: 'Terraform validate'
-  workingDirectory: environments/manual-approve-with-azure-devops/
+  workingDirectory: examples/manual-approve-with-azure-devops/
   enabled: 'true'
 
 - script: |
     terraform plan -lock=false -input=false -no-color
   displayName: 'Terraform plan'
-  workingDirectory: environments/manual-approve-with-azure-devops/
+  workingDirectory: examples/manual-approve-with-azure-devops/
   enabled: 'true'
   env:
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
