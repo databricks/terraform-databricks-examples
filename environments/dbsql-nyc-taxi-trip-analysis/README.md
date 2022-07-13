@@ -21,3 +21,10 @@ Then, to destroy the sample dashboard, its queries, and endpoint, run:
 ```shell
 $ terraform destroy
 ```
+
+## Result
+
+Upon opening the dashboard URL as printed as part of the output of `terraform apply`,
+you should see the following:
+
+![](../../images/dbsql-nyc-taxi-trip-analysis.png)
