@@ -5,6 +5,10 @@ resource "databricks_sql_dashboard" "nyc_taxi_trip_analysis" {
   ]
 }
 
+output "dashboard_id" {
+  value = databricks_sql_dashboard.nyc_taxi_trip_analysis.id
+}
+
 resource "databricks_permissions" "dashboard_nyc_taxi_trip_analysis" {
   sql_dashboard_id = databricks_sql_dashboard.nyc_taxi_trip_analysis.id
 
