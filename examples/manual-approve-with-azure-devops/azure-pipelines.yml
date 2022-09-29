@@ -29,16 +29,8 @@ steps:
 
 - checkout: self
 
-# - script: |
-#     echo "Working in $(pwd) path=$PATH"
-#     curl -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-#     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-#     chmod a+x terraform
-#     mv terraform ~/
-#     ~/terraform -version
-#   displayName: 'Install Terraform'
-
 - script: |
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     brew tap hashicorp/tap
     brew install hashicorp/tap/terraform
   displayName: 'Install Terraform'
