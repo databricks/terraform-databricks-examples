@@ -39,6 +39,7 @@ steps:
 #   displayName: 'Install Terraform'
 
 - script: |
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     brew tap hashicorp/tap
     brew install hashicorp/tap/terraform
   displayName: 'Install Terraform'
