@@ -33,7 +33,7 @@ resource "azurerm_linux_virtual_machine" "teradatavm" {
   name                = "teradata-vm"
   resource_group_name = var.resource_group_name
   location            = var.region
-  size                = "Standard_DS4_v2"
+  size                = "Standard_D16_v3"
   admin_username      = "azureuser"
 
   network_interface_ids = [
