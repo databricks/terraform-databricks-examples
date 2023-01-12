@@ -23,18 +23,6 @@ resource "azurerm_resource_group" "this" {
   tags     = local.tags
 }
 
-resource "local_file" "setupscript" {
-  content         = <<EOT
-  #! /bin/bash
-  sudo apt update
-  sudo apt install docker.io -y
-  sudo apt install docker-compose -y
-  EOT
-  filename        = "teradata_setup.sh"
-  file_permission = "0777" // default value 0777
-}
-
-
 module "test_vm_instance" {
   source              = "./modules/teradata_vm"
   resource_group_name = azurerm_resource_group.this.name
