@@ -78,26 +78,3 @@ resource "azurerm_virtual_machine_data_disk_attachment" "diskattachment" {
   lun                = "10"
   caching            = "ReadWrite"
 }
-
-/*
-resource "azurerm_virtual_machine_extension" "teradatasetupagent" {
-  name                 = "hwangagent"
-  virtual_machine_id   = azurerm_linux_virtual_machine.example.id
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.1"
-
-  settings = <<SETTINGS
-  {
-    "fileUris": ["https://${module.adls_content.storage_name}.blob.core.windows.net/${module.adls_content.container_name}/teradata_setup.sh"],
-    "commandToExecute": "sudo sh teradata_setup.sh"
-  }
-  SETTINGS
-
-  depends_on = [
-    azurerm_linux_virtual_machine.example,
-    azurerm_storage_blob.teradata_setup_file,
-    azurerm_storage_blob.teradata_databricks_app_file
-  ]
-}
-*/
