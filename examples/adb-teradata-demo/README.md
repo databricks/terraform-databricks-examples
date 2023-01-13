@@ -161,7 +161,6 @@ Then follow the notebook examples, to connect to your TD VM public IP:
 
 ![alt text](./charts/adb-connection.png?raw=true)
 
-
 ### Common issues:
 
 1. `kex_exchange_identification: read: Connection reset by peer`: you need to wait for the vmbox to start, try again in a few minutes.
