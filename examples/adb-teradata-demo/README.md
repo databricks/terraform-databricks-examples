@@ -53,7 +53,9 @@ The VM's private key has been generated for you in local folder; replace the pub
 ssh -i <private_key_local_path> azureuser@<public_ip>
 ```
 
-Inside the VM, we should run the commands stored inside `teradata_vm_configs.sh` step by step. Note that you need to modify two commands manually to make it work.
+Inside the VM, we should run the commands stored inside `teradata_vm_configs.sh` step by step. 
+
+**Note that you need to modify two commands manually to make it work:**
 
 **The first place to modify:**
 
@@ -149,3 +151,4 @@ Refer to [official guide](https://quickstarts.teradata.com/run-vantage-express-o
 ### Common issues:
 
 1. `kex_exchange_identification: read: Connection reset by peer`: you need to wait for the vmbox to start, try again in a few minutes.
+2. `vt-x is not available (verr_vmx_no_vmx)`: This is because you've altered the VM size and chose a size that's incompatible with gen2 image. You should choose VM that supports: `Nested Virtualization: Supported`. Please refer to: https://learn.microsoft.com/en-us/azure/virtual-machines/generation-2 for compatibility. As we are doing SSH twice, you need nested Virtualization.
