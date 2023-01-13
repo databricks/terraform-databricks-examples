@@ -44,7 +44,9 @@ Change the `terraform.tfvars` to your need, then run:
 terraform init
 terraform apply
 ```
-This will deploy all resources wrapped in a new resource group to your the default subscription of your `az login` profile; you will see the public ip address of the VM hosting Teradata Vantage Express after the deployment is done.
+This will deploy all resources wrapped in a new resource group to your the default subscription of your `az login` profile; you will see the public ip address of the VM hosting Teradata Vantage Express after the deployment is done. After deployment, you will get below resources:
+
+![alt text](./charts/resources.png?raw=true)
 
 > Step 3: Configure Teradata Vantage Express VM
 
@@ -146,6 +148,9 @@ SELECT * FROM HR.Employees;
 Refer to [official guide](https://quickstarts.teradata.com/run-vantage-express-on-microsoft-azure.html#_optional_setup) to set up.
 
 > Step 6: Integration with Azure Databricks
+
+Now your Teradata VM is running; let's set up the Databricks cluster to connect to it.
+
 
 
 ### Common issues:
