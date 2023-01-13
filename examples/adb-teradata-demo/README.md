@@ -8,9 +8,6 @@ This example template automatically provisions a demo envirionment of single nod
 
 For setting up the VM hosting Teradata Vantage Express, we will follow the official installation guide: https://quickstarts.teradata.com/run-vantage-express-on-microsoft-azure.html; this readme provides more details in each step.
 
-## Architecture Diagram
-Todo
-
 ## Folder Structure
     .
     ├── main.tf
