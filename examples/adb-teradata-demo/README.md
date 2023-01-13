@@ -157,7 +157,7 @@ Then create a cluster with the uploaded jdbc driver installed.
 
 ![alt text](./charts/cluster.png?raw=true)
 
-Then follow the notebook examples, to connect to your TD VM public IP:
+Then follow the notebook examples, to connect to your TD VM public IP, below shows how to read from Databricks to TD tables:
 
 ![alt text](./charts/adb-connection.png?raw=true)
 
