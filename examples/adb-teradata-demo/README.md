@@ -149,8 +149,17 @@ Refer to [official guide](https://quickstarts.teradata.com/run-vantage-express-o
 
 > Step 6: Integration with Azure Databricks
 
-Now your Teradata VM is running; let's set up the Databricks cluster to connect to it.
+Now your Teradata VM is running; let's set up the Databricks cluster to connect to it. First we need to download TD JDBC driver from https://downloads.teradata.com/download/connectivity/jdbc-driver. Then upload the driver to your workspace dbfs.
 
+![alt text](./charts/upload-driver.png?raw=true)
+
+Then create a cluster with the uploaded jdbc driver installed.
+
+![alt text](./charts/cluster.png?raw=true)
+
+Then follow the notebook examples, to connect to your TD VM public IP:
+
+![alt text](./charts/adb-connection.png?raw=true)
 
 
 ### Common issues:
