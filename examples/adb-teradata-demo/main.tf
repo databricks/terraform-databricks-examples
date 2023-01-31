@@ -9,7 +9,6 @@ locals {
   location = var.rglocation
   dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
 
-  // tags that are propagated down to all resources
   tags = {
     Environment = "Testing"
     Owner       = lookup(data.external.me.result, "name")
