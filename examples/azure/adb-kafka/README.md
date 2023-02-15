@@ -41,7 +41,8 @@ terraform apply
 ```
 This will deploy all resources wrapped in a new resource group to your the default subscription of your `az login` profile; you will see the public ip address of the VM after the deployment is done. After deployment, you will get below resources:
 
-![alt text](./charts/resources.png?raw=true)
+![alt text](https://raw.githubusercontent.com/hwang-db/terraform-databricks-examples/main/examples/azure/adb-kafka/charts/resources.png?raw=true)
+
 
 > Step 3: Configure your VM to run Kafka and Zookeeper services
 
@@ -59,9 +60,9 @@ Now you should follow this [guide from DigitalOcean](https://www.digitalocean.co
 curl "https://downloads.apache.org/kafka/3.3.2/kafka_2.12-3.3.2.tgz" -o ~/Downloads/kafka.tgz
 ```
 
-![alt text](./charts/kafka-download.png?raw=true)
+![alt text](https://raw.githubusercontent.com/hwang-db/terraform-databricks-examples/main/examples/azure/adb-kafka/charts/kafka-download.png?raw=true)
 
-2. When testing your Kafka installation, --zookeeper is deprecated, use --bootstrap-server instead:
+1. When testing your Kafka installation, --zookeeper is deprecated, use --bootstrap-server instead:
    
 ```bash
 ~/kafka/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic TutorialTopic
@@ -72,7 +73,7 @@ At the end of the guide, you should have a running Kafka service on your VM. You
 sudo systemctl status kafka
 ```
 
-![alt text](./charts/test-kafka.png?raw=true)
+![alt text](https://raw.githubusercontent.com/hwang-db/terraform-databricks-examples/main/examples/azure/adb-kafka/charts/test-kafka.png?raw=true)
 
 > Step 4: Integration with Azure Databricks
 
@@ -85,8 +86,8 @@ We first create a topic `TutorialTopic2` in Kafka via your VM's Command Line:
 
 Then we can write from Spark DataFrame to this topic; you can also test the connection by `telnet vm-private-ip 9092` first.
 
-![alt text](./charts/write-to-kafka.png?raw=true)
+![alt text](https://raw.githubusercontent.com/hwang-db/terraform-databricks-examples/main/examples/azure/adb-kafka/charts/write-to-kafka.png?raw=true)
 
 Read from this topic in another stream job:
 
-![alt text](./charts/read-kafka.png?raw=true)
+![alt text](https://raw.githubusercontent.com/hwang-db/terraform-databricks-examples/main/examples/azure/adb-kafka/charts/read-kafka.png?raw=true)
