@@ -7,8 +7,7 @@ This is an automated terraform template to deploy Databricks workspace and a VM 
 
 ## Overall Architecture
 
-<img src="../charts/splunk.png" width="600">
-
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-splunk/images/splunk.png?raw=true)
 
 ## Context
 
@@ -43,7 +42,7 @@ There will be an output id address, use that to replace the public ip in http://
 
 Logged into Splunk vm UI, then go to Databricks connector, follow the instructuions to interact with Databricks clusters from within Splunk.
 
-<img src="../charts/splunk-config.png" width="600">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-splunk/images/splunk-config.png?raw=true)
 
 ### Step 5:
 

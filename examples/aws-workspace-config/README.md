@@ -57,13 +57,13 @@ By defining in the cluster policy json like below, you can enforce default tags 
       "value" : var.team
     }
 
-<img src="../charts/tf_tagging.png" width="600">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-workspace-config/images/custom-tags.png?raw=true)
 
 Ordinary (non-admin) users, by default will not be able to create unrestricted clusters; if allowed to create clusters, they will only be able to use the policies assigned to them to spin up clusters, thus you can have strict control over the cluster configurations among different groups. See below for and example of ordinary user created via terraform.
 
 The process will be: provision ordinary users -> assign users to groups -> assign groups to have permissions to use specific policies only -> the groups can only create clusters using assigned policies.
 
-<img src="../charts/user_policy.png" width="1200">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-workspace-config/images/policy.png?raw=true)
 
 ## Workspace users and groups
 

@@ -7,9 +7,9 @@ In this example, we show how to use S3 bucket as a remote backend for Terraform 
 
 ### Architecture
 
-> The chart below shows the components of a S3 remote backend  
+> The image below shows the components of a S3 remote backend  
 
-<img src="../charts/tf_remote_s3_backend.png" width="800">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/tf-remote-s3-backend.png?raw=true)
 
 ### Setup remote backend
 

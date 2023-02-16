@@ -18,7 +18,7 @@ For setting up the VM hosting Teradata Vantage Express, we will follow the offic
     ├── vnet.tf
     ├── workspace.tf
     ├── terraform.tfvars
-    ├── charts
+    ├── images
     ├── modules
         ├── teradata_vm
             ├── main.tf
@@ -43,7 +43,7 @@ terraform apply
 ```
 This will deploy all resources wrapped in a new resource group to your the default subscription of your `az login` profile; you will see the public ip address of the VM hosting Teradata Vantage Express after the deployment is done. After deployment, you will get below resources:
 
-![alt text](./charts/resources.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/resources.png?raw=true)
 
 > Step 3: Configure Teradata Vantage Express VM
 
@@ -64,7 +64,7 @@ curl -o ve.7z 'https://d289lrf5tw1zls.cloudfront.net/database/teradata-express/V
 
 This is the cURL command to download Teradata Vantage Express from Teradata website. You can get the URL from here https://downloads.teradata.com/download/database/teradata-express/vmware; register an account and download the VM; when you clicked the download button, press `F12` to open your browser's network flow, find the latest entry started with VantageExpress, right click and copy the cURL; trim off the Http header and update the command above.
 
-![alt text](./charts/cURL.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/cURL.png?raw=true)
 
 **The second place to check/modify:**
 
@@ -85,7 +85,7 @@ pdestate -a
 ```
 to check the TD service is up and running; if successful you should see below:
 
-![alt text](./charts/validate-td-running.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/validate-td-running.png?raw=true)
 
 Next, we can use bteq to create databases and tables. Run:
 ```bash
@@ -138,7 +138,7 @@ Then you can query this table inside bteq:
 SELECT * FROM HR.Employees;
 ```
 
-![alt text](./charts/td-vm-bteq.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/td-vm-bteq.png?raw=true)
 
 > Step 5: Automatically spin up Teradata when Azure VM starts
 
@@ -148,15 +148,15 @@ Refer to [official guide](https://quickstarts.teradata.com/run-vantage-express-o
 
 Now your Teradata VM is running; let's set up the Databricks cluster to connect to it. First we need to download TD JDBC driver from https://downloads.teradata.com/download/connectivity/jdbc-driver. Then upload the driver to your workspace dbfs.
 
-![alt text](./charts/upload-driver.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/upload-driver.png?raw=true)
 
 Then create a cluster with the uploaded jdbc driver installed.
 
-![alt text](./charts/cluster.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/cluster.png?raw=true)
 
 Then follow the notebook examples, to connect to your TD VM public IP, below shows how to read from Databricks to TD tables:
 
-![alt text](./charts/adb-connection.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-teradata/images/adb-connection.png?raw=true)
 
 For a full integration example, you can upload the notebooks under `artifacts` from this repo to your workspace.
 

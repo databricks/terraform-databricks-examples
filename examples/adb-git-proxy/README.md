@@ -14,7 +14,7 @@ See the original git proxy work from https://gist.github.com/hjsuh18/4805b5c3dfe
 
 ## Overall Architecture
 
-<img src="../charts/git-proxy.png" width="600">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-git-proxy/images/git-proxy.png?raw=true)
 
 This template deploys the vanilla version of Databricks workspace in managed VNet into a new resource group, a single-node Databricks cluster as git proxy, and a Databricks job that needs to be run once to flip the git proxy feature flag for the workspace via workspace 2.0 API call. All the necessary scripts have been provided in `scripts` folder and it's customer's duty to maintain these scripts logic. 
 
@@ -33,4 +33,4 @@ Navigate to this folder `/adb-git-proxy`, run `terraform init` and `terraform ap
 
 Log into your workspace, find the job deployed, run it only once, check after successful run, you should see the git proxy feature flag flipped. As shown in sample picture below.
 
-<img src="../charts/git-proxy-job.png" width="600">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-git-proxy/images/git-proxy-job.png?raw=true)

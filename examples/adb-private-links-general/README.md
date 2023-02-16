@@ -8,7 +8,7 @@ Include:
 5. Private Endpoint for web-auth traffic.
 
 Overall Architecture:
-![alt text](../charts/adb-private-links-general.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-private-links-general/images/adb-private-links-general.png?raw=true)
 
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix

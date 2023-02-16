@@ -9,7 +9,7 @@
 Credits to andrew.weaver@databricks.com for creating the original instructions to set up squid proxy and shu.wu@databricks.com for efforts in testing and debugging init scripts for databricks cluster proxy setup.
 
 ## Overall Architecture:
-![alt text](../charts/adb-squid-proxy.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-squid-proxy/images/adb-squid-proxy.png?raw=true)
 
 Narratives: Databricks workspace 1 is deployed into a VNet, which is peered to another VNet hosting a single Squid proxy server, every databricks spark cluster will be configured using init script to direct traffic to this Squid server. We control ACL in squid.conf, such that we can allow/deny traffic to certain outbound destinations.
 
@@ -42,7 +42,7 @@ Redirect to `/main`, run:
 Now in folder of `/main`, you can find the auto-generated private key for ssh, to ssh into the provisioned vm, run:
 `ssh -i ./ssh_private.pem azureuser@52.230.84.169`, change to the public ip of the squid vm accordingly. Check the nsg rules of the squid vm, we have inbound rule 300 allowing any source for ssh, this is for testing purpose only! You do not need ssh on squid vm for production setup. Once you ssh into squid vm, vi /etc/squid/squid.conf and you will find similar content like:
 
-![alt text](../charts/squidconf.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-squid-proxy/images/squid-conf.png?raw=true)
 
 The content was auto inserted by packer in step 2.
 
@@ -54,13 +54,13 @@ Create a small vanilla cluster to run this notebook.
 ### Step 5:
 Spin up another cluster using the init script generated in step 4, spark traffic will be routed to the squid proxy.
 
-![alt text](../charts/setproxy.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-squid-proxy/images/set-proxy.png?raw=true)
 
 ### Step 6:
 
 Now all your clusters that spins up using this init script, will route spark/non-spark traffic to the squid proxy and ACL rules in squid.conf will be applied. Example effects are shown below:
 
-![alt text](../charts/http_proxy.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-squid-proxy/images/http-proxy.png?raw=true)
 
 Traffic to storage accounts will also be allowed / blocked by the proxy. These rules are to be set in `/packer/scripts/setproxy.sh` script.
 

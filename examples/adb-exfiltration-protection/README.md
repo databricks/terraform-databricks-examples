@@ -9,7 +9,7 @@ To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us
 
 ## Overall Architecture
 
-<img src="../charts/adb-exfiltration-classic.png" width="800">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
 
 Resources to be created:
 * Resource group with random prefix

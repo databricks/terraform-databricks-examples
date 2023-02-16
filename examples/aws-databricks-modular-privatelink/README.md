@@ -120,15 +120,15 @@ After you have deployed your workspaces using this template (`aws_databricks_mod
 
 > IP Access List Decision Flow
 
-<img src="../charts/ip-access-lists-flow.png" width="400">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/ip-access-lists-flow.png?raw=true)
 
 > Example - blocked access from workspace: my phone is blocked to access the workspace, since the public IP was in the workspace's block list.
 
-<img src="../charts/ip_access_list_block.png" width="400">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/ip-access-list-block.png?raw=true)
 
 > Recommended to keep IP Access List management in a separate Terraform project, to avoid orphaned resources. (Similar error below)
 
-<img src="../charts/orphaned_resources.png" width="800">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/orphaned-resources.png?raw=true)
 
 ## Tagging
 
@@ -153,7 +153,7 @@ terraform {
 
 You should create the infra for remote backend in another Terraform Project, like the `aws_remote_backend_infra` project in this repo's root level - https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_remote_backend_infra, since we want to separate the backend infra out from any databricks project infra. As shown below, you create a separate set of tf scripts and create the S3 and DynamoDB Table. Then all other tf projects can store their state files in this remote backend.
 
-<img src="../charts/tf_remote_s3_backend.png" width="800">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/tf-remote-s3-backend.png?raw=true)
 
 Tips: If you want to destroy your backend infra (S3+DynamoDB), since your state files of S3 and backend infra are stored in that exact S3, to avoid falling into chicken and egg problem, you need to follow these steps:
 1. Comment out remote backend and migrate states to local backend
@@ -184,7 +184,7 @@ This template illustrates the traditional method of creating Instance Profile to
 
 The sample script in `instance_profile.tf` will help you create the underlying IAM role and policies for you to create instance profile at workspace level, you will find the `arn` from tf output, you can then manually take the value and configure at workspace admin setting page like below:
 
-<img src="../charts/instance_profile.png" width="500">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/instance-profile.png?raw=true)
 
 Next you need to configure permissions for users/groups to use this instance profile to spin up clusters, and the cluster will be able to access the S3 specified in the instance profile's IAM role's policy.
 
