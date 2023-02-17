@@ -7,7 +7,7 @@ Include:
 4. Private Link connection from data plane to dbfs storage.
 
 Overall Architecture:
-![alt text](../charts/adb-private-links.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-private-links/images/adb-private-links.png?raw=true)
 
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix

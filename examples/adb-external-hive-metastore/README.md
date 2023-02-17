@@ -3,7 +3,7 @@
 Credits to alexey.ott@databricks.com and bhavin.kukadia@databricks.com for notebook logic for database initialization steps.
 This architecture will be deployed:
 
-<img src="../charts/adb-external-hive-metastore.png" width="600">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-external-hive-metastore/images/adb-external-hive-metastore.png?raw=true)
 
 # Get Started:
 On your local machine, inside this folder of `adb-external-hive-metastore`:
@@ -25,15 +25,15 @@ Step 4 automatically completes 99% steps. The last 1% step is to manually trigge
 
 Go to databricks workspace - Job - run the auto-deployed job only once; this is to initialize the database with metastore schema.
 
-![alt text](../charts/manual_last_step.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-external-hive-metastore/images/manual-last-step.png?raw=true)
 
 Then you can verify in a notebook:
 
-![alt text](../charts/test_metastore.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-external-hive-metastore/images/test-metastore.png?raw=true)
 
 We can also check inside the sql db (metastore), we've successfully linked up cluster to external hive metastore and registered the table here:
 
-![alt text](../charts/metastore_content.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-external-hive-metastore/images/metastore-content.png?raw=true)
 
 Now you can config all other clusters to use this external metastore, using the same spark conf and env variables of cold start cluster.
 

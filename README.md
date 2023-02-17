@@ -1,12 +1,14 @@
 # terraform-databricks-examples
 
-This repository contains multiple examples of implementing CI/CD pipelines to deploy Databricks resources using [Databricks Terraform provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
+This repository contains multiple examples of Databricks workspace and resources deployment using [Databricks Terraform provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
+
+There are two ways to use this repository:
+1. Use examples as a reference for your own Terraform code: Please refer to `examples` folder for individual examples.   
+2. Reuse modules from this repository: Please refer to `modules` folder.
 
 ## General workflow
 
 The general workflow for examples looks as following:
-
-![Workflow](images/terraform-databricks-pipeline-azure-devops.png)
 
 * Changes to code are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:

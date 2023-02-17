@@ -8,7 +8,7 @@ This is stage 2 of UC deployment, you can also run this stage 2 template directl
 If you don't have an `account admin` identity, you can refer to stage 1: 
 [aws_databricks_unity_catalog_bootstrap](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_databricks_unity_catalog_bootstrap)
 
-<img src="../charts/uc_tf_onboarding.png" width="1000">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-uc/images/uc-tf-onboarding.png?raw=true)
 
 When running tf configs for UC resources, due to sometimes requires a few minutes to be ready and you may encounter errors along the way, so you can either wait for the UI to be updated before you apply and patch the next changes; or specifically add depends_on to accoune level resources
 

@@ -6,7 +6,7 @@ This directory contains Terraform code that shows how to use [databricks-departm
 
 The general workflow looks as following:
 
-![Workflow](../../images/terraform-databricks-pipeline-github-actions.png)
+![Workflow](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-github-actions/images/terraform-databricks-pipeline-github-actions.png?raw=true)
 
 * Changes to code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
@@ -55,7 +55,7 @@ In order to use this pipeline, we have two prerequisites:
 
 We need to define the following secrets:
 
-![Secrets](../../images/github-actions-secrets.png)
+![Secrets](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-github-actions/images/github-actions-secrets.png?raw=true)
 
 * `DATABRICKS_HOST` - URL of the Databricks workspace where resources will be deployed.
 * `DATABRICKS_TOKEN` - personal access token for the Databricks workspace (follow [documentation](https://docs.databricks.com/dev-tools/api/latest/authentication.html) for instructions on how to obtain it).

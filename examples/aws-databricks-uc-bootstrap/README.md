@@ -32,7 +32,7 @@ We recommend using `account admin` identities to deploy unity catalog related re
 
 Refer to below diagram on the process.
 
-<img src="../charts/uc_tf_onboarding.png" width="1000">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-uc/images/uc-tf-onboarding.png?raw=true)
 
 ## How to fill `terraform.tfvars`
 
@@ -46,6 +46,6 @@ unity_admin_group         = " Bootstrap admin group" (this is the display name o
 
 After running this template using `terraform init` and `terraform apply` with your provided list of account admins, you should see account admins' emails under the newly created group, thus you have successfully onboarded account admins identity to your Databricks Account. 
 
-<img src="../charts/uc_tf_account_admin.png" width="500">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-uc/images/uc-tf-account-admin.png?raw=true)
 
 Now you can proceed to stage 2, navigate to [aws_databricks_unity_catalog](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_databricks_unity_catalog) for stage 2 deployments.
