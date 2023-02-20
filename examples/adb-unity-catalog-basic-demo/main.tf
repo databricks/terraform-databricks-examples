@@ -117,97 +117,51 @@ provider "databricks" {
   auth_type  = "azure-cli"
 }
 
-
 locals {
-  aad_groups = toset(var.aad_groups)
+  all_groups             = toset(keys(var.user_groups))
+  all_users              = toset(flatten([for group in values(var.user_groups) : group.users]))
+  all_service_principals = toset(flatten([for group in values(var.user_groups) : group.service_principals]))
 }
 
-# Read group members of given groups from AzureAD every time Terraform is started
-data "azuread_group" "this" {
-  for_each     = local.aad_groups
-  display_name = each.value
-}
-
-# Add groups to databricks account
+// create or remove groups within databricks - all governed by "groups" variable
 resource "databricks_group" "this" {
   provider     = databricks.azure_account
-  for_each     = data.azuread_group.this
+  for_each     = local.all_groups
   display_name = each.key
-  external_id  = data.azuread_group.this[each.key].object_id
   force        = true
 }
 
-locals {
-  all_members = toset(flatten([for group in values(data.azuread_group.this) : group.members]))
-}
-
-# Extract information about real users
-data "azuread_users" "users" {
-  ignore_missing = true
-  object_ids     = local.all_members
-}
-
-locals {
-  all_users = {
-    for user in data.azuread_users.users.users : user.object_id => user
-  }
-}
-
-# All governed by AzureAD, create or remove users to/from databricks account
+// all governed by AzureAD, create or remove users from databricks account
 resource "databricks_user" "this" {
   provider     = databricks.azure_account
   for_each     = local.all_users
-  user_name    = lower(local.all_users[each.key]["user_principal_name"])
-  display_name = local.all_users[each.key]["display_name"]
-  active       = local.all_users[each.key]["account_enabled"]
-  external_id  = each.key
+  user_name    = each.key
+  display_name = each.key
   force        = true
 }
 
-// Extract information about service prinicpals users
-data "azuread_service_principals" "spns" {
-  object_ids = toset(setsubtract(local.all_members, data.azuread_users.users.object_ids))
-}
-
-locals {
-  all_spns = {
-    for sp in data.azuread_service_principals.spns.service_principals : sp.object_id => sp
-  }
-}
-
-# All governed by AzureAD, create or remove service to/from databricks account
-resource "databricks_service_principal" "sp" {
+// all governed by AzureAD, create or remove service principals from databricks accout
+resource "databricks_service_principal" "this" {
   provider       = databricks.azure_account
-  for_each       = local.all_spns
-  application_id = local.all_spns[each.key]["application_id"]
-  display_name   = local.all_spns[each.key]["display_name"]
-  active         = local.all_spns[each.key]["account_enabled"]
-  external_id    = each.key
+  for_each       = local.all_service_principals
+  application_id = each.key
+  display_name   = each.key
   force          = true
 }
 
-locals {
-  merged_user_sp = merge(databricks_user.this, databricks_service_principal.sp)
-}
-
-
-// Put users and service principals to their respective groups
+// put users & service principams to respective groups
 resource "databricks_group_member" "this" {
-  provider = databricks.azure_account
+  provider   = databricks.azure_account
+  depends_on = [databricks_group.this, databricks_user.this, databricks_service_principal.this]
   for_each = toset(flatten([
-    for group, details in data.azuread_group.this : [
-      for member in details["members"] : jsonencode({
-        group  = databricks_group.this[group].id,
-        member = local.merged_user_sp[member].id
+    for group, attr in var.user_groups : [
+      for member in setunion(attr.users, attr.service_principals) : jsonencode({
+        group  = group,
+        member = member
       })
     ]
   ]))
   group_id  = jsondecode(each.value).group
   member_id = jsondecode(each.value).member
-  depends_on = [
-    data.azuread_users.users,
-    data.azuread_service_principals.spns,
-    databricks_user.this,
-    databricks_service_principal.sp
-  ]
 }
+
