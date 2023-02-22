@@ -16,7 +16,6 @@ There are two ways to use this repository:
 Code in the repository is organized into following folders:
 
 - `modules` - implementation of specific Terraform modules:
-  - [databricks-department-clusters](modules/databricks-department-clusters/) - Terraform module that creates Databricks resources for a team.
 - `examples` - specific instances that use Terraform modules.
 - `cicd-pipelines` - Detailed examples of implementing CI/CD pipelines to automate your Terraform deployments using Azure DevOps or Github Actions.
 
@@ -55,8 +54,9 @@ The folder `modules` contains the following Terraform modules :
 
 | Cloud | Module                                              | Description |
 | ----- | --------------------------------------------------- | ----------- |
-| Azure | [adb-basic](modules/adb-basic/)                     | A basic example of Azure Databricks workspace deployment            |
-| AWS   | [aws-databricks-flat](modules/aws-databricks-flat/) | AWS Databricks simple example            |
+| All | [databricks-department-clusters](modules/databricks-department-clusters/)                     | Terraform module that creates Databricks resources for a team            |
+| Azure | Coming soon                                         |             |
+| AWS   | Coming soon                                         |             |
 | GCP   | Coming soon                                         |             |
 
 ## CICD pipelines
