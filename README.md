@@ -22,6 +22,9 @@ Code in the repository is organized into following folders:
 
 ## Repository content
 
+> **Note**  
+For detailed information about the examples, modules or CICD pipelines, refer to `README.md` file inside corresponding folder for a detailed guide on how to setup the CICD pipeline.
+
 ### Examples
 
 The folder `examples` contains the following Terraform implementation examples :
@@ -29,7 +32,21 @@ The folder `examples` contains the following Terraform implementation examples :
 | Cloud | Example | Description |
 |---|---|---|
 | Azure | [adb-basic](examples/adb-basic/) |   |
+| Azure | [adb-exfiltration-protection](examples/adb-exfiltration-protection/) |   |
+| Azure | [adb-external-hive-metastore](examples/adb-external-hive-metastore/) |   |
+| Azure | [adb-kafka](examples/adb-kafka/) |   |
+| Azure | [adb-private-links](examples/adb-private-links/) |   |
+| Azure | [adb-private-links-general](examples/adb-private-links-general/) |   |
+| Azure | [adb-splunk](examples/adb-splunk/) |   |
+| Azure | [adb-squid-proxy](examples/adb-squid-proxy/) |   |
+| Azure | [adb-teradata](examples/adb-teradata/) |   |
+| Azure | [adb-uc](examples/adb-uc/) |   |
 | AWS | [aws-databricks-flat](examples/aws-databricks-flat/)  |   |
+| AWS | [aws-databricks-modular-privatelink](examples/aws-databricks-modular-privatelink/)  |   |
+| AWS | [aws-databricks-uc](examples/aws-databricks-uc/)  |   |
+| AWS | [aws-databricks-uc-bootstrap](examples/aws-databricks-uc-bootstrap/)  |   |
+| AWS | [aws-remote-backend-infra](examples/aws-remote-backend-infra/)  |   |
+| AWS | [aws-workspace-config](examples/aws-workspace-config/)  |   |
 | GCP | Coming soon |   |
 
 ### Modules
@@ -51,4 +68,3 @@ The folder `cicd-pipelines` contains the following implementation examples of pi
 | Github Actions | [manual-approve-with-github-actions](cicd-pipelines/manual-approve-with-github-actions/) |
 | Azure DevOps | [manual-approve-with-azure-devops](cicd-pipelines/manual-approve-with-azure-devops/) |
 
-Refer to `README.md` file inside corresponding folder for a detailed guide on how to setup the CICD pipeline.
