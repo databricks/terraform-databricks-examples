@@ -55,8 +55,8 @@ The folder `modules` contains the following Terraform modules :
 
 | Cloud | Module                                              | Description |
 | ----- | --------------------------------------------------- | ----------- |
-| Azure | [adb-basic](modules/adb-basic/)                     |             |
-| AWS   | [aws-databricks-flat](modules/aws-databricks-flat/) |             |
+| Azure | [adb-basic](modules/adb-basic/)                     | A basic example of Azure Databricks workspace deployment            |
+| AWS   | [aws-databricks-flat](modules/aws-databricks-flat/) | AWS Databricks simple example            |
 | GCP   | Coming soon                                         |             |
 
 ## CICD pipelines
