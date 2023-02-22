@@ -1,31 +1,69 @@
 # terraform-databricks-examples
 
-This repository contains multiple examples of Databricks workspace and resources deployment using [Databricks Terraform provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
+This repository contains the following:
+
+- Examples of implementing CI/CD pipelines to automate your Terraform deployments using Azure DevOps or Github Actions.
+
+- Multiple examples of Databricks workspace and resources deployment on Azure, AWS and GCP using [Databricks Terraform provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
 
 There are two ways to use this repository:
-1. Use examples as a reference for your own Terraform code: Please refer to `examples` folder for individual examples.   
+
+1. Use examples as a reference for your own Terraform code: Please refer to `examples` folder for individual examples.
 2. Reuse modules from this repository: Please refer to `modules` folder.
 
-## General workflow
-
-The general workflow for examples looks as following:
-
-* Changes to code are made in a separate Git branch & when changes are ready, a pull request is opened
-* Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
-  * Initializes Terraform using a remote backend to store a [Terraform state](https://www.terraform.io/language/state).
-  * Perform check of the Terraform code for formatting consistency.
-  * Performs check of the Terraform code using [terraform validate](https://www.terraform.io/cli/commands/validate).
-  * Executes `terraform plan` to get the list changes that will be made during deployment.
-* If the build pipeline is executed without errors, results of `terraform plan` and the code could be reviewed by reviewer, and merged into the `main` branch.
-* When code is merged into the `main` branch, the release pipeline is triggered, and after a manual approval, changes are applied to the deployment using the `terraform apply` command.
-
-
-## Repository organization & implemented solutions
+## Repository structure
 
 Code in the repository is organized into following folders:
 
-* `modules` - implementation of specific Terraform modules:
-  * [databricks-department-clusters](modules/databricks-department-clusters/) - Terraform module that creates Databricks resources for a team.
-* `examples` - specific instances that use Terraform modules, providing CI/CD capabilities for deployment. Refer to `README.md` files inside specific folder:
-  * [manual-approve-with-azure-devops](examples/manual-approve-with-azure-devops) - implementation of `databricks-department-clusters` module using Azure DevOps. 
-  * [manual-approve-with-github-actions](examples/manual-approve-with-github-actions) - implementation of `databricks-department-clusters` module using GitHub Actions. 
+- `modules` - implementation of specific Terraform modules:
+  - [databricks-department-clusters](modules/databricks-department-clusters/) - Terraform module that creates Databricks resources for a team.
+- `examples` - specific instances that use Terraform modules.
+- `cicd-pipelines` - Detailed examples of implementing CI/CD pipelines to automate your Terraform deployments using Azure DevOps or Github Actions.
+
+## Repository content
+
+> **Note**  
+> For detailed information about the examples, modules or CICD pipelines, refer to `README.md` file inside corresponding folder for a detailed guide on how to setup the CICD pipeline.
+
+### Examples
+
+The folder `examples` contains the following Terraform implementation examples :
+
+| Cloud | Example                                                                            | Description                                                                                                                                                   |
+| ----- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Azure | [adb-basic](examples/adb-basic/)                                                   | A basic example of Azure Databricks workspace deployment                                                                                                      |
+| Azure | [adb-exfiltration-protection](examples/adb-exfiltration-protection/)               | A sample implementation of [Data Exfiltration Protection](https://www.databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html) |
+| Azure | [adb-external-hive-metastore](examples/adb-external-hive-metastore/)               | Example template to implement [external hive metastore](https://learn.microsoft.com/en-us/azure/databricks/data/metastores/external-hive-metastore)           |
+| Azure | [adb-kafka](examples/adb-kafka/)                                                   | ADB - single node kafka template                                                                                                                              |
+| Azure | [adb-private-links](examples/adb-private-links/)                                   | Azure Databricks Private Links                                                                                                                                |
+| Azure | [adb-private-links-general](examples/adb-private-links-general/)                   | Azure Databricks Private Links General Implementation                                                                                                         |
+| Azure | [adb-splunk](examples/adb-splunk/)                                                 | ADB workspace with single VM splunk integration                                                                                                               |
+| Azure | [adb-squid-proxy](examples/adb-squid-proxy/)                                       | ADB clusters with HTTP proxy                                                                                                                                  |
+| Azure | [adb-teradata](examples/adb-teradata/)                                             | ADB with single VM Teradata integration                                                                                                                       |
+| Azure | [adb-uc](examples/adb-uc/)                                                         | ADB Unity Catalog Process                                                                                                                                     |
+| AWS   | [aws-databricks-flat](examples/aws-databricks-flat/)                               | AWS Databricks simple example                                                                                                                                 |
+| AWS   | [aws-databricks-modular-privatelink](examples/aws-databricks-modular-privatelink/) | Deploy multiple AWS Databricks workspaces                                                                                                                     |
+| AWS   | [aws-databricks-uc](examples/aws-databricks-uc/)                                   | AWS UC                                                                                                                                                        |
+| AWS   | [aws-databricks-uc-bootstrap](examples/aws-databricks-uc-bootstrap/)               | AWS UC                                                                                                                                                        |
+| AWS   | [aws-remote-backend-infra](examples/aws-remote-backend-infra/)                     | Simple example on remote backend                                                                                                                              |
+| AWS   | [aws-workspace-config](examples/aws-workspace-config/)                             | Configure workspace objects                                                                                                                                   |
+| GCP   | Coming soon                                                                        |                                                                                                                                                               |
+
+### Modules
+
+The folder `modules` contains the following Terraform modules :
+
+| Cloud | Module                                              | Description |
+| ----- | --------------------------------------------------- | ----------- |
+| Azure | [adb-basic](modules/adb-basic/)                     | A basic example of Azure Databricks workspace deployment            |
+| AWS   | [aws-databricks-flat](modules/aws-databricks-flat/) | AWS Databricks simple example            |
+| GCP   | Coming soon                                         |             |
+
+## CICD pipelines
+
+The folder `cicd-pipelines` contains the following implementation examples of pipeline:
+
+| Tool           | CICD Pipeline                                                                            |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| Github Actions | [manual-approve-with-github-actions](cicd-pipelines/manual-approve-with-github-actions/) |
+| Azure DevOps   | [manual-approve-with-azure-devops](cicd-pipelines/manual-approve-with-azure-devops/)     |
