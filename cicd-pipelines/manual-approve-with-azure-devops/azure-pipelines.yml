@@ -81,3 +81,20 @@ steps:
   env:
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+- task: PowerShell@2
+  displayName: Update Pull Request
+  inputs:
+    targetType: 'inline'
+    script: |
+      $pullRequestId = $env:SYSTEM_PULLREQUEST_PULLREQUESTID
+      $repositoryId = $env:BUILD_REPOSITORY_ID
+      $projectName = $env:SYSTEM_TEAMPROJECT
+      $organizationUri = $env:SYSTEM_COLLECTIONURI
+      $buildId = $env:BUILD_BUILDID
+      $terraformPlanCommand = "terraform plan -lock=false -input=false -no-color"    
+      & ./../../comment-pull-request.ps1 -OrganizationUri $organizationUri -Project $projectName -PersonAccessToken "$(PULL_REQUEST_COMMENT_TOKEN)" -RepositoryId $repositoryId -PullRequestId $pullRequestId -BuildId $buildId -TerraformPlanCommand $terraformPlanCommand
+    workingDirectory: environments/dev/
+  env:
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
