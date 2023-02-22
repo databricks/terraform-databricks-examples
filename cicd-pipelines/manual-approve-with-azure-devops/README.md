@@ -6,7 +6,7 @@ This directory contains Terraform code that shows how to use [databricks-departm
 
 The general workflow looks as following:
 
-![Workflow](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/terraform-databricks-pipeline-azure-devops.png?raw=true)
+![Workflow](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/terraform-databricks-pipeline-azure-devops.png?raw=true)
 
 * Changes to the code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
@@ -65,7 +65,7 @@ We need to configure a variable group with the name `TerraformProdDeploy`.  It s
 
 The configured variable group should see as following:
 
-![Variable group](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/azdo-variable-group.png?raw=true)
+![Variable group](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/azdo-variable-group.png?raw=true)
 
 
 ### Configuring the build pipeline
@@ -90,7 +90,7 @@ We need to define two things:
 
 At the end your release pipeline should look as following (don't forget to press "Save" after configuration is done):
 
-![Release pipeline](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/azdo-release-pipeline.png?raw=true)
+![Release pipeline](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/azdo-release-pipeline.png?raw=true)
 
 #### Configuring release artifact
 
