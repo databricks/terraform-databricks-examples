@@ -6,7 +6,7 @@ This directory contains Terraform code that shows how to use [databricks-departm
 
 The general workflow looks as following:
 
-![Workflow](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/terraform-databricks-pipeline-azure-devops.png?raw=true)
+![Workflow](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/terraform-databricks-pipeline-azure-devops.png?raw=true)
 
 * Changes to the code in this directory or in the module are made in a separate Git branch & when changes are ready, a pull request is opened
 * Upon opening of the pull request, the build pipeline is triggered, and following operations are performed:
@@ -14,7 +14,8 @@ The general workflow looks as following:
   * Perform check of the Terraform code for formatting consistency.
   * Performs check of the Terraform code using [terraform validate](https://www.terraform.io/cli/commands/validate).
   * Executes `terraform plan` to get the list changes that will be made during deployment.
-* If the build pipeline is executed without errors, results of `terraform plan` and the code could be reviewed by reviewer, and merged into the `main` branch.
+* If the build pipeline is executed without errors, results of `terraform plan` and the code could be reviewed by reviewer. The output from `terraform plan` will be automatically pushed to the thread of the pull request as a comment. 
+* The reviewer or the DevOps team can review the infrastucture changes requested then merge into the `main` branch.
 * When code is merged into the `main` branch, the release pipeline is triggered, and after a manual approval, changes are applied to the deployment using the `terraform apply` command.
 
 As result of the pipeline execution, following resources will be created:
@@ -60,10 +61,11 @@ We need to configure a variable group with the name `TerraformProdDeploy`.  It s
 * `SERVICE_CONNECTION_NAME` - name of the Azure DevOps service connection for Azure Resource Manager that was defined earlier.
 * `DATABRICKS_HOST` - URL of the Databricks workspace where resources will be deployed.
 * `DATABRICKS_TOKEN` - personal access token for the Databricks workspace (follow [documentation](https://docs.databricks.com/dev-tools/api/latest/authentication.html) for instructions on how to obtain it).  Please mark this variable as **secret** to avoid exposing its value.
+* `PULL_REQUEST_COMMENT_TOKEN` - azure token with Pull Requests Treads R&W permissions. This token is used to comment the pull request.
 
 The configured variable group should see as following:
 
-![Variable group](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/azdo-variable-group.png?raw=true)
+![Variable group](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/azdo-variable-group.png?raw=true)
 
 
 ### Configuring the build pipeline
@@ -88,7 +90,7 @@ We need to define two things:
 
 At the end your release pipeline should look as following (don't forget to press "Save" after configuration is done):
 
-![Release pipeline](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/manual-approve-with-azure-devops/images/azdo-release-pipeline.png?raw=true)
+![Release pipeline](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/cicd-pipelines/manual-approve-with-azure-devops/images/azdo-release-pipeline.png?raw=true)
 
 #### Configuring release artifact
 
