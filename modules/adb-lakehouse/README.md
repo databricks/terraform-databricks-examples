@@ -26,7 +26,7 @@ This module can be used to deploy the following architecture:
 > *  You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
-3. Add a `terraform.tfvars` file and provide values to each variable defined in [variables.tf](https://raw.githubusercontent.com/yessawab/terraform-databricks-examples/main/modules/adb-lakehouse/variables.tf)
+3. Add a `terraform.tfvars` file and provide values to each variable defined in [variables.tf](https://raw.githubusercontent.com/yessawab/terraform-databricks-examples/main/modules/adb-lakehouse/variables.tf?raw=true)
 2. Run `terraform init` to initialize terraform and get provider ready.
 3. Change `terraform.tfvars` values to your own values.
 4. Inside the local project folder, run `terraform apply` to create the resources.
