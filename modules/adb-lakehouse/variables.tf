@@ -18,6 +18,11 @@ variable "environment_name" {
   description = "(Required) The name of the project environment associated with the infrastructure to be managed by Terraform"
 }
 
+variable "vnet_name" {
+  type        = string
+  description = "Name of existing virtual network into which Databricks will be deployed"
+}
+
 variable "spoke_vnet_address_space" {
   type        = string
   description = "(Required) The address space for the spoke Virtual Network"
