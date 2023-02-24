@@ -28,7 +28,7 @@ variable "tags" {
   description = "(Required) Map of tags to attach to resources"
 }
 
-variable "workspace_name" {
+variable "databricks_workspace_name" {
   type        = string
   description = "Name of Databricks workspace"
 }
