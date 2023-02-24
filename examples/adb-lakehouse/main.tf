@@ -1,5 +1,5 @@
 module "adb-lakehouse" {
-  source                          = "github.com/yessawab/terraform-databricks-examples/modules/adb-lakehouse"
+  source                          = "github.com/databricks/terraform-databricks-examples/modules/adb-lakehouse"
   project_name                    = var.project_name
   environment_name                = var.environment_name
   location                        = var.location
