@@ -8,7 +8,7 @@ locals {
 
 resource "azurerm_subnet" "private" {
   name                 = "private-subnet-${var.workspace_name}"
-  resource_group_name  = var.databricks_resource_group_name
+  resource_group_name  = var.spoke_resource_group_name
   virtual_network_name = var.vnet_name
 
   address_prefixes = var.private_subnet_address_prefixes
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "private" {
 
 resource "azurerm_subnet" "public" {
   name                 = "public-subnet-${var.workspace_name}"
-  resource_group_name  = var.databricks_resource_group_name
+  resource_group_name  = var.spoke_resource_group_name
   virtual_network_name = var.vnet_name
 
   address_prefixes = var.public_subnet_address_prefixes
@@ -52,34 +52,17 @@ resource "azurerm_subnet_network_security_group_association" "public" {
 
 resource "azurerm_subnet_route_table_association" "private" {
   subnet_id      = azurerm_subnet.private.id
-  route_table_id = var.route_table_id
+  route_table_id = azurerm_route_table.this.id
 }
 
 resource "azurerm_subnet_route_table_association" "public" {
   subnet_id      = azurerm_subnet.public.id
-  route_table_id = var.route_table_id
-}
-
-resource "azurerm_monitor_diagnostic_setting" "diagnostic-settings-auditlog" {
-  name               = "diag-settings-auditlog-${var.environment_name}"
-  target_resource_id = azurerm_databricks_workspace.this.id
-  storage_account_id = azurerm_storage_account.dls[2].id
-
-  dynamic "log" {
-    for_each = var.auditlog_categories
-    content {
-      category = log.value
-      retention_policy {
-        enabled = true
-        days    = var.auditlog_retention_days
-      }
-    }
-  }
+  route_table_id = azurerm_route_table.this.id
 }
 
 resource "azurerm_databricks_workspace" "this" {
   name                = var.workspace_name
-  resource_group_name = var.databricks_resource_group_name
+  resource_group_name = var.spoke_resource_group_name
   location            = var.location
   sku                 = "premium"
 

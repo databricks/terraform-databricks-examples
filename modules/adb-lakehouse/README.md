@@ -23,10 +23,12 @@ This module can be used to deploy the following architecture:
 ## How to use
 
 > **Note**  
-> *  You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
+> You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
-3. Add a `terraform.tfvars` file and provide values to each variable defined in [variables.tf](variables.tf)
-2. Run `terraform init` to initialize terraform and get provider ready.
-3. Change `terraform.tfvars` values to your own values.
-4. Inside the local project folder, run `terraform apply` to create the resources.
+2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
+2. Add a `terraform.tfvars` file and provide values to each defined variable
+3. Add a `output.tf` file.
+4. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
+4. Run `terraform init` to initialize terraform and get provider ready.
+4. Run `terraform apply` to create the resources.
