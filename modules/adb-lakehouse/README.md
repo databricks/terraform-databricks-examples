@@ -4,7 +4,7 @@ This module contains Terraform code used to provision a Lakehouse platform.
 
 ## Module content
 
-This module can be used to deploy the following architecture:
+This module can be used to deploy the following:
 
 ![Azure Lakehouse platform](https://raw.githubusercontent.com/yessawab/terraform-databricks-examples/main/modules/adb-lakehouse/images/azure_lakehouse_platform_diagram.png?raw=true)
 
