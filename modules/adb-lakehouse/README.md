@@ -24,6 +24,7 @@ This module can be used to deploy the following:
 
 > **Note**  
 > You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
+> A deployment example using this module can be found in [examples/adb-lakehouse](../../examples/adb-lakehouse)
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
 2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
