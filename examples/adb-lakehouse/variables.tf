@@ -43,6 +43,11 @@ variable "key_vault_name" {
   description = "(Required) The name of the Azure Key Vault to deploy"
 }
 
+variable "route_table_id" {
+  type        = string
+  description = "ID of existing Route Table"
+}
+
 variable "private_subnet_address_prefixes" {
   type        = list(string)
   description = "Address space for private Databricks subnet"
