@@ -9,7 +9,7 @@ locals {
 resource "azurerm_subnet" "private" {
   name                 = "private-subnet-${var.databricks_workspace_name}"
   resource_group_name  = var.spoke_resource_group_name
-  virtual_network_name = var.vnet_name
+  virtual_network_name = azurerm_virtual_network.this.name
 
   address_prefixes = var.private_subnet_address_prefixes
 
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "private" {
 resource "azurerm_subnet" "public" {
   name                 = "public-subnet-${var.databricks_workspace_name}"
   resource_group_name  = var.spoke_resource_group_name
-  virtual_network_name = var.vnet_name
+  virtual_network_name = azurerm_virtual_network.this.name
 
   address_prefixes = var.public_subnet_address_prefixes
 

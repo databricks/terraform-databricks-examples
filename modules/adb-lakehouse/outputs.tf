@@ -8,11 +8,6 @@ output "rg_id" {
   description = "ID of the new resource group"
 }
 
-output "vnet_name" {
-  value = azurerm_virtual_network.this.name
-  description = "Name of the new Vnet"
-}
-
 output "vnet_id" {
   value = azurerm_virtual_network.this.id
   description = "ID of the new Vnet"

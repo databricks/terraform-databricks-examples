@@ -11,14 +11,14 @@ This example can be used to deploy the following:
 * A new resource group
 * Networking resources including:
   * Azure vnet
-  * The requiredt subnets for the Azure Databricks workspace.
+  * The required subnets for the Azure Databricks workspace.
   * Azure route table (if needed)
-  * NSG
+  * Network Security Group (NSG)
 * The Lakehouse platform resources, including:
   * Azure Databricks workspace
-  * Azure key vault
+  * Azure Data Factory
   * Azure data factory
-  * Azure storage account
+  * Azure Storage account
 
 ## How to use
 

@@ -18,11 +18,6 @@ variable "environment_name" {
   description = "(Required) The name of the project environment associated with the infrastructure to be managed by Terraform"
 }
 
-variable "vnet_name" {
-  type        = string
-  description = "Name of existing virtual network into which Databricks will be deployed"
-}
-
 variable "spoke_vnet_address_space" {
   type        = string
   description = "(Required) The address space for the spoke Virtual Network"
@@ -45,7 +40,7 @@ variable "data_factory_name" {
 
 variable "key_vault_name" {
   type        = string
-  description = "(Required) The name of the Azure Key Vault to deploy"
+  description = "(Required) The name of the Azure Data Factory to deploy"
 }
 
 variable "route_table_id" {

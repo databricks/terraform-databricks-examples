@@ -3,7 +3,6 @@ module "adb-lakehouse" {
   project_name                    = var.project_name
   environment_name                = var.environment_name
   location                        = var.location
-  vnet_name                       = var.vnet_name
   spoke_vnet_address_space        = var.spoke_vnet_address_space
   spoke_resource_group_name       = var.spoke_resource_group_name
   databricks_workspace_name       = var.databricks_workspace_name
