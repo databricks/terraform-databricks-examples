@@ -17,7 +17,7 @@ This module can be used to deploy the following:
 * The Lakehouse platform resources, including:
   * Azure Databricks workspace
   * Azure Data Factory
-  * Azure data factory
+  * Azure Key Vault
   * Azure Storage account
 
 ## How to use
