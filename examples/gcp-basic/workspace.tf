@@ -1,7 +1,7 @@
 resource "databricks_mws_workspaces" "this" {
   provider       = databricks.accounts
   account_id     = var.databricks_account_id
-  workspace_name = "tf-demo-test-${random_string.suffix.result}"
+  workspace_name = "dbx-example-tf-deploy-${random_string.suffix.result}"
   location       = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
   cloud_resource_container {
     gcp {

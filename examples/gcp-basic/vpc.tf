@@ -1,13 +1,13 @@
 resource "google_compute_network" "dbx_private_vpc" {
   project                 = var.google_project
-  name                    = "tf-network-${random_string.suffix.result}"
+  name                    = "${var.prefix}-${random_string.suffix.result}"
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
-  name          = "test-dbx-${random_string.suffix.result}"
+  name          = "dbx-example-tf-deploy-${random_string.suffix.result}"
   ip_cidr_range = "10.0.0.0/16"
-  region        = "us-central1"
+  region        = "europe-west1"
   network       = google_compute_network.dbx_private_vpc.id
   secondary_ip_range {
     range_name    = "pods"
@@ -37,7 +37,7 @@ resource "google_compute_router_nat" "nat" {
 resource "databricks_mws_networks" "this" {
   provider     = databricks.accounts
   account_id   = var.databricks_account_id
-  network_name = "test-demo-${random_string.suffix.result}"
+  network_name = "${var.prefix}-${random_string.suffix.result}"
   gcp_network_info {
     network_project_id    = var.google_project
     vpc_id                = google_compute_network.dbx_private_vpc.name

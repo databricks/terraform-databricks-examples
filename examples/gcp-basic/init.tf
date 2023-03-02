@@ -1,8 +1,18 @@
-variable "databricks_account_id" {}
-variable "databricks_google_service_account" {}
-variable "google_project" {}
-variable "google_region" {}
-variable "google_zone" {}
+variable "databricks_account_id" {
+  default = ""
+}
+variable "databricks_google_service_account" {
+  default = ""
+}
+variable "google_project" {
+  default = ""
+}
+variable "google_region" {
+    default = ""
+}
+variable "google_zone" {
+    default = ""
+}
 
 
 terraform {
@@ -26,7 +36,7 @@ provider "google" {
 // initialize provider in "accounts" mode to provision new workspace
 
 provider "databricks" {
-  alias                  = "accounts"
+  alias                  = "accounts"  
   host                   = "https://accounts.gcp.databricks.com"
   google_service_account = var.databricks_google_service_account
   account_id             = var.databricks_account_id
@@ -35,8 +45,6 @@ provider "databricks" {
 data "google_client_openid_userinfo" "me" {
 }
 
-data "google_client_config" "current" {
-}
 
 resource "random_string" "suffix" {
   special = false
