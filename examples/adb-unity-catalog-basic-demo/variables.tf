@@ -5,11 +5,7 @@ variable "databricks_resource_id" {
 variable "account_id" {
   description = "Azure databricks account id"
 }
-variable "user_groups" {
-  description = "Map of group names into object containing the list of their user & service principal members"
-  type = map(object({
-    users              = list(string),
-    service_principals = list(string),
-    role               = string
-  }))
+variable "aad_groups" {
+  description = "List of AAD groups that you want to add to Databricks account"
+  type        = list(string)
 }
