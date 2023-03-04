@@ -30,6 +30,8 @@ The folder `examples` contains the following Terraform implementation examples :
 
 | Cloud | Example                                                                            | Description                                                                                                                                                   |
 | ----- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Azure | [adb-lakehouse](examples/adb-lakehouse/)                                                   |Lakehouse terraform blueprints                                                                                                     |
+| Azure | [adb-with-private-link-standard](examples/adb-with-private-link-standard/)                                                   | Provisioning Databricks on Azure with Private Link - [Standard deployment](https://learn.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/private-link-standard)                                                                                                      |
 | Azure | [adb-basic](examples/adb-basic/)                                                   | A basic example of Azure Databricks workspace deployment                                                                                                      |
 | Azure | [adb-exfiltration-protection](examples/adb-exfiltration-protection/)               | A sample implementation of [Data Exfiltration Protection](https://www.databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html) |
 | Azure | [adb-external-hive-metastore](examples/adb-external-hive-metastore/)               | Example template to implement [external hive metastore](https://learn.microsoft.com/en-us/azure/databricks/data/metastores/external-hive-metastore)           |
@@ -55,7 +57,8 @@ The folder `modules` contains the following Terraform modules :
 | Cloud | Module                                              | Description |
 | ----- | --------------------------------------------------- | ----------- |
 | All | [databricks-department-clusters](modules/databricks-department-clusters/)                     | Terraform module that creates Databricks resources for a team            |
-| Azure | Coming soon                                         |             |
+| Azure | [adb-lakehouse](modules/adb-lakehouse/)                      | Lakehouse terraform blueprints            |
+| Azure | [adb-with-private-link-standard](modules/adb-with-private-link-standard/)                     | Provisioning Databricks on Azure with Private Link - Standard deployment            |
 | AWS   | Coming soon                                         |             |
 | GCP   | Coming soon                                         |             |
 
