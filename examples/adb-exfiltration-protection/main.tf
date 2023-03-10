@@ -9,8 +9,7 @@
  */
 
 module "adb-exfiltration-protection" {
-  #  source       = "github.com/databricks/terraform-databricks-examples/modules/adb-exfiltration-protection"
-  source           = "../../modules/adb-exfiltration-protection"
+  source       = "github.com/databricks/terraform-databricks-examples/modules/adb-exfiltration-protection"
   hubcidr          = var.hubcidr
   spokecidr        = var.spokecidr
   no_public_ip     = var.no_public_ip
