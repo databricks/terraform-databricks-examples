@@ -1,5 +1,7 @@
 # Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
+This example is using the [adb-exfiltration-protection](../../modules/adb-exfiltration-protection) module.
+
 This template provides an example deployment of: Hub-Spoke networking with egress firewall to control all outbound traffic from Databricks subnets. Details are described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
 
 With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.  
