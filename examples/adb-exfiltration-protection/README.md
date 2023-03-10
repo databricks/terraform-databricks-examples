@@ -20,11 +20,12 @@ Resources to be created:
 * Associated firewall rules, both FQDN and network rule using IP.
 
 
-## Getting Started
-1. Clone this repo to your local machine running terraform.
-2. Run `terraform init` to initialize terraform and get provider ready.
-3. Change `terraform.tfvars` values to your own values.
-4. Inside the local project folder, run `terraform apply` to create the resources.
+## How to use
+
+1. Update `terraform.tfvars` file and provide values to each defined variable
+2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
+4. Run `terraform init` to initialize terraform and get provider ready.
+4. Run `terraform apply` to create the resources.
 
 ## How to fill in variable values
 
