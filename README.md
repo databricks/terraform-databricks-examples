@@ -42,6 +42,10 @@ The folder `examples` contains the following Terraform implementation examples :
 | Azure | [adb-squid-proxy](examples/adb-squid-proxy/)                                       | ADB clusters with HTTP proxy                                                                                                                                  |
 | Azure | [adb-teradata](examples/adb-teradata/)                                             | ADB with single VM Teradata integration                                                                                                                       |
 | Azure | [adb-uc](examples/adb-uc/)                                                         | ADB Unity Catalog Process                                                                                                                                     |
+| AWS   | [aws-workspace-basic](examples/aws-workspace-basic/)                               | Provisioning AWS Databricks E2                                                                                                                                 |
+| AWS   | [aws-workspace-with-firewall](examples/aws-workspace-with-firewall/)                               | Provisioning AWS Databricks E2 with an AWS Firewall                                                                                                                                 |
+| AWS   | [aws-exfiltration-protection](examples/aws-exfiltration-protection/)                               | An implementation of [Data Exfiltration Protection on AWS](https://www.databricks.com/blog/2021/02/02/data-exfiltration-protection-with-databricks-on-aws.html)                                                                                                                                 |
+| AWS   | aws-workspace-with-private-link                               | Coming soon                                                                                                       |
 | AWS   | [aws-databricks-flat](examples/aws-databricks-flat/)                               | AWS Databricks simple example                                                                                                                                 |
 | AWS   | [aws-databricks-modular-privatelink](examples/aws-databricks-modular-privatelink/) | Deploy multiple AWS Databricks workspaces                                                                                                                     |
 | AWS   | [aws-databricks-uc](examples/aws-databricks-uc/)                                   | AWS UC                                                                                                                                                        |
@@ -61,7 +65,10 @@ The folder `modules` contains the following Terraform modules :
 | Azure | [adb-with-private-link-standard](modules/adb-with-private-link-standard/)                     | Provisioning Databricks on Azure with Private Link - Standard deployment            |
 | Azure | [adb-exfiltration-protection](modules/adb-exfiltration-protection/)                     | A sample implementation of [Data Exfiltration Protection](https://www.databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html)             |
 | Azure | [adb-with-private-links-exfiltration-protection](modules/adb-with-private-links-exfiltration-protection/)                     | Provisioning Databricks on Azure with Private Link and [Data Exfiltration Protection](https://www.databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html)            |
-| AWS   | Coming soon                                         |             |
+| AWS | [aws-workspace-basic](modules/aws-workspace-basic/)                     | Provisioning AWS Databricks E2             |
+| AWS | [aws-workspace-with-firewall](modules/aws-workspace-with-firewall/)                     | Provisioning AWS Databricks E2 with an AWS Firewall             |
+| AWS | [aws-exfiltration-protection](modules/aws-exfiltration-protection/)                     | An implementation of [Data Exfiltration Protection on AWS](https://www.databricks.com/blog/2021/02/02/data-exfiltration-protection-with-databricks-on-aws.html)             |
+| AWS | aws-workspace-with-private-link                     | Coming soon             |
 | GCP   | Coming soon                                         |             |
 
 ## CICD pipelines

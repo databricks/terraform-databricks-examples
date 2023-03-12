@@ -23,5 +23,5 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 1. Update `terraform.tfvars` file and provide values to each defined variable
 2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
-4. Run `terraform init` to initialize terraform and get provider ready.
+3. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
