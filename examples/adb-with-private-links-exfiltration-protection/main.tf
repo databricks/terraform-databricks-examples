@@ -8,15 +8,13 @@
  * * Databricks workspace
  */
 
-module "adb-exfiltration-protection" {
-  source       = "github.com/databricks/terraform-databricks-examples/modules/adb-exfiltration-protection"
+module "adb-with-private-links-exfiltration-protection" {
+  source           = "github.com/databricks/terraform-databricks-examples/modules/adb-with-private-links-exfiltration-protection"
   hubcidr          = var.hubcidr
   spokecidr        = var.spokecidr
   no_public_ip     = var.no_public_ip
   rglocation       = var.rglocation
   metastoreip      = var.metastoreip
-  sccip            = var.sccip
-  webappip         = var.webappip
   dbfs_prefix      = var.dbfs_prefix
   workspace_prefix = var.workspace_prefix
   firewallfqdn     = var.firewallfqdn

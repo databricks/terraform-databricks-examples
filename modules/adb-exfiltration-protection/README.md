@@ -1,7 +1,5 @@
 # Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
-This example is using the [adb-exfiltration-protection](../../modules/adb-exfiltration-protection) module.
-
 This template provides an example deployment of: Hub-Spoke networking with egress firewall to control all outbound traffic from Databricks subnets. Details are described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
 
 With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.  
@@ -11,7 +9,7 @@ To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us
 
 ## Overall Architecture
 
-![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
 
 Resources to be created:
 * Resource group with random prefix
@@ -22,10 +20,18 @@ Resources to be created:
 
 ## How to use
 
-1. Update `terraform.tfvars` file and provide values to each defined variable
-2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
+> **Note**  
+> You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
+> A deployment example using this module can be found in [examples/adb-exfiltration-protection](../../examples/adb-exfiltration-protection)
+
+1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
+2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
+2. Add a `terraform.tfvars` file and provide values to each defined variable
+3. Add a `output.tf` file.
+4. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
 4. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
+
 
 ## How to fill in variable values
 
