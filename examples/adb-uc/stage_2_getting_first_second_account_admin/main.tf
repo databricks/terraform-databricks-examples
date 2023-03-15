@@ -8,7 +8,7 @@ resource "databricks_group" "this" {
 
 resource "databricks_service_principal_role" "sp_account_admin" {
   service_principal_id = var.long_lasting_spn_id // this is the long living SPN client id
-  role                 = "account admin"
+  role                 = "account_admin"
   depends_on = [
     databricks_group.this // force this to run after the group is created
   ]
