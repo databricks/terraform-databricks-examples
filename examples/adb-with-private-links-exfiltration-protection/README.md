@@ -10,7 +10,7 @@ Include:
 5. Private Endpoint for web-auth traffic.
 
 Overall Architecture:
-![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-with-private-links-exfiltration-protection/images/adb-private-links-general.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/adb-with-private-links-exfiltration-protection/images/adb-private-links-general.png?raw=true)
 
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix
@@ -23,5 +23,5 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 1. Update `terraform.tfvars` file and provide values to each defined variable
 2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
-4. Run `terraform init` to initialize terraform and get provider ready.
+3. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
