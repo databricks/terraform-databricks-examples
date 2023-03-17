@@ -1,17 +1,15 @@
 variable "databricks_account_id" {
-  default = ""
+  default = "f187f55a-9d3d-463b-aa1a-d55818b704c9"
 }
-variable "databricks_google_service_account" {
-  default = ""
-}
+
 variable "google_project" {
-  default = ""
+  default = "fe-dev-sandbox"
 }
 variable "google_region" {
-    default = ""
+    default = "europe-west1"
 }
 variable "google_zone" {
-    default = ""
+    default = "europe-west1-a"
 }
 
 
@@ -38,7 +36,7 @@ provider "google" {
 provider "databricks" {
   alias                  = "accounts"  
   host                   = "https://accounts.gcp.databricks.com"
-  google_service_account = var.databricks_google_service_account
+  google_service_account = google_service_account.sa2.name
   account_id             = var.databricks_account_id
 }
 
