@@ -6,7 +6,7 @@ This template provides an example of a simple deployment of AWS Databricks E2 wo
 
 ## Overall Architecture
 
-![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-workspace-with-firewall/images/aws-workspace-with-firewall.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/aws-workspace-with-firewall/images/aws-workspace-with-firewall.png?raw=true)
 
 ## How to use
 

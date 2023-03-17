@@ -6,7 +6,7 @@ This template provides an example deployment of AWS Databricks E2 workspace with
 
 ## Overall Architecture
 
-![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-exfiltration-protection/images/aws-exfiltration-classic.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/aws-exfiltration-protection/images/aws-exfiltration-classic.png?raw=true)
 
 ## How to use
 

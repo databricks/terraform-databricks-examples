@@ -4,3 +4,5 @@ resource "azurerm_resource_group" "this" {
   tags     = var.tags
 }
 
+data "azurerm_client_config" "current" {
+}
