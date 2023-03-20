@@ -31,7 +31,7 @@ resource "google_service_account_iam_policy" "impersonatable" {
 
 resource "google_project_iam_custom_role" "workspace_creator" {
  role_id = "${var.prefix}_workspace_creator"
- title   = "Databricks Workspace Creator"
+ title   = "Databricks Workspace Creator Role"
  project = var.google_project
  permissions = [
     "compute.globalOperations.get",
