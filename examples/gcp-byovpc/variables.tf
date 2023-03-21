@@ -2,7 +2,8 @@ variable "databricks_account_id" {
   default = "f187f55a-9d3d-463b-aa1a-d55818b704c9"
 }
 variable "databricks_google_service_account" {
-    default = "aleks-sa@fe-dev-sandbox.iam.gserviceaccount.com"
+  # Input the service account email adress generated via gcp-sa-provisionning
+    default = "aleks421-sa2@fe-dev-sandbox.iam.gserviceaccount.com"
 }
 
 
@@ -25,3 +26,5 @@ variable "delegate_from" {
  type        = list(string)
  default = [ "user:aleksander.callebat@databricks.com" ]
 }
+
+

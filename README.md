@@ -46,7 +46,9 @@ The folder `examples` contains the following Terraform implementation examples :
 | AWS   | [aws-databricks-uc-bootstrap](examples/aws-databricks-uc-bootstrap/)               | AWS UC                                                                                                                                                        |
 | AWS   | [aws-remote-backend-infra](examples/aws-remote-backend-infra/)                     | Simple example on remote backend                                                                                                                              |
 | AWS   | [aws-workspace-config](examples/aws-workspace-config/)                             | Configure workspace objects                                                                                                                                   |
-| GCP   | [gcp-lakehouse](exampes/gcp-lakehouse/)                                                                         |    Workspace Deployment with custom VPC Template                                                                                                                                                           |
+| GCP   | [gcp-sa-provisionning](exampes/gcp-sa-provisionning/)                                                                         |    Service Account provisionning                                                                                                                                       |
+| GCP   | [gcp-sa-lakehouse](exampes/gcp-sa-lakehouse/)                                                                         |    Workspace Deployment on GCP                                                                                                                                       |
+| GCP   | [gcp-byovpc](exampes/gcp-byovpc/)                                                                         |    Workspace Deployment with custom VPC Template                                                                                                                                  |
 
 ### Modules
 
