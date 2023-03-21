@@ -1,36 +1,29 @@
-variable "prefix" {}
-
-
-variable "delegate_from" {
- description = "Allow either user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com to impersonate created service account"
- type        = list(string)
-}
-
 resource "google_service_account" "sa2" {
- account_id   = "${var.prefix}-sa2"
- display_name = "Service Account for Databricks Provisioning"
+  account_id   = "${var.prefix}-sa2"
+  display_name = "Service Account for Databricks Provisioning"
 }
 
 output "service_account" {
- value       = google_service_account.sa2.email
- description = "Add this email as a user in the Databricks account console"
+  value       = google_service_account.sa2.email
+  description = "Add this email as a user in the Databricks account console"
 }
 
 data "google_iam_policy" "this" {
- binding {
-   role    = "roles/iam.serviceAccountTokenCreator"
-   members = var.delegate_from
- }
+  binding {
+    role    = "roles/iam.serviceAccountTokenCreator"
+    members = var.delegate_from
+  }
 }
 
 resource "google_service_account_iam_policy" "impersonatable" {
- service_account_id = google_service_account.sa2.name
- policy_data        = data.google_iam_policy.this.policy_data
+  service_account_id = google_service_account.sa2.name
+  policy_data        = data.google_iam_policy.this.policy_data
 }
+
 
 resource "google_project_iam_custom_role" "workspace_creator" {
  role_id = "${var.prefix}_workspace_creator"
- title   = "Databricks Workspace Creator Role"
+ title   = "Databricks Workspace Creator by Aleks"
  project = var.google_project
  permissions = [
     "compute.globalOperations.get",
@@ -114,14 +107,8 @@ resource "google_project_iam_custom_role" "workspace_creator" {
     "container.thirdPartyObjects.get",
     "container.thirdPartyObjects.update",
    "iam.serviceAccounts.getIamPolicy",
-  #  "iam.serviceAccounts.getOpenIdToken",
    "iam.serviceAccounts.setIamPolicy",
-  #  "iam.roles.create",
-
     "compute.projects.get",
-  #  "iam.roles.delete",
-  #  "iam.roles.get",
-  #  "iam.roles.update",
    "resourcemanager.projects.get",
    "resourcemanager.projects.getIamPolicy",
    "storage.buckets.create",
@@ -142,10 +129,8 @@ resource "google_project_iam_custom_role" "workspace_creator" {
     "storage.objects.list",
     "storage.objects.setIamPolicy",
     "storage.objects.update",
-  #  "resourcemanager.projects.setIamPolicy",
-  #  "serviceusage.services.get",
-  #  "serviceusage.services.list",
-  #  "serviceusage.services.enable"
+   "resourcemanager.projects.setIamPolicy",
+  
  ]
 }
 

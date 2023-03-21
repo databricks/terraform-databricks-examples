@@ -34,10 +34,12 @@ resource "google_compute_router_nat" "nat" {
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
 
-resource "databricks_mws_networks" "this" {
+resource "databricks_mws_networks" "databricks_network" {
   provider     = databricks.accounts
   account_id   = var.databricks_account_id
+
   network_name = "${var.prefix}-${random_string.suffix.result}"
+  
   gcp_network_info {
     network_project_id    = var.google_project
     vpc_id                = google_compute_network.dbx_private_vpc.name
