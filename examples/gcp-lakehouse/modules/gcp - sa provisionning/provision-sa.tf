@@ -22,10 +22,10 @@ resource "google_service_account_iam_policy" "impersonatable" {
 
 
 resource "google_project_iam_custom_role" "workspace_creator" {
- role_id = "${var.prefix}_workspace_creator"
- title   = "Databricks Workspace Creator by Aleks"
- project = var.google_project
- permissions = [
+  role_id = "${var.prefix}_workspace_creator"
+  title   = "Databricks Workspace Creator by Aleks"
+  project = var.google_project
+  permissions = [
     "compute.globalOperations.get",
     "compute.instanceGroups.get",
     "compute.instanceGroups.list",
@@ -106,16 +106,16 @@ resource "google_project_iam_custom_role" "workspace_creator" {
     "container.thirdPartyObjects.delete",
     "container.thirdPartyObjects.get",
     "container.thirdPartyObjects.update",
-   "iam.serviceAccounts.getIamPolicy",
-   "iam.serviceAccounts.setIamPolicy",
+    "iam.serviceAccounts.getIamPolicy",
+    "iam.serviceAccounts.setIamPolicy",
     "compute.projects.get",
-   "resourcemanager.projects.get",
-   "resourcemanager.projects.getIamPolicy",
-   "storage.buckets.create",
-   "storage.buckets.delete",
-   "storage.buckets.get",
-   "storage.buckets.getIamPolicy",
-   "storage.buckets.list",
+    "resourcemanager.projects.get",
+    "resourcemanager.projects.getIamPolicy",
+    "storage.buckets.create",
+    "storage.buckets.delete",
+    "storage.buckets.get",
+    "storage.buckets.getIamPolicy",
+    "storage.buckets.list",
     "storage.buckets.setIamPolicy",
     "storage.buckets.update",
     "storage.hmacKeys.create",
@@ -129,21 +129,21 @@ resource "google_project_iam_custom_role" "workspace_creator" {
     "storage.objects.list",
     "storage.objects.setIamPolicy",
     "storage.objects.update",
-   "resourcemanager.projects.setIamPolicy",
-  
- ]
+    "resourcemanager.projects.setIamPolicy",
+
+  ]
 }
 
 
 data "google_client_config" "current" {}
 
 output "custom_role_url" {
- value = "https://console.cloud.google.com/iam-admin/roles/details/projects%3C${data.google_client_config.current.project}%3Croles%3C${google_project_iam_custom_role.workspace_creator.role_id}"
+  value = "https://console.cloud.google.com/iam-admin/roles/details/projects%3C${data.google_client_config.current.project}%3Croles%3C${google_project_iam_custom_role.workspace_creator.role_id}"
 }
 
 resource "google_project_iam_member" "sa2_can_create_workspaces" {
- role   = google_project_iam_custom_role.workspace_creator.id
- member = "serviceAccount:${google_service_account.sa2.email}"
- project = var.google_project
+  role    = google_project_iam_custom_role.workspace_creator.id
+  member  = "serviceAccount:${google_service_account.sa2.email}"
+  project = var.google_project
 
 }

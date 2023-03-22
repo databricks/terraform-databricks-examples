@@ -15,7 +15,7 @@ variable "dbfs_prefix" {
 
 variable "node_type" {
   type    = string
-  default = "Standard_DS3_v2"
+  default = "Standard_E8ds_v4"
 }
 
 variable "workspace_prefix" {

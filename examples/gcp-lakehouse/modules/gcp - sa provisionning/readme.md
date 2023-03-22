@@ -1,4 +1,4 @@
-GCP Provisionning - Step 0
+sa provisionning
 =========================
 
 In this template, we show how to deploy a service account that can be used to deploy gcp workspaces.

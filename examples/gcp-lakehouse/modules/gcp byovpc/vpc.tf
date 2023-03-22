@@ -5,29 +5,29 @@ resource "google_compute_network" "dbx_private_vpc" {
 }
 
 resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
-  name          = "dbx-example-tf-deploy-${random_string.suffix.result}"
-  ip_cidr_range = "10.0.0.0/16"
-  region        = "europe-west1"
+  name          = var.subnet_name
+  ip_cidr_range = var.subnet_ip_cidr_range
+  region        = var.google_region
   network       = google_compute_network.dbx_private_vpc.id
   secondary_ip_range {
     range_name    = "pods"
-    ip_cidr_range = "10.1.0.0/16"
+    ip_cidr_range = var.pod_ip_cidr_range
   }
   secondary_ip_range {
     range_name    = "svc"
-    ip_cidr_range = "10.2.0.0/20"
+    ip_cidr_range = var.svc_ip_cidr_range
   }
   private_ip_google_access = true
 }
 
 resource "google_compute_router" "router" {
-  name    = "my-router-${random_string.suffix.result}"
+  name    = var.router_name
   region  = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
   network = google_compute_network.dbx_private_vpc.id
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "my-router-nat-${random_string.suffix.result}"
+  name                               = var.nat_name
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
@@ -35,11 +35,11 @@ resource "google_compute_router_nat" "nat" {
 }
 
 resource "databricks_mws_networks" "databricks_network" {
-  provider     = databricks.accounts
-  account_id   = var.databricks_account_id
+  provider   = databricks.accounts
+  account_id = var.databricks_account_id
 
   network_name = "${var.prefix}-${random_string.suffix.result}"
-  
+
   gcp_network_info {
     network_project_id    = var.google_project
     vpc_id                = google_compute_network.dbx_private_vpc.name
