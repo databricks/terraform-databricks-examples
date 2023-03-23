@@ -11,7 +11,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dpcpdnszonevnetlink" {
 }
 
 resource "azurerm_private_dns_zone" "dnsdbfs" {
-  name                = "privatelink.blob.core.windows.net"
+  name                = "privatelink.dfs.core.windows.net"
   resource_group_name = azurerm_resource_group.dp_rg.name
 }
 
