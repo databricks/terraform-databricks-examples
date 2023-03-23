@@ -9,7 +9,7 @@ resource "azurerm_private_endpoint" "dp_dbfspe" {
     name                           = "ple-${local.prefix}-dp-dbfs"
     private_connection_resource_id = join("", [azurerm_databricks_workspace.dp_workspace.managed_resource_group_id, "/providers/Microsoft.Storage/storageAccounts/${local.dbfsname}"])
     is_manual_connection           = false
-    subresource_names              = ["blob"]
+    subresource_names              = ["dfs"]
   }
 
   private_dns_zone_group {

@@ -61,7 +61,7 @@ resource "azurerm_private_endpoint" "dbfspe" {
     name                           = "ple-${var.workspace_prefix}-dbfs"
     private_connection_resource_id = join("", [azurerm_databricks_workspace.this.managed_resource_group_id, "/providers/Microsoft.Storage/storageAccounts/${local.dbfsname}"])
     is_manual_connection           = false
-    subresource_names              = ["blob"]
+    subresource_names              = ["dfs"]
   }
 
   private_dns_zone_group {
@@ -70,7 +70,7 @@ resource "azurerm_private_endpoint" "dbfspe" {
   }
 }
 resource "azurerm_private_dns_zone" "dnsdbfs" {
-  name                = "privatelink.blob.core.windows.net"
+  name                = "privatelink.dfs.core.windows.net"
   resource_group_name = azurerm_resource_group.this.name
 }
 
