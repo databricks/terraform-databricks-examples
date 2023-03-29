@@ -1,3 +1,9 @@
+resource "random_string" "password" {
+  special = false
+  upper   = true
+  length  = 8
+}
+
 resource "azurerm_network_interface" "testvmnic" {
   name                = "${local.prefix}-testvm-nic"
   location            = azurerm_resource_group.transit_rg.location
@@ -61,12 +67,12 @@ resource "azurerm_public_ip" "testvmpublicip" {
 }
 
 resource "azurerm_windows_virtual_machine" "testvm" {
-  name                = "${local.prefix}-test"
+  name                = "${local.prefix}vm"
   resource_group_name = azurerm_resource_group.transit_rg.name
   location            = azurerm_resource_group.transit_rg.location
   size                = "Standard_F4s_v2"
   admin_username      = "azureuser"
-  admin_password      = "TesTed567!!!"
+  admin_password      = "T${random_string.password.result}!!"
   network_interface_ids = [
     azurerm_network_interface.testvmnic.id,
   ]

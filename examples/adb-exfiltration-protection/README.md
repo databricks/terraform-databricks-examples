@@ -11,7 +11,7 @@ To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us
 
 ## Overall Architecture
 
-![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
 
 Resources to be created:
 * Resource group with random prefix
@@ -24,7 +24,7 @@ Resources to be created:
 
 1. Update `terraform.tfvars` file and provide values to each defined variable
 2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
-4. Run `terraform init` to initialize terraform and get provider ready.
+3. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
 
 ## How to fill in variable values

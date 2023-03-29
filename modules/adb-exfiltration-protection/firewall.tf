@@ -102,7 +102,7 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
       join(", ", azurerm_subnet.private.address_prefixes),
     ]
 
-    target_fqdns = ["${local.dbfsname}.blob.core.windows.net"]
+    target_fqdns = ["${local.dbfsname}.dfs.core.windows.net"]
 
     protocol {
       port = "443"

@@ -34,7 +34,7 @@ resource "azurerm_databricks_workspace" "transit_workspace" {
     public_subnet_name                                   = azurerm_subnet.transit_public.name
     public_subnet_network_security_group_association_id  = azurerm_subnet_network_security_group_association.transit_public.id
     private_subnet_network_security_group_association_id = azurerm_subnet_network_security_group_association.transit_private.id
-    storage_account_name                                 = "dbfsd723k4b3"
+    storage_account_name                                 = "${local.dbfsname}auth"
   }
   # We need this, otherwise destroy doesn't cleanup things correctly
   depends_on = [
