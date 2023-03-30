@@ -1,4 +1,4 @@
-# Basic deployment example of Azure Databricks workspace objects
+# VNet-injected Azure Databricks workspace and workspace objects
 
 This example deploys a [vnet-injected Azure Databricks](https://learn.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-inject) workspace with a single cluster. You can use it to learn how to start using this repo's examples and deploy resources into your Azure Environment.
 
