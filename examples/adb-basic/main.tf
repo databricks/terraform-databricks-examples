@@ -18,7 +18,7 @@ resource "random_string" "naming" {
   length  = 6
 }
 
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "this" {
   name     = "${random_string.naming.result}-basic-demo-rg"
   location = var.rglocation
 }
