@@ -20,6 +20,9 @@ Navigate to `variables.tf` and configure input values to your terraform template
 
 Step 3: Deploy to your Azure environment
 ---------------------------------------
+
+The identity that you use in `az login` to deploy this template should have contributor role in your azure subscription, or the minimum required permissions to deploy resources in this template.
+
 Do following steps:
 
 Run `terraform init` to initialize terraform and download required providers.
