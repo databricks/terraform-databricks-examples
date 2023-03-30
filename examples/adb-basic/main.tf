@@ -7,7 +7,7 @@ terraform {
     }
     databricks = {
       source  = "databricks/databricks"
-      version = ">=0.5.1"
+      version = ">=1.13.0"
     }
   }
 }
@@ -40,12 +40,4 @@ locals {
 data "databricks_spark_version" "latest_lts" {
   long_term_support = true
   depends_on        = [azurerm_databricks_workspace.example]
-}
-
-
-module "auto_scaling_cluster_example" {
-  source                  = "./modules/autoscaling_cluster"
-  spark_version           = data.databricks_spark_version.latest_lts.id
-  node_type_id            = var.node_type
-  autotermination_minutes = var.global_auto_termination_minute
 }

@@ -20,3 +20,10 @@ resource "azurerm_databricks_workspace" "example" {
     azurerm_subnet_network_security_group_association.private
   ]
 }
+
+module "auto_scaling_cluster_example" {
+  source                  = "./modules/autoscaling_cluster"
+  spark_version           = data.databricks_spark_version.latest_lts.id
+  node_type_id            = var.node_type
+  autotermination_minutes = var.global_auto_termination_minute
+}
