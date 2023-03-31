@@ -14,8 +14,8 @@ variable "dbfs_prefix" {
 }
 
 variable "node_type" {
-  type = string
-  default = "Standard_E8ds_v4"
+  type    = string
+  default = "Standard_DS3_v2"
 }
 
 variable "workspace_prefix" {
@@ -26,4 +26,9 @@ variable "workspace_prefix" {
 variable "global_auto_termination_minute" {
   type    = number
   default = 30
+}
+
+variable "cidr" {
+  type    = string
+  default = "10.179.0.0/20"
 }
