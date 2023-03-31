@@ -75,6 +75,7 @@ resource "databricks_metastore" "this" {
     azurerm_storage_container.unity_catalog.name,
   azurerm_storage_account.unity_catalog.name)
   force_destroy = true
+  owner         = "unity_admin"
 }
 
 # Assign managed identity to metastore
@@ -172,3 +173,25 @@ resource "databricks_service_principal" "sp" {
   force          = true
 }
 
+locals {
+  account_admin_members = toset(flatten([for group in values(data.azuread_group.this) : [group.display_name == "account_admin" ? group.members : []]]))
+}
+# Extract information about real account admins users
+data "azuread_users" "account_admin_users" {
+  ignore_missing = true
+  object_ids     = local.account_admin_members
+}
+
+locals {
+  all_account_admin_users = {
+    for user in data.azuread_users.account_admin_users.users : user.object_id => user
+  }
+}
+
+resource "databricks_user_role" "account_admin" {
+  provider = databricks.azure_account
+  for_each = local.all_account_admin_users
+  user_id  = databricks_user.this[each.key].id
+  role     = "account_admin"
+  depends_on = [databricks_group.this, databricks_user.this, databricks_service_principal.sp]
+}
