@@ -39,10 +39,12 @@ locals {
   databricks_workspace_host = data.azurerm_databricks_workspace.this.workspace_url
 }
 
+// Provider for databricks workspace
 provider "databricks" {
   host = local.databricks_workspace_host
 }
 
+// Provider for databricks account
 provider "databricks" {
   alias      = "azure_account"
   host       = "https://accounts.azuredatabricks.net"
@@ -50,6 +52,7 @@ provider "databricks" {
   auth_type  = "azure-cli"
 }
 
+// Module creating UC metastore and adding users, groups and service principals to azure databricks account
 module "metastore_and_users" {
   source                    = "./modules/metastore-and-users"
   subscription_id           = local.subscription_id
@@ -69,7 +72,7 @@ locals {
   aad_groups = toset(var.aad_groups)
 }
 
-# Read group members of given groups from AzureAD every time Terraform is started
+// Read group members of given groups from AzureAD every time Terraform is started
 data "azuread_group" "this" {
   for_each     = local.aad_groups
   display_name = each.value
@@ -111,6 +114,7 @@ resource "azurerm_storage_container" "dev_catalog" {
   container_access_type = "private"
 }
 
+// Storage credential creation to be used to create external location
 resource "databricks_storage_credential" "external_mi" {
   name = "external_location_mi_credential"
   azure_managed_identity {
@@ -121,8 +125,7 @@ resource "databricks_storage_credential" "external_mi" {
   depends_on = [databricks_mws_permission_assignment.workspace_user_groups]
 }
 
-// Allow unity_admin group create external locations and catalogs
-
+// Create external location to be used as root storage by dev catalog
 resource "databricks_external_location" "dev_location" {
   name = "dev-catalog-external-location"
   url = format("abfss://%s@%s.dfs.core.windows.net",
@@ -133,6 +136,7 @@ resource "databricks_external_location" "dev_location" {
   comment         = "External location used by dev catalog as root storage"
 }
 
+// Create dev environment catalog
 resource "databricks_catalog" "dev" {
   metastore_id = module.metastore_and_users.metastore_id
   name         = "dev_catalog"
@@ -145,6 +149,7 @@ resource "databricks_catalog" "dev" {
   depends_on = [databricks_external_location.dev_location]
 }
 
+// Grants on dev catalog
 resource "databricks_grants" "dev_catalog" {
   catalog = databricks_catalog.dev.name
   grant {
@@ -161,6 +166,7 @@ resource "databricks_grants" "dev_catalog" {
   }
 }
 
+// Create schema for bronze datalake layer in dev env.
 resource "databricks_schema" "bronze" {
   catalog_name = databricks_catalog.dev.id
   name         = "bronze"
@@ -168,6 +174,7 @@ resource "databricks_schema" "bronze" {
   comment      = "this database is for bronze layer tables/views"
 }
 
+// Grants on bronze schema
 resource "databricks_grants" "bronze" {
   schema = databricks_schema.bronze.id
   grant {
@@ -176,6 +183,7 @@ resource "databricks_grants" "bronze" {
   }
 }
 
+// Create schema for silver datalake layer in dev env.
 resource "databricks_schema" "silver" {
   catalog_name = databricks_catalog.dev.id
   name         = "silver"
@@ -183,6 +191,7 @@ resource "databricks_schema" "silver" {
   comment      = "this database is for silver layer tables/views"
 }
 
+// Grants on silver schema
 resource "databricks_grants" "silver" {
   schema = databricks_schema.silver.id
   grant {
@@ -195,12 +204,15 @@ resource "databricks_grants" "silver" {
   }
 }
 
+ // Create schema for gold datalake layer in dev env.
 resource "databricks_schema" "gold" {
   catalog_name = databricks_catalog.dev.id
   name         = "gold"
   owner        = "account_unity_admin"
   comment      = "this database is for gold layer tables/views"
 }
+
+// Grants on gold schema
 resource "databricks_grants" "gold" {
   schema = databricks_schema.gold.id
   grant {
