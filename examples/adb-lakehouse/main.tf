@@ -42,6 +42,7 @@ module "adb-lakehouse-uc-workspace-api" {
   metastore_id                    = var.metastore_id
   landing_external_location_name  = var.landing_external_location_name
   landing_adls_path               = var.landing_adls_path
+  metastore_admins                = var.metastore_admins
   providers = {
     databricks = databricks.workspace
   }
