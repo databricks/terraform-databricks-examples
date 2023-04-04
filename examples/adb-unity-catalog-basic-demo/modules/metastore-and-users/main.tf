@@ -45,7 +45,7 @@ resource "azurerm_databricks_access_connector" "unity" {
 
 # Create a storage account to be used by unity catalog metastore as root storage
 resource "azurerm_storage_account" "unity_catalog" {
-  name                     = "${local.prefix}storage121212"
+  name                     = "${local.prefix}storageaccuc"
   resource_group_name      = data.azurerm_resource_group.this.name
   location                 = data.azurerm_resource_group.this.location
   tags                     = data.azurerm_resource_group.this.tags
@@ -75,17 +75,16 @@ resource "databricks_metastore" "this" {
     azurerm_storage_container.unity_catalog.name,
   azurerm_storage_account.unity_catalog.name)
   force_destroy = true
-  owner         = "unity_admin"
+  owner         = "account_unity_admin"
 }
 
 # Assign managed identity to metastore
 resource "databricks_metastore_data_access" "first" {
   metastore_id = databricks_metastore.this.id
-  name         = "the-keys"
+  name         = "the-metastore-key"
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.unity.id
   }
-
   is_default = true
 }
 
@@ -174,7 +173,7 @@ resource "databricks_service_principal" "sp" {
 }
 
 locals {
-  account_admin_members = toset(flatten([for group in values(data.azuread_group.this) : [group.display_name == "account_admin" ? group.members : []]]))
+  account_admin_members = toset(flatten([for group in values(data.azuread_group.this) : [group.display_name == "account_unity_admin" ? group.members : []]]))
 }
 # Extract information about real account admins users
 data "azuread_users" "account_admin_users" {

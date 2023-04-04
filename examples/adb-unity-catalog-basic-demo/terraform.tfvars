@@ -1,3 +1,3 @@
-account_id             = "e25e5e4e-696a-4944-bdca-836f36d40a1d"
-databricks_resource_id = "/subscriptions/42f7bbe6-d5c5-45a0-a9ec-8d8dff2e8f5d/resourceGroups/himanshu_rg/providers/Microsoft.Databricks/workspaces/myws"
-aad_groups             = ["account_admin", "unity_admin", "data_enginner", "data_analyst", "data_scientist"]
+account_id             = "0be7009e-3b5b-4ad8-b4af-40f23f0b2428"
+databricks_resource_id = "/subscriptions/2f08966b-10fd-49df-b49f-3483c82c4a80/resourceGroups/himanshu-rg/providers/Microsoft.Databricks/workspaces/devws"
+aad_groups             = ["account_unity_admin", "data_engineer", "data_analyst", "data_scientist"]

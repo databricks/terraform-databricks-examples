@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     azurerm = {
@@ -29,6 +28,19 @@ data "azurerm_resource_group" "this" {
 provider "azurerm" {
   subscription_id = local.subscription_id
   features {}
+}
+
+data "azurerm_databricks_workspace" "this" {
+  name                = local.databricks_workspace_name
+  resource_group_name = local.resource_group
+}
+
+locals {
+  databricks_workspace_host = data.azurerm_databricks_workspace.this.workspace_url
+}
+
+provider "databricks" {
+  host = local.databricks_workspace_host
 }
 
 provider "databricks" {
@@ -79,4 +91,130 @@ resource "databricks_group_member" "this" {
   member_id  = jsondecode(each.value).member
   depends_on = [module.metastore_and_users]
 }
+
+// Identity federation - adding users/groups from databricks account to workspace
+resource "databricks_mws_permission_assignment" "workspace_user_groups" {
+  for_each     = data.azuread_group.this
+  provider     = databricks.azure_account
+  workspace_id = module.metastore_and_users.databricks_workspace_id
+  principal_id = module.metastore_and_users.databricks_groups[each.value["object_id"]]
+  permissions  = each.key == "account_unity_admin" ? ["ADMIN"] : ["USER"]
+  depends_on   = [databricks_group_member.this]
+}
+
+// Create storage credentials, external locations, catalogs, schemas and grants
+
+// Create a container in storage account to be used by dev catalog as root storage
+resource "azurerm_storage_container" "dev_catalog" {
+  name                  = "dev-catalog"
+  storage_account_name  = module.metastore_and_users.azurerm_storage_account_unity_catalog.name
+  container_access_type = "private"
+}
+
+resource "databricks_storage_credential" "external_mi" {
+  name = "external_location_mi_credential"
+  azure_managed_identity {
+    access_connector_id = module.metastore_and_users.azurerm_databricks_access_connector_id
+  }
+  owner      = "account_unity_admin"
+  comment    = "Storage credential for all external locations"
+  depends_on = [databricks_mws_permission_assignment.workspace_user_groups]
+}
+
+// Allow unity_admin group create external locations and catalogs
+
+resource "databricks_external_location" "dev_location" {
+  name = "dev-catalog-external-location"
+  url = format("abfss://%s@%s.dfs.core.windows.net",
+    azurerm_storage_container.dev_catalog.name,
+  module.metastore_and_users.azurerm_storage_account_unity_catalog.name)
+  credential_name = databricks_storage_credential.external_mi.id
+  owner           = "account_unity_admin"
+  comment         = "External location used by dev catalog as root storage"
+}
+
+resource "databricks_catalog" "dev" {
+  metastore_id = module.metastore_and_users.metastore_id
+  name         = "dev_catalog"
+  comment      = "this catalog is for dev env"
+  owner        = "account_unity_admin"
+  storage_root = databricks_external_location.dev_location.url
+  properties = {
+    purpose = "dev"
+  }
+  depends_on = [databricks_external_location.dev_location]
+}
+
+resource "databricks_grants" "dev_catalog" {
+  catalog = databricks_catalog.dev.name
+  grant {
+    principal  = "data_engineer"
+    privileges = ["USE_CATALOG"]
+  }
+  grant {
+    principal  = "data_scientist"
+    privileges = ["USE_CATALOG"]
+  }
+  grant {
+    principal  = "data_analyst"
+    privileges = ["USE_CATALOG"]
+  }
+}
+
+resource "databricks_schema" "bronze" {
+  catalog_name = databricks_catalog.dev.id
+  name         = "bronze"
+  owner        = "account_unity_admin"
+  comment      = "this database is for bronze layer tables/views"
+}
+
+resource "databricks_grants" "bronze" {
+  schema = databricks_schema.bronze.id
+  grant {
+    principal  = "data_engineer"
+    privileges = ["USE_SCHEMA", "CREATE_FUNCTION", "CREATE_TABLE", "EXECUTE", "MODIFY", "SELECT"]
+  }
+}
+
+resource "databricks_schema" "silver" {
+  catalog_name = databricks_catalog.dev.id
+  name         = "silver"
+  owner        = "account_unity_admin"
+  comment      = "this database is for silver layer tables/views"
+}
+
+resource "databricks_grants" "silver" {
+  schema = databricks_schema.silver.id
+  grant {
+    principal  = "data_engineer"
+    privileges = ["USE_SCHEMA", "CREATE_FUNCTION", "CREATE_TABLE", "EXECUTE", "MODIFY", "SELECT"]
+  }
+  grant {
+    principal  = "data_scientist"
+    privileges = ["USE_SCHEMA", "SELECT"]
+  }
+}
+
+resource "databricks_schema" "gold" {
+  catalog_name = databricks_catalog.dev.id
+  name         = "gold"
+  owner        = "account_unity_admin"
+  comment      = "this database is for gold layer tables/views"
+}
+resource "databricks_grants" "gold" {
+  schema = databricks_schema.gold.id
+  grant {
+    principal  = "data_engineer"
+    privileges = ["USE_SCHEMA", "CREATE_FUNCTION", "CREATE_TABLE", "EXECUTE", "MODIFY", "SELECT"]
+  }
+  grant {
+    principal  = "data_scientist"
+    privileges = ["USE_SCHEMA", "SELECT"]
+  }
+  grant {
+    principal  = "data_analyst"
+    privileges = ["USE_SCHEMA", "SELECT"]
+  }
+}
+
 

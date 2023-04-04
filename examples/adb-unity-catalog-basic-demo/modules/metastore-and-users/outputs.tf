@@ -13,3 +13,19 @@ output "databricks_sps" {
     for sp in databricks_service_principal.sp : sp.external_id => sp.id
   }
 }
+
+output "azurerm_storage_account_unity_catalog" {
+  value = azurerm_storage_account.unity_catalog
+}
+
+output "azurerm_databricks_access_connector_id" {
+  value = azurerm_databricks_access_connector.unity.id
+}
+
+output "metastore_id" {
+  value = databricks_metastore.this.id
+}
+
+output "databricks_workspace_id" {
+  value = local.databricks_workspace_id
+}
