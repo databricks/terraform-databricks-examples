@@ -27,6 +27,7 @@ module "adb-lakehouse-uc-account-api" {
   metastore_id                    = var.metastore_id
   workspace_id                    = var.workspace_id
   service_principals              = var.service_principals
+  account_groups                  = var.account_groups
   storage_credential_id           = var.storage_credential_id
   providers = {
     databricks = databricks.account

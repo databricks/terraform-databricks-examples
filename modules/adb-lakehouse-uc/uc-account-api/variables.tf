@@ -38,6 +38,15 @@ variable "service_principals" {
   description = "list of service principals we want to create at Databricks account"
 }
 
+variable "account_groups" {
+  type = map(object({
+    group_name                     = string
+    permissions                    = list(string)
+  }))
+  default     = {}
+  description = "list of databricks account groups we want to assign to the workspace"
+}
+
 variable "storage_credential_id" {
   type        = string
   description = "the storage credential id"
