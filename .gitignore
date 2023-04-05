@@ -4,7 +4,8 @@
 # Compiled files
 *.tfstate
 *.tfstate.backup
-*.tfstate.lock.info
+*.tfstate.lock.
+*.terraform.lock.hcl
 
 # logs
 *.log
@@ -27,3 +28,5 @@
 
 # Ignored vscode files
 .vscode/
+
+.idea/
