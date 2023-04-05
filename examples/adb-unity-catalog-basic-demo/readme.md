@@ -5,7 +5,33 @@ This Terraform project is deploying all the resources needed to properly setup u
 ![UC Image](uc.png)
 
 
+- Step1: Deploy Azure databricks managed identity connector to be used by the metastore to access its root storage.
+- Step2: Deploy ADLS Gen2 storage account to be used by the metastore as root storage.
+- Step3: Deploy the unity catalog metastore.
+- Step4: Attached the existing databricks workspace to metastore to enable unity catalog for the workspace.
+- Step5: Sync AAD groups to Databricks account. For this steps groups (and their member users, service principals) should have already been created beforehand in AAD.
+  - Note that in our example `account_unity_admin` group becomes the metastore admin and owner of all unity catalog objects (catalog, storage cred, external location and schemas).
+  - `account_unity_admin` also becomes Databricks account admin.
+  - Therefore the user or principal running this example template should be a member of `account_unity_admin` group to successfully deploy all resources.
+- Step6: Sync user groups from account to workspace, this is also called identity federation.
+- Step7: Deploy a storage credential (encapsulating managed idenity created in step1) to be used to create an external location.
+- Step8: Create a separate storage container to be used by `dev_catalog` as root storage for its managed tables.
+- Step9: Deploy an external location pointing to the container in step8.
+- Step10: Deploy dev_catalog for dev environment , 3 schemas (for bronze,silver and gold layers) and grant different groups differnt set of permissions on catalog and schemas.
+
+
 ## Run the following terraform commands to deploy (in the order)
+
+Before running the terraform commands, replace the following placeholders in `terraform.tfvars` file with real values:
+- databricks-account-id
+- subscription-id
+- resource-group-name
+- workspace-name
+
+And you might have different AAD group names than the ones used in this example. Therefore please also change value for `aad_groups` variable in `terraform.tfvars` file.  
+
+And now you can run the following terraform command to deploy unity catalog setup:
+
 1. `terraform init`
 2. `terraform validate`
 3. `terraform apply -target=module.metastore_and_users`
