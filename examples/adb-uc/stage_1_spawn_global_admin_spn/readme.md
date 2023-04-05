@@ -20,6 +20,6 @@ terraform init & terraform apply
 ```
 This deploys a new SPN and grant it as AAD Global Admin. You should see under AAD - Roles - Global Admin, with the new assignment to SPN like below:
 
-<img src="../../charts/spn_tf.png" width="1200">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-uc/images/spn-tf.png?raw=true)
 
 This completes Stage 1.

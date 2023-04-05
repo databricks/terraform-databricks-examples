@@ -27,4 +27,4 @@ $ terraform destroy
 Upon opening the dashboard URL as printed as part of the output of `terraform apply`,
 you should see the following:
 
-![](../../images/dbsql-nyc-taxi-trip-analysis.png)
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/dbsql-nyc-taxi-trip-analysis/images/dbsql-nyc-taxi-trip-analysis.png?raw=true)

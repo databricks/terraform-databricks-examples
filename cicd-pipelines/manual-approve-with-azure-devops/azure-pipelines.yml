@@ -1,0 +1,100 @@
+# This is a basic Azure DevOps pipeline to validate Terraform
+
+name: ' Validate Terraform code: '
+
+variables:
+  - group: 'TerraformProdDeploy'
+
+# We disable builds for any commits as everything should go through pull requests
+trigger: none
+
+pr:
+  branches:
+    include:
+    - main
+  paths:
+    # We want to handle only changes relevant for this pipeline
+    include:
+    - examples/manual-approve-with-azure-devops/
+    - modules/databricks-department-clusters/
+    exclude:
+    - examples/manual-approve-with-azure-devops/README.md
+    - examples/manual-approve-with-github-actions/
+    - modules/databricks-department-clusters/README.md
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- checkout: self
+
+- script: |
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/terraform
+  displayName: 'Install Terraform'
+
+- task: AzureCLI@2
+  displayName: 'Extract information from Azure CLI'
+  inputs:
+    scriptType: bash
+    scriptLocation: inlineScript
+    azureSubscription: $(SERVICE_CONNECTION_NAME)
+    addSpnToEnvironment: true
+    inlineScript: |
+      subscription_id=$(az account list --query "[?isDefault].id"|jq -r '.[0]')
+      echo "##vso[task.setvariable variable=ARM_CLIENT_ID]${servicePrincipalId}"
+      echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;issecret=true]${servicePrincipalKey}"
+      echo "##vso[task.setvariable variable=ARM_TENANT_ID]${tenantId}"
+      echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]${subscription_id}"
+
+- script: |
+    terraform fmt -check
+  displayName: 'Check formatting of Terraform code'
+  workingDirectory: examples/manual-approve-with-azure-devops/
+  enabled: 'true'
+
+- script: |
+    terraform init -input=false -no-color \
+      -backend-config="resource_group_name=$BACKEND_RG_NAME" \
+      -backend-config="storage_account_name=$BACKEND_SA_NAME" \
+      -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
+      -backend-config="key=$BACKEND_KEY"
+  displayName: 'Terraform init'
+  workingDirectory: examples/manual-approve-with-azure-devops/
+  enabled: 'true'
+  env:
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+- script: |
+    terraform validate -no-color
+  displayName: 'Terraform validate'
+  workingDirectory: examples/manual-approve-with-azure-devops/
+  enabled: 'true'
+
+- script: |
+    terraform plan -lock=false -input=false -no-color
+  displayName: 'Terraform plan'
+  workingDirectory: examples/manual-approve-with-azure-devops/
+  enabled: 'true'
+  env:
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+- task: PowerShell@2
+  displayName: Update Pull Request
+  inputs:
+    targetType: 'inline'
+    script: |
+      $pullRequestId = $env:SYSTEM_PULLREQUEST_PULLREQUESTID
+      $repositoryId = $env:BUILD_REPOSITORY_ID
+      $projectName = $env:SYSTEM_TEAMPROJECT
+      $organizationUri = $env:SYSTEM_COLLECTIONURI
+      $buildId = $env:BUILD_BUILDID
+      $terraformPlanCommand = "terraform plan -lock=false -input=false -no-color"    
+      & ./../../comment-pull-request.ps1 -OrganizationUri $organizationUri -Project $projectName -PersonAccessToken "$(PULL_REQUEST_COMMENT_TOKEN)" -RepositoryId $repositoryId -PullRequestId $pullRequestId -BuildId $buildId -TerraformPlanCommand $terraformPlanCommand
+    workingDirectory: environments/dev/
+  env:
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)

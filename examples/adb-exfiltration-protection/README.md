@@ -1,5 +1,7 @@
 # Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
+This example is using the [adb-exfiltration-protection](../../modules/adb-exfiltration-protection) module.
+
 This template provides an example deployment of: Hub-Spoke networking with egress firewall to control all outbound traffic from Databricks subnets. Details are described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
 
 With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.  
@@ -9,7 +11,7 @@ To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us
 
 ## Overall Architecture
 
-<img src="../charts/adb-exfiltration-classic.png" width="800">
+![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
 
 Resources to be created:
 * Resource group with random prefix
@@ -18,11 +20,12 @@ Resources to be created:
 * Associated firewall rules, both FQDN and network rule using IP.
 
 
-## Getting Started
-1. Clone this repo to your local machine running terraform.
-2. Run `terraform init` to initialize terraform and get provider ready.
-3. Change `terraform.tfvars` values to your own values.
-4. Inside the local project folder, run `terraform apply` to create the resources.
+## How to use
+
+1. Update `terraform.tfvars` file and provide values to each defined variable
+2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
+3. Run `terraform init` to initialize terraform and get provider ready.
+4. Run `terraform apply` to create the resources.
 
 ## How to fill in variable values
 
