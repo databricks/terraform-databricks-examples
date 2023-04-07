@@ -10,12 +10,11 @@ module "adb-overwatch" {
 
   eventhub_name1             = "${var.eventhub_name}1"
   eventhub_name2             = "${var.eventhub_name}2"
-  overwatch_spn              = var.overwatch_spn
-  overwatch_spn_key          = var.overwatch_spn_key
+  overwatch_spn_app_id       = var.overwatch_spn_app_id
   random_string              = random_string.strapp.result
-  service_principal_id_mount = var.service_principal_id_mount
   tenant_id                  = var.tenant_id
   adb_ws1                    = var.adb_ws1
   adb_ws2                    = var.adb_ws2
   rg_name                    = var.rg_name
+  overwatch_spn_secret       = var.overwatch_spn_secret
 }

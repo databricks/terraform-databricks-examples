@@ -2,13 +2,9 @@ variable "subscription_id" {}
 
 variable "tenant_id" {}
 
-variable "service_principal_id_mount" {}
+variable "overwatch_spn_app_id" {}
 
-variable "overwatch_spn" {}
-
-variable "overwatch_spn_pass" {}
-
-variable "overwatch_spn_key" {}
+variable "overwatch_spn_secret" {}
 
 variable "eventhub_name" {
   default = "eh-adb-overwatch"
