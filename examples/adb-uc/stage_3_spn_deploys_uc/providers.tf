@@ -21,16 +21,17 @@ provider "azurerm" {
   features {}
 }
 
+/*
 provider "databricks" {
   alias      = "azure_account"
   host       = "https://accounts.azuredatabricks.net"
   account_id = "34f1bb02-ac1d-4c04-b051-58e094fa668c" // Databricks can provide
   auth_type  = "azure-cli"
 }
-
-resource "databricks_group" "this" {
-  provider     = databricks.azure_account
-  display_name = "test_tf_sp"
+*/
+provider "databricks" {
+  alias = "azure_account"
+  host  = "https://accounts.azuredatabricks.net"
 }
 
 provider "databricks" {

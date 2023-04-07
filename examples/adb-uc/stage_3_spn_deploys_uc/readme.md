@@ -23,6 +23,8 @@ provider "databricks" {
 
 Supply your Databricks workspace Resource ID to the variable `databricks_resource_id`.
 
+Alternatively, we interactively log in as Account Admin using `azure login`.
+
 In this stage 3 folder, run
 
 ```bash
