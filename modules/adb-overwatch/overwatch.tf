@@ -9,21 +9,6 @@ resource "azurerm_databricks_workspace" "adb" {
   }
 }
 
-/*data "azurerm_databricks_workspace" "adb" {
-  name                = azurerm_databricks_workspace.adb.name
-  resource_group_name = azurerm_resource_group.rg.name
-}*/
-
-/*resource "databricks_secret_scope" "overwatch-akv" {
-  name                     = "overwatch-akv"
-  initial_manage_principal = "users"
-
-  keyvault_metadata {
-    resource_id = var.kv_id
-    dns_name    = var.kv_vault_uri
-  }
-}*/
-
 resource "databricks_secret_scope" "overwatch" {
   name                     = "overwatch"
   initial_manage_principal = "users"
@@ -61,7 +46,6 @@ resource "databricks_secret" "service_principal_key" {
 
 resource "databricks_mount" "overwatch_db" {
   name       = "overwatch-etl-db"
-  # cluster_id = "0314-132342-7nhy02wq" # local.cluster_id
 
   abfs {
     tenant_id              = var.tenant_id
@@ -75,8 +59,7 @@ resource "databricks_mount" "overwatch_db" {
 }
 
 resource "databricks_mount" "cluster_logs" {
-  name       = "cluster-logs"
-  # cluster_id = "0314-132342-7nhy02wq" # local.cluster_id
+  name       = "cluster_logs"
 
   abfs {
     tenant_id              = var.tenant_id
@@ -110,22 +93,32 @@ resource "databricks_dbfs_file" "overwatch_deployment_config" {
 resource "databricks_job" "overwatch" {
   name = "Overwatch ETL Job"
   new_cluster{
-    num_workers = 0
+    autoscale {
+        min_workers = 1
+        max_workers = 3
+    }
     spark_version           = data.databricks_spark_version.latest_lts.id
     node_type_id            = "Standard_DS3_v2"
 
     cluster_log_conf {
       dbfs {
-      destination = "dbfs:/mnt/${databricks_mount.cluster_logs.name}/${azurerm_databricks_workspace.adb.name}"
+      destination = "dbfs:/mnt/${databricks_mount.cluster_logs.name}"
       }
     }
 
     spark_conf = {
-      # Single-node
-      "spark.databricks.cluster.profile" : "singleNode"
-      "spark.master" : "local[*]"
+      "fs.azure.account.auth.type" : "OAuth"
+      "fs.azure.account.oauth.provider.type" : "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
+      "fs.azure.account.oauth2.client.endpoint" : "https://login.microsoftonline.com/${var.tenant_id}/oauth2/token"
+      "fs.azure.account.oauth2.client.id" : var.overwatch_spn
+      "fs.azure.account.oauth2.client.secret" : "{{secrets/${databricks_secret_scope.overwatch.name}/${databricks_secret.service_principal_key.key}}}"
+      "spark.hadoop.fs.azure.account.auth.type" : "OAuth"
+      "spark.hadoop.fs.azure.account.oauth.provider.type" : "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
+      "spark.hadoop.fs.azure.account.oauth2.client.endpoint" : "https://login.microsoftonline.com/${var.tenant_id}/oauth2/token"
+      "spark.hadoop.fs.azure.account.oauth2.client.id" : var.overwatch_spn
+      "spark.hadoop.fs.azure.account.oauth2.client.secret" : "{{secrets/${databricks_secret_scope.overwatch.name}/${databricks_secret.service_principal_key.key}}}"
+
     }
-    custom_tags =  {"ResourceClass" : "SingleNode"}
   }
   notebook_task {
     notebook_path = "/Overwatch/ETL/overwatch-runner"

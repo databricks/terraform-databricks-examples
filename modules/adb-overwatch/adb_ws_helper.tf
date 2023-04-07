@@ -8,6 +8,16 @@ resource "databricks_token" "pat-ws1" {
   comment = "Databricks PAT to be used by Overwatch jobs"
 }
 
+resource "azurerm_storage_data_lake_gen2_filesystem" "cluster-logs-ws1" {
+  name               = "cluster-logs-ws1"
+  storage_account_id = azurerm_storage_account.logsa.id
+}
+
+resource "azurerm_storage_data_lake_gen2_filesystem" "cluster-logs-ws2" {
+  name               = "cluster-logs-ws2"
+  storage_account_id = azurerm_storage_account.logsa.id
+}
+
 data "azurerm_monitor_diagnostic_categories" "dgs-cat1" {
   resource_id = data.azurerm_databricks_workspace.adb-ws1.id
 }
@@ -99,7 +109,6 @@ resource "databricks_secret" "service_principal_key-ws2" {
 resource "databricks_mount" "cluster_logs_ws1" {
   provider = databricks.adb-ws1
   name       = "cluster_logs"
-  # cluster_id = "0314-132342-7nhy02wq" # local.cluster_id
 
   abfs {
     tenant_id              = var.tenant_id
@@ -108,14 +117,13 @@ resource "databricks_mount" "cluster_logs_ws1" {
     client_secret_key      = databricks_secret.service_principal_key.key
     initialize_file_system = true
     storage_account_name   = azurerm_storage_account.logsa.name
-    container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs.name
+    container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs-ws1.name
   }
 }
 
 resource "databricks_mount" "cluster_logs_ws2" {
   provider = databricks.adb-ws2
   name       = "cluster_logs"
-  # cluster_id = "0314-132342-7nhy02wq" # local.cluster_id
 
   abfs {
     tenant_id              = var.tenant_id
@@ -124,13 +132,8 @@ resource "databricks_mount" "cluster_logs_ws2" {
     client_secret_key      = databricks_secret.service_principal_key.key
     initialize_file_system = true
     storage_account_name   = azurerm_storage_account.logsa.name
-    container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs.name
+    container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs-ws2.name
   }
-}
-
-data "databricks_node_type" "smallest" {
-  local_disk = true
-  depends_on = [azurerm_databricks_workspace.adb]
 }
 
 resource "databricks_job" "test-job" {
@@ -140,10 +143,10 @@ resource "databricks_job" "test-job" {
   new_cluster{
     num_workers = 0
     spark_version           = data.databricks_spark_version.latest_lts.id
-    node_type_id            = "Standard_DS3_v2" #data.databricks_node_type.smallest.id
+    node_type_id            = "Standard_DS3_v2"
     cluster_log_conf {
       dbfs {
-      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws1.name}/${data.azurerm_databricks_workspace.adb-ws1.name}"
+      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws1.name}"
       }
     }
     spark_conf = {
@@ -183,7 +186,7 @@ resource "databricks_pipeline" "dlt-pipeline" {
 
     cluster_log_conf {
       dbfs {
-      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws2.name}/${data.azurerm_databricks_workspace.adb-ws2.name}"
+      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws2.name}"
       }
     }
   }

@@ -42,6 +42,6 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "overwatch-db" {
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "cluster-logs" {
-  name               = "cluster-logs"
+  name               = "cluster-logs-ow"
   storage_account_id = azurerm_storage_account.logsa.id
 }
