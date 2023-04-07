@@ -1,17 +1,32 @@
-variable "subscription_id" {}
-
-variable "tenant_id" {}
-
-variable "overwatch_spn_app_id" {}
-
-variable "overwatch_spn_secret" {}
-
-variable "eventhub_name" {
-  default = "eh-adb-overwatch"
+variable "subscription_id" {
+  description = "The Azure subscription ID"
 }
 
-variable "adb_ws1" {}
+variable "tenant_id" {
+  description = "The Azure tenant ID"
+}
 
-variable "adb_ws2" {}
+variable "overwatch_spn_app_id" {
+  description = "The Azure AD service principal (SPN) application ID that will be used to access the storage accounts"
+}
 
-variable "rg_name" {}
+variable "overwatch_spn_secret" {
+  description = "The client secret for the Azure AD SPN"
+}
+
+variable "rg_name" {
+    description = "resource group name where the resources will be deployed"
+}
+
+variable "adb_ws1" {
+    description = "The name of the first workspace that overwatch will monitor"
+}
+
+variable "adb_ws2" {
+    description = "The name of the second workspace that overwatch will monitor"
+}
+
+variable "eventhub_name" {
+  description = "The eventhub name prefix used to build the names of the eventhubs for all the monitored workspaces"
+  default = "eh-adb-overwatch"
+}

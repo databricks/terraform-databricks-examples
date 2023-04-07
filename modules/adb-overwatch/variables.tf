@@ -1,18 +1,30 @@
-variable "overwatch_ws_name"{
-    default = "overwatch-ws"
-    description = "Name of the Azure Databricks Workspace that will be dedicated for Overwatch"
-}
-
-variable "adb_ws1" {
-    description = "one of the workspaces that overwatch will monitor"
-}
-
-variable "adb_ws2" {
-    description = "a second workspace that overwatch will monitor"
+variable "tenant_id" {
+  description = "The Azure tenant ID"
 }
 
 variable "rg_name" {
     description = "resource group name where the resources will be deployed"
+}
+
+variable "overwatch_spn_app_id" {
+  description = "The Azure AD service principal (SPN) application ID that will be used to access the storage accounts"
+}
+
+variable "overwatch_spn_secret" {
+  description = "The client secret for the Azure AD SPN"
+}
+
+variable "overwatch_ws_name"{
+    default = "overwatch-ws"
+    description = "The name of the Azure Databricks Workspace that will be dedicated for Overwatch"
+}
+
+variable "adb_ws1" {
+    description = "The name of the first workspace that overwatch will monitor"
+}
+
+variable "adb_ws2" {
+    description = "The name of the second workspace that overwatch will monitor"
 }
 
 variable "eventhub_name1" {
@@ -21,18 +33,6 @@ variable "eventhub_name1" {
 
 variable "eventhub_name2" {
     description = "the eventhub that will receive the second workspace messages"
-}
-
-variable "tenant_id" {
-    description = ""
-}
-
-variable "overwatch_spn" {
-    description = ""
-}
-
-variable "overwatch_spn_key" {
-    description = ""
 }
 
 variable "overwatch_job_notification_email"{
@@ -55,18 +55,14 @@ variable "eventhub_namespace_name" {
     description = "Eventhub Namespace for Overwatch"
 }
 
-variable "service_principal_id_mount" {
-    description = "ObjectID of the service principal that will be granted blob contributor role in the storage account of both logs and overwatch DB. This has to be the objectID of the service principal that will be used to mount the ADLS in the DBFS"
-}
-
 variable "logs_storage_account_name" {
     default = "overwatchlogs"
-    description = "Main DataLake name"
+    description = "The storage account that will store the cluster logs"
 }
 
 variable "overwatch_storage_account_name" {
     default = "overwatchdb"
-    description = "Main DataLake name"
+    description = "The storage account that will store the Overwatch ETL datalake"
 }
 
 variable "random_string" {

@@ -40,7 +40,7 @@ resource "databricks_secret" "eh-conn-ws2" {
 
 resource "databricks_secret" "service_principal_key" {
   key          = "service_principal_key"
-  string_value = var.overwatch_spn_key
+  string_value = var.overwatch_spn_secret
   scope        = databricks_secret_scope.overwatch.name
 }
 
@@ -49,7 +49,7 @@ resource "databricks_mount" "overwatch_db" {
 
   abfs {
     tenant_id              = var.tenant_id
-    client_id              = var.overwatch_spn
+    client_id              = var.overwatch_spn_app_id
     client_secret_scope    = databricks_secret_scope.overwatch.name
     client_secret_key      = databricks_secret.service_principal_key.key
     initialize_file_system = true
@@ -63,7 +63,7 @@ resource "databricks_mount" "cluster_logs" {
 
   abfs {
     tenant_id              = var.tenant_id
-    client_id              = var.overwatch_spn
+    client_id              = var.overwatch_spn_app_id
     client_secret_scope    = databricks_secret_scope.overwatch.name
     client_secret_key      = databricks_secret.service_principal_key.key
     initialize_file_system = true
@@ -110,12 +110,12 @@ resource "databricks_job" "overwatch" {
       "fs.azure.account.auth.type" : "OAuth"
       "fs.azure.account.oauth.provider.type" : "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
       "fs.azure.account.oauth2.client.endpoint" : "https://login.microsoftonline.com/${var.tenant_id}/oauth2/token"
-      "fs.azure.account.oauth2.client.id" : var.overwatch_spn
+      "fs.azure.account.oauth2.client.id" : var.overwatch_spn_app_id
       "fs.azure.account.oauth2.client.secret" : "{{secrets/${databricks_secret_scope.overwatch.name}/${databricks_secret.service_principal_key.key}}}"
       "spark.hadoop.fs.azure.account.auth.type" : "OAuth"
       "spark.hadoop.fs.azure.account.oauth.provider.type" : "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
       "spark.hadoop.fs.azure.account.oauth2.client.endpoint" : "https://login.microsoftonline.com/${var.tenant_id}/oauth2/token"
-      "spark.hadoop.fs.azure.account.oauth2.client.id" : var.overwatch_spn
+      "spark.hadoop.fs.azure.account.oauth2.client.id" : var.overwatch_spn_app_id
       "spark.hadoop.fs.azure.account.oauth2.client.secret" : "{{secrets/${databricks_secret_scope.overwatch.name}/${databricks_secret.service_principal_key.key}}}"
 
     }

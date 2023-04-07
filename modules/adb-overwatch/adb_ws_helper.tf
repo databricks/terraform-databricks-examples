@@ -89,7 +89,7 @@ resource "databricks_secret_scope" "overwatch-ws1" {
 resource "databricks_secret" "service_principal_key-ws1" {
   provider = databricks.adb-ws1
   key          = "service_principal_key"
-  string_value = var.overwatch_spn_key
+  string_value = var.overwatch_spn_secret
   scope        = databricks_secret_scope.overwatch-ws1.name
 }
 
@@ -102,7 +102,7 @@ resource "databricks_secret_scope" "overwatch-ws2" {
 resource "databricks_secret" "service_principal_key-ws2" {
   provider = databricks.adb-ws2
   key          = "service_principal_key"
-  string_value = var.overwatch_spn_key
+  string_value = var.overwatch_spn_secret
   scope        = databricks_secret_scope.overwatch-ws2.name
 }
 
@@ -112,9 +112,9 @@ resource "databricks_mount" "cluster_logs_ws1" {
 
   abfs {
     tenant_id              = var.tenant_id
-    client_id              = var.overwatch_spn
+    client_id              = var.overwatch_spn_app_id
     client_secret_scope    = databricks_secret_scope.overwatch.name
-    client_secret_key      = databricks_secret.service_principal_key.key
+    client_secret_key      = databricks_secret.service_principal_key-ws1.key
     initialize_file_system = true
     storage_account_name   = azurerm_storage_account.logsa.name
     container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs-ws1.name
@@ -127,9 +127,9 @@ resource "databricks_mount" "cluster_logs_ws2" {
 
   abfs {
     tenant_id              = var.tenant_id
-    client_id              = var.overwatch_spn
+    client_id              = var.overwatch_spn_app_id
     client_secret_scope    = databricks_secret_scope.overwatch.name
-    client_secret_key      = databricks_secret.service_principal_key.key
+    client_secret_key      = databricks_secret.service_principal_key-ws2.key
     initialize_file_system = true
     storage_account_name   = azurerm_storage_account.logsa.name
     container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs-ws2.name
