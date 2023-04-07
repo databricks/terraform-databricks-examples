@@ -13,7 +13,7 @@ It covers the following steps :
 * Use an existing **Resource group**
 * Deploy **Eventhubs** resource per workspace
 * Deploy **Storage Accounts**, one for the cluster logs and one for the Overwatch database output
-* Deploy the dedicated **Azure Databricks** workspace for Overwatch
+* Deploy the dedicated **Azure Databricks** workspace for Overwatch, with some Databricks quick-start notebooks to analyse the results
 * Deploy **Role Assignments** and **mounts** to attribute the necessary permissions
 * Deploy **Diagnostic Logs** on the Databricks workspaces to monitor
 
