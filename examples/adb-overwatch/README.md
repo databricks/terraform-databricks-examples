@@ -1,10 +1,11 @@
 # Deploying Overwatch on Azure Databricks
 
-This project contains Terraform code used to deploy the different required modules by Overwatch
+This example contains Terraform code used to deploy Overwatch using the [adb-overwatch module](../../modules/adb-overwatch)
+
 
 ## Module content
 
-This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated Azure Databricks workspace, and monitors the specified workspaces in the config file `adb-overwatch/config/overwatch_deployment_config.csv`.
+This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated Azure Databricks workspace, and monitors the specified workspaces in the config file `modules/adb-overwatch/config/overwatch_deployment_config.csv`.
 
 
 It covers the following modules :
