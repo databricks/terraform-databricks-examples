@@ -18,6 +18,7 @@ It covers the following modules :
 ## How to use
 
 > **Note**  
+> In this example, Overwatch is deployed on two different existing Databricks workspaces. On the first one a small batch job is deployed and a Delta Live Tables pipeline is deployed on the second one.
 > You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
 
 1. Update the `terraform.tfvars` file with your environment values
