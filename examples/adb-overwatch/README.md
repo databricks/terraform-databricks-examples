@@ -8,13 +8,13 @@ This example contains Terraform code used to deploy Overwatch using the [adb-ove
 This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated Azure Databricks workspace, and monitors the specified workspaces in the config file `modules/adb-overwatch/config/overwatch_deployment_config.csv`.
 
 
-It covers the following modules :
-* Resource group
-* Eventhubs
-* Storage Accounts
-* Azure Databricks
-* Role Assignments
-* Diagnostic Logs
+It covers the following steps :
+* Use an existing **Resource group**
+* Deploy **Eventhubs** resource per workspace
+* Deploy **Storage Accounts**, one for the cluster logs and one for the Overwatch database output
+* Deploy the dedicated **Azure Databricks** workspace for Overwatch
+* Deploy **Role Assignments** and **mounts** to attribute the necessary permissions
+* Deploy **Diagnostic Logs** on the Databricks workspaces to monitor
 
 ## How to use
 
