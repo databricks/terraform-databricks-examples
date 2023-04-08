@@ -3,8 +3,7 @@ resource "databricks_metastore" "databricks-metastore" {
   name = var.metastore_name
   storage_root = format("abfss://%s@%s.dfs.core.windows.net/",
     "${var.metastore_storage_name}-container",
-    var.metastore_storage_name)
-  owner         = "metastore_admin_group"
+  var.metastore_storage_name)
   force_destroy = false
 }
 
