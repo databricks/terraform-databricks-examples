@@ -39,6 +39,6 @@ output "workspace_url" {
 }
 
 output "access_connector_id" {
-  value       = azapi_resource.access_connector.id
+  value       = azurerm_databricks_access_connector.access_connector.id
   description = "the id of the access connector"
 }

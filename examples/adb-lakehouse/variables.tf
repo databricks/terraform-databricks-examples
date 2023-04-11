@@ -82,7 +82,7 @@ variable "access_connector_name" {
 variable "service_principals" {
   type = map(object({
     sp_id        = string
-    display_name = string
+    display_name = optional(string)
     permissions  = list(string)
   }))
   default     = {}
