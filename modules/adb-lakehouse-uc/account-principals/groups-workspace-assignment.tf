@@ -6,7 +6,7 @@ data "databricks_group" "account_groups" {
 }
 
 
-resource "databricks_mws_permission_assignment" "sp-workspace-assignement" {
+resource "databricks_mws_permission_assignment" "groups-workspace-assignement" {
   depends_on   = [data.databricks_group.account_groups]
   for_each     = var.account_groups
   workspace_id = var.workspace_id

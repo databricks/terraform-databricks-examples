@@ -13,9 +13,9 @@ variable "landing_adls_path" {
   description = "The ADLS path of the landing zone"
 }
 
-variable "storage_credential_id" {
+variable "storage_credential_name" {
   type        = string
-  description = "the storage credential id"
+  description = "the name of the storage credential"
 }
 
 variable "metastore_id" {
@@ -27,8 +27,3 @@ variable "metastore_admins" {
   type        = list(string)
   description = "list of principals: service principals or groups that have metastore admin privileges"
 }
-
-
-
-
-
