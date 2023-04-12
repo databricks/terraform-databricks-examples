@@ -1,6 +1,7 @@
 # Lakehouse terraform blueprints
 
-This example contains Terraform code used to provision a Lakehouse platform using the [adb-lakehouse module](../../modules/adb-lakehouse)
+This example contains Terraform code used to provision a Lakehouse platform using the [adb-lakehouse module](../../modules/adb-lakehouse).
+It also contains Terraform code to create Unity Catalog metastore and multiple UC resources, it also creates principals in Databricks account and assign them to Databricks workspace.
 
 ## Deployed resources
 
@@ -19,6 +20,12 @@ This example can be used to deploy the following:
   * Azure Data Factory
   * Azure Key Vault
   * Azure Storage account
+* Unity Catalog resources:
+  * Unity Catalog metastore
+  * Assignment of the UC metastore to the Azure Databricks workspace
+  * Creation of principals (groups and service principals) in Azure Databricks account
+  * Assignment of principals to the Azure Databricks workspace
+  * Creation of Unity Catalog resources (catalogs, schemas, external locations, grants)
 
 ## How to use
 

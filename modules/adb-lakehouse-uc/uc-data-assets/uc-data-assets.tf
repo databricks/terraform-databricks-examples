@@ -15,5 +15,5 @@ resource "databricks_schema" "bronze_source1-schema" {
 resource "databricks_external_location" "landing-external-location" {
   name            = var.landing_external_location_name
   url             = var.landing_adls_path
-  credential_name = var.storage_credential_id
+  credential_name = var.storage_credential_name
 }
