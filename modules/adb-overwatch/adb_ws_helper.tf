@@ -83,7 +83,7 @@ resource "azurerm_monitor_diagnostic_setting" "dgs-ws2" {
 resource "databricks_secret_scope" "overwatch-ws1" {
   provider = databricks.adb-ws1
   name                     = "overwatch"
-  initial_manage_principal = "users"
+  initial_manage_principal = "users" // to be changed
 }
 
 resource "databricks_secret" "service_principal_key-ws1" {
@@ -96,7 +96,7 @@ resource "databricks_secret" "service_principal_key-ws1" {
 resource "databricks_secret_scope" "overwatch-ws2" {
   provider = databricks.adb-ws2
   name                     = "overwatch"
-  initial_manage_principal = "users"
+  initial_manage_principal = "users" // to be changed
 }
 
 resource "databricks_secret" "service_principal_key-ws2" {
@@ -134,69 +134,4 @@ resource "databricks_mount" "cluster_logs_ws2" {
     storage_account_name   = azurerm_storage_account.logsa.name
     container_name         = azurerm_storage_data_lake_gen2_filesystem.cluster-logs-ws2.name
   }
-}
-
-resource "databricks_job" "test-job" {
-  provider = databricks.adb-ws1
-
-  name = "Test Job WS1"
-  new_cluster{
-    num_workers = 0
-    spark_version           = data.databricks_spark_version.latest_lts.id
-    node_type_id            = "Standard_DS3_v2"
-    cluster_log_conf {
-      dbfs {
-      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws1.name}"
-      }
-    }
-    spark_conf = {
-      # Single-node
-      "spark.databricks.cluster.profile" : "singleNode"
-      "spark.master" : "local[*]"
-    }
-    custom_tags =  {"ResourceClass" : "SingleNode"}
-
-  }
-  notebook_task {
-    notebook_path = databricks_notebook.quick_start_nb.path
-  }
-}
-
-
-//
-
-resource "databricks_repo" "dlt_demo" {
-  provider = databricks.adb-ws2
-
-  url = "https://github.com/databricks/delta-live-tables-notebooks.git"
-}
-
-resource "databricks_pipeline" "dlt-pipeline" {
-  provider = databricks.adb-ws2
-
-  name    = "DLT Wikipedia Demo"
-  storage = "/test/first-pipeline"
-
-  cluster {
-    label       = "default"
-    num_workers = 1
-    custom_tags = {
-      cluster_type = "default"
-    }
-
-    cluster_log_conf {
-      dbfs {
-      destination = "dbfs:/mnt/${databricks_mount.cluster_logs_ws2.name}"
-      }
-    }
-  }
-
-  library {
-    notebook {
-      path = "${databricks_repo.dlt_demo.path}/sql/Wikipedia"
-    }
-  }
-  filters {}
-
-  continuous = false
 }

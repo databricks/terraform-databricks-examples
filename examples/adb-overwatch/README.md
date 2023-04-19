@@ -11,11 +11,11 @@ This code uses the [multi-workspace deployment of Overwatch](https://databricksl
 
 It covers the following steps :
 * Use an existing **Resource group**
-* Deploy **Eventhubs** resource per workspace
+* Deploy **Eventhubs** topic per workspace, that could be in the same **Eventhubs** namespace
 * Deploy **Storage Accounts**, one for the cluster logs and one for the Overwatch database output
 * Deploy the dedicated **Azure Databricks** workspace for Overwatch, with some Databricks quick-start notebooks to analyse the results
-* Deploy **Role Assignments** and **mounts** to attribute the necessary permissions
-* Deploy **Diagnostic Logs** on the Databricks workspaces to monitor
+* Configure **Role Assignments** and **mounts** to attribute the necessary permissions
+* Configure **Diagnostic Logs** on the Databricks workspaces to monitor
 
 ## How to use
 
