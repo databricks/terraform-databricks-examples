@@ -81,6 +81,8 @@ resource "databricks_mount" "overwatch_db" {
 resource "databricks_dbfs_file" "overwatch_deployment_config" {
   source = "${path.module}/config/overwatch_deployment_config.csv"
   path   = "/mnt/${databricks_mount.overwatch_db.name}/config/overwatch_deployment_config.csv"
+
+  depends_on = [databricks_mount.overwatch_db]
 }
 
 resource "databricks_job" "overwatch" {
