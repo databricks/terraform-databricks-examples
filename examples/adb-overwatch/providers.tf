@@ -1,10 +1,11 @@
 terraform {
-  required_version = ">=0.12"
-
   required_providers {
     azurerm = {
       source = "hashicorp/azurerm"
-      version = ">=3.5.0"
+    }
+
+    databricks = {
+      source = "databricks/databricks"
     }
   }
 }
@@ -12,4 +13,9 @@ terraform {
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
+}
+
+provider "databricks" {
+  alias = "adb-ow-main-ws"
+  host = module.adb-overwatch-main-ws.adb_ow_main_ws_url
 }

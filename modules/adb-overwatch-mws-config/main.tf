@@ -78,11 +78,8 @@ resource "databricks_mount" "overwatch_db" {
   }
 }
 
-resource "databricks_dbfs_file" "overwatch_deployment_config" {
-  source = "${path.module}/config/overwatch_deployment_config.csv"
-  path   = "/mnt/${databricks_mount.overwatch_db.name}/config/overwatch_deployment_config.csv"
-
-  depends_on = [databricks_mount.overwatch_db]
+locals {
+  etl_storage_prefix = "/mnt/${databricks_mount.overwatch_db.name}/ow_multi_ws"
 }
 
 resource "databricks_job" "overwatch" {
@@ -114,7 +111,7 @@ resource "databricks_job" "overwatch" {
     base_parameters = {
       "TempDir": "/tmp/overwatch/",
       "Parallelism": 4,
-      "ETLStoragePrefix": "/mnt/${databricks_mount.overwatch_db.name}/ow_multi_ws",
+      "ETLStoragePrefix": local.etl_storage_prefix,
       "PathToCsvConfig": "/mnt/${databricks_mount.overwatch_db.name}/config/overwatch_deployment_config.csv"
     }
   }

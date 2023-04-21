@@ -5,8 +5,3 @@ terraform {
     }
   }
 }
-
-/*
-provider "databricks" {
-  host = data.azurerm_databricks_workspace.adb-ws.workspace_url
-}*/

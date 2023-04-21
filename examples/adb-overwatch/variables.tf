@@ -1,32 +1,99 @@
-variable "subscription_id" {
-  description = "The Azure subscription ID"
+variable "subscription_id" {}
+
+variable "rg_name" {}
+
+variable "ehn_name" {}
+
+variable "tenant_id" {}
+
+variable "object_id" {}
+
+variable "overwatch_spn_app_id" {}
+
+variable "overwatch_spn_secret" {}
+
+variable "logs_sa_name" {}
+
+variable "ow_sa_name" {}
+
+variable "key_vault_prefix" {}
+
+variable "overwatch_ws_name" {}
+
+variable "databricks_secret_scope_name" {
+  default = "overwatch-akv"
 }
 
-variable "tenant_id" {
-  description = "The Azure tenant ID"
+variable "use_existing_overwatch_ws" {
+  description = "A boolean that determines to either use an existing Databricks workspace for Overwatch, when it is set to 'true', or create a new one when it is set to 'false'"
+  default = false
 }
 
-variable "overwatch_spn_app_id" {
-  description = "The Azure AD service principal (SPN) application ID that will be used to access the storage accounts"
+variable "interactive_dbu_price" {
+  default = 0.55
 }
 
-variable "overwatch_spn_secret" {
-  description = "The client secret for the Azure AD SPN"
+variable "automated_dbu_price" {
+  default = 0.3
 }
 
-variable "rg_name" {
-    description = "resource group name where the resources will be deployed"
+variable "sql_compute_dbu_price" {
+  default = 0.22
 }
 
-variable "adb_ws1" {
-    description = "The name of the first workspace that overwatch will monitor"
+variable "jobs_light_dbu_price" {
+  default = 0.1
 }
 
-variable "adb_ws2" {
-    description = "The name of the second workspace that overwatch will monitor"
+variable "max_days" {
+  default = 30
 }
 
-variable "eventhub_name" {
-  description = "The eventhub name prefix used to build the names of the eventhubs for all the monitored workspaces"
-  default = "eh-adb-overwatch"
+variable "excluded_scopes" {
+  default = ""
+}
+
+variable "active" {
+  default = "TRUE"
+}
+
+variable "proxy_host" {
+  default = ""
+}
+
+variable "proxy_port" {
+  default = ""
+
+}
+
+variable "proxy_user_name" {
+  default = ""
+}
+
+variable "proxy_password_scope" {
+  default = ""
+}
+
+variable "proxy_password_key" {
+  default = ""
+}
+
+variable "success_batch_size" {
+  default = ""
+}
+
+variable "error_batch_size" {
+  default = ""
+}
+
+variable "enable_unsafe_SSL" {
+  default = ""
+}
+
+variable "thread_pool_size" {
+  default = ""
+}
+
+variable "api_waiting_time" {
+  default = ""
 }

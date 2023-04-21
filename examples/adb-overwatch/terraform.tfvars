@@ -1,7 +1,0 @@
-subscription_id = ""
-tenant_id = ""
-overwatch_spn_app_id = ""
-overwatch_spn_secret = ""
-rg_name = "adb-overwatch-rg"
-adb_ws1 = "adb-ws-1"
-adb_ws2 = "adb-ws-2"
