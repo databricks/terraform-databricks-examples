@@ -6,8 +6,6 @@ variable "ehn_name" {}
 
 variable "tenant_id" {}
 
-variable "object_id" {}
-
 variable "overwatch_spn_app_id" {}
 
 variable "overwatch_spn_secret" {}

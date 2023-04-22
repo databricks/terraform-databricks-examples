@@ -15,7 +15,6 @@ module "adb-overwatch-regional-config" {
   ehn_name              = var.ehn_name
   logs_sa_name          = var.logs_sa_name
   key_vault_prefix      = var.key_vault_prefix
-  object_id             = var.object_id
   overwatch_spn_secret  = var.overwatch_spn_secret
 }
 

@@ -1,6 +1,5 @@
 subscription_id = ""
 tenant_id = ""
-object_id = ""
 overwatch_spn_app_id = ""
 overwatch_spn_secret = ""
 ehn_name = ""
