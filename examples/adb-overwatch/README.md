@@ -23,7 +23,8 @@ It covers the following steps :
 > In this example, Overwatch is deployed on two different existing Databricks workspaces. On the first one a small batch job is deployed and a Delta Live Tables pipeline is deployed on the second one.
 > You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
 
-1. Update the `terraform.tfvars` file with your environment values
-2. Update the file `config/overwatch_deployment_config.csv`, with the correct values for `workspace_name, workspace_id, workspace_url`
+1. Make the script executable `chmod +x dynamic_providers_modules_generation.sh`
+2. Update the `terraform.tfvars` file with your environment values
+3. Update the file `config/overwatch_deployment_config.csv`, with the correct values for `workspace_name, workspace_id, workspace_url`
 4. Run `terraform init` to initialize terraform and get provider ready.
 5. Run `terraform apply` to create the resources.
