@@ -4,6 +4,6 @@ output "adb_ow_main_ws_url" {
 }
 
 output "latest_lts" {
-  description = "The latest DBR LTS version "
+  description = "The latest DBR LTS version"
   value = data.databricks_spark_version.latest_lts.id
 }

@@ -1,26 +1,19 @@
-# Deploying Overwatch on Azure Databricks
+# adb-overwatch-main-ws
 
-This project contains Terraform code used to deploy the different required modules by Overwatch
+This module either creates a new workspace, or uses an existing one to deploy **Overwatch** 
 
-## Module content
+## Inputs
 
-This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated Azure Databricks workspace, and monitors the specified workspaces in the config file `adb-overwatch/config/overwatch_deployment_config.csv`.
-  ![Overwatch_Arch_Azure](https://user-images.githubusercontent.com/103026825/230571464-5892c5c7-82c2-4808-9003-61b501b75f69.png?raw=true)
-  
-It covers the following modules :
-* Resource group
-* Eventhubs
-* Storage Accounts
-* Azure Databricks
-* Role Assignments
-* Diagnostic Logs
+| Name           | Description                                                                                                                                                     | Type   | Default | Required |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|---------|----------|
+|`subscription_id`| Azure subscription ID                                                                                                                                           | string ||yes|
+|`rg_name`| Resource group name                                                                                                                                             | string ||yes|
+|`overwatch_ws_name`| The name of an existing Overwatch workspace, or the name to use to create a new one                                                                             | string ||yes|
+|`use_existing_ws`| A boolean that determines to either use an existing Databricks workspace for Overwatch, when it is set to 'true', or create a new one when it is set to 'false' | bool   ||yes|
 
-## How to use
+## Ouputs
 
-> **Note**  
-> You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
-
-1. Update the `terraform.tfvars` file with your environment values
-2. Update the file `config/overwatch_deployment_config.csv`, with the correct values for `workspace_name, workspace_id, workspace_url`
-4. Run `terraform init` to initialize terraform and get provider ready.
-5. Run `terraform apply` to create the resources.
+| Name           | Description           |
+|----------------|-----------------------|
+|`adb_ow_main_ws_url`| Overwatch workspace url |
+|`latest_lts`| The latest DBR LTS version |
