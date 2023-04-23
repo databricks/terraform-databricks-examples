@@ -42,8 +42,8 @@ This module deploys the required resources for a given Databricks workspace to b
 |`proxy_user_name`| Proxy user name for the workspace                                                     | string || no      |
 |`proxy_password_scope`| Scope which contains the proxy password key                                                     | string || no      |
 |`proxy_password_key`| Key which contains proxy password                                                     | string || no      |
-|`success_batch_size`|API Tunable - Indicates the size of the buffer on filling of which the result will be written to a temp location | number || no      |
-|`error_batch_size`| API Tunable - Indicates the size of the error writer buffer containing API call errors                             | number || no      |
+|`success_batch_size`|API Tunable - Indicates the size of the buffer on filling of which the result will be written to a temp location | string || no      |
+|`error_batch_size`| API Tunable - Indicates the size of the error writer buffer containing API call errors                             | string || no      |
 |`enable_unsafe_SSL`| API Tunable - Enables unsafe SSL                     | bool   || no      |
 |`thread_pool_size`| API Tunable - Max number of API calls Overwatch is allowed to make in parallel                           | number || no      |
-|`api_waiting_time`| API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call               | number || no      |
+|`api_waiting_time`| API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call               | string || no      |
