@@ -19,7 +19,7 @@ The deployment is structured as followed :
 * Deploy **Eventhubs** topic per workspace, that could be in the same **Eventhubs** namespace
 * Deploy **Storage Accounts**, one for the cluster logs and one for Overwatch database output
 * Deploy the dedicated **Azure Databricks** workspace, or use an existing one for Overwatch, with some Databricks quick-start notebooks to analyse the results
-* Deploy **Azure Key-Vault** to store the secrets
+* Deploy **Azure Key Vault** to store the secrets
 * Configure **Role Assignments** and **mounts** to attribute the necessary permissions
 * Configure **Diagnostic Logs** on the Databricks workspaces to monitor
 
