@@ -1,7 +1,7 @@
 # adb-overwatch-ws-to-monitor
 
 This module deploys the required resources for a given Databricks workspace to be monitored by Overwatch :
-- Databricks PAT required that will be used by Overwatch jobs
+- Databricks PAT that will be used by Overwatch jobs
 - Eventhub topic with its authorization rule
 - Diagnostics settings
 - AKV secrets to store the Databricks PAT, and the Eventhub primary connection string created above 
