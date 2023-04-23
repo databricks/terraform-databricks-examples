@@ -8,7 +8,7 @@ This example contains Terraform code used to deploy Overwatch using the followin
 - [adb-overwatch-analysis](../../modules/adb-overwatch-analysis)
 
 
-## Module content
+## Example content
 
 This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated, or existing, Azure Databricks workspace, and monitors the specified workspaces in the config file [overwatch_deployment_config.csv](./overwatch_deployment_config.csv). This configuration file is generated automatically by the module [adb-overwatch-ws-to-monitor](../../modules/adb-overwatch-ws-to-monitor).
 
