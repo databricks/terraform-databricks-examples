@@ -14,7 +14,7 @@ This code uses the [multi-workspace deployment of Overwatch](https://databricksl
 
   ![Overwatch_Arch_Azure](https://user-images.githubusercontent.com/103026825/230571464-5892c5c7-82c2-4808-9003-61b501b75f69.png?raw=true)
 
-It covers the following steps :
+The deployment is structured as followed :
 * Use an existing **Resource group**
 * Deploy **Eventhubs** topic per workspace, that could be in the same **Eventhubs** namespace
 * Deploy **Storage Accounts**, one for the cluster logs and one for Overwatch database output
