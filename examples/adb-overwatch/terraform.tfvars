@@ -8,3 +8,4 @@ ow_sa_name = ""
 key_vault_prefix = ""
 rg_name = ""
 overwatch_ws_name = ""
+use_existing_overwatch_ws = false

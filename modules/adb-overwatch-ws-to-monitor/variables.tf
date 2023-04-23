@@ -44,8 +44,8 @@ variable "akv_name" {
 }
 
 variable "databricks_secret_scope_name" {
-    type = string
-    description = "Databricks secret scope name (backed by Azure Key-Vault)"
+  type = string
+  description = "Databricks secret scope name (backed by Azure Key-Vault)"
 }
 
 variable "etl_storage_prefix" {

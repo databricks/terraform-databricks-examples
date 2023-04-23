@@ -1,10 +1,10 @@
 [
   {
     "workspace_name": "adb-dev-ws",
-    "host": "https://adb-7340087380233110.10.azuredatabricks.net"
+    "host": "https://adb-0873802734033110.3.azuredatabricks.net"
   },
   {
     "workspace_name": "adb-qa-ws",
-    "host": "https://adb-5129094145615142.2.azuredatabricks.net"
+    "host": "https://adb-4145615512909142.7.azuredatabricks.net"
   }
 ]
