@@ -43,7 +43,6 @@ module "$module_name" {
   random_string                 = random_string.strapp.result
   tenant_id                     = var.tenant_id
   rg_name                       = var.rg_name
-  object_id                     = var.object_id
   overwatch_spn_app_id          = var.overwatch_spn_app_id
   ehn_name                      = module.adb-overwatch-regional-config.ehn_name
   ehn_auth_rule_name            = module.adb-overwatch-regional-config.ehn_ar_name
