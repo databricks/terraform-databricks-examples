@@ -134,31 +134,31 @@ variable "proxy_password_key" {
 }
 
 variable "success_batch_size" {
-  type = number
+  type = string
   description = "API Tunable - Indicates the size of the buffer on filling of which the result will be written to a temp location. This is used to tune performance in certain circumstance"
   default = ""
 }
 
 variable "error_batch_size" {
-  type = number
+  type = string
   description = "API Tunable - Indicates the size of the error writer buffer containing API call errors"
   default = ""
 }
 
 variable "enable_unsafe_SSL" {
-  type = bool
+  type = string
   description = "API Tunable - Enables unsafe SSL"
   default = ""
 }
 
 variable "thread_pool_size" {
-  type = number
+  type = string
   description = "API Tunable - Max number of API calls Overwatch is allowed to make in parallel"
   default = ""
 }
 
 variable "api_waiting_time" {
-  type = number
+  type = string
   description = "API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call"
   default = ""
 }
