@@ -1,26 +1,49 @@
-# Deploying Overwatch on Azure Databricks
+# adb-overwatch-ws-to-monitor
 
-This project contains Terraform code used to deploy the different required modules by Overwatch
+This module deploys the required resources for a given Databricks workspace to be monitored by Overwatch :
+- Databricks PAT required that will be used by Overwatch jobs
+- Eventhub topic with its authorization rule
+- Diagnostics settings
+- AKV secrets to store the Databricks PAT, and the Eventhub primary connection string created above 
+- AKV-backed Databricks secret scope
+- Container for the cluster logs in the existing log storage account
+- Databricks mount to the container created above
+- CSV file with all required parameters using [Overwatch deployment template](./overwatch_deployment_template.txt)
 
-## Module content
-
-This code uses the [multi-workspace deployment of Overwatch](https://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecturehttps://databrickslabs.github.io/overwatch/deployoverwatch/cloudinfra/azure/#reference-architecture). Overwatch runs in a dedicated Azure Databricks workspace, and monitors the specified workspaces in the config file `adb-overwatch/config/overwatch_deployment_config.csv`.
-  ![Overwatch_Arch_Azure](https://user-images.githubusercontent.com/103026825/230571464-5892c5c7-82c2-4808-9003-61b501b75f69.png?raw=true)
-  
-It covers the following modules :
-* Resource group
-* Eventhubs
-* Storage Accounts
-* Azure Databricks
-* Role Assignments
-* Diagnostic Logs
-
-## How to use
 
 > **Note**  
-> You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
+> For more details on the column description, please refer to [Overwatch Deployment Configuration](https://databrickslabs.github.io/overwatch/deployoverwatch/configureoverwatch/configuration/)
 
-1. Update the `terraform.tfvars` file with your environment values
-2. Update the file `config/overwatch_deployment_config.csv`, with the correct values for `workspace_name, workspace_id, workspace_url`
-4. Run `terraform init` to initialize terraform and get provider ready.
-5. Run `terraform apply` to create the resources.
+
+## Inputs
+
+| Name           | Description                                                                                                     | Type   | Default | Required |
+|----------------|-----------------------------------------------------------------------------------------------------------------|--------|---------|----------|
+|`adb_ws_name`| The name of an existing Databricks workspace that Overwatch will monitor                                        | string || yes     |
+|`rg_name`| Resource group name                                                                                             | string || yes     |
+|`ehn_name`| Eventhub namespace name                                                                                         | string || yes     |
+|`tenant_id`| Azure tenant ID                                                                                                 | string || yes     |
+|`overwatch_spn_app_id`| Azure SPN used to create Databricks mounts                                                                      | string || yes     |
+|`ehn_auth_rule_name`| Eventhub namespace authorization rule name                                                                      | string || yes     |
+|`logs_sa_name`| Logs storage account name                                                                                       | string || yes     |
+|`random_string`| Random string used as a suffix for the resources names                                                          | string || yes     |
+|`akv_name`| Azure Key-Vault name                                                                                            | string || yes     |
+|`databricks_secret_scope_name`| Databricks secret scope name (backed by Azure Key-Vault)                                                        | string || yes     |
+|`etl_storage_prefix`| Overwatch ETL storage prefix, which represents a mount point to the ETL storage account                         | string || yes     |
+|`interactive_dbu_price`| Contract price for interactive DBUs                                                                             | number || yes     |
+|`automated_dbu_price`| Contract price for automated DBUs                                                                               | number || yes     |
+|`sql_compute_dbu_price`| Contract price for DBSQL DBUs                                                                                   | number || yes     |
+|`jobs_light_dbu_price`| Contract price for interactive DBUs                                                                             | number || yes     |
+|`max_days`| This is the max incremental days that will be loaded. Usually only relevant for historical loading and rebuilds | number || yes     |
+|`excluded_scopes`| Scopes that should not be excluded from the pipelines                                                           | string || no      |
+|`active`| Whether or not the workspace should be validated / deployed                                                     | bool   || yes     |
+|`proxy_host`| Proxy url for the workspace                                                                                     | string || no      |
+|`proxy_port`| Proxy port for the workspace                                           | string || no      |
+|`proxy_user_name`| Proxy user name for the workspace                                                     | string || no      |
+|`proxy_password_scope`| Scope which contains the proxy password key                                                     | string || no      |
+|`proxy_password_key`| Key which contains proxy password                                                     | string || no      |
+|`success_batch_size`|API Tunable - Indicates the size of the buffer on filling of which the result will be written to a temp location | number || no      |
+|`error_batch_size`| API Tunable - Indicates the size of the error writer buffer containing API call errors                             | number || no      |
+|`enable_unsafe_SSL`| API Tunable - Enables unsafe SSL                     | bool   || no      |
+|`thread_pool_size`| API Tunable - Max number of API calls Overwatch is allowed to make in parallel                           | number || no      |
+|`api_waiting_time`| API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call               | number || no      |

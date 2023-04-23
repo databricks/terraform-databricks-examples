@@ -1,57 +1,139 @@
-variable "adb_ws_name" {}
+variable "adb_ws_name" {
+  type = string
+  description = "The name of an existing Databricks workspace that Overwatch will monitor"
+}
 
-variable "rg_name" {}
+variable "rg_name" {
+  type = string
+  description = "Resource group name"
+}
 
-variable "ehn_name" {}
+variable "ehn_name" {
+  type = string
+  description = "Eventhub namespace name"
+}
 
-variable "tenant_id" {}
+variable "tenant_id" {
+  type = string
+  description = "Azure tenant ID"
+}
 
-variable "overwatch_spn_app_id" {}
+variable "overwatch_spn_app_id" {
+  type = string
+  description = "Azure SPN used to create Databricks mounts"
+}
 
-variable "ehn_auth_rule_name" {}
+variable "ehn_auth_rule_name" {
+  type = string
+  description = "Eventhub namespace authorization rule name"
+}
 
-variable "logs_sa_name" {}
+variable "logs_sa_name" {
+  type = string
+  description = "Logs storage account name"
+}
 
-variable "random_string" {}
+variable "random_string" {
+    type = string
+    description = "Random string used as a suffix for the resources names"
+}
 
-variable "object_id" {}
+variable "akv_name" {
+  type = string
+  description = "Azure Key-Vault name"
+}
 
-variable "akv_name" {}
+variable "databricks_secret_scope_name" {
+    type = string
+    description = "Databricks secret scope name (backed by Azure Key-Vault)"
+}
 
-variable "databricks_secret_scope_name" {}
+variable "etl_storage_prefix" {
+  type = string
+  description = "Overwatch ETL storage prefix, which represents a mount point to the ETL storage account"
+}
 
-variable "etl_storage_prefix" {}
+variable "interactive_dbu_price" {
+  type = number
+  description = "Contract price for interactive DBUs"
+}
 
-variable "interactive_dbu_price" {}
+variable "automated_dbu_price" {
+  type = number
+  description = "Contract price for automated DBUs"
+}
 
-variable "automated_dbu_price" {}
+variable "sql_compute_dbu_price" {
+  type = number
+  description = "Contract price for DBSQL DBUs"
+}
 
-variable "sql_compute_dbu_price" {}
+variable "jobs_light_dbu_price" {
+  type = number
+  description = "Contract price for interactive DBUs"
+}
 
-variable "jobs_light_dbu_price" {}
+variable "max_days" {
+  type = number
+  description = "This is the max incremental days that will be loaded. Usually only relevant for historical loading and rebuilds"
+}
 
-variable "max_days" {}
+variable "excluded_scopes" {
+  type = string
+  description = "Scopes that should not be excluded from the pipelines"
+}
 
-variable "excluded_scopes" {}
+variable "active" {
+  type = bool
+  description = "Whether or not the workspace should be validated / deployed"
+}
 
-variable "active" {}
+variable "proxy_host" {
+  type = string
+  description = "Proxy url for the workspace"
+}
 
-variable "proxy_host" {}
+variable "proxy_port" {
+  type = string
+  description = "Proxy port for the workspace"
+}
 
-variable "proxy_port" {}
+variable "proxy_user_name" {
+  type = string
+  description = "Proxy user name for the workspace"
+}
 
-variable "proxy_user_name" {}
+variable "proxy_password_scope" {
+  type = string
+  description = "Scope which contains the proxy password key"
+}
 
-variable "proxy_password_scope" {}
+variable "proxy_password_key" {
+  type = string
+  description = "Key which contains proxy password"
+}
 
-variable "proxy_password_key" {}
+variable "success_batch_size" {
+  type = number
+  description = "API Tunable - Indicates the size of the buffer on filling of which the result will be written to a temp location. This is used to tune performance in certain circumstance"
+}
 
-variable "success_batch_size" {}
+variable "error_batch_size" {
+  type = number
+  description = "API Tunable - Indicates the size of the error writer buffer containing API call errors"
+}
 
-variable "error_batch_size" {}
+variable "enable_unsafe_SSL" {
+  type = bool
+  description = "API Tunable - Enables unsafe SSL"
+}
 
-variable "enable_unsafe_SSL" {}
+variable "thread_pool_size" {
+  type = number
+  description = "API Tunable - Max number of API calls Overwatch is allowed to make in parallel"
+}
 
-variable "thread_pool_size" {}
-
-variable "api_waiting_time" {}
+variable "api_waiting_time" {
+  type = number
+  description = "API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call"
+}

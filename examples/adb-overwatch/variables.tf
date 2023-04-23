@@ -52,7 +52,7 @@ variable "excluded_scopes" {
 }
 
 variable "active" {
-  default = "TRUE"
+  default = true
 }
 
 variable "proxy_host" {

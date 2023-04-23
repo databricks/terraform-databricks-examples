@@ -165,7 +165,7 @@ locals {
   filename = "overwatch_deployment_config.csv"
 }
 
-data "template_cloudinit_config" "test" {
+data "template_cloudinit_config" "local" {
   gzip          = false
   base64_encode = false
 
