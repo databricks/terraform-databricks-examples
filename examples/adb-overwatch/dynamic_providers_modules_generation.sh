@@ -67,6 +67,8 @@ module "$module_name" {
   sql_compute_dbu_price         = var.sql_compute_dbu_price
   success_batch_size            = var.success_batch_size
   thread_pool_size              = var.thread_pool_size
+
+  depends_on = [module.adb-overwatch-regional-config]
 }
 EOF
 )
