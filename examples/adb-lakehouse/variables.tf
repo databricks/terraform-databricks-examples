@@ -109,6 +109,11 @@ variable "landing_adls_path" {
   description = "The ADLS path of the landing zone"
 }
 
+variable "landing_adls_rg" {
+  type        = string
+  description = "The resource group name of the landing zone"
+}
+
 variable "metastore_admins" {
   type        = list(string)
   description = "list of principals: service principals or groups that have metastore admin privileges"
