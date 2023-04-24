@@ -1,10 +1,10 @@
 terraform {
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
+      source = "hashicorp/azurerm"
     }
     databricks = {
-      source  = "databricks/databricks"
+      source = "databricks/databricks"
     }
   }
 }
