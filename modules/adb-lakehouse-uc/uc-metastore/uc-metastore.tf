@@ -5,7 +5,6 @@ resource "databricks_metastore" "databricks-metastore" {
     "${var.metastore_storage_name}-container",
   var.metastore_storage_name)
   force_destroy = false
-  owner         = "admins"
 }
 
 #give access to the access connector that will be assumed by Unity Catalog to access data
