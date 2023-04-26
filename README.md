@@ -53,9 +53,7 @@ The folder `examples` contains the following Terraform implementation examples :
 | AWS   | [aws-databricks-uc-bootstrap](examples/aws-databricks-uc-bootstrap/)               | AWS UC                                                                                                                                                                                               |
 | AWS   | [aws-remote-backend-infra](examples/aws-remote-backend-infra/)                     | Simple example on remote backend                                                                                                                                                                     |
 | AWS   | [aws-workspace-config](examples/aws-workspace-config/)                             | Configure workspace objects                                                                                 |
-| GCP   | [gcp-sa-provisionning](examples/gcp-sa-provisionning/)                                                                         |    Provisionning of the identity with the permissions required to deploy on GCP.                                                                                                                                 |
-| GCP   | [gcp-basic](examples/gcp-basic/)                                                                         |    Workspace Deployment with managed vpc                                                                                                                              |
-| GCP   | [gcp-byovpc](examples/gcp-byovpc/)                                                                         |    Workspace Deployment with managed vpc                                                                                                                              |
+
 ### Modules
 
 The folder `modules` contains the following Terraform modules :
