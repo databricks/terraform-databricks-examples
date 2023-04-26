@@ -40,7 +40,7 @@ variable "data_factory_name" {
 
 variable "key_vault_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "(Required) The name of the Azure Key Vault to deploy"
 }
 
 variable "private_subnet_address_prefixes" {
