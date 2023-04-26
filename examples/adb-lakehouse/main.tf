@@ -17,32 +17,43 @@ module "adb-lakehouse" {
   access_connector_name           = var.access_connector_name
 }
 
-module "adb-lakehouse-uc-account-api" {
-  depends_on                      = [module.adb-lakehouse]
-  source                          = "../../modules/adb-lakehouse-uc/uc-account-api"
-  access_connector_id             = var.access_connector_id
-  metastore_name                  = var.metastore_name
-  metastore_storage_name          = var.metastore_storage_name
-  access_connector_name           = var.access_connector_name
-  metastore_id                    = var.metastore_id
-  workspace_id                    = var.workspace_id
-  service_principals              = var.service_principals
-  account_groups                  = var.account_groups
-  storage_credential_id           = var.storage_credential_id
+module "adb-lakehouse-uc-metastore" {
+  depends_on             = [module.adb-lakehouse]
+  source                 = "../../modules/adb-lakehouse-uc/uc-metastore"
+  metastore_storage_name = var.metastore_storage_name
+  metastore_name         = var.metastore_name
+  access_connector_id    = module.adb-lakehouse.access_connector_id
+  access_connector_name  = var.access_connector_name
+  metastore_id           = module.adb-lakehouse-uc-metastore.metastore_id
+  workspace_id           = module.adb-lakehouse.workspace_id
+  metastore_admins       = var.metastore_admins
+  providers = {
+    databricks = databricks.workspace
+  }
+}
+
+module "adb-lakehouse-uc-account-principals" {
+  depends_on         = [module.adb-lakehouse-uc-metastore]
+  source             = "../../modules/adb-lakehouse-uc/account-principals"
+  workspace_id       = module.adb-lakehouse.workspace_id
+  service_principals = var.service_principals
+  account_groups     = var.account_groups
   providers = {
     databricks = databricks.account
   }
 }
 
-module "adb-lakehouse-uc-workspace-api" {
-  depends_on                      = [module.adb-lakehouse-uc-account-api]
-  source                          = "../../modules/adb-lakehouse-uc/uc-workspace-api"
-  environment_name                = var.environment_name
-  storage_credential_id           = var.storage_credential_id
-  metastore_id                    = var.metastore_id
-  landing_external_location_name  = var.landing_external_location_name
-  landing_adls_path               = var.landing_adls_path
-  metastore_admins                = var.metastore_admins
+module "adb-lakehouse-data-assets" {
+  depends_on                     = [module.adb-lakehouse-uc-account-principals]
+  source                         = "../../modules/adb-lakehouse-uc/uc-data-assets"
+  environment_name               = var.environment_name
+  storage_credential_name        = var.access_connector_name
+  metastore_id                   = module.adb-lakehouse-uc-metastore.metastore_id
+  access_connector_id            = module.adb-lakehouse.access_connector_principal_id
+  landing_external_location_name = var.landing_external_location_name
+  landing_adls_path              = var.landing_adls_path
+  landing_adls_rg                = var.landing_adls_rg
+  metastore_admins               = var.metastore_admins
   providers = {
     databricks = databricks.workspace
   }

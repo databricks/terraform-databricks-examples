@@ -63,11 +63,6 @@ variable "shared_resource_group_name" {
   description = "Name of the shared resource group"
 }
 
-variable "access_connector_id" {
-  type        = string
-  description = "The id of the access connector that will be assumed by Unity Catalog to access data"
-}
-
 variable "metastore_name" {
   type        = string
   description = "the name of the metastore"
@@ -84,20 +79,11 @@ variable "access_connector_name" {
   description = "the name of the access connector"
 }
 
-variable "metastore_id" {
-  type        = string
-  description = "Id of the metastore"
-}
-
-variable "workspace_id" {
-  type        = string
-  description = "Id of the workspace"
-}
-
 variable "service_principals" {
   type = map(object({
     sp_id        = string
-    display_name = string
+    display_name = optional(string)
+    permissions  = list(string)
   }))
   default     = {}
   description = "list of service principals we want to create at Databricks account"
@@ -105,17 +91,13 @@ variable "service_principals" {
 
 variable "account_groups" {
   type = map(object({
-    group_name                     = string
-    permissions                    = list(string)
+    group_name  = string
+    permissions = list(string)
   }))
   default     = {}
   description = "list of databricks account groups we want to assign to the workspace"
 }
 
-variable "storage_credential_id" {
-  type        = string
-  description = "the storage credential id"
-}
 
 variable "landing_external_location_name" {
   type        = string
@@ -125,6 +107,11 @@ variable "landing_external_location_name" {
 variable "landing_adls_path" {
   type        = string
   description = "The ADLS path of the landing zone"
+}
+
+variable "landing_adls_rg" {
+  type        = string
+  description = "The resource group name of the landing zone"
 }
 
 variable "metastore_admins" {
