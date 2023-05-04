@@ -8,6 +8,7 @@ This architecture will be deployed:
 # Get Started:
 There are 2 stages of deployment: stage 1 will deploy all the major infra components including the Databricks workspace and the sql server & database that serves as your external hive metastore. After stage 1 is complete, you need to log into your workspace (this will turn you into the first workspace admin), then you need to navigate into `stage-2-workspace-objects` to deploy remaining components like secret scope, cluster, job, notebook, etc. These are the workspace objects that since we are using `az cli` auth type with Databricks provider at workspace level, we rely on having the caller identity being inside the workspace before stage 2. 
 
+Stage 1:
 On your local machine:
 
 1. Clone this repository to local.
@@ -23,7 +24,20 @@ On your local machine:
     
     `terraform apply`
 
-Step 4 automatically completes 99% steps. The last 1% step is to manually trigger the deployed job to run once.
+After the deployment of stage 1 completes, you should have a Databricks workspace running in your own VNet, a sql server and azure sql database in another VNet, and private link connection from your Databricks VNet to your sql server.
+
+Now we need to manually log into the Databricks workspace, such that you are added into the workspace (since you have Azure contributor role on the workspace resource, at lauch workspace time, you will be added as workspace admin). After first login, you can now proceed to stage 2.
+
+Stage 2:
+1. Navigate into `stage-2-workspace-objects` folder.
+2. Configure input variables, see samples inside provided `terraform.tfvars`. You can get the values from stage 1 outputs.
+3. Init terraform and apply to deploy resources:
+    
+    `terraform init`
+    
+    `terraform apply`
+
+At this step, we've completes most of the work. The final step is to manually trigger the deployed job to run it only once.
 
 Go to databricks workspace - Job - run the auto-deployed job only once; this is to initialize the database with metastore schema.
 
