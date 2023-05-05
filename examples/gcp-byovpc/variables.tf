@@ -23,14 +23,11 @@ variable "svc_ip_cidr_range" {
 }
 
 variable "subnet_name" {
-  default = "my-subnet-${random_string.suffix.result}"
 }
 variable "router_name" {
-  default = "my-router-${random_string.suffix.result}"
 }
 
 variable "nat_name" {
-  default = "my-router-nat-${random_string.suffix.result}"
 }
 
 variable "delegate_from" {
