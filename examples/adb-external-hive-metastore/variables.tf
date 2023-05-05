@@ -40,12 +40,6 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "node_type" {
-  description = "instance type"
-  type        = string
-  default     = "Standard_E8ds_v4"
-}
-
 variable "cold_start" {
   description = "if true, will spin up a cluster to download hive jars to dbfs"
   type        = bool
