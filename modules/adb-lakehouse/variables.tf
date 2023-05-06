@@ -35,7 +35,7 @@ variable "databricks_workspace_name" {
 
 variable "data_factory_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "The name of the Azure Data Factory to deploy"
 }
 
 variable "key_vault_name" {
