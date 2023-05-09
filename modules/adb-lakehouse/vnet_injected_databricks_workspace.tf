@@ -61,10 +61,11 @@ resource "azurerm_subnet_route_table_association" "public" {
 }
 
 resource "azurerm_databricks_workspace" "this" {
-  name                = var.databricks_workspace_name
-  resource_group_name = var.spoke_resource_group_name
-  location            = var.location
-  sku                 = "premium"
+  name                        = var.databricks_workspace_name
+  resource_group_name         = var.spoke_resource_group_name
+  managed_resource_group_name = var.managed_resource_group_name
+  location                    = var.location
+  sku                         = "premium"
 
   custom_parameters {
     no_public_ip                                         = true
