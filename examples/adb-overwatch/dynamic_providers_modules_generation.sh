@@ -67,6 +67,7 @@ module "$module_name" {
   sql_compute_dbu_price         = var.sql_compute_dbu_price
   success_batch_size            = var.success_batch_size
   thread_pool_size              = var.thread_pool_size
+  auditlog_prefix_source_path    = var.auditlog_prefix_source_path
 
   depends_on = [module.adb-overwatch-regional-config]
 }
@@ -80,7 +81,7 @@ EOF
 
 done
 
-echo "workspace_name,workspace_id,workspace_url,api_url,cloud,primordial_date,etl_storage_prefix,etl_database_name,consumer_database_name,secret_scope,secret_key_dbpat,auditlogprefix_source_aws,eh_name,eh_scope_key,interactive_dbu_price,automated_dbu_price,sql_compute_dbu_price,jobs_light_dbu_price,max_days,excluded_scopes,active,proxy_host,proxy_port,proxy_user_name,proxy_password_scope,proxy_password_key,success_batch_size,error_batch_size,enable_unsafe_SSL,thread_pool_size,api_waiting_time" > overwatch_deployment_config.csv
+echo "workspace_name,workspace_id,workspace_url,api_url,cloud,primordial_date,etl_storage_prefix,etl_database_name,consumer_database_name,secret_scope,secret_key_dbpat,auditlogprefix_source_path,eh_name,eh_scope_key,interactive_dbu_price,automated_dbu_price,sql_compute_dbu_price,jobs_light_dbu_price,max_days,excluded_scopes,active,proxy_host,proxy_port,proxy_user_name,proxy_password_scope,proxy_password_key,success_batch_size,error_batch_size,enable_unsafe_SSL,thread_pool_size,api_waiting_time" > overwatch_deployment_config.csv
 
 dependencies="["$(IFS=, ; echo "${modules_list[*]}")"]"
 

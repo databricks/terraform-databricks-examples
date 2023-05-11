@@ -137,3 +137,8 @@ variable "api_waiting_time" {
   type = string
   description = "API Tunable - Overwatch makes async api calls in parallel, api_waiting_time signifies the max wait time in case of no response received from the api call"
 }
+
+variable "auditlog_prefix_source_path" {
+  type = string
+  description = "Location of auditlog (AWS/GCP Only)"
+}
