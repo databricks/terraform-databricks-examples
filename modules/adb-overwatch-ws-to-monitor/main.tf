@@ -139,6 +139,7 @@ data "template_file" "ow-deployment-config" {
     consumer_database_name = "overwatch_consumer_mws"
     secret_scope = var.databricks_secret_scope_name
     secret_key_dbpat = azurerm_key_vault_secret.adb-pat.name
+    auditlogprefix_source_path = var.auditlog_prefix_source_path
     eh_name = azurerm_eventhub.eh.name
     eh_scope_key = azurerm_key_vault_secret.eh-conn-string.name
     interactive_dbu_price = var.interactive_dbu_price
