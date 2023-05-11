@@ -80,26 +80,26 @@ resource "aws_security_group" "privatelink" {
 }
 
 resource "aws_vpc_endpoint" "backend_rest" {
-  vpc_id             = aws_vpc.mainvpc.id
-  service_name       = var.workspace_vpce_service
-  vpc_endpoint_type  = "Interface"
-  security_group_ids = [aws_security_group.privatelink.id]
-  subnet_ids         = aws_subnet.privatelink[*].id
+  vpc_id              = aws_vpc.mainvpc.id
+  service_name        = var.workspace_vpce_service
+  vpc_endpoint_type   = "Interface"
+  security_group_ids  = [aws_security_group.privatelink.id]
+  subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true // try to directly set this to true in the first apply
-  depends_on = [aws_subnet.privatelink]
+  depends_on          = [aws_subnet.privatelink]
   tags = {
     Name = "${local.prefix}-databricks-backend-rest"
   }
 }
 
 resource "aws_vpc_endpoint" "backend_relay" {
-  vpc_id             = aws_vpc.mainvpc.id
-  service_name       = var.relay_vpce_service
-  vpc_endpoint_type  = "Interface"
-  security_group_ids = [aws_security_group.privatelink.id]
-  subnet_ids         = aws_subnet.privatelink[*].id
+  vpc_id              = aws_vpc.mainvpc.id
+  service_name        = var.relay_vpce_service
+  vpc_endpoint_type   = "Interface"
+  security_group_ids  = [aws_security_group.privatelink.id]
+  subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true
-  depends_on = [aws_subnet.privatelink]
+  depends_on          = [aws_subnet.privatelink]
   tags = {
     Name = "${local.prefix}-databricks-backend-relay"
   }

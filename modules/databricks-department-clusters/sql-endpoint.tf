@@ -18,7 +18,7 @@ resource "databricks_sql_endpoint" "this" {
 
 resource "databricks_permissions" "can_manage_sql_endpoint" {
   sql_endpoint_id = databricks_sql_endpoint.this.id
-  
+
   access_control {
     group_name       = databricks_group.data_eng.display_name
     permission_level = "CAN_MANAGE"
