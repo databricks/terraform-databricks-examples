@@ -79,13 +79,13 @@ resource "azurerm_key_vault_access_policy" "kv-ap" {
   object_id    = data.azurerm_client_config.current.object_id
 
   key_permissions    = [
-    "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"
+    "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore", "Purge"
   ]
   secret_permissions = [
-    "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"
+    "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore", "Purge"
   ]
   certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"
+    "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore", "Purge"
   ]
 
   depends_on = [azurerm_key_vault.kv]
@@ -97,5 +97,5 @@ resource "azurerm_key_vault_secret" "spn-key"{
   expiration_date          = "2030-12-31T23:59:59Z"
   key_vault_id             = azurerm_key_vault.kv.id
 
-  depends_on = [azurerm_key_vault.kv]
+  depends_on = [azurerm_key_vault_access_policy.kv-ap]
 }
