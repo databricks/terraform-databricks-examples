@@ -111,7 +111,7 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "cluster-logs-fs" {
 }
 
 resource "databricks_mount" "cluster-logs-mount-ws" {
-  name       = "cluster-logs-mount-${data.azurerm_databricks_workspace.adb-ws.name}"
+  name       = "cluster-logs"
 
   abfs {
     tenant_id              = var.tenant_id
@@ -130,8 +130,8 @@ data "template_file" "ow-deployment-config" {
   vars = {
     workspace_name = data.azurerm_databricks_workspace.adb-ws.name
     workspace_id = data.azurerm_databricks_workspace.adb-ws.workspace_id
-    workspace_url = data.azurerm_databricks_workspace.adb-ws.workspace_url
-    api_url = data.azurerm_databricks_workspace.adb-ws.workspace_url
+    workspace_url = "https://${data.azurerm_databricks_workspace.adb-ws.workspace_url}"
+    api_url = "https://${data.azurerm_databricks_workspace.adb-ws.location}.azuredatabricks.net"
     cloud = "Azure"
     primordial_date = formatdate("YYYY-MM-DD", timestamp())
     etl_storage_prefix = var.etl_storage_prefix
