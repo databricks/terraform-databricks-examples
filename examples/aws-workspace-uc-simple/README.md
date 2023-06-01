@@ -15,8 +15,8 @@ When running tf configs for UC resources, due to sometimes requires a few minute
 
 
 ```bash
-export TF_VAR_databricks_account_username=your_username
-export TF_VAR_databricks_account_password=your_password
+export TF_VAR_databricks_client_id=service_principal_client_id
+export TF_VAR_databricks_client_secret=service_principal_client_secret
 export TF_VAR_databricks_account_id=your_databricks_E2_account_id
 ``` 
 
