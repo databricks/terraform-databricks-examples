@@ -7,7 +7,7 @@ terraform {
 
     databricks = {
       source                = "databricks/databricks"
-      version               = ">=1.9.2"
+      version               = ">=1.17.0"
       configuration_aliases = [databricks.mws, databricks.workspace]
     }
 

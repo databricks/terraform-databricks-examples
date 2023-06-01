@@ -6,11 +6,6 @@ resource "aws_s3_bucket" "root_storage_bucket" {
   })
 }
 
-resource "aws_s3_bucket_acl" "example_bucket_acl" {
-  bucket = aws_s3_bucket.root_storage_bucket.id
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_versioning" "versioning_example" {
   bucket = aws_s3_bucket.root_storage_bucket.id
   versioning_configuration {

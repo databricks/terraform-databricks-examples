@@ -27,14 +27,14 @@ variable "my_username" {
   description = "(Required) Username in the form of an email to be added to the tags and be declared as owner of the assets"
 }
 
-variable "databricks_account_username" {
+variable "databricks_client_id" {
   type        = string
-  description = "(Required) Admin username to authenticate the Databricks provider at the account level"
+  description = "(Required) Client ID to authenticate the Databricks provider at the account level"
 }
 
-variable "databricks_account_password" {
+variable "databricks_client_secret" {
   type        = string
-  description = "(Required) Admin password to authenticate the Databricks provider at the account level"
+  description = "(Required) Client secret to authenticate the Databricks provider at the account level"
 }
 
 variable "databricks_account_id" {
