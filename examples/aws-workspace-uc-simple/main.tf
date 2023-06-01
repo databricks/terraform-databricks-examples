@@ -2,7 +2,7 @@ module "aws_base" {
   providers = {
     databricks.mws = databricks.mws
   }
-  source                = "./modules/aws_databricks_base"
+  source                = "../../modules/aws-databricks-base-infra"
   prefix                = local.prefix
   region                = var.region
   databricks_account_id = var.databricks_account_id
@@ -16,7 +16,7 @@ module "databricks_workspace" {
     databricks.mws       = databricks.mws
     databricks.workspace = databricks.workspace
   }
-  source                 = "./modules/aws_databricks_workspace"
+  source                 = "../../modules/aws-databricks-workspace"
   prefix                 = local.prefix
   region                 = var.region
   databricks_account_id  = var.databricks_account_id
@@ -32,7 +32,7 @@ module "databricks_workspace" {
 }
 
 module "unity_catalog" {
-  source = "./modules/aws_databricks_unity_catalog"
+  source = "../../modules/aws-databricks-unity-catalog"
   providers = {
     databricks.mws       = databricks.mws
     databricks.workspace = databricks.workspace

@@ -6,11 +6,6 @@ resource "aws_s3_bucket" "metastore" {
   })
 }
 
-resource "aws_s3_bucket_acl" "example_bucket_acl" {
-  bucket = aws_s3_bucket.metastore.id
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_versioning" "versioning_example" {
   bucket = aws_s3_bucket.metastore.id
   versioning_configuration {

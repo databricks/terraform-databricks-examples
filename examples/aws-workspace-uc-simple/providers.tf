@@ -3,15 +3,16 @@ provider "aws" {
   profile = var.aws_profile
 }
 
-// initialize provider in normal mode
+// Initialize provider in multi workspace mode
 provider "databricks" {
-  alias      = "mws"
-  account_id = var.databricks_account_id
-  host       = "https://accounts.cloud.databricks.com"
-  username   = var.databricks_account_username
-  password   = var.databricks_account_password
+  alias         = "mws"
+  host          = "https://accounts.cloud.databricks.com"
+  account_id    = var.databricks_account_id
+  client_id     = var.databricks_client_id
+  client_secret = var.databricks_client_secret
 }
 
+# Initialize the provider for the workspace we created in this terraform
 provider "databricks" {
   alias = "workspace"
   host  = module.databricks_workspace.databricks_host
