@@ -11,5 +11,5 @@ provider "databricks" {
 
 provider "databricks" {
   alias = "workspace"
-  host  = "<workspace_url>"
+  host  = module.adb-lakehouse.workspace_url
 }

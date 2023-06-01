@@ -8,6 +8,6 @@ variable "vnetcidr" {
 }
 
 variable "loc" {
-    type    = string
-    default = "southeastasia"
+  type    = string
+  default = "southeastasia"
 }
