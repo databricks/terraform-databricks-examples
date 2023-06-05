@@ -35,12 +35,6 @@ resource "databricks_cluster" "unity_catalog_cluster" {
     max_workers = 5
   }
 
-  spark_conf = {
-    "spark.databricks.io.cache.enabled" : true,
-    "spark.databricks.io.cache.maxDiskUsage" : "50g",
-    "spark.databricks.io.cache.maxMetaDataCache" : "1g",
-    "spark.databricks.unityCatalog.userIsolation.python.preview" : true
-  }
 
   custom_tags = {
     "ClusterScope" = "Initial Demo"
