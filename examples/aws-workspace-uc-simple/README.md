@@ -11,13 +11,6 @@ When running tf configs for UC resources, due to sometimes requires a few minute
 
 ## Get Started
 
-> Step 1: Fill in values in `terraform.tfvars`; also configure env necessary variables for AWS and Databricks provider authentication. Such as:
-
-
-```bash
-export TF_VAR_databricks_client_id=service_principal_client_id
-export TF_VAR_databricks_client_secret=service_principal_client_secret
-export TF_VAR_databricks_account_id=your_databricks_E2_account_id
-``` 
+> Step 1: Fill in values in `terraform.tfvars`; also configure env necessary variables for AWS provider authentication.
 
 > Step 2: Run `terraform init` and `terraform apply` to deploy the resources. This will deploy both AWS resources that Unity Catalog requires and Databricks Account Level resources.
