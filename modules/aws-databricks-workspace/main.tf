@@ -31,8 +31,4 @@ resource "databricks_mws_workspaces" "this" {
   storage_configuration_id = databricks_mws_storage_configurations.this.storage_configuration_id
   network_id               = databricks_mws_networks.this.network_id
 
-  token {
-    comment = "Terraform"
-  }
-
 }
