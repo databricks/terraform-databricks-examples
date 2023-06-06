@@ -14,7 +14,8 @@ provider "databricks" {
 
 # Initialize the provider for the workspace we created in this terraform
 provider "databricks" {
-  alias = "workspace"
-  host  = module.databricks_workspace.databricks_host
-  token = module.databricks_workspace.databricks_token
+  alias         = "workspace"
+  host          = module.databricks_workspace.databricks_host
+  client_id     = var.databricks_client_id
+  client_secret = var.databricks_client_secret
 }
