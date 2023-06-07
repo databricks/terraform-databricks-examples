@@ -3,8 +3,10 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = ["arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL"]
-      type        = "AWS"
+      identifiers = [
+        "arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL"
+      ]
+      type = "AWS"
     }
     condition {
       test     = "StringEquals"
@@ -18,7 +20,7 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = ["arn:aws:iam::${var.aws_account_id}:root"]
     }
     condition {
       test     = "ArnLike"
