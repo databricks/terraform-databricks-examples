@@ -8,6 +8,11 @@ variable "spoke_resource_group_name" {
   description = "(Required) The name of the Resource Group to create"
 }
 
+variable "managed_resource_group_name" {
+  type        = string
+  description = "The name of the resource group where Azure should place the managed Databricks resources"
+}
+
 variable "project_name" {
   type        = string
   description = "(Required) The name of the project associated with the infrastructure to be managed by Terraform"
@@ -35,12 +40,13 @@ variable "databricks_workspace_name" {
 
 variable "data_factory_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "The name of the Azure Data Factory to deploy. Won't be created if not specified"
+  default     = ""
 }
 
 variable "key_vault_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "(Required) The name of the Azure Key Vault to deploy"
 }
 
 variable "private_subnet_address_prefixes" {

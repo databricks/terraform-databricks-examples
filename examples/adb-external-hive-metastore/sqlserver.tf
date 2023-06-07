@@ -3,7 +3,7 @@ resource "azurerm_storage_account" "sqlserversa" {
   resource_group_name      = azurerm_resource_group.this.name
   location                 = azurerm_resource_group.this.location
   account_tier             = "Standard"
-  account_replication_type = "LRS" // LRS 3 copies of data in the region
+  account_replication_type = "LRS"
 }
 
 resource "azurerm_mssql_server" "metastoreserver" {
