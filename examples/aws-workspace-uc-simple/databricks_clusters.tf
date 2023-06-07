@@ -32,7 +32,7 @@ resource "databricks_cluster" "unity_catalog_cluster" {
 
   autoscale {
     min_workers = 1
-    max_workers = 5
+    max_workers = 3
   }
 
 
