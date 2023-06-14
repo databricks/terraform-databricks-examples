@@ -12,3 +12,9 @@ variable "location" {
   type        = string
   description = "(Required) The location for the resources in this module"
 }
+
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "(Optional, default: false) If access from the public networks should be enabled"
+  default     = false
+}
