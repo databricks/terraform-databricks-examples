@@ -5,7 +5,7 @@ resource "azurerm_databricks_workspace" "dp_workspace" {
   location                              = azurerm_resource_group.dp_rg.location
   sku                                   = "premium"
   tags                                  = local.tags
-  public_network_access_enabled         = false
+  public_network_access_enabled         = var.public_network_access_enabled
   network_security_group_rules_required = "NoAzureDatabricksRules"
   customer_managed_key_enabled          = true
   custom_parameters {
