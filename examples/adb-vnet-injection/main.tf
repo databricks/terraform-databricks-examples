@@ -21,6 +21,7 @@ resource "random_string" "naming" {
 resource "azurerm_resource_group" "this" {
   name     = "${random_string.naming.result}-basic-demo-rg"
   location = var.rglocation
+  tags     = local.tags
 }
 
 locals {
