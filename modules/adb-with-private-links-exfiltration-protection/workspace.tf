@@ -9,7 +9,7 @@ resource "azurerm_databricks_workspace" "this" {
   customer_managed_key_enabled          = true
   //infrastructure_encryption_enabled = true
   custom_parameters {
-    no_public_ip                                         = var.no_public_ip
+    no_public_ip                                         = true
     virtual_network_id                                   = azurerm_virtual_network.this.id
     private_subnet_name                                  = azurerm_subnet.private.name
     public_subnet_name                                   = azurerm_subnet.public.name
