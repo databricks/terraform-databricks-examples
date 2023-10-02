@@ -41,7 +41,7 @@ module "unity_catalog" {
   region                   = var.region
   databricks_account_id    = var.databricks_account_id
   aws_account_id           = local.aws_account_id
-  unity_metastore_owner    = resource.databricks_group.admin_group.display_name
+  unity_metastore_owner    = databricks_group.admin_group.display_name
   databricks_workspace_ids = [module.databricks_workspace.databricks_workspace_id]
   tags                     = local.tags
 
