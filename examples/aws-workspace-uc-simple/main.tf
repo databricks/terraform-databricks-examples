@@ -13,8 +13,7 @@ module "aws_base" {
 
 module "databricks_workspace" {
   providers = {
-    databricks.mws       = databricks.mws
-    databricks.workspace = databricks.workspace
+    databricks = databricks.mws
   }
   source                 = "../../modules/aws-databricks-workspace"
   prefix                 = local.prefix
@@ -26,26 +25,24 @@ module "databricks_workspace" {
   root_storage_bucket    = module.aws_base.root_bucket
   cross_account_role_arn = module.aws_base.cross_account_role_arn
   tags                   = local.tags
+
   depends_on = [
     module.aws_base
   ]
+
 }
 
 module "unity_catalog" {
   source = "../../modules/aws-databricks-unity-catalog"
   providers = {
-    databricks.mws       = databricks.mws
-    databricks.workspace = databricks.workspace
+    databricks = databricks.mws
   }
   prefix                   = local.prefix
   region                   = var.region
   databricks_account_id    = var.databricks_account_id
   aws_account_id           = local.aws_account_id
-  unity_metastore_owner    = local.unity_admin_group
+  unity_metastore_owner    = databricks_group.admin_group.display_name
   databricks_workspace_ids = [module.databricks_workspace.databricks_workspace_id]
   tags                     = local.tags
-  depends_on = [
-    module.databricks_workspace,
-    resource.databricks_group.admin_group
-  ]
+
 }
