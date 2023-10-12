@@ -1,6 +1,8 @@
+variable "databricks_account_id" {}
 variable "databricks_account_username" {}
 variable "databricks_account_password" {}
-variable "databricks_account_id" {}
+variable "databricks_account_client_id" {}
+variable "databricks_account_client_secret" {}
 
 variable "tags" {
   default = {}
