@@ -2,7 +2,7 @@
 
 This template provides an example deployment of: Hub-Spoke networking with egress firewall to control all outbound traffic from Databricks subnets. Details are described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
 
-With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.  
+With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.
 
 
 To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
@@ -20,7 +20,7 @@ Resources to be created:
 
 ## How to use
 
-> **Note**  
+> **Note**
 > You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
 > A deployment example using this module can be found in [examples/adb-exfiltration-protection](../../examples/adb-exfiltration-protection)
 
@@ -35,18 +35,19 @@ Resources to be created:
 
 ## How to fill in variable values
 
-Most of the values are to be found at: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
+Most of the values are to be found at: https://learn.microsoft.com/en-us/azure/databricks/resources/supported-regions and https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
 
-In `variables.tfvars`, set these variables:
+In `variables.tfvars`, set these variables (bigger regions have multiple instances of each service):
 
-metastoreip      = "40.78.233.2" # find your metastore service ip
-
-sccip            = "52.230.27.216" # use nslookup on the domain name to find the ip
-
-webappip         = "52.187.145.107/32" # given at UDR page
-
-firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.blob.core.windows.net","dblogprodseasia.blob.core.windows.net","prod-southeastasia-observabilityeventhubs.servicebus.windows.net","cdnjs.com"] # find these for your region, follow Databricks blog tutorial.
-
+```hcl
+metastore         = ["consolidated-westeurope-prod-metastore.mysql.database.azure.com"]
+scc_relay         = ["tunnel.westeurope.azuredatabricks.net"]
+webapp_ips        = ["52.230.27.216/32"] # given at UDR page
+extended_infra_ip = "20.73.215.48/28"
+eventhubs         = ["prod-westeurope-observabilityeventhubs.servicebus.windows.net"]
+# find these for your region, follow Databricks blog tutorial.
+firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.blob.core.windows.net","dblogprodseasia.blob.core.windows.net","cdnjs.com"]
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -63,6 +64,7 @@ firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)    | 2.83.0  |
 | <a name="provider_external"></a> [external](#provider\_external) | 2.2.0   |
 | <a name="provider_random"></a> [random](#provider\_random)       | 3.1.0   |
+| <a name="provider_dns"></a> [dns](#provider\_dns)                | 3.3.0   |
 
 ## Modules
 
@@ -102,16 +104,20 @@ No modules.
 
 | Name                                                                                                           | Description | Type        | Default           | Required |
 | -------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ----------------- | :------: |
+| <a name="input_bypass_scc_relay"></a> [bypass\_scc\_relay](#input\_bypass\_scc\_relay)                         | n/a         | `bool`      | `true`          |    no    |
 | <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                          | n/a         | `string`    | `"dbfs"`          |    no    |
-| <a name="input_firewallfqdn"></a> [firewallfqdn](#input\_firewallfqdn)                                         | n/a         | `list(any)` | n/a               |   yes    |
+| <a name="input_extended_infra_ip"></a> [extended_infra_ip](#input\_extended_infra_ip)                          | n/a         | `string` | n/a               |   yes    |
+| <a name="input_eventhubs"></a> [eventhubs](#input\_eventhubs)                                                  | n/a         | `list(string)` | n/a               |   yes    |
+| <a name="input_firewallfqdn"></a> [firewallfqdn](#input\_firewallfqdn)                                         | n/a         | `list(string)` | n/a               |   yes    |
 | <a name="input_hubcidr"></a> [hubcidr](#input\_hubcidr)                                                        | n/a         | `string`    | `"10.178.0.0/20"` |    no    |
-| <a name="input_metastoreip"></a> [metastoreip](#input\_metastoreip)                                            | n/a         | `string`    | n/a               |   yes    |
+| <a name="input_metastore"></a> [metastore](#input\_metastore)                                                  | n/a         | `list(string)`    | n/a               |   yes    |
 | <a name="input_no_public_ip"></a> [no\_public\_ip](#input\_no\_public\_ip)                                     | n/a         | `bool`      | `true`            |    no    |
 | <a name="input_private_subnet_endpoints"></a> [private\_subnet\_endpoints](#input\_private\_subnet\_endpoints) | n/a         | `list`      | `[]`              |    no    |
 | <a name="input_rglocation"></a> [rglocation](#input\_rglocation)                                               | n/a         | `string`    | `"southeastasia"` |    no    |
-| <a name="input_sccip"></a> [sccip](#input\_sccip)                                                              | n/a         | `string`    | n/a               |   yes    |
+| <a name="input_scc_relay"></a> [scc_relay](#input\_scc_relay)                                                  | n/a         | `list(string)`    | n/a               |   yes    |
 | <a name="input_spokecidr"></a> [spokecidr](#input\_spokecidr)                                                  | n/a         | `string`    | `"10.179.0.0/20"` |    no    |
-| <a name="input_webappip"></a> [webappip](#input\_webappip)                                                     | n/a         | `string`    | n/a               |   yes    |
+| <a name="input_tags"></a> [tags](#input\_tags)                                                                 | n/a         | `map`    | `{}`               |   no    |
+| <a name="input_webappip"></a> [webappip](#input\_webappip)                                                     | n/a         | `list(string)`    | n/a               |   yes    |
 | <a name="input_workspace_prefix"></a> [workspace\_prefix](#input\_workspace\_prefix)                           | n/a         | `string`    | `"adb"`           |    no    |
 
 ## Outputs
