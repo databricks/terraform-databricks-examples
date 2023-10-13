@@ -12,3 +12,11 @@ terraform {
     }
   }
 }
+
+provider "aws" {
+  region = var.region
+}
+
+provider "databricks" {
+  host     = "https://accounts.cloud.databricks.com"
+}

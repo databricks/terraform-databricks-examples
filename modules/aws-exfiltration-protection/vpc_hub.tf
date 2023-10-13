@@ -48,7 +48,7 @@ resource "aws_internet_gateway" "hub_igw" {
 }
 
 resource "aws_eip" "hub_nat_eip" {
-  vpc        = true
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.hub_igw]
 }
 
