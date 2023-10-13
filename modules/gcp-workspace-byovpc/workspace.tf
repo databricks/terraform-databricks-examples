@@ -1,9 +1,4 @@
-
-
-
-
 resource "databricks_mws_workspaces" "databricks_workspace" {
-  provider       = databricks.accounts
   account_id     = var.databricks_account_id
   workspace_name = "dbx-example-tf-deploy-${random_string.suffix.result}"
 
