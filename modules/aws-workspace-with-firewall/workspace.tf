@@ -1,5 +1,4 @@
 resource "databricks_mws_networks" "this" {
-  provider           = databricks.mws
   account_id         = var.databricks_account_id
   network_name       = "${local.prefix}-network"
   security_group_ids = [aws_security_group.default_sg.id]
@@ -8,7 +7,6 @@ resource "databricks_mws_networks" "this" {
 }
 
 resource "databricks_mws_storage_configurations" "this" {
-  provider                   = databricks.mws
   account_id                 = var.databricks_account_id
   bucket_name                = aws_s3_bucket.root_storage_bucket.bucket
   storage_configuration_name = "${local.prefix}-storage"
@@ -23,7 +21,6 @@ resource "time_sleep" "wait" {
 }
 
 resource "databricks_mws_credentials" "this" {
-  provider         = databricks.mws
   account_id       = var.databricks_account_id
   role_arn         = aws_iam_role.cross_account_role.arn
   credentials_name = "${local.prefix}-creds"
@@ -31,7 +28,6 @@ resource "databricks_mws_credentials" "this" {
 }
 
 resource "databricks_mws_workspaces" "this" {
-  provider       = databricks.mws
   account_id     = var.databricks_account_id
   aws_region     = var.region
   workspace_name = local.prefix
