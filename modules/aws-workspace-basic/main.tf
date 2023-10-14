@@ -5,5 +5,5 @@ resource "random_string" "naming" {
 }
 
 locals {
-  prefix = "demo${random_string.naming.result}"
+  prefix = var.prefix != "" ? var.prefix : "demo${random_string.naming.result}"
 }

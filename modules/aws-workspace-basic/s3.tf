@@ -13,6 +13,13 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "state" {
+  bucket = aws_s3_bucket.root_storage_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "acl" {
   bucket = aws_s3_bucket.root_storage_bucket.id
   acl    = "private"
