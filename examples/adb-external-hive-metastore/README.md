@@ -6,9 +6,8 @@ This architecture will be deployed:
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-external-hive-metastore/images/adb-external-hive-metastore.png?raw=true)
 
 # Get Started:
-There are 2 stages of deployment: stage 1 will deploy all the major infra components including the Databricks workspace and the sql server & database that serves as your external hive metastore. After stage 1 is complete, you need to log into your workspace (this will turn you into the first workspace admin), then you need to navigate into `stage-2-workspace-objects` to deploy remaining components like secret scope, cluster, job, notebook, etc. These are the workspace objects that since we are using `az cli` auth type with Databricks provider at workspace level, we rely on having the caller identity being inside the workspace before stage 2. 
+This template will complete 99% process for external hive metastore deployment with Azure Databricks, using hive version 3.1.0. The last 1% step is just to `run only once` a pre-deployed Databricks job to initialize the external hive metastore. After successful deployment, your cluster can connect to external hive metastore (using azure sql database). 
 
-Stage 1:
 On your local machine:
 
 1. Clone this repository to local.
@@ -24,20 +23,9 @@ On your local machine:
     
     `terraform apply`
 
-After the deployment of stage 1 completes, you should have a Databricks workspace running in your own VNet, a sql server and azure sql database in another VNet, and private link connection from your Databricks VNet to your sql server.
+Now we log into the Databricks workspace, such that you are added into the workspace (since the user identity deployed workspace and have at least Contributor role on the workspace, upon lauching workspace, user identity will be added as workspace admin).
 
-Now we need to manually log into the Databricks workspace, such that you are added into the workspace (since you have Azure contributor role on the workspace resource, at lauch workspace time, you will be added as workspace admin). After first login, you can now proceed to stage 2.
-
-Stage 2:
-1. Navigate into `stage-2-workspace-objects` folder.
-2. Configure input variables, see samples inside provided `terraform.tfvars`. You can get the values from stage 1 outputs.
-3. Init terraform and apply to deploy resources:
-    
-    `terraform init`
-    
-    `terraform apply`
-
-At this step, we've completes most of the work. The final step is to manually trigger the deployed job to run it only once.
+Once logged into workspace, the final step is to manually trigger the pre-deployed job. 
 
 Go to databricks workspace - Job - run the auto-deployed job only once; this is to initialize the database with metastore schema.
 
