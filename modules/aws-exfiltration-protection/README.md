@@ -1,4 +1,4 @@
-# Provisioning AWS Databricks E2 with a Hub & Spoke firewall for data exfiltration protection
+# Provisioning AWS Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
 This template provides an example deployment of AWS Databricks E2 workspace with a Hub & Spoke firewall for data exfiltration protection. Details are described in [Data Exfiltration Protection With Databricks on AWS](https://www.databricks.com/blog/2021/02/02/data-exfiltration-protection-with-databricks-on-aws.html). 
 
@@ -21,7 +21,7 @@ Resources to be created:
 ## How to use
 
 > **Note**  
-> You can customize this module by adding, deleting or updating the Azure resources to adapt the module to your requirements.
+> You can customize this module by adding, deleting or updating the AWS resources to adapt the module to your requirements.
 > A deployment example using this module can be found in [examples/aws-exfiltration-protection](../../examples/aws-exfiltration-protection)
 > If you are using AWS Firewall to block most traffic but allow the URLs that Databricks needs to connect to, please update the configuration based on your region. You can get the configuration details for your region from [Firewall Appliance](https://docs.databricks.com/administration-guide/cloud-configurations/aws/customer-managed-vpc.html#firewall-appliance-infrastructure) document.
 

@@ -1,4 +1,4 @@
-# Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
+# Provisioning AWS Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
 This example is using the [aws-exfiltration-protection](../../modules/aws-exfiltration-protection) module.
 
@@ -20,7 +20,6 @@ This template provides an example deployment of AWS Databricks E2 workspace with
     * TF_VAR_databricks_account_username, set to the value of your Databricks account-level admin username.
     * TF_VAR_databricks_account_password, set to the value of the password for your Databricks account-level admin user.
     * TF_VAR_databricks_account_id, set to the value of the ID of your Databricks account. You can find this value in the corner of your Databricks account console.
-5. Add a `output.tf` file.
-6. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
-7. Run `terraform init` to initialize terraform and get provider ready.
-8. Run `terraform apply` to create the resources.
+5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
+6. Run `terraform init` to initialize terraform and get provider ready.
+7. Run `terraform apply` to create the resources.

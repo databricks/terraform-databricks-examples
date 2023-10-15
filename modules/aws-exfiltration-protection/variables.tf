@@ -29,19 +29,23 @@ variable "whitelisted_urls" {
 }
 
 variable "db_web_app" {
-  default = "frankfurt.cloud.databricks.com"
+  default = "" # will use predefined for the region if not provided
+  description = "Webapp address that corresponds to the cloud region"
 }
 
 variable "db_tunnel" {
-  default = "tunnel.eu-central-1.cloud.databricks.com"
+  default = "" # will use predefined for the region if not provided
+  description = "SCC relay address that corresponds to the cloud region"
 }
 
 variable "db_rds" {
-  default = "mdv2llxgl8lou0.ceptxxgorjrc.eu-central-1.rds.amazonaws.com"
+  default = "" # will use predefined for the region if not provided
+  description = "RDS address for legacy Hive metastore that corresponds to the cloud region"
 }
 
 variable "db_control_plane" {
-  default = "18.159.44.32/28"
+  default = "" # will use predefined for the region if not provided
+  description = "Control plane infrastructure address that corresponds to the cloud region"
 }
 
 variable "prefix" {

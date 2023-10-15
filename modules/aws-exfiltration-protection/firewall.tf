@@ -7,7 +7,7 @@ resource "aws_networkfirewall_rule_group" "databricks_fqdns_rg" {
       rules_source_list {
         generated_rules_type = "ALLOWLIST"
         target_types         = ["TLS_SNI", "HTTP_HOST"]
-        targets              = concat([var.db_web_app, var.db_tunnel, var.db_rds, local.db_root_bucket], var.whitelisted_urls)
+        targets              = concat([local.db_web_app, local.db_tunnel, local.db_rds, local.db_root_bucket], var.whitelisted_urls)
       }
     }
     rule_variables {
@@ -42,7 +42,7 @@ resource "aws_networkfirewall_rule_group" "allow_db_cpl_protocols_rg" {
         content {
           action = "PASS"
           header {
-            destination      = var.db_control_plane
+            destination      = local.db_control_plane
             destination_port = "443"
             protocol         = stateful_rule.value
             direction        = "ANY"

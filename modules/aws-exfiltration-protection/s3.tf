@@ -1,9 +1,17 @@
 resource "aws_s3_bucket" "root_storage_bucket" {
-  bucket        = "${local.prefix}-rootbucket"
-  force_destroy = true
+  bucket            = "${local.prefix}-rootbucket"
+  force_destroy     = true
   tags = merge(var.tags, {
     Name = "${local.prefix}-rootbucket"
   })
+}
+
+# Resource to avoid error "AccessControlListNotSupported: The bucket does not allow ACLs"
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.root_storage_bucket.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
@@ -16,6 +24,8 @@ resource "aws_s3_bucket_versioning" "versioning" {
 resource "aws_s3_bucket_acl" "acl" {
   bucket = aws_s3_bucket.root_storage_bucket.id
   acl    = "private"
+
+  depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "root_storage_bucket" {
