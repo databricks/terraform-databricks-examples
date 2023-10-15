@@ -8,7 +8,7 @@ locals {
   sg_egress_ports                = [
                                       443,  # for Databricks infrastructure, cloud data sources, and library repositories
                                       3306, # for the metastore
-                                      6666, # for secure cluster connectivity
+                                      6666, # for private link
                                     ]
   sg_ingress_protocol            = ["tcp", "udp"]
   sg_egress_protocol             = ["tcp", "udp"]
