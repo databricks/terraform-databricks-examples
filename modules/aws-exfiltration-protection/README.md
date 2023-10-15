@@ -17,7 +17,6 @@ Resources to be created:
 * Cross-account IAM role
 * Databricks E2 workspace
 
-
 ## How to use
 
 > **Note**  

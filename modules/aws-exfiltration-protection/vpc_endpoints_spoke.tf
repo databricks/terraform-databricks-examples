@@ -1,5 +1,5 @@
 module "vpc_endpoints" {
-  source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
   vpc_id             = aws_vpc.spoke_vpc.id
   security_group_ids = [aws_security_group.default_spoke_sg.id]
