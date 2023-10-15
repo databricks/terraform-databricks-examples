@@ -110,8 +110,8 @@ locals {
                                      },
                                    }
 
-  db_web_app = var.db_web_app != "" ? var.db_web_app : lookup(local.regional_config, var.region).db_web_app
-  db_tunnel = var.db_tunnel != "" ? var.db_tunnel : lookup(local.regional_config, var.region).db_tunnel
-  db_rds = var.db_rds != "" ? var.db_rds : lookup(local.regional_config, var.region).db_rds
-  db_control_plane = var.db_control_plane != "" ? var.db_control_plane : lookup(local.regional_config, var.region).db_control_plane
+  db_web_app = var.db_web_app != null ? var.db_web_app : lookup(local.regional_config, var.region).db_web_app
+  db_tunnel = var.db_tunnel != null ? var.db_tunnel : lookup(local.regional_config, var.region).db_tunnel
+  db_rds = var.db_rds != null ? var.db_rds : lookup(local.regional_config, var.region).db_rds
+  db_control_plane = var.db_control_plane != null ? var.db_control_plane : lookup(local.regional_config, var.region).db_control_plane
 }

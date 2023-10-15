@@ -29,22 +29,22 @@ variable "whitelisted_urls" {
 }
 
 variable "db_web_app" {
-  default = "" # will use predefined for the region if not provided
+  default = null # will use predefined for the region if not provided
   description = "Webapp address that corresponds to the cloud region"
 }
 
 variable "db_tunnel" {
-  default = "" # will use predefined for the region if not provided
+  default = null # will use predefined for the region if not provided
   description = "SCC relay address that corresponds to the cloud region"
 }
 
 variable "db_rds" {
-  default = "" # will use predefined for the region if not provided
+  default = null # will use predefined for the region if not provided
   description = "RDS address for legacy Hive metastore that corresponds to the cloud region"
 }
 
 variable "db_control_plane" {
-  default = "" # will use predefined for the region if not provided
+  default = null # will use predefined for the region if not provided
   description = "Control plane infrastructure address that corresponds to the cloud region"
 }
 
