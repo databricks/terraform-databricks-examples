@@ -49,7 +49,7 @@ resource "databricks_mws_workspaces" "this" {
   storage_configuration_id   = databricks_mws_storage_configurations.this.storage_configuration_id
   network_id                 = databricks_mws_networks.this.network_id
   private_access_settings_id = databricks_mws_private_access_settings.pla.private_access_settings_id
-  # secure cluster connectivity (no public ip) enabled by default
+  # Secure Cluster Connectivity (SCC / no public ip) is turned on by default
 
   token {
     comment = "Terraform token"
