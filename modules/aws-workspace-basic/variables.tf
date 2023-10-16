@@ -11,3 +11,8 @@ variable "cidr_block" {
 variable "region" {
   default = "eu-west-1"
 }
+
+variable "prefix" {
+  default = null
+  description = "Default value is demo"
+}
