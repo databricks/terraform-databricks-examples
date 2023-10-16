@@ -12,6 +12,9 @@ This template provides an example deployment of AWS Databricks E2 workspace with
 
 > **Note**  
 > If you are using AWS Firewall to block most traffic but allow the URLs that Databricks needs to connect to, please update the configuration based on your region. You can get the configuration details for your region from [Firewall Appliance](https://docs.databricks.com/administration-guide/cloud-configurations/aws/customer-managed-vpc.html#firewall-appliance-infrastructure) document.
+> 
+> You can enable Private Link in the variables. Enabling Private link on AWS requires Databricks "Enterprise" tier which is configured at the Databricks account level.
+
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
 2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
