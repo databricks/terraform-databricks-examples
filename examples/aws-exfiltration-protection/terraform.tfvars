@@ -1,1 +1,2 @@
-prefix = "marcin-sandbox-demo"
+prefix = "demo"
+enable_private_link = false
