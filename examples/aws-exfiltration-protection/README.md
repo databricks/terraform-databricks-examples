@@ -22,4 +22,6 @@ This template provides an example deployment of AWS Databricks E2 workspace with
     * TF_VAR_databricks_account_id, set to the value of the ID of your Databricks account. You can find this value in the corner of your Databricks account console.
 5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
 6. Run `terraform init` to initialize terraform and get provider ready.
-7. Run `terraform apply` to create the resources.
+7. Run `terraform plan -var-file=terraform.tfvars` to validate and preview the deployment.
+8. Run `terraform apply -var-file=terraform.tfvars` to create the resources.
+9. Run `terraform output -json` to print url (host) of the created Databricks workspace.
