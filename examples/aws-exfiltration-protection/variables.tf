@@ -17,7 +17,7 @@ variable "region" {
 }
 
 variable "whitelisted_urls" {
-  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org", ".maven.org"]
+  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org", ".maven.apache.org"]
 }
 
 variable "prefix" {
@@ -25,5 +25,5 @@ variable "prefix" {
 }
 
 variable "enable_private_link" {
-  default = true
+  default = false
 }
