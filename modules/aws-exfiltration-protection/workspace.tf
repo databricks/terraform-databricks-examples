@@ -5,6 +5,15 @@ resource "databricks_mws_networks" "this" {
   security_group_ids = [aws_security_group.default_spoke_sg.id]
   subnet_ids         = aws_subnet.spoke_db_private_subnet[*].id
   vpc_id             = aws_vpc.spoke_vpc.id
+
+  dynamic "vpc_endpoints" {
+    for_each = var.enable_private_link ? [1] : []
+
+    content {
+      dataplane_relay = databricks_mws_vpc_endpoint.relay_vpce[*].vpc_endpoint_id
+      rest_api        = databricks_mws_vpc_endpoint.backend_rest_vpce[*].vpc_endpoint_id
+    }
+  }
 }
 
 resource "databricks_mws_storage_configurations" "this" {
@@ -36,12 +45,17 @@ resource "databricks_mws_workspaces" "this" {
   aws_region     = var.region
   workspace_name = local.prefix
 
-  credentials_id           = databricks_mws_credentials.this.credentials_id
-  storage_configuration_id = databricks_mws_storage_configurations.this.storage_configuration_id
-  network_id               = databricks_mws_networks.this.network_id
+  credentials_id             = databricks_mws_credentials.this.credentials_id
+  storage_configuration_id   = databricks_mws_storage_configurations.this.storage_configuration_id
+  network_id                 = databricks_mws_networks.this.network_id
+  private_access_settings_id = databricks_mws_private_access_settings.pla.private_access_settings_id
+  # secure cluster connectivity (no public ip) enabled by default
 
   token {
-    comment = "Terraform"
+    comment = "Terraform token"
   }
 }
+
+
+
 

@@ -9,4 +9,5 @@ module "aws-exfiltration-protection" {
   hub_cidr_block = var.hub_cidr_block
   region = var.region
   whitelisted_urls = var.whitelisted_urls
+  enable_private_link = var.enable_private_link
 }

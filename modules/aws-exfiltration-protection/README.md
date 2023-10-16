@@ -16,6 +16,10 @@ Resources to be created:
 * S3 Root bucket
 * Cross-account IAM role
 * Databricks E2 workspace
+* Private link between clusters on the data plane and core services on the control plane
+
+Note that enabling Private link on AWS requires Databricks "Enterprise" tier. On AWS the tier is configured at the Databricks account level.
+If your Databricks account is using lower tier disable the private link in the variables (see below).
 
 ## How to use
 
@@ -31,7 +35,6 @@ Resources to be created:
     * TF_VAR_databricks_account_username, set to the value of your Databricks account-level admin username.
     * TF_VAR_databricks_account_password, set to the value of the password for your Databricks account-level admin user.
     * TF_VAR_databricks_account_id, set to the value of the ID of your Databricks account. You can find this value in the corner of your Databricks account console.
-5. Add a `output.tf` file.
-6. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
-7. Run `terraform init` to initialize terraform and get provider ready.
-8. Run `terraform apply` to create the resources.
+5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
+6. Run `terraform init` to initialize terraform and get provider ready.
+7. Run `terraform apply` to create the resources.

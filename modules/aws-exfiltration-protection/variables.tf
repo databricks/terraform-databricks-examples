@@ -25,7 +25,7 @@ resource "random_string" "naming" {
 }
 
 variable "whitelisted_urls" {
-  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org"]
+  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org", ".maven.org"]
 }
 
 variable "db_web_app" {
@@ -46,6 +46,22 @@ variable "db_rds" {
 variable "db_control_plane" {
   default     = null # will use predefined for the region if not provided
   description = "Control plane infrastructure address that corresponds to the cloud region"
+}
+
+variable "enable_private_link" {
+  default     = true
+  type        = bool
+  description = "Property to enable / disable Private Link"
+}
+
+variable "vpc_endpoint_backend_rest" {
+  default     = null # will use predefined for the region if not provided
+  description = "VPC endpoint for workspace including REST API"
+}
+
+variable "vpc_endpoint_backend_relay" {
+  default     = null # will use predefined for the region if not provided
+  description = "VPC endpoint for relay service (secure cluster connectivity)"
 }
 
 variable "prefix" {
