@@ -21,8 +21,9 @@ resource "aws_s3_bucket_ownership_controls" "state" {
 }
 
 resource "aws_s3_bucket_acl" "acl" {
-  bucket = aws_s3_bucket.root_storage_bucket.id
-  acl    = "private"
+  bucket     = aws_s3_bucket.root_storage_bucket.id
+  acl        = "private"
+  depends_on = [aws_s3_bucket_ownership_controls.state]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "root_storage_bucket" {
