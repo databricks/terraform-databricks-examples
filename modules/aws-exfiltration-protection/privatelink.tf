@@ -15,7 +15,7 @@ resource "aws_subnet" "privatelink" {
 
 resource "aws_route_table" "pl_subnet_rt" {
   vpc_id = aws_vpc.spoke_vpc.id
-  count  = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count  = length(aws_subnet.privatelink) > 0 ? 1 : 0
 
   tags = merge(var.tags, {
     Name = "${local.prefix}-pl-spoke-route-tbl"
@@ -23,45 +23,33 @@ resource "aws_route_table" "pl_subnet_rt" {
 }
 
 resource "aws_route_table_association" "dataplane_vpce_rtb" {
-  count          = length(local.spoke_pl_private_subnets_cidr)
+  count          = length(aws_route_table.pl_subnet_rt)
   subnet_id      = aws_subnet.privatelink[count.index].id
   route_table_id = aws_route_table.pl_subnet_rt[count.index].id
 }
 
 resource "aws_security_group" "privatelink" {
-  count  = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count  = length(aws_route_table.pl_subnet_rt)
   vpc_id = aws_vpc.spoke_vpc.id
 
-  ingress {
-    description     = "Inbound rules"
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.default_spoke_sg.id]
+  dynamic "ingress" {
+    for_each = local.sg_private_link_ports
+    content {
+      from_port       = ingress.value
+      to_port         = ingress.value
+      protocol        = local.sg_private_link_protocol
+      security_groups = [aws_security_group.default_spoke_sg.id]
+    }
   }
 
-  ingress {
-    description     = "Inbound rules"
-    from_port       = 6666
-    to_port         = 6666
-    protocol        = "tcp"
-    security_groups = [aws_security_group.default_spoke_sg.id]
-  }
-
-  egress {
-    description     = "Outbound rules"
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.default_spoke_sg.id]
-  }
-
-  egress {
-    description     = "Outbound rules"
-    from_port       = 6666
-    to_port         = 6666
-    protocol        = "tcp"
-    security_groups = [aws_security_group.default_spoke_sg.id]
+  dynamic "egress" {
+    for_each = local.sg_private_link_ports
+    content {
+      from_port       = egress.value
+      to_port         = egress.value
+      protocol        = local.sg_private_link_protocol
+      security_groups = [aws_security_group.default_spoke_sg.id]
+    }
   }
 
   tags = {
@@ -70,51 +58,49 @@ resource "aws_security_group" "privatelink" {
 }
 
 resource "aws_vpc_endpoint" "backend_rest" {
-  count               = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count               = length(aws_route_table.pl_subnet_rt)
   vpc_id              = aws_vpc.spoke_vpc.id
   service_name        = local.vpc_endpoint_backend_rest
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.privatelink[count.index].id]
   subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true // try to directly set this to true in the first apply
-  depends_on          = [aws_subnet.privatelink]
+
   tags = {
     Name = "${local.prefix}-databricks-backend-rest"
   }
 }
 
 resource "aws_vpc_endpoint" "backend_relay" {
-  count               = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count               = length(aws_route_table.pl_subnet_rt)
   vpc_id              = aws_vpc.spoke_vpc.id
   service_name        = local.vpc_endpoint_backend_relay
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [aws_security_group.privatelink[count.index].id]
   subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true
-  depends_on          = [aws_subnet.privatelink]
+
   tags = {
     Name = "${local.prefix}-databricks-backend-relay"
   }
 }
 
 resource "databricks_mws_vpc_endpoint" "backend_rest_vpce" {
-  count               = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count               = length(aws_vpc_endpoint.backend_rest)
   provider            = databricks.mws
   account_id          = var.databricks_account_id
   aws_vpc_endpoint_id = aws_vpc_endpoint.backend_rest[count.index].id
   vpc_endpoint_name   = "${local.prefix}-vpc-spoke-backend"
   region              = var.region
-  depends_on          = [aws_vpc_endpoint.backend_rest]
 }
 
 resource "databricks_mws_vpc_endpoint" "relay_vpce" {
-  count               = length(local.spoke_pl_private_subnets_cidr) > 0 ? 1 : 0
+  count               = length(aws_vpc_endpoint.backend_relay)
   provider            = databricks.mws
   account_id          = var.databricks_account_id
   aws_vpc_endpoint_id = aws_vpc_endpoint.backend_relay[count.index].id
   vpc_endpoint_name   = "${local.prefix}-vpc-spoke-relay"
   region              = var.region
-  depends_on          = [aws_vpc_endpoint.backend_relay]
 }
 
 resource "databricks_mws_private_access_settings" "pla" {

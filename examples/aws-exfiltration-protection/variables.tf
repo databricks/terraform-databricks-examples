@@ -17,7 +17,13 @@ variable "region" {
 }
 
 variable "whitelisted_urls" {
-  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org", ".maven.apache.org"]
+  default = [
+    ".pypi.org", ".pythonhosted.org",   # python packages
+    ".cran.r-project.org",              # R packages
+    ".maven.apache.org", ".maven.org",  # maven artifacts
+    ".storage-download.googleapis.com", # maven mirror
+    ".spark-packages.org",              # spark packages
+  ]
 }
 
 variable "prefix" {

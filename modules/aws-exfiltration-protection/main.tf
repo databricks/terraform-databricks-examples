@@ -6,16 +6,52 @@ locals {
   hub_tgw_private_subnets_cidr   = [cidrsubnet(var.hub_cidr_block, 3, 0)]
   hub_nat_public_subnets_cidr    = [cidrsubnet(var.hub_cidr_block, 3, 1)]
   hub_firewall_subnets_cidr      = [cidrsubnet(var.hub_cidr_block, 3, 2)]
-  sg_egress_ports = [
-    443,  # for Databricks infrastructure, cloud data sources, and library repositories
-    3306, # for the metastore
-    6666, # for private link
+  domain_names = [
+    ".cloud.databricks.com" # https://docs.databricks.com/en/security/network/firewall-rules.html
   ]
-  sg_ingress_protocol     = ["tcp", "udp"]
-  sg_egress_protocol      = ["tcp", "udp"]
+
+  whitelisted_urls = concat(
+    local.domain_names,
+    [
+      local.db_web_app,
+      local.db_tunnel,
+      local.db_rds,
+      local.db_root_bucket,
+    ],
+    var.whitelisted_urls
+  )
+
+  private_link_whitelisted_urls = concat(
+    local.domain_names,
+    [
+      local.db_rds,
+      local.db_root_bucket,
+    ],
+    var.whitelisted_urls
+  )
+
+  # based on: https://docs.databricks.com/en/administration-guide/cloud-configurations/aws/customer-managed-vpc.html#security-groups
+  sg_ports = [
+    443,                                                  # for Databricks infrastructure, cloud data sources, and library repositories
+    3306,                                                 # for the metastore
+    6666,                                                 # for private link
+    2443,                                                 # only for use with compliance security profile
+    8443, 8444, 8445, 8446, 8447, 8448, 8449, 8450, 8451, # Future extendability
+  ]
+  sg_ingress_protocol = ["tcp", "udp"]
+  sg_egress_protocol  = ["tcp", "udp"]
+
+  # based on: https://docs.databricks.com/en/administration-guide/cloud-configurations/aws/privatelink.html#step-1-configure-aws-network-objects
+  sg_private_link_ports = [
+    443,  # for Databricks infrastructure, cloud data sources, and library repositories
+    6666, # for private link
+    2443, # only for use with compliance security profile
+  ]
+  sg_private_link_protocol = "tcp"
+
   availability_zones      = ["${var.region}a", "${var.region}b"]
   db_root_bucket          = "${var.prefix}${random_string.naming.result}-rootbucket.s3.amazonaws.com"
-  protocols               = ["ICMP", "FTP", "SSH"]
+  protocols_to_drop       = ["ICMP", "FTP", "SSH"]
   protocols_control_plane = ["TCP"]
 
   # based on: https://docs.databricks.com/en/resources/supported-regions.html

@@ -7,7 +7,7 @@ resource "aws_networkfirewall_rule_group" "databricks_fqdns_rg" {
       rules_source_list {
         generated_rules_type = "ALLOWLIST"
         target_types         = ["TLS_SNI", "HTTP_HOST"]
-        targets              = concat([local.db_web_app, local.db_tunnel, local.db_rds, local.db_root_bucket], var.whitelisted_urls)
+        targets              = var.enable_private_link ? local.private_link_whitelisted_urls : local.whitelisted_urls
       }
     }
     rule_variables {
@@ -75,7 +75,7 @@ resource "aws_networkfirewall_rule_group" "deny_protocols_rg" {
     }
     rules_source {
       dynamic "stateful_rule" {
-        for_each = local.protocols
+        for_each = local.protocols_to_drop
         content {
           action = "DROP"
           header {
@@ -128,12 +128,14 @@ resource "aws_networkfirewall_firewall" "exfiltration_firewall" {
   tags = var.tags
 }
 
+# Add Route from Nat Gateway to Firewall
 resource "aws_route" "db_nat_firewall" {
   route_table_id         = aws_route_table.hub_nat_public_rt.id
   destination_cidr_block = "0.0.0.0/0"
   vpc_endpoint_id        = data.aws_vpc_endpoint.firewall.id
 }
 
+# Add Route from Internet Gateway to Firewall
 resource "aws_route" "db_igw_nat_firewall" {
   route_table_id         = aws_route_table.hub_igw_rt.id
   count                  = length(local.hub_nat_public_subnets_cidr)
