@@ -50,6 +50,9 @@ resource "aws_internet_gateway" "hub_igw" {
 resource "aws_eip" "hub_nat_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.hub_igw]
+  tags = merge(var.tags, {
+    Name = "${local.prefix}-nat-eip"
+  })
 }
 
 resource "aws_nat_gateway" "hub_nat" {
