@@ -36,10 +36,6 @@ resource "azurerm_subnet_network_security_group_association" "public" {
   network_security_group_id = azurerm_network_security_group.this.id
 }
 
-variable "private_subnet_endpoints" {
-  default = []
-}
-
 resource "azurerm_subnet" "private" {
   name                 = "${local.prefix}-private"
   resource_group_name  = azurerm_resource_group.this.name
