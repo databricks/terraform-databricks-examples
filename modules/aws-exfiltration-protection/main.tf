@@ -10,24 +10,21 @@ locals {
     ".cloud.databricks.com" # https://docs.databricks.com/en/security/network/firewall-rules.html
   ]
 
-  whitelisted_urls = concat(
+  private_link_whitelisted_urls = concat(
     local.domain_names,
     [
-      local.db_web_app,
-      local.db_tunnel,
-      local.db_rds,
-      local.db_root_bucket,
+      local.db_rds,         # not routed through the private link connection
+      local.db_root_bucket, # not routed through the private link connection
     ],
     var.whitelisted_urls
   )
 
-  private_link_whitelisted_urls = concat(
-    local.domain_names,
+  whitelisted_urls = concat(
+    local.private_link_whitelisted_urls,
     [
-      local.db_rds,
-      local.db_root_bucket,
+      local.db_web_app,
+      local.db_tunnel,
     ],
-    var.whitelisted_urls
   )
 
   # based on: https://docs.databricks.com/en/administration-guide/cloud-configurations/aws/customer-managed-vpc.html#security-groups
