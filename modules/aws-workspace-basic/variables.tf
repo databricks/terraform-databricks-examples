@@ -1,5 +1,3 @@
-variable "databricks_account_username" {}
-variable "databricks_account_password" {}
 variable "databricks_account_id" {}
 
 variable "tags" {
@@ -12,4 +10,9 @@ variable "cidr_block" {
 
 variable "region" {
   default = "eu-west-1"
+}
+
+variable "prefix" {
+  default = null
+  description = "Default value is demo"
 }
