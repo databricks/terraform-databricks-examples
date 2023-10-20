@@ -52,9 +52,9 @@ resource "aws_security_group" "privatelink" {
     }
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${local.prefix}-privatelink-sg"
-  }
+  })
 }
 
 resource "aws_vpc_endpoint" "backend_rest" {
@@ -66,9 +66,9 @@ resource "aws_vpc_endpoint" "backend_rest" {
   subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true // try to directly set this to true in the first apply
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${local.prefix}-databricks-backend-rest"
-  }
+  })
 }
 
 resource "aws_vpc_endpoint" "backend_relay" {
@@ -80,9 +80,9 @@ resource "aws_vpc_endpoint" "backend_relay" {
   subnet_ids          = aws_subnet.privatelink[*].id
   private_dns_enabled = true
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${local.prefix}-databricks-backend-relay"
-  }
+  })
 }
 
 resource "databricks_mws_vpc_endpoint" "backend_rest_vpce" {

@@ -21,9 +21,9 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 
 resource "aws_s3_bucket_acl" "acl" {
-  bucket     = aws_s3_bucket.root_storage_bucket.id
-  acl        = "private"
-  
+  bucket = aws_s3_bucket.root_storage_bucket.id
+  acl    = "private"
+
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 
 }
