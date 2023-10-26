@@ -27,7 +27,7 @@ resource "databricks_mws_storage_configurations" "this" {
 resource "time_sleep" "wait" {
   create_duration = "20s"
   depends_on = [
-    aws_iam_role_policy.this
+    aws_iam_role_policy.cross_account_policy
   ]
 }
 
