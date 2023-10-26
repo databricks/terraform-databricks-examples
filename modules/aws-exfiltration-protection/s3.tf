@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "root_storage_bucket" {
   })
 }
 
-resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+resource "aws_s3_bucket_ownership_controls" "root_bucket_acl_ownership" {
   bucket = aws_s3_bucket.root_storage_bucket.id
   rule {
     object_ownership = "ObjectWriter"
@@ -24,11 +24,11 @@ resource "aws_s3_bucket_acl" "acl" {
   bucket = aws_s3_bucket.root_storage_bucket.id
   acl    = "private"
 
-  depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
+  depends_on = [aws_s3_bucket_ownership_controls.root_bucket_acl_ownership]
 
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "root_storage_bucket" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "root_bucket_encryption" {
   bucket = aws_s3_bucket.root_storage_bucket.bucket
 
   rule {
@@ -38,7 +38,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "root_storage_buck
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "root_storage_bucket" {
+resource "aws_s3_bucket_public_access_block" "root_bucket_access_block" {
   bucket                  = aws_s3_bucket.root_storage_bucket.id
   block_public_acls       = true
   block_public_policy     = true
@@ -50,5 +50,5 @@ resource "aws_s3_bucket_public_access_block" "root_storage_bucket" {
 resource "aws_s3_bucket_policy" "root_bucket_policy" {
   bucket     = aws_s3_bucket.root_storage_bucket.id
   policy     = data.databricks_aws_bucket_policy.this.json
-  depends_on = [aws_s3_bucket_public_access_block.root_storage_bucket]
+  depends_on = [aws_s3_bucket_public_access_block.root_bucket_access_block]
 }
