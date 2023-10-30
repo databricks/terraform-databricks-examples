@@ -9,12 +9,13 @@ locals {
   domain_names = [
     ".cloud.databricks.com" # https://docs.databricks.com/en/security/network/firewall-rules.html
   ]
+  db_root_bucket_fqdn = "${local.db_root_bucket}.s3.amazonaws.com"
 
   private_link_whitelisted_urls = concat(
     local.domain_names,
     [
       local.db_rds,         # not routed through the private link connection
-      local.db_root_bucket, # not routed through the private link connection
+      local.db_root_bucket_fqdn, # not routed through the private link connection
     ],
     var.whitelisted_urls
   )
@@ -47,7 +48,7 @@ locals {
   sg_private_link_protocol = "tcp"
 
   availability_zones      = ["${var.region}a", "${var.region}b"]
-  db_root_bucket          = "${var.prefix}${random_string.naming.result}-rootbucket.s3.amazonaws.com"
+  db_root_bucket          = "${var.prefix}-dbfs-storage"
   protocols_to_drop       = ["ICMP", "FTP", "SSH"]
   protocols_control_plane = ["TCP"]
 
