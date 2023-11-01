@@ -26,6 +26,7 @@ module "databricks_workspace" {
   root_storage_bucket    = module.aws_base.root_bucket
   cross_account_role_arn = module.aws_base.cross_account_role_arn
   tags                   = local.tags
+  
   depends_on = [
     module.aws_base
   ]
