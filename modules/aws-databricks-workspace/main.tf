@@ -21,7 +21,7 @@ resource "databricks_mws_storage_configurations" "this" {
 resource "databricks_mws_workspaces" "this" {
   account_id     = var.databricks_account_id
   aws_region     = var.region
-  workspace_name = var.prefix
+  workspace_name = coalesce(var.workspace_name,var.prefix)
 
   credentials_id           = databricks_mws_credentials.this.credentials_id
   storage_configuration_id = databricks_mws_storage_configurations.this.storage_configuration_id

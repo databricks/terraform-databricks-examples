@@ -8,6 +8,7 @@ unity_admin_group           = "unity-admin-group"                            // 
 databricks_account_id       = "YOUR_DATABRICKS_ACCOUNT_ID"                   // Databricks Account ID
 databricks_client_id        = "YOUR_SERVICE_PRINCIPAL_CLIENT_ID"             // Databricks Service Principal Client ID
 databricks_client_secret    = "YOUR_SERVICE_PRINCIPAL_CLIENT_SECRET"         // Databricks Service Principal Client Secret
+workspace_name              = "YOUR_DATABRICKS_WORKSPACE_NAME"               // Databricks Workspace Name - IF NOT PROVIDED or EMPTY it will defauly to a random "demo-<number>" prefix
 tags = {
   Environment = "Demo-with-terraform"
 }

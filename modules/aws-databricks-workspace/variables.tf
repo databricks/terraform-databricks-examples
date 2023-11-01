@@ -5,6 +5,11 @@ variable "tags" {
   description = "(Optional) List of tags to be propagated accross all assets in this demo"
 }
 
+variable "workspace_name" {
+  type        = string
+  description = "(Optional) Workspace Name for this module - if none are provided, the prefix will be used to name the workspace via coalesce()"
+}
+
 variable "prefix" {
   type        = string
   description = "(Optional) Prefix to name the resources created by this module"
