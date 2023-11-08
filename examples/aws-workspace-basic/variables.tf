@@ -1,13 +1,22 @@
-variable "databricks_account_id" {}
+variable "databricks_account_id" {
+  type        = string
+  description = "Databricks Account ID"
+}
 
 variable "tags" {
-  default = {}
+  default     = {}
+  type        = map(string)
+  description = "Optional tags to add to created resources"
 }
 
 variable "cidr_block" {
-  default = "10.4.0.0/16"
+  description = "IP range for AWS VPC"
+  type        = string
+  default     = "10.4.0.0/16"
 }
 
 variable "region" {
-  default = "eu-west-1"
+  default     = "eu-west-1"
+  type        = string
+  description = "AWS region to deploy to"
 }

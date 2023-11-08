@@ -1,7 +1,6 @@
-variable "aws_account_id" {}
-
 variable "tags" {
-  type        = map(any)
+  default     = {}
+  type        = map(string)
   description = "(Optional) List of tags to be propagated accross all assets in this demo"
 }
 

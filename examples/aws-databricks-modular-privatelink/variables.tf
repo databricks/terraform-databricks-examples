@@ -7,12 +7,14 @@ variable "databricks_account_password" {
 }
 
 variable "databricks_account_id" {
-  type = string
+  type        = string
+  description = "Databricks Account ID"
 }
 
 variable "region" {
-  type    = string
-  default = "ap-southeast-1"
+  type        = string
+  description = "AWS region to deploy to"
+  default     = "ap-southeast-1"
 }
 
 #cmk
@@ -22,7 +24,9 @@ variable "cmk_admin" {
 }
 
 variable "tags" {
-  default = {}
+  default     = {}
+  type        = map(string)
+  description = "Optional tags to add to created resources"
 }
 
 variable "vpc_cidr" {

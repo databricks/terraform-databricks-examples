@@ -13,3 +13,9 @@ locals {
   protocols                      = ["ICMP", "FTP", "SSH"]
   protocols_control_plane        = ["TCP"]
 }
+
+resource "random_string" "naming" {
+  special = false
+  upper   = false
+  length  = 6
+}

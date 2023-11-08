@@ -4,7 +4,7 @@ terraform {
       source = "databricks/databricks"
     }
     google = {
-      source  = "hashicorp/google"
+      source = "hashicorp/google"
     }
   }
 }
