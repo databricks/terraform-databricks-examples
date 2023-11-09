@@ -1,15 +1,24 @@
-
 variable "google_project" {
-}
-variable "google_region" {
-}
-variable "google_zone" {
-}
-variable "prefix" {
+  type        = string
+  description = "Google project for VCP/workspace deployment"
 }
 
+variable "prefix" {
+  type        = string
+  description = "Prefix to use in generated service account name"
+}
 
 variable "delegate_from" {
-  description = "Allow either user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com to impersonate created service account"
+  description = "Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com)"
   type        = list(string)
+}
+
+variable "google_region" {
+  description = "GCP region for deployment"
+  type        = string
+}
+
+variable "google_zone" {
+  description = "Zone in GCP region"
+  type        = string
 }

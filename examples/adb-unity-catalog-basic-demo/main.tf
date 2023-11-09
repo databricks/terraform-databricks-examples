@@ -204,7 +204,7 @@ resource "databricks_grants" "silver" {
   }
 }
 
- // Create schema for gold datalake layer in dev env.
+// Create schema for gold datalake layer in dev env.
 resource "databricks_schema" "gold" {
   catalog_name = databricks_catalog.dev.id
   name         = "gold"

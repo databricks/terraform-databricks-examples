@@ -22,7 +22,7 @@ data "external" "me" {
 
 # Retrieve information about the current user (the caller of tf apply)
 data "databricks_current_user" "me" {
-  depends_on    = [azurerm_databricks_workspace.this]
+  depends_on = [azurerm_databricks_workspace.this]
 }
 
 data "databricks_spark_version" "latest_lts" {

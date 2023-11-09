@@ -17,7 +17,7 @@ resource "aws_internet_gateway" "db_igw" {
 }
 
 resource "aws_eip" "db_nat_eip" {
-  domain        = "vpc"
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.db_igw]
 }
 

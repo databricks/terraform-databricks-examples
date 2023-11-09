@@ -28,7 +28,7 @@ module "adb-lakehouse-uc-metastore" {
   metastore_id           = module.adb-lakehouse-uc-metastore.metastore_id
   workspace_id           = module.adb-lakehouse.workspace_id
   metastore_admins       = var.metastore_admins
-  providers              = {
+  providers = {
     databricks = databricks.workspace
   }
 }
@@ -39,7 +39,7 @@ module "adb-lakehouse-uc-account-principals" {
   workspace_id       = module.adb-lakehouse.workspace_id
   service_principals = var.service_principals
   account_groups     = var.account_groups
-  providers          = {
+  providers = {
     databricks = databricks.account
   }
 }
@@ -55,7 +55,7 @@ module "adb-lakehouse-data-assets" {
   landing_adls_path              = var.landing_adls_path
   landing_adls_rg                = var.landing_adls_rg
   metastore_admins               = var.metastore_admins
-  providers                      = {
+  providers = {
     databricks = databricks.workspace
   }
 }
