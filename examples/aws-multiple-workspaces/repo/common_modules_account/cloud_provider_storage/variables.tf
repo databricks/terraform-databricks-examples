@@ -1,0 +1,3 @@
+variable "dbfsname" {
+  type        = string
+}
