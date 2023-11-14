@@ -7,6 +7,7 @@ variable "tags" {
 
 variable "workspace_name" {
   type        = string
+  default     = ""
   description = "(Optional) Workspace Name for this module - if none are provided, the prefix will be used to name the workspace via coalesce()"
 }
 
