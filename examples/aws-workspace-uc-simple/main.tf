@@ -44,5 +44,4 @@ module "unity_catalog" {
   unity_metastore_owner    = databricks_group.admin_group.display_name
   databricks_workspace_ids = [module.databricks_workspace.databricks_workspace_id]
   tags                     = local.tags
-
 }

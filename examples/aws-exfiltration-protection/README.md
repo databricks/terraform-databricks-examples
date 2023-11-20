@@ -1,4 +1,4 @@
-# Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
+# Provisioning AWS Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
 This example is using the [aws-exfiltration-protection](../../modules/aws-exfiltration-protection) module.
 
