@@ -1,7 +1,7 @@
 
 # Step 1: Initializing configs and variables 
 variable "tags" {
-  type        = map(any)
+  type        = map(string)
   description = "(Optional) List of tags to be propagated accross all assets in this demo"
 }
 
@@ -19,8 +19,6 @@ variable "aws_profile" {
   type        = string
   description = "(Required) AWS cli profile to be used for authentication with AWS"
 }
-
-data "aws_caller_identity" "current" {}
 
 variable "my_username" {
   type        = string
@@ -40,12 +38,6 @@ variable "databricks_client_secret" {
 variable "databricks_account_id" {
   type        = string
   description = "(Required) Databricks Account ID"
-}
-
-resource "random_string" "naming" {
-  special = false
-  upper   = false
-  length  = 6
 }
 
 variable "databricks_users" {
@@ -77,12 +69,3 @@ variable "aws_access_services_role_name" {
   default     = null
 }
 
-locals {
-  prefix                        = "demo-${random_string.naming.result}"
-  unity_admin_group             = "${local.prefix}-${var.unity_admin_group}"
-  workspace_users_group         = "${local.prefix}-workspace-users"
-  aws_access_services_role_name = var.aws_access_services_role_name == null ? "${local.prefix}-aws-services-role" : "${local.prefix}-${var.aws_access_services_role_name}"
-  aws_access_services_role_arn  = "arn:aws:iam::${local.aws_account_id}:role/${local.aws_access_services_role_name}"
-  aws_account_id                = data.aws_caller_identity.current.account_id
-  tags                          = merge(var.tags, { Owner = split("@", var.my_username)[0], ownerEmail = var.my_username })
-}

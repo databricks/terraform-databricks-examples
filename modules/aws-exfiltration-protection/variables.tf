@@ -7,27 +7,8 @@ variable "databricks_account_password" {
 }
 
 variable "databricks_account_id" {
-  type = string
-}
-
-variable "tags" {
-  type    = map(string)
-  default = {}
-}
-
-variable "spoke_cidr_block" {
-  type    = string
-  default = "10.173.0.0/16"
-}
-
-variable "hub_cidr_block" {
-  type    = string
-  default = "10.10.0.0/16"
-}
-
-variable "region" {
-  type    = string
-  default = "eu-central-1"
+  type        = string
+  description = "Databricks Account ID"
 }
 
 resource "random_string" "naming" {
@@ -45,6 +26,7 @@ variable "whitelisted_urls" {
     ".storage-download.googleapis.com", # maven mirror
     ".spark-packages.org",              # spark packages
   ]
+  description = "List of the domains to allow traffic to"
 }
 
 variable "db_web_app" {
@@ -89,7 +71,32 @@ variable "vpc_endpoint_backend_relay" {
   description = "VPC endpoint for relay service (secure cluster connectivity)"
 }
 
+variable "tags" {
+  default     = {}
+  type        = map(string)
+  description = "Optional tags to add to created resources"
+}
+
+variable "spoke_cidr_block" {
+  default     = "10.173.0.0/16"
+  description = "IP range for spoke AWS VPC"
+  type        = string
+}
+
+variable "hub_cidr_block" {
+  default     = "10.10.0.0/16"
+  description = "IP range for hub AWS VPC"
+  type        = string
+}
+
+variable "region" {
+  default     = "eu-west-2"
+  type        = string
+  description = "AWS region to deploy to"
+}
+
 variable "prefix" {
-  type    = string
-  default = "demo"
+  default     = "demo"
+  type        = string
+  description = "Prefix for use in the generated names"
 }

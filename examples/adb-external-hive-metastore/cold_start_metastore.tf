@@ -1,6 +1,6 @@
 # automate job to init schema of the database, prep to be hive metastore
 resource "databricks_notebook" "ddl" {
-  source = "../coldstart/metastore_coldstart.py"               #local notebook
+  source = "./coldstart/metastore_coldstart.py"                #local notebook
   path   = "${data.databricks_current_user.me.home}/coldstart" #remote notebook
 }
 

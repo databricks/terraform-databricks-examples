@@ -10,4 +10,9 @@ module "aws-exfiltration-protection" {
   region                      = var.region
   whitelisted_urls            = var.whitelisted_urls
   enable_private_link         = var.enable_private_link
+
+  resource "random_string" "naming" {
+    special = false
+    upper   = false
+    length  = 6
 }

@@ -8,24 +8,31 @@ variable "databricks_account_password" {
 
 variable "databricks_account_id" {
   type = string
+  description = "Databricks Account ID"
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  default     = {}
+  type        = map(string)
+  description = "Optional tags to add to created resources"
 }
 
 variable "spoke_cidr_block" {
-  type    = string
-  default = "10.173.0.0/16"
+  default     = "10.173.0.0/16"
+  description = "IP range for spoke AWS VPC"
+  type        = string
 }
+
 variable "hub_cidr_block" {
-  type    = string
-  default = "10.10.0.0/16"
+  default     = "10.10.0.0/16"
+  description = "IP range for hub AWS VPC"
+  type        = string
 }
+
 variable "region" {
   type    = string
   default = "eu-central-1"
+  description = "AWS region to deploy to"
 }
 
 variable "whitelisted_urls" {
@@ -39,12 +46,13 @@ variable "whitelisted_urls" {
   ]
 }
 
-variable "prefix" {
-  type    = string
-  default = "demo"
-}
-
 variable "enable_private_link" {
   type    = bool
   default = false
+}
+
+variable "prefix" {
+  default     = "demo"
+  type        = string
+  description = "Prefix for use in the generated names"
 }

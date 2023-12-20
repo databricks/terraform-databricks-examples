@@ -1,5 +1,5 @@
 variable "tags" {
-  type        = map(any)
+  type        = map(string)
   description = "(Required) Map of tags to be applied to the kinesis stream"
 }
 
