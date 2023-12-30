@@ -1,7 +1,7 @@
 variable "tags" {
   default     = {}
   type        = map(string)
-  description = "(Optional) List of tags to be propagated accross all assets in this demo"
+  description = "(Optional) List of tags to be propagated across all assets in this demo"
 }
 
 variable "prefix" {
@@ -12,6 +12,11 @@ variable "prefix" {
 variable "region" {
   type        = string
   description = "(Required) AWS region where the assets will be deployed"
+}
+
+variable "aws_account_id" {
+  type        = string
+  description = "(Required) AWS account ID where the cross-account role for Unity Catalog will be created"
 }
 
 variable "databricks_account_id" {
