@@ -74,7 +74,7 @@ resource "aws_security_group" "default_spoke_sg" {
   }
 
   dynamic "egress" {
-    for_each = local.sg_egress_ports
+    for_each = local.sg_ports
     content {
       from_port   = egress.value
       to_port     = egress.value

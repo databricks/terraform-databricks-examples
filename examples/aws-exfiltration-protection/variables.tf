@@ -1,5 +1,10 @@
-variable "databricks_account_username" {}
-variable "databricks_account_password" {}
+variable "databricks_account_username" {
+  type = string
+}
+
+variable "databricks_account_password" {
+  type = string
+}
 
 variable "databricks_account_id" {
   type        = string
@@ -25,39 +30,25 @@ variable "hub_cidr_block" {
 }
 
 variable "region" {
-  default     = "eu-central-1"
   type        = string
+  default     = "eu-central-1"
   description = "AWS region to deploy to"
 }
 
 variable "whitelisted_urls" {
-  default     = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org"]
-  description = "List of the domains to allow traffic to"
-  type        = list(string)
+  type = list(string)
+  default = [
+    ".pypi.org", ".pythonhosted.org",   # python packages
+    ".cran.r-project.org",              # R packages
+    ".maven.org",                       # maven artifacts
+    ".storage-download.googleapis.com", # maven mirror
+    ".spark-packages.org",              # spark packages
+  ]
 }
 
-variable "db_web_app" {
-  default     = "frankfurt.cloud.databricks.com"
-  description = "Hostname of Databricks web application"
-  type        = string
-}
-
-variable "db_tunnel" {
-  default     = "tunnel.eu-central-1.cloud.databricks.com"
-  description = "Hostname of Databricks SCC Relay"
-  type        = string
-}
-
-variable "db_rds" {
-  default     = "mdv2llxgl8lou0.ceptxxgorjrc.eu-central-1.rds.amazonaws.com"
-  description = "Hostname of AWS RDS instance for built-in Hive Metastore"
-  type        = string
-}
-
-variable "db_control_plane" {
-  default     = "18.159.44.32/28"
-  description = "IP Range for AWS Databricks control plane"
-  type        = string
+variable "enable_private_link" {
+  type    = bool
+  default = false
 }
 
 variable "prefix" {

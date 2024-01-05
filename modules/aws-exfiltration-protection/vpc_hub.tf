@@ -50,6 +50,9 @@ resource "aws_internet_gateway" "hub_igw" {
 resource "aws_eip" "hub_nat_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.hub_igw]
+  tags = merge(var.tags, {
+    Name = "${local.prefix}-nat-eip"
+  })
 }
 
 resource "aws_nat_gateway" "hub_nat" {
@@ -124,7 +127,7 @@ resource "aws_route" "db_firewall_public_gtw" {
   gateway_id             = aws_internet_gateway.hub_igw.id
 }
 
-resource "aws_main_route_table_association" "set-worker-default-rt-assoc" {
+resource "aws_main_route_table_association" "set-hub-default-rt-assoc" {
   vpc_id         = aws_vpc.hub_vpc.id
   route_table_id = aws_route_table.hub_firewall_rt.id
 }

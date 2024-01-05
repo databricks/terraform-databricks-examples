@@ -3,6 +3,7 @@ resource "aws_ec2_transit_gateway" "tgw" {
   auto_accept_shared_attachments  = "enable"
   default_route_table_association = "enable"
   default_route_table_propagation = "enable"
+  dns_support                     = "enable"
   tags = merge(var.tags, {
     Name = "${local.prefix}-tgw"
   })
@@ -36,6 +37,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "spoke" {
   })
 }
 
+# Create Route to Internet
 resource "aws_ec2_transit_gateway_route" "spoke_to_hub" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.hub.id
@@ -50,6 +52,7 @@ resource "aws_route" "spoke_db_to_tgw" {
   depends_on             = [aws_vpc.spoke_vpc, aws_vpc.hub_vpc]
 }
 
+# Add route for hub tgw to tgw
 resource "aws_route" "hub_tgw_private_subnet_to_tgw" {
   route_table_id         = aws_route_table.hub_tgw_private_rt.id
   destination_cidr_block = var.spoke_cidr_block
@@ -57,6 +60,7 @@ resource "aws_route" "hub_tgw_private_subnet_to_tgw" {
   depends_on             = [aws_vpc.spoke_vpc, aws_vpc.hub_vpc]
 }
 
+# Add route for hub nat to tgw
 resource "aws_route" "hub_nat_to_tgw" {
   route_table_id         = aws_route_table.hub_nat_public_rt.id
   destination_cidr_block = var.spoke_cidr_block
