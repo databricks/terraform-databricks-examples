@@ -183,3 +183,9 @@ locals {
   vpc_endpoint_backend_rest  = var.vpc_endpoint_backend_rest != null ? var.vpc_endpoint_backend_rest : lookup(local.regional_config, var.region).vpc_endpoint_backend_rest
   vpc_endpoint_backend_relay = var.vpc_endpoint_backend_relay != null ? var.vpc_endpoint_backend_relay : lookup(local.regional_config, var.region).vpc_endpoint_backend_relay
 }
+
+resource "random_string" "naming" {
+  special = false
+  upper   = false
+  length  = 6
+}

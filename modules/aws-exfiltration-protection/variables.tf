@@ -3,12 +3,6 @@ variable "databricks_account_id" {
   description = "Databricks Account ID"
 }
 
-resource "random_string" "naming" {
-  special = false
-  upper   = false
-  length  = 6
-}
-
 variable "whitelisted_urls" {
   type = list(string)
   default = [
