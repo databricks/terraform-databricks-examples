@@ -87,7 +87,7 @@ resource "aws_vpc_endpoint" "backend_relay" {
 
 resource "databricks_mws_vpc_endpoint" "backend_rest_vpce" {
   count               = length(aws_vpc_endpoint.backend_rest)
-  provider            = databricks.mws
+  provider            = databricks
   account_id          = var.databricks_account_id
   aws_vpc_endpoint_id = aws_vpc_endpoint.backend_rest[count.index].id
   vpc_endpoint_name   = "${local.prefix}-vpc-spoke-backend"
@@ -96,7 +96,7 @@ resource "databricks_mws_vpc_endpoint" "backend_rest_vpce" {
 
 resource "databricks_mws_vpc_endpoint" "relay_vpce" {
   count               = length(aws_vpc_endpoint.backend_relay)
-  provider            = databricks.mws
+  provider            = databricks
   account_id          = var.databricks_account_id
   aws_vpc_endpoint_id = aws_vpc_endpoint.backend_relay[count.index].id
   vpc_endpoint_name   = "${local.prefix}-vpc-spoke-relay"
@@ -104,7 +104,7 @@ resource "databricks_mws_vpc_endpoint" "relay_vpce" {
 }
 
 resource "databricks_mws_private_access_settings" "pla" {
-  provider                     = databricks.mws
+  provider                     = databricks
   account_id                   = var.databricks_account_id
   private_access_settings_name = "Private Access Settings for ${local.prefix}"
   region                       = var.region

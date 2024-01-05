@@ -32,8 +32,6 @@ If your Databricks account is using lower tier disable the private link in the v
 2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
 3. Add a `terraform.tfvars` file and provide values to each defined variable
 4. Configure the following environment variables:
-    * TF_VAR_databricks_account_username, set to the value of your Databricks account-level admin username.
-    * TF_VAR_databricks_account_password, set to the value of the password for your Databricks account-level admin user.
     * TF_VAR_databricks_account_id, set to the value of the ID of your Databricks account. You can find this value in the corner of your Databricks account console.
 5. Add a `output.tf` file.
 6. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
