@@ -4,6 +4,12 @@ variable "tags" {
   description = "(Optional) Optional tags to add to created resources"
 }
 
+variable "workspace_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) Workspace Name for this module - if none are provided, the prefix will be used to name the workspace via coalesce()"
+}
+
 variable "prefix" {
   default     = "demo"
   type        = string

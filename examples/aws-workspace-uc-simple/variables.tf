@@ -5,6 +5,11 @@ variable "tags" {
   description = "(Optional) List of tags to be propagated accross all assets in this demo"
 }
 
+variable "workspace_name" {
+  type        = string
+  description = "(Required) Databricks workspace name to be used for deployment"
+}
+
 variable "cidr_block" {
   type        = string
   description = "(Required) CIDR block to be used to create the Databricks VPC"
