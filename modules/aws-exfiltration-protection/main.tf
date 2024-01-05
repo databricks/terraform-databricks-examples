@@ -14,7 +14,7 @@ locals {
   private_link_whitelisted_urls = concat(
     local.domain_names,
     [
-      local.db_rds,         # not routed through the private link connection
+      local.db_rds,              # not routed through the private link connection
       local.db_root_bucket_fqdn, # not routed through the private link connection
     ],
     var.whitelisted_urls

@@ -7,7 +7,7 @@ variable "databricks_account_password" {
 }
 
 variable "databricks_account_id" {
-  type = string
+  type        = string
   description = "Databricks Account ID"
 }
 
@@ -30,8 +30,8 @@ variable "hub_cidr_block" {
 }
 
 variable "region" {
-  type    = string
-  default = "eu-central-1"
+  type        = string
+  default     = "eu-central-1"
   description = "AWS region to deploy to"
 }
 
