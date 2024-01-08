@@ -29,7 +29,7 @@ resource "azurerm_storage_container" "unity_catalog" {
   container_access_type = "private"
 }
 
-resource "azurerm_role_assignment" "example" {
+resource "azurerm_role_assignment" "unity_catalog" {
   scope                = azurerm_storage_account.unity_catalog.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_databricks_access_connector.access_connector.identity[0].principal_id

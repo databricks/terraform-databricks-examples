@@ -5,7 +5,6 @@ data "databricks_group" "account_groups" {
   display_name = each.value["group_name"]
 }
 
-
 resource "databricks_mws_permission_assignment" "groups-workspace-assignement" {
   depends_on   = [data.databricks_group.account_groups]
   for_each     = var.account_groups

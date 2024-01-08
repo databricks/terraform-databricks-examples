@@ -6,7 +6,7 @@ provider "azurerm" {
 provider "databricks" {
   alias      = "account"
   host       = "https://accounts.azuredatabricks.net"
-  account_id = "<account_id>"
+  account_id = var.account_id
 }
 
 provider "databricks" {

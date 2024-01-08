@@ -1,4 +1,5 @@
 resource "azurerm_key_vault" "example" {
+  count                       = var.key_vault_name != "" ? 1 : 0
   name                        = var.key_vault_name
   location                    = var.location
   resource_group_name         = azurerm_resource_group.this.name

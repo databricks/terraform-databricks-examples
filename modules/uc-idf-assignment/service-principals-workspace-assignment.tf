@@ -1,6 +1,5 @@
 #Retrieve service principals from Databricks account
 data "databricks_service_principal" "sp" {
-  depends_on     = [databricks_service_principal.databricks_service_principal]
   for_each       = var.service_principals
   application_id = each.value["sp_id"]
 }
