@@ -1,11 +1,11 @@
 variable "metastore_id" {
   type        = string
-  description = "the id of the metastore"
+  description = "The ID of Unity Catalog metastore"
 }
 
 variable "workspace_id" {
   type        = string
-  description = "the id of the workspace"
+  description = "The ID of Databricks workspace"
 }
 
 variable "account_groups" {
@@ -14,7 +14,7 @@ variable "account_groups" {
     permissions = list(string)
   }))
   default     = {}
-  description = "list of databricks account groups we want to assign to the workspace"
+  description = "List of databricks account groups we want to assign to the workspace"
 }
 
 variable "service_principals" {
@@ -24,5 +24,5 @@ variable "service_principals" {
     permissions  = list(string)
   }))
   default     = {}
-  description = "list of account-level service principals we want to assign to the workspace"
+  description = "List of account-level service principals we want to assign to the workspace"
 }

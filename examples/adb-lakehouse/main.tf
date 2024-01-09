@@ -1,9 +1,5 @@
-locals {
-  managed_resource_group_name = var.managed_resource_group_name == "" ? "${var.databricks_workspace_name}-managed-rg" : var.managed_resource_group_name
-}
-
 module "adb-lakehouse-uc-metastore" {
-  source                     = "../../modules/adb-lakehouse-uc/uc-metastore"
+  source                     = "../../modules/adb-uc-metastore"
   metastore_storage_name     = var.metastore_storage_name
   metastore_name             = var.metastore_name
   access_connector_name      = var.access_connector_name
@@ -24,7 +20,7 @@ module "adb-lakehouse" {
   location                        = var.location
   spoke_vnet_address_space        = var.spoke_vnet_address_space
   spoke_resource_group_name       = var.spoke_resource_group_name
-  managed_resource_group_name     = local.managed_resource_group_name
+  managed_resource_group_name     = var.managed_resource_group_name
   databricks_workspace_name       = var.databricks_workspace_name
   data_factory_name               = var.data_factory_name
   key_vault_name                  = var.key_vault_name
