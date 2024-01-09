@@ -1,35 +1,30 @@
+variable "shared_resource_group_name" {
+  type        = string
+  description = "Name of the shared resource group"
+}
+
+variable "location" {
+  type        = string
+  description = "(Required) The location for the resources in this module"
+}
+
+variable "metastore_storage_name" {
+  type        = string
+  description = "Name of the storage account for Unity Catalog metastore"
+}
+
+variable "access_connector_name" {
+  type        = string
+  description = "Name of the access connector for Unity Catalog metastore"
+}
+
 variable "metastore_name" {
   type        = string
   description = "the name of the metastore"
 }
 
-
-variable "metastore_storage_name" {
-  type        = string
-  description = "the account storage where we create the metastore"
+variable "tags" {
+  type        = map(string)
+  description = "(Required) Map of tags to attach to resources"
 }
 
-variable "access_connector_id" {
-  type        = string
-  description = "the id of the access connector"
-}
-
-variable "access_connector_name" {
-  type        = string
-  description = "the name of the access connector"
-}
-
-variable "metastore_id" {
-  type        = string
-  description = "the id of the metastore"
-}
-
-variable "workspace_id" {
-  type        = string
-  description = "the id of the workspace"
-}
-
-variable "metastore_admins" {
-  type        = list(string)
-  description = "list of principals: service principals or groups that have metastore admin privileges"
-}

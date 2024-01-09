@@ -63,18 +63,3 @@ variable "storage_account_names" {
   type        = list(string)
   description = "Names of the different storage accounts"
 }
-
-variable "shared_resource_group_name" {
-  type        = string
-  description = "Name of the shared resource group"
-}
-
-variable "metastore_storage_name" {
-  type        = string
-  description = "Name of the storage account for Unity Catalog metastore"
-}
-
-variable "access_connector_name" {
-  type        = string
-  description = "Name of the access connector for Unity Catalog metastore"
-}

@@ -10,7 +10,8 @@ variable "spoke_resource_group_name" {
 
 variable "managed_resource_group_name" {
   type        = string
-  description = "The name of the resource group where Azure should place the managed Databricks resources"
+  description = "(Optional) The name of the resource group where Azure should place the managed Databricks resources"
+  default     = ""
 }
 
 variable "project_name" {
@@ -31,6 +32,7 @@ variable "spoke_vnet_address_space" {
 variable "tags" {
   type        = map(string)
   description = "(Required) Map of tags to attach to resources"
+  default     = {}
 }
 
 variable "databricks_workspace_name" {
@@ -47,6 +49,7 @@ variable "data_factory_name" {
 variable "key_vault_name" {
   type        = string
   description = "(Required) The name of the Azure Data Factory to deploy"
+  default     = ""
 }
 
 variable "private_subnet_address_prefixes" {
@@ -62,6 +65,7 @@ variable "public_subnet_address_prefixes" {
 variable "storage_account_names" {
   type        = list(string)
   description = "Names of the different storage accounts"
+  default     = []
 }
 
 variable "shared_resource_group_name" {
@@ -73,7 +77,6 @@ variable "metastore_name" {
   type        = string
   description = "the name of the metastore"
 }
-
 
 variable "metastore_storage_name" {
   type        = string
@@ -123,4 +126,9 @@ variable "landing_adls_rg" {
 variable "metastore_admins" {
   type        = list(string)
   description = "list of principals: service principals or groups that have metastore admin privileges"
+}
+
+variable "account_id" {
+  type        = string
+  description = "Databricks Account ID"
 }
