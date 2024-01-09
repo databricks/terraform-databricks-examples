@@ -6,6 +6,7 @@ resource "databricks_metastore" "databricks-metastore" {
   storage_root = format("abfss://%s@%s.dfs.core.windows.net/",
     azurerm_storage_container.unity_catalog.name,
   azurerm_storage_account.unity_catalog.name)
+
 }
 
 # give access to the access connector that will be assumed by Unity Catalog to access data

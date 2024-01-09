@@ -60,10 +60,14 @@ resource "azurerm_subnet_route_table_association" "public" {
   route_table_id = azurerm_route_table.this.id
 }
 
+locals {
+  managed_resource_group_name = var.managed_resource_group_name == "" ? "${var.databricks_workspace_name}-managed-rg" : var.managed_resource_group_name
+}
+
 resource "azurerm_databricks_workspace" "this" {
   name                        = var.databricks_workspace_name
   resource_group_name         = var.spoke_resource_group_name
-  managed_resource_group_name = var.managed_resource_group_name
+  managed_resource_group_name = local.managed_resource_group_name
   location                    = var.location
   sku                         = "premium"
 

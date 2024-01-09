@@ -10,7 +10,8 @@ variable "spoke_resource_group_name" {
 
 variable "managed_resource_group_name" {
   type        = string
-  description = "The name of the resource group where Azure should place the managed Databricks resources"
+  description = "(Optional) The name of the resource group where Azure should place the managed Databricks resources"
+  default     = ""
 }
 
 variable "project_name" {
@@ -46,7 +47,8 @@ variable "data_factory_name" {
 
 variable "key_vault_name" {
   type        = string
-  description = "(Required) The name of the Azure Key Vault to deploy"
+  description = "The name of the Azure Key Vault to deploy. Won't be created if not specified"
+  default     = ""
 }
 
 variable "private_subnet_address_prefixes" {
@@ -61,5 +63,6 @@ variable "public_subnet_address_prefixes" {
 
 variable "storage_account_names" {
   type        = list(string)
-  description = "Names of the different storage accounts"
+  description = "Names of additional storage accounts to create"
+  default     = []
 }
