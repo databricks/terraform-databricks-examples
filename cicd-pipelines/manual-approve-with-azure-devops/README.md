@@ -115,10 +115,10 @@ Configure stage by pressing "Add a stage":
 1. Task that will be used to install Terraform. Search for "Command line" task and add it.  Give it name like "Install Terraform" and enter following code into the "Script" field:
 
 ```sh
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
 ```
-
 
 
 2. Task that will extract necessary data for authentication against the state backend. Search for "Azure CLI" task and add it.  Give it name like "Extract information from Azure CLI", and set parameters as following:
