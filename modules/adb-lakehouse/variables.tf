@@ -8,6 +8,12 @@ variable "spoke_resource_group_name" {
   description = "(Required) The name of the Resource Group to create"
 }
 
+variable "create_resource_group" {
+  type        = bool
+  description = "(Optional) Creates resource group if set to true (default)"
+  default     = true
+}
+
 variable "managed_resource_group_name" {
   type        = string
   description = "(Optional) The name of the resource group where Azure should place the managed Databricks resources"

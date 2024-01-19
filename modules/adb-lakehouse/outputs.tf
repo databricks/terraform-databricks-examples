@@ -1,11 +1,11 @@
 output "rg_name" {
-  value       = azurerm_resource_group.this.name
-  description = "Name of the new resource group"
+  value       = local.rg_name
+  description = "Name of the resource group"
 }
 
 output "rg_id" {
-  value       = azurerm_resource_group.this.id
-  description = "ID of the new resource group"
+  value       = local.rg_id
+  description = "ID of the resource group"
 }
 
 output "vnet_id" {
