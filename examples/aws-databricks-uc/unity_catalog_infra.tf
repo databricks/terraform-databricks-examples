@@ -56,6 +56,15 @@ resource "aws_iam_policy" "unity_metastore" {
           "${aws_s3_bucket.metastore.arn}/*"
         ],
         "Effect" : "Allow"
+      },
+      {
+        "Action" : [
+          "sts:AssumeRole"
+        ],
+        "Resource" : [
+          "arn:aws:iam::${var.databricks_account_id}:role/${local.prefix}-uc-access"
+        ],
+        "Effect" : "Allow"
       }
     ]
   })
