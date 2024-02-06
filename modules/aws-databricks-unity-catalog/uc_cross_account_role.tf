@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "passrole_for_uc" {
       values   = ["arn:aws:iam::${var.aws_account_id}:role/${var.prefix}-uc-access"]
     }
   }
-    statement {
+  statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
