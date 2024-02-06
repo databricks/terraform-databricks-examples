@@ -34,6 +34,19 @@ data "aws_iam_policy_document" "passrole_for_uc" {
       values   = [var.databricks_account_id]
     }
   }
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      identifiers = ["arn:aws:iam::${var.databricks_account_id}:root"]
+      type        = "AWS"
+    }
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:PrincipalArn"
+      values   = ["arn:aws:iam::${var.databricks_account_id}:role/${local.prefix}-uc-access"]
+    }
+  }
 }
 
 resource "aws_iam_policy" "unity_metastore" {
