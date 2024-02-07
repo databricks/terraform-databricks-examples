@@ -35,16 +35,17 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     }
   }
   statement {
+    sid     = "ExplicitSelfRoleAssumption"
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = ["arn:aws:iam::${var.databricks_account_id}:root"]
+      identifiers = ["arn:aws:iam::${var.aws_account_id}:root"]
       type        = "AWS"
     }
     condition {
       test     = "ArnEquals"
       variable = "aws:PrincipalArn"
-      values   = ["arn:aws:iam::${var.databricks_account_id}:role/${local.prefix}-uc-access"]
+      values   = ["arn:aws:iam::${var.aws_account_id}:role/${local.prefix}-uc-access"]
     }
   }
 }

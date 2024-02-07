@@ -11,6 +11,11 @@ variable "databricks_account_id" {
   description = "Databricks Account ID"
 }
 
+variable "aws_account_id" {
+  type        = string
+  description = "(Required) AWS account ID where the cross-account role for Unity Catalog will be created"
+}
+
 variable "region" {
   type        = string
   description = "AWS region to deploy to"
