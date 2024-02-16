@@ -1,3 +1,0 @@
-output "dns" {
-  value = "na"
-}
