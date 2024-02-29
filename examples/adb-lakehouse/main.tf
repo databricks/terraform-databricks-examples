@@ -56,7 +56,7 @@ module "adb-lakehouse-data-assets" {
   environment_name               = var.environment_name
   storage_credential_name        = var.access_connector_name
   metastore_id                   = module.adb-lakehouse-uc-metastore.metastore_id
-  access_connector_id            = module.adb-lakehouse.access_connector_principal_id
+  access_connector_id            = module.adb-lakehouse-uc-metastore.access_connector_principal_id
   landing_external_location_name = var.landing_external_location_name
   landing_adls_path              = var.landing_adls_path
   landing_adls_rg                = var.landing_adls_rg
