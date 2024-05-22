@@ -63,18 +63,13 @@ resource "azurerm_subnet_network_security_group_association" "transit_public" {
   network_security_group_id = azurerm_network_security_group.transit_sg.id
 }
 
-variable "transit_private_subnet_endpoints" {
-  default = []
-}
-
 resource "azurerm_subnet" "transit_private" {
   name                 = "${local.prefix}-transit-private"
   resource_group_name  = azurerm_resource_group.transit_rg.name
   virtual_network_name = azurerm_virtual_network.transit_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_transit, 6, 1)]
 
-  private_endpoint_network_policies_enabled     = true
-  private_link_service_network_policies_enabled = true
+  private_endpoint_network_policies = "Enabled"
 
   delegation {
     name = "databricks"
@@ -97,9 +92,9 @@ resource "azurerm_subnet_network_security_group_association" "transit_private" {
 
 
 resource "azurerm_subnet" "transit_plsubnet" {
-  name                                      = "${local.prefix}-transit-privatelink"
-  resource_group_name                       = azurerm_resource_group.transit_rg.name
-  virtual_network_name                      = azurerm_virtual_network.transit_vnet.name
-  address_prefixes                          = [cidrsubnet(var.cidr_transit, 6, 2)]
-  private_endpoint_network_policies_enabled = true
+  name                              = "${local.prefix}-transit-privatelink"
+  resource_group_name               = azurerm_resource_group.transit_rg.name
+  virtual_network_name              = azurerm_virtual_network.transit_vnet.name
+  address_prefixes                  = [cidrsubnet(var.cidr_transit, 6, 2)]
+  private_endpoint_network_policies = "Enabled"
 }

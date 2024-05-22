@@ -43,3 +43,15 @@ variable "test_vm_password" {
   default     = "TesTed567!!!"
   description = "Password for Test VM"
 }
+
+variable "private_subnet_endpoints" {
+  description = "The list of Service endpoints to associate with the private subnet."
+  type        = list(string)
+  default     = []
+}
+
+variable "tags" {
+  description = "map of tags to add to all resources"
+  type        = map(any)
+  default     = {}
+}
