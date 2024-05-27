@@ -64,18 +64,13 @@ resource "azurerm_subnet_network_security_group_association" "dp_public" {
   network_security_group_id = azurerm_network_security_group.dp_sg.id
 }
 
-variable "private_subnet_endpoints" {
-  default = []
-}
-
 resource "azurerm_subnet" "dp_private" {
   name                 = "${local.prefix}-dp-private"
   resource_group_name  = azurerm_resource_group.dp_rg.name
   virtual_network_name = azurerm_virtual_network.dp_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_dp, 6, 1)]
 
-  private_endpoint_network_policies_enabled     = true
-  private_link_service_network_policies_enabled = true
+  private_endpoint_network_policies = "Enabled"
 
   delegation {
     name = "databricks"
@@ -97,9 +92,9 @@ resource "azurerm_subnet_network_security_group_association" "dp_private" {
 }
 
 resource "azurerm_subnet" "dp_plsubnet" {
-  name                                      = "${local.prefix}-dp-privatelink"
-  resource_group_name                       = azurerm_resource_group.dp_rg.name
-  virtual_network_name                      = azurerm_virtual_network.dp_vnet.name
-  address_prefixes                          = [cidrsubnet(var.cidr_dp, 6, 2)]
-  private_endpoint_network_policies_enabled = true
+  name                              = "${local.prefix}-dp-privatelink"
+  resource_group_name               = azurerm_resource_group.dp_rg.name
+  virtual_network_name              = azurerm_virtual_network.dp_vnet.name
+  address_prefixes                  = [cidrsubnet(var.cidr_dp, 6, 2)]
+  private_endpoint_network_policies = "Enabled"
 }

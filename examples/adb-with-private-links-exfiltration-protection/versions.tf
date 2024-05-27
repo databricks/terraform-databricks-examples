@@ -1,13 +1,16 @@
 # versions.tf
 terraform {
   required_providers {
-    databricks = {
-      source  = "databricks/databricks"
-      version = ">=1.20.0"
-    }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.50.0"
+      version = "~>3.104.0"
+    }
+    random = {
+      source = "hashicorp/random"
     }
   }
+}
+
+provider "azurerm" {
+  features {}
 }
