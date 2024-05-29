@@ -36,11 +36,6 @@ variable "webapp_ips" {
   type        = list(string)
 }
 
-variable "extended_infra_ip" {
-  description = "IP range for Azure Databricks extended infrastructure"
-  type        = string
-}
-
 variable "eventhubs" {
   description = "List of FQDNs for Azure Databricks EventHubs traffic"
   type        = list(string)
@@ -61,4 +56,10 @@ variable "workspace_prefix" {
 variable "firewallfqdn" {
   type        = list(any)
   description = "List of domains names to put into application rules for handling of HTTPS traffic (Databricks storage accounts, etc.)"
+}
+
+variable "tags" {
+  description = "Additional tags to add to created resources"
+  default     = {}
+  type        = map(string)
 }

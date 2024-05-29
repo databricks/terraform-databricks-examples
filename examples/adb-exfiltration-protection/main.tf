@@ -19,9 +19,9 @@ module "adb-exfiltration-protection" {
   metastore         = var.metastore
   scc_relay         = var.scc_relay
   webapp_ips        = var.webapp_ips
-  extended_infra_ip = var.extended_infra_ip
   dbfs_prefix       = var.dbfs_prefix
   workspace_prefix  = var.workspace_prefix
   firewallfqdn      = var.firewallfqdn
   eventhubs         = var.eventhubs
+  tags              = var.tags
 }
