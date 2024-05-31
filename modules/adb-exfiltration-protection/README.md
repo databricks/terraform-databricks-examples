@@ -43,7 +43,6 @@ In `variables.tfvars`, set these variables (bigger regions have multiple instanc
 metastore         = ["consolidated-westeurope-prod-metastore.mysql.database.azure.com"]
 scc_relay         = ["tunnel.westeurope.azuredatabricks.net"]
 webapp_ips        = ["52.230.27.216/32"] # given at UDR page
-extended_infra_ip = "20.73.215.48/28"
 eventhubs         = ["prod-westeurope-observabilityeventhubs.servicebus.windows.net"]
 # find these for your region, follow Databricks blog tutorial.
 firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.blob.core.windows.net","dblogprodseasia.blob.core.windows.net","cdnjs.com"]
@@ -85,7 +84,6 @@ No modules.
 | [azurerm_storage_account.allowedstorage](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/storage_account)                                              | resource    |
 | [azurerm_storage_account.deniedstorage](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/storage_account)                                               | resource    |
 | [azurerm_subnet.hubfw](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                         | resource    |
-| [azurerm_subnet.plsubnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                      | resource    |
 | [azurerm_subnet.private](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                       | resource    |
 | [azurerm_subnet.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                        | resource    |
 | [azurerm_subnet_network_security_group_association.private](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet_network_security_group_association) | resource    |
@@ -106,7 +104,6 @@ No modules.
 | -------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ----------------- | :------: |
 | <a name="input_bypass_scc_relay"></a> [bypass\_scc\_relay](#input\_bypass\_scc\_relay)                         | n/a         | `bool`      | `true`          |    no    |
 | <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                          | n/a         | `string`    | `"dbfs"`          |    no    |
-| <a name="input_extended_infra_ip"></a> [extended_infra_ip](#input\_extended_infra_ip)                          | n/a         | `string` | n/a               |   yes    |
 | <a name="input_eventhubs"></a> [eventhubs](#input\_eventhubs)                                                  | n/a         | `list(string)` | n/a               |   yes    |
 | <a name="input_firewallfqdn"></a> [firewallfqdn](#input\_firewallfqdn)                                         | n/a         | `list(string)` | n/a               |   yes    |
 | <a name="input_hubcidr"></a> [hubcidr](#input\_hubcidr)                                                        | n/a         | `string`    | `"10.178.0.0/20"` |    no    |

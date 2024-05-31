@@ -36,11 +36,6 @@ variable "webapp_ips" {
   type        = list(string)
 }
 
-variable "extended_infra_ip" {
-  description = "IP range for Azure Databricks extended infrastructure"
-  type        = string
-}
-
 variable "eventhubs" {
   description = "List of FQDNs for Azure Databricks EventHubs traffic"
   type        = list(string)
