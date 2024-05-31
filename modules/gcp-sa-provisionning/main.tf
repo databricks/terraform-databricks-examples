@@ -22,7 +22,7 @@ resource "google_service_account_iam_policy" "impersonatable" {
 
 
 resource "google_project_iam_custom_role" "workspace_creator" {
-  role_id = "${var.prefix}_workspace_creator"
+  role_id = "${var.prefix}WorkspaceCreator"
   title   = "Databricks Workspace Creator by Aleks"
   project = var.google_project
   permissions = [
