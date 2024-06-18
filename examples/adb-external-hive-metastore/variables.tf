@@ -43,11 +43,9 @@ variable "db_password" {
 variable "node_type" {
   description = "instance type"
   type        = string
-  default     = "Standard_E8ds_v4"
+  default     = "Standard_DS3_v2"
 }
 
-variable "cold_start" {
-  description = "if true, will spin up a cluster to download hive jars to dbfs"
-  type        = bool
-  default     = true # set to true to use a cluster to initialize hive schema
+variable "private_subnet_endpoints" {
+  default = []
 }

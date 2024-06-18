@@ -8,7 +8,15 @@ terraform {
 
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.58.0"
+      version = "~> 5.0"
     }
   }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+provider "databricks" {
+  host = "https://accounts.cloud.databricks.com"
 }

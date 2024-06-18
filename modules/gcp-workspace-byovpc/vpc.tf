@@ -35,7 +35,6 @@ resource "google_compute_router_nat" "nat" {
 }
 
 resource "databricks_mws_networks" "databricks_network" {
-  provider   = databricks.accounts
   account_id = var.databricks_account_id
 
   network_name = "${var.prefix}-${random_string.suffix.result}"

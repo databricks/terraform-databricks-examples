@@ -1,0 +1,10 @@
+[
+  {
+    "workspace_name": "ws-1",
+    "host": "https://adb-8861999999206043.3.azuredatabricks.net"
+  },
+  {
+    "workspace_name": "ws-2",
+    "host": "https://adb-6396842068490886.6.azuredatabricks.net"
+  }
+]

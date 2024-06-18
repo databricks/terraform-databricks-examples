@@ -7,7 +7,8 @@ variable "databricks_account_password" {
 }
 
 variable "databricks_account_id" {
-  type = string
+  type        = string
+  description = "Databricks Account ID"
 }
 
 variable "databricks_users" {

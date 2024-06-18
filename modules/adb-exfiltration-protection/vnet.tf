@@ -46,9 +46,6 @@ resource "azurerm_subnet" "private" {
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(local.cidr, 3, 1)]
 
-  enforce_private_link_endpoint_network_policies = true
-  enforce_private_link_service_network_policies  = true
-
   delegation {
     name = "databricks"
     service_delegation {
@@ -68,14 +65,6 @@ resource "azurerm_subnet_network_security_group_association" "private" {
   network_security_group_id = azurerm_network_security_group.this.id
 }
 
-
-resource "azurerm_subnet" "plsubnet" {
-  name                 = "${local.prefix}-privatelink"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.this.name
-  address_prefixes     = [cidrsubnet(local.cidr, 3, 2)]
-  //enforce_private_link_endpoint_network_policies = true // set to true to disable subnet policy
-}
 
 resource "azurerm_virtual_network" "hubvnet" {
   name                = "${local.prefix}-hub-vnet"

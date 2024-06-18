@@ -1,46 +1,58 @@
-variable "databricks_account_username" {}
-variable "databricks_account_password" {}
-variable "databricks_account_id" {}
+variable "databricks_account_username" {
+  type = string
+}
+
+variable "databricks_account_password" {
+  type = string
+}
+
+variable "databricks_account_id" {
+  type        = string
+  description = "Databricks Account ID"
+}
 
 variable "tags" {
-  default = {}
+  default     = {}
+  type        = map(string)
+  description = "Optional tags to add to created resources"
 }
 
 variable "spoke_cidr_block" {
-  default = "10.173.0.0/16"
+  default     = "10.173.0.0/16"
+  description = "IP range for spoke AWS VPC"
+  type        = string
 }
+
 variable "hub_cidr_block" {
-  default = "10.10.0.0/16"
+  default     = "10.10.0.0/16"
+  description = "IP range for hub AWS VPC"
+  type        = string
 }
+
 variable "region" {
-  default = "eu-central-1"
+  type        = string
+  default     = "eu-central-1"
+  description = "AWS region to deploy to"
 }
 
-resource "random_string" "naming" {
-  special = false
-  upper   = false
-  length  = 6
-}
 variable "whitelisted_urls" {
-  default = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org"]
+  type = list(string)
+  default = [
+    ".pypi.org", ".pythonhosted.org",   # python packages
+    ".cran.r-project.org",              # R packages
+    ".maven.org",                       # maven artifacts
+    ".storage-download.googleapis.com", # maven mirror
+    ".spark-packages.org",              # spark packages
+  ]
 }
 
-variable "db_web_app" {
-  default = "frankfurt.cloud.databricks.com"
-}
-
-variable "db_tunnel" {
-  default = "tunnel.eu-central-1.cloud.databricks.com"
-}
-
-variable "db_rds" {
-  default = "mdv2llxgl8lou0.ceptxxgorjrc.eu-central-1.rds.amazonaws.com"
-}
-
-variable "db_control_plane" {
-  default = "18.159.44.32/28"
+variable "enable_private_link" {
+  type    = bool
+  default = false
 }
 
 variable "prefix" {
-  default = "demo"
+  default     = "demo"
+  type        = string
+  description = "Prefix for use in the generated names"
 }

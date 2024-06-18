@@ -3,7 +3,7 @@ resource "azurerm_storage_account" "sqlserversa" {
   resource_group_name      = azurerm_resource_group.this.name
   location                 = azurerm_resource_group.this.location
   account_tier             = "Standard"
-  account_replication_type = "LRS" // LRS 3 copies of data in the region
+  account_replication_type = "LRS"
 }
 
 resource "azurerm_mssql_server" "metastoreserver" {
@@ -13,7 +13,7 @@ resource "azurerm_mssql_server" "metastoreserver" {
   version                       = "12.0"
   administrator_login           = var.db_username // sensitive data stored as env variables locally
   administrator_login_password  = var.db_password
-  public_network_access_enabled = true // consider to disable public access to the server, to set as false
+  public_network_access_enabled = true // set to false to remove public access
 }
 
 resource "azurerm_mssql_database" "sqlmetastore" {

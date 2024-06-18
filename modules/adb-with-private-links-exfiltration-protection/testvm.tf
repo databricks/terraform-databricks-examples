@@ -24,6 +24,7 @@ resource "azurerm_network_interface_security_group_association" "testvmnsgassoc"
 }
 
 data "http" "my_public_ip" { // add your host machine ip into nsg
+
   url = "https://ifconfig.co/json"
   request_headers = {
     Accept = "application/json"
@@ -31,11 +32,7 @@ data "http" "my_public_ip" { // add your host machine ip into nsg
 }
 
 locals {
-  ifconfig_co_json = jsondecode(data.http.my_public_ip.body)
-}
-
-output "my_ip_addr" {
-  value = local.ifconfig_co_json.ip
+  ifconfig_co_json = jsondecode(data.http.my_public_ip.response_body)
 }
 
 resource "azurerm_network_security_rule" "test0" {
@@ -67,7 +64,7 @@ resource "azurerm_windows_virtual_machine" "testvm" {
   location            = azurerm_resource_group.this.location
   size                = "Standard_F4s_v2"
   admin_username      = "azureuser"
-  admin_password      = "TesTed567!!!"
+  admin_password      = var.test_vm_password
   network_interface_ids = [
     azurerm_network_interface.testvmnic.id,
   ]

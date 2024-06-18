@@ -11,9 +11,6 @@ provider "azurerm" {
   features {}
 }
 
-provider "random" {
-}
-
 resource "random_string" "naming" {
   special = false
   upper   = false
@@ -35,11 +32,11 @@ locals {
   dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
 
   // tags that are propagated down to all resources
-  tags = {
+  tags = merge({
     Environment = "Testing"
     Owner       = lookup(data.external.me.result, "name")
     Epoch       = random_string.naming.result
-  }
+  }, var.tags)
 }
 
 resource "azurerm_resource_group" "this" {

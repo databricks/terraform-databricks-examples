@@ -1,22 +1,17 @@
-# This is a basic Github Actions pipeline to validate Terraform
-
-name: ' Validate Terraform code: '
-
+---
+# This is a basic GitHub Actions pipeline to validate Terraform
+name: Databricks Terraform Infrastructure Pipeline
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
-
+    branches: [ main ]
 defaults:
   run:
     working-directory: examples/databricks-department-clusters-pat
-
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-  DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_TOKEN }}
+  DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
   ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -25,33 +20,23 @@ env:
   BACKEND_SA_NAME: ${{ secrets.BACKEND_SA_NAME }}
   BACKEND_CONTAINER_NAME: ${{ secrets.BACKEND_CONTAINER_NAME }}
   BACKEND_KEY: ${{ secrets.BACKEND_KEY }}
-
+  TERRAFORM_VERSION: 1.4.6
 jobs:
   build:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2.0.0
         with:
-            terraform_version: '1.0.11'
-      
-      - name: Set up Databricks CLI profile for Terraform provider
-        run: |
-            echo "[DEFAULT]" >> ~/.databrickscfg
-            echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-            echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
-                    
+          terraform_version: $TERRAFORM_VERSION
       - name: Check formatting of Terraform code
         id: fmt
         run: |
           terraform fmt -check
-
       - name: Terraform Init
         id: init
         run: |
@@ -60,16 +45,13 @@ jobs:
           -backend-config="storage_account_name=$BACKEND_SA_NAME" \
           -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
           -backend-config="key=$BACKEND_KEY"   
-
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-      
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -input=false
         continue-on-error: true
-      
       - name: Update Pull Request
         uses: actions/github-script@v6.1.0
         env:
@@ -81,54 +63,42 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-      
             <details><summary>Show Plan</summary>
-      
             \`\`\`\n
             ${process.env.PLAN}
             \`\`\`
-      
             </details>
-      
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-      
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
             })
-      
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
-
   release:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
     strategy:
       max-parallel: 4
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2.0.0
         with:
-            terraform_version: '1.0.11'
-      
+          terraform_version: $TERRAFORM_VERSION
       - name: Set up Databricks CLI profile for Terraform provider
         run: |
-            echo "[DEFAULT]" >> ~/.databrickscfg
-            echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
-            echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
-                    
+          echo "[DEFAULT]" >> ~/.databrickscfg
+          echo "host = $DATABRICKS_HOST" >> ~/.databrickscfg
+          echo "token = $DATABRICKS_TOKEN" >> ~/.databrickscfg
       - name: Check formatting of Terraform code
         id: fmt
         run: |
           terraform fmt -check
-
       - name: Terraform Init
         id: init
         run: |
@@ -136,26 +106,21 @@ jobs:
           -backend-config="resource_group_name=$BACKEND_RG_NAME" \
           -backend-config="storage_account_name=$BACKEND_SA_NAME" \
           -backend-config="container_name=$BACKEND_CONTAINER_NAME" \
-          -backend-config="key=$BACKEND_KEY"       
-
+          -backend-config="key=$BACKEND_KEY"
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-      
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -input=false
         continue-on-error: true
-      
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
-
       - name: Terraform Apply
         id: apply
-        run: terraform destroy -no-color -input=false --auto-approve
+        run: terraform apply -no-color -input=false --auto-approve
         continue-on-error: true
-
       - name: Terraform Apply Status
         if: steps.apply.outcome == 'failure'
-        run: exit 1        
+        run: exit 1

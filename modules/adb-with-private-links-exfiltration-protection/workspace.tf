@@ -9,7 +9,7 @@ resource "azurerm_databricks_workspace" "this" {
   customer_managed_key_enabled          = true
   //infrastructure_encryption_enabled = true
   custom_parameters {
-    no_public_ip                                         = var.no_public_ip
+    no_public_ip                                         = true
     virtual_network_id                                   = azurerm_virtual_network.this.id
     private_subnet_name                                  = azurerm_subnet.private.name
     public_subnet_name                                   = azurerm_subnet.public.name
@@ -22,15 +22,4 @@ resource "azurerm_databricks_workspace" "this" {
     azurerm_subnet_network_security_group_association.public,
     azurerm_subnet_network_security_group_association.private
   ]
-}
-
-output "databricks_azure_workspace_resource_id" {
-  // The ID of the Databricks Workspace in the Azure management plane.
-  value = azurerm_databricks_workspace.this.id
-}
-
-output "workspace_url" {
-  // The workspace URL which is of the format 'adb-{workspaceId}.{random}.azuredatabricks.net'
-  // this is not named as DATABRICKS_HOST, because it affect authentication
-  value = "https://${azurerm_databricks_workspace.this.workspace_url}/"
 }

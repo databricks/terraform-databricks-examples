@@ -4,7 +4,7 @@ resource "aws_iam_role" "cross_account_role" {
   tags               = var.tags
 }
 
-resource "aws_iam_role_policy" "this" {
+resource "aws_iam_role_policy" "cross_account_policy" {
   name   = "${local.prefix}-policy"
   role   = aws_iam_role.cross_account_role.id
   policy = data.databricks_aws_crossaccount_policy.this.json

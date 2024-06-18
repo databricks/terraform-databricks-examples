@@ -5,7 +5,6 @@ resource "azurerm_databricks_workspace" "this" {
   sku                          = "premium"
   tags                         = local.tags
   customer_managed_key_enabled = true
-  //infrastructure_encryption_enabled = true
   custom_parameters {
     no_public_ip                                         = var.no_public_ip
     virtual_network_id                                   = azurerm_virtual_network.this.id
@@ -22,30 +21,14 @@ resource "azurerm_databricks_workspace" "this" {
   ]
 }
 
-resource "databricks_global_init_script" "metastoreinit" {
-  source = "./initscripts/external_metastore_init.sh"
-  name   = "basic init script to enforce on every cluster in workspace that uses external metastore"
-}
-
-provider "databricks" {
-  host = azurerm_databricks_workspace.this.workspace_url
-}
-
-data "databricks_spark_version" "latest_lts" {
-  long_term_support = true
-  depends_on = [
-    azurerm_databricks_workspace.this
-  ]
-}
 
 resource "databricks_cluster" "coldstart" {
-  count                   = var.cold_start ? 1 : 0
   cluster_name            = "cluster - external metastore"
   spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = var.node_type
   autotermination_minutes = 30
   autoscale {
-    min_workers = 0
+    min_workers = 1
     max_workers = 1
   }
 
@@ -68,8 +51,7 @@ resource "databricks_cluster" "coldstart" {
     "HIVE_URL"      = "{{secrets/hive/HIVE-URL}}",
   }
   depends_on = [
-    azurerm_databricks_workspace.this,
-    databricks_secret_scope.kv, # need this to be able to access the secrets
+    databricks_secret_scope.kv,
     azurerm_key_vault_secret.hiveuser,
     azurerm_key_vault_secret.hivepwd,
     azurerm_key_vault_secret.hiveurl

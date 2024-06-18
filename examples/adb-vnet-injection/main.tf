@@ -21,19 +21,19 @@ resource "random_string" "naming" {
 resource "azurerm_resource_group" "this" {
   name     = "${random_string.naming.result}-basic-demo-rg"
   location = var.rglocation
+  tags     = local.tags
 }
 
 locals {
-  // dltp - databricks labs terraform provider
   prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
   location = var.rglocation
   dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
 
   // tags that are propagated down to all resources
-  tags = {
+  tags = merge({
     Environment = "Testing"
     Epoch       = random_string.naming.result
-  }
+  }, var.tags)
 }
 
 

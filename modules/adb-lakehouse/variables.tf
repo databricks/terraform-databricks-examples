@@ -8,6 +8,18 @@ variable "spoke_resource_group_name" {
   description = "(Required) The name of the Resource Group to create"
 }
 
+variable "create_resource_group" {
+  type        = bool
+  description = "(Optional) Creates resource group if set to true (default)"
+  default     = true
+}
+
+variable "managed_resource_group_name" {
+  type        = string
+  description = "(Optional) The name of the resource group where Azure should place the managed Databricks resources"
+  default     = ""
+}
+
 variable "project_name" {
   type        = string
   description = "(Required) The name of the project associated with the infrastructure to be managed by Terraform"
@@ -35,12 +47,14 @@ variable "databricks_workspace_name" {
 
 variable "data_factory_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "The name of the Azure Data Factory to deploy. Won't be created if not specified"
+  default     = ""
 }
 
 variable "key_vault_name" {
   type        = string
-  description = "(Required) The name of the Azure Data Factory to deploy"
+  description = "The name of the Azure Key Vault to deploy. Won't be created if not specified"
+  default     = ""
 }
 
 variable "private_subnet_address_prefixes" {
@@ -55,20 +69,6 @@ variable "public_subnet_address_prefixes" {
 
 variable "storage_account_names" {
   type        = list(string)
-  description = "Names of the different storage accounts"
-}
-
-variable "shared_resource_group_name" {
-  type        = string
-  description = "Name of the shared resource group"
-}
-
-variable "metastore_storage_name" {
-  type        = string
-  description = "Name of the storage account for Unity Catalog metastore"
-}
-
-variable "access_connector_name" {
-  type        = string
-  description = "Name of the access connector for Unity Catalog metastore"
+  description = "Names of additional storage accounts to create"
+  default     = []
 }
