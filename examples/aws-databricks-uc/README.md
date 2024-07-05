@@ -18,8 +18,8 @@ When running tf configs for UC resources, due to sometimes requires a few minute
 
 
 ```bash
-export TF_VAR_databricks_account_client_id=application_id
-export TF_VAR_databricks_account_client_secret=sp_secret
+export TF_VAR_databricks_account_client_id=your_account_level_spn_application_id
+export TF_VAR_databricks_account_client_secret=your_account_level_spn_secret
 export TF_VAR_databricks_account_id=your_databricks_account_id
 
 export AWS_ACCESS_KEY_ID=your_aws_role_access_key_id
