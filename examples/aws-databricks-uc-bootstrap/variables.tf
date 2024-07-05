@@ -1,9 +1,11 @@
-variable "databricks_account_username" {
-  type = string
+variable "databricks_account_client_id" {
+  type        = string
+  description = "Application ID of account-level service principal"
 }
 
-variable "databricks_account_password" {
-  type = string
+variable "databricks_account_client_secret" {
+  type        = string
+  description = "Client secret of account-level service principal"
 }
 
 variable "databricks_account_id" {
