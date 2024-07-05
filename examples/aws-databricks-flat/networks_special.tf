@@ -76,8 +76,8 @@ resource "aws_security_group" "test_sg" {
 module "my_mws_network" {
   source                           = "./modules/mws_network"
   existing_vpc_id                  = aws_vpc.mainvpc.id
-  databricks_account_client_id     = var.databricks_account_client_secret
-  databricks_account_client_secret = var.databricks_account_client_id
+  databricks_account_client_id     = var.databricks_account_client_id
+  databricks_account_client_secret = var.databricks_account_client_secret
   databricks_account_id            = var.databricks_account_id
   region                           = var.region
   aws_nat_gateway_id               = aws_nat_gateway.nat_gateways[0].id
