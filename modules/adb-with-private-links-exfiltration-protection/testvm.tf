@@ -35,10 +35,6 @@ locals {
   ifconfig_co_json = jsondecode(data.http.my_public_ip.response_body)
 }
 
-output "my_ip_addr" {
-  value = local.ifconfig_co_json.ip
-}
-
 resource "azurerm_network_security_rule" "test0" {
   name                        = "RDP"
   priority                    = 200
@@ -60,10 +56,6 @@ resource "azurerm_public_ip" "testvmpublicip" {
   resource_group_name = azurerm_resource_group.this.name
   allocation_method   = "Static"
   sku                 = "Standard"
-}
-
-output "test_vm_public_ip" {
-  value = azurerm_public_ip.testvmpublicip.ip_address
 }
 
 resource "azurerm_windows_virtual_machine" "testvm" {

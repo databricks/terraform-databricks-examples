@@ -1,6 +1,5 @@
 hubcidr          = "10.178.0.0/20"
 spokecidr        = "10.179.0.0/20"
-no_public_ip     = true
 rglocation       = "southeastasia"
 metastoreip      = "40.78.233.2"
 dbfs_prefix      = "dbfs"

@@ -13,8 +13,10 @@ provider "aws" {
 
 // initialize provider in "MWS" mode to provision new workspace
 provider "databricks" {
-  alias    = "mws"
-  host     = "https://accounts.cloud.databricks.com"
-  username = var.databricks_account_username
-  password = var.databricks_account_password
+  alias         = "mws"
+  host          = "https://accounts.cloud.databricks.com"
+  client_id     = var.databricks_account_client_id
+  client_secret = var.databricks_account_client_secret
+  account_id    = var.databricks_account_id
+  auth_type      = "oauth-m2m"
 }

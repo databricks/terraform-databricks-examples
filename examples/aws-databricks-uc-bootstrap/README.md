@@ -16,11 +16,11 @@ AWS Databricks has 2 levels of resources:
 1. Account Level (unity metastore, account level users/groups, etc)
 2. Workspace Level (workspace level users/groups, workspace objects like clusters)
 
-The 2 levels of resources use different providers configs and have different authentication method, username/password is the only method for account level provider authentication. 
+The 2 levels of resources use different providers configs and have different authentication method, client ID/client secret is the only method for account level provider authentication. 
 
 For workspace level provider you can create `n` databricks providers for `n` existing workspaces, each provider to be authenticate via PAT token.
 
-We propose 2-stage process to get onboarded to UC. Starting at the point where you only have `account owner`, and this identity will also be the first `account admin`. Account admins can add/remove other `account admin`.
+We propose 2-stage process to get onboarded to UC. Starting at the point where you only have `account owner`, and this identity will also be the first `account admin`. Account admins can add/remove other account admins, including service principals.
 
 We recommend using `account admin` identities to deploy unity catalog related resources.
 

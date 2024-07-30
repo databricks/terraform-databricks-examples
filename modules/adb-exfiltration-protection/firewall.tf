@@ -59,26 +59,11 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
     ]
 
     destination_ports = [
-      "443", "8443", "8444",
+      "443", "8443–8451",
     ]
 
     destination_addresses = var.webapp_ips
 
-    protocols = [
-      "TCP",
-    ]
-  }
-
-  rule {
-    name = "databricks-extended_infra"
-
-    source_addresses = [
-      join(", ", azurerm_subnet.public.address_prefixes),
-      join(", ", azurerm_subnet.private.address_prefixes),
-    ]
-
-    destination_addresses = [var.extended_infra_ip]
-    destination_ports     = ["*"]
     protocols = [
       "TCP",
     ]
