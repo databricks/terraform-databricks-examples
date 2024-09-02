@@ -11,9 +11,10 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
-      values   = [var.databricks_account_id]
+      values   = [databricks_storage_credential.this.aws_iam_role.external_id]
     }
   }
+
   statement {
     sid     = "ExplicitSelfRoleAssumption"
     effect  = "Allow"
@@ -25,7 +26,7 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     condition {
       test     = "ArnLike"
       variable = "aws:PrincipalArn"
-      values   = ["arn:aws:iam::${var.aws_account_id}:role/${var.prefix}-uc-access"]
+      values   = [local.iam_role_arn]
     }
   }
 }
@@ -54,15 +55,13 @@ resource "aws_iam_policy" "unity_metastore" {
         "Action" : [
           "sts:AssumeRole"
         ],
-        "Resource" : [
-          "arn:aws:iam::${var.aws_account_id}:role/${var.prefix}-uc-access"
-        ],
+        "Resource" : [local.iam_role_arn],
         "Effect" : "Allow"
       }
     ]
   })
   tags = merge(var.tags, {
-    Name = "${var.prefix}-unity-catalog IAM policy"
+    Name = "${local.iam_role_name} IAM policy"
   })
 }
 
@@ -95,7 +94,7 @@ resource "aws_iam_policy" "sample_data" {
 }
 
 resource "aws_iam_role" "metastore_data_access" {
-  name                = "${var.prefix}-uc-access"
+  name                = "${local.iam_role_name}"
   assume_role_policy  = data.aws_iam_policy_document.passrole_for_uc.json
   managed_policy_arns = [aws_iam_policy.unity_metastore.arn, aws_iam_policy.sample_data.arn]
   tags = merge(var.tags, {
