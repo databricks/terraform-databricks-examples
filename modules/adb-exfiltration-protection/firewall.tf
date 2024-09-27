@@ -59,7 +59,7 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
     ]
 
     destination_ports = [
-      "443", "8443–8451",
+      "443", "8443-8451",
     ]
 
     destination_addresses = var.webapp_ips
