@@ -95,7 +95,7 @@ resource "aws_iam_policy" "sample_data" {
 }
 
 resource "aws_iam_role" "metastore_data_access" {
-  name                = "${local.iam_role_name}"
+  name                = local.iam_role_name
   assume_role_policy  = data.aws_iam_policy_document.passrole_for_uc.json
   managed_policy_arns = [aws_iam_policy.unity_metastore.arn, aws_iam_policy.sample_data.arn]
   tags = merge(var.tags, {
