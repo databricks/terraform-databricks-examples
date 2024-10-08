@@ -11,7 +11,8 @@ data "aws_iam_policy_document" "passrole_for_uc" {
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
-      values   = [databricks_storage_credential.this.aws_iam_role.external_id]
+      values   = [databricks_metastore_data_access.this.aws_iam_role.0.external_id]
+
     }
   }
 
