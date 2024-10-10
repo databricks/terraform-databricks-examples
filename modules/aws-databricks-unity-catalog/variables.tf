@@ -6,7 +6,7 @@ variable "tags" {
 
 variable "prefix" {
   type        = string
-  description = "(Optional) Prefix to name the resources created by this module"
+  description = "(Required) Prefix to name the resources created by this module"
 }
 
 variable "region" {
