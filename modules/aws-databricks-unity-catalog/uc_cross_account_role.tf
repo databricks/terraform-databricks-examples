@@ -12,7 +12,6 @@ data "aws_iam_policy_document" "passrole_for_uc" {
       test     = "StringEquals"
       variable = "sts:ExternalId"
       values   = [databricks_metastore_data_access.this.aws_iam_role.0.external_id]
-
     }
   }
 
@@ -101,4 +100,10 @@ resource "aws_iam_role" "metastore_data_access" {
   tags = merge(var.tags, {
     Name = "${var.prefix}-unity-catalog IAM role"
   })
+}
+
+# Sleeping for 20s to wait for the workspace to enable identity federation
+resource "time_sleep" "wait_role_creation" {
+  depends_on = [aws_iam_role.metastore_data_access]
+  create_duration = "20s"
 }
