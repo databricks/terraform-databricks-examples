@@ -1,17 +1,3 @@
-# Azure Provider source and version being used
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">=3.0.0"
-    }
-    databricks = {
-      source  = "databricks/databricks"
-      version = ">=1.13.0"
-    }
-  }
-}
-
 resource "random_string" "naming" {
   special = false
   upper   = false
