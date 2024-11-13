@@ -80,7 +80,6 @@ Navigate to Azure Portal and verify that all resources were deployed successfull
 | <a name="input_cidr"></a> [cidr](#input\_cidr)                                                                                     | n/a         | `string` | `"10.179.0.0/20"`   |    no    |
 | <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                                              | n/a         | `string` | `"dbfs"`            |    no    |
 | <a name="input_global_auto_termination_minute"></a> [global\_auto\_termination\_minute](#input\_global\_auto\_termination\_minute) | n/a         | `number` | `30`                |    no    |
-| <a name="input_no_public_ip"></a> [no\_public\_ip](#input\_no\_public\_ip)                                                         | n/a         | `bool`   | `true`              |    no    |
 | <a name="input_node_type"></a> [node\_type](#input\_node\_type)                                                                    | n/a         | `string` | `"Standard_DS3_v2"` |    no    |
 | <a name="input_rglocation"></a> [rglocation](#input\_rglocation)                                                                   | n/a         | `string` | `"southeastasia"`   |    no    |
 | <a name="input_workspace_prefix"></a> [workspace\_prefix](#input\_workspace\_prefix)                                               | n/a         | `string` | `"adb"`             |    no    |
