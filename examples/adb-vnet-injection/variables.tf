@@ -1,7 +1,6 @@
-variable "no_public_ip" {
-  type        = bool
-  default     = true
-  description = "If Secure Cluster Connectivity (No Public IP) should be enabled. Default: true"
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID to deploy the workspace into"
 }
 
 variable "rglocation" {
@@ -45,5 +44,6 @@ variable "tags" {
   description = "Optional tags to add to resources"
   default     = {}
 }
+
 
 

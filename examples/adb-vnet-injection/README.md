@@ -39,16 +39,17 @@ Navigate to Azure Portal and verify that all resources were deployed successfull
 
 | Name                                                                         | Version  |
 | ---------------------------------------------------------------------------- | -------- |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)          | >=3.0.0  |
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.13.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)          | >=4.0.0  |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.52.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random)             |          |
 
 ## Providers
 
 | Name                                                                   | Version |
 | ---------------------------------------------------------------------- | ------- |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)          | 3.49.0  |
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.13.0  |
-| <a name="provider_random"></a> [random](#provider\_random)             | 3.4.3   |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)          | 4.9.0  |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.58.0  |
+| <a name="provider_random"></a> [random](#provider\_random)             | 3.6.3   |
 
 ## Modules
 
@@ -75,10 +76,10 @@ Navigate to Azure Portal and verify that all resources were deployed successfull
 
 | Name                                                                                                                               | Description | Type     | Default             | Required |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------- | ------------------- | :------: |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id)                                                  | n/a         | `string` |                     |    yes   |
 | <a name="input_cidr"></a> [cidr](#input\_cidr)                                                                                     | n/a         | `string` | `"10.179.0.0/20"`   |    no    |
 | <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                                              | n/a         | `string` | `"dbfs"`            |    no    |
 | <a name="input_global_auto_termination_minute"></a> [global\_auto\_termination\_minute](#input\_global\_auto\_termination\_minute) | n/a         | `number` | `30`                |    no    |
-| <a name="input_no_public_ip"></a> [no\_public\_ip](#input\_no\_public\_ip)                                                         | n/a         | `bool`   | `true`              |    no    |
 | <a name="input_node_type"></a> [node\_type](#input\_node\_type)                                                                    | n/a         | `string` | `"Standard_DS3_v2"` |    no    |
 | <a name="input_rglocation"></a> [rglocation](#input\_rglocation)                                                                   | n/a         | `string` | `"southeastasia"`   |    no    |
 | <a name="input_workspace_prefix"></a> [workspace\_prefix](#input\_workspace\_prefix)                                               | n/a         | `string` | `"adb"`             |    no    |
