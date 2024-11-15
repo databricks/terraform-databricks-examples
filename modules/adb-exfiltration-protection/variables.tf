@@ -10,12 +10,6 @@ variable "spokecidr" {
   default     = "10.179.0.0/20"
 }
 
-variable "no_public_ip" {
-  description = "If workspace should be created with No-Public-IP"
-  type        = bool
-  default     = true
-}
-
 variable "rglocation" {
   description = "Location of resource group"
   type        = string

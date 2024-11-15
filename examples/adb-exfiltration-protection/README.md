@@ -47,16 +47,17 @@ firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.
 
 | Name                                                                         | Version |
 | ---------------------------------------------------------------------------- | ------- |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)          | =2.83.0 |
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | 0.3.10  |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)          | >=4.0.0 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.52.0|
 
 ## Providers
 
 | Name                                                             | Version |
 | ---------------------------------------------------------------- | ------- |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)    | 2.83.0  |
-| <a name="provider_external"></a> [external](#provider\_external) | 2.2.0   |
-| <a name="provider_random"></a> [random](#provider\_random)       | 3.1.0   |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)    | 4.9.0   |
+| <a name="provider_external"></a> [external](#provider\_external) | 1.58.0  |
+| <a name="provider_random"></a> [random](#provider\_random)       | 3.6.3   |
+| <a name="provider_dns"></a> [dns](#provider\_dns)                | 3.4.2   |
 
 ## Modules
 
@@ -95,11 +96,11 @@ No modules.
 
 | Name                                                                                                           | Description | Type        | Default           | Required |
 | -------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ----------------- | :------: |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id)                              | n/a         | `string`    | n/a               |   yes    |
 | <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                          | n/a         | `string`    | `"dbfs"`          |    no    |
 | <a name="input_firewallfqdn"></a> [firewallfqdn](#input\_firewallfqdn)                                         | n/a         | `list(any)` | n/a               |   yes    |
 | <a name="input_hubcidr"></a> [hubcidr](#input\_hubcidr)                                                        | n/a         | `string`    | `"10.178.0.0/20"` |    no    |
 | <a name="input_metastoreip"></a> [metastoreip](#input\_metastoreip)                                            | n/a         | `string`    | n/a               |   yes    |
-| <a name="input_no_public_ip"></a> [no\_public\_ip](#input\_no\_public\_ip)                                     | n/a         | `bool`      | `true`            |    no    |
 | <a name="input_private_subnet_endpoints"></a> [private\_subnet\_endpoints](#input\_private\_subnet\_endpoints) | n/a         | `list`      | `[]`              |    no    |
 | <a name="input_rglocation"></a> [rglocation](#input\_rglocation)                                               | n/a         | `string`    | `"southeastasia"` |    no    |
 | <a name="input_sccip"></a> [sccip](#input\_sccip)                                                              | n/a         | `string`    | n/a               |   yes    |
@@ -111,11 +112,6 @@ No modules.
 
 | Name                                                                                                                                                           | Description |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| <a name="output_arm_client_id"></a> [arm\_client\_id](#output\_arm\_client\_id)                                                                                | n/a         |
-| <a name="output_arm_subscription_id"></a> [arm\_subscription\_id](#output\_arm\_subscription\_id)                                                              | n/a         |
-| <a name="output_arm_tenant_id"></a> [arm\_tenant\_id](#output\_arm\_tenant\_id)                                                                                | n/a         |
-| <a name="output_azure_region"></a> [azure\_region](#output\_azure\_region)                                                                                     | n/a         |
-| <a name="output_databricks_azure_workspace_resource_id"></a> [databricks\_azure\_workspace\_resource\_id](#output\_databricks\_azure\_workspace\_resource\_id) | n/a         |
-| <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group)                                                                               | n/a         |
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id)                                                                                     | n/a         |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url)                                                                                  | n/a         |
 <!-- END_TF_DOCS -->
