@@ -22,12 +22,14 @@ Resources to be created:
 
 ## How to use
 
-1. Update `terraform.tfvars` file and provide values to each defined variable
+1. Update `terraform.tfvars` file and provide values to each defined variable.
 2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
 3. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
 
 ## How to fill in variable values
+
+Some variables have no default value and will require one, e.g. `subscription_id` 
 
 Most of the values are to be found at: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
 
@@ -112,6 +114,7 @@ No modules.
 
 | Name                                                                                                                                                           | Description |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| <a name="output_azure_resource_group_id"></a> [azure\_resource\_group\_id](#output\_azure\_resource\_group\_id)                                                | n/a         |
 | <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id)                                                                                     | n/a         |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url)                                                                                  | n/a         |
 <!-- END_TF_DOCS -->

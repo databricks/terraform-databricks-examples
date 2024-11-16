@@ -27,3 +27,87 @@ This module can be used to deploy the following:
 5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
 6. Run `terraform init` to initialize terraform and get provider ready.
 7. Run `terraform apply` to create the resources.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name                                                                         | Version |
+| ---------------------------------------------------------------------------- | ------- |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)          | =2.83.0 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | 0.3.10  |
+
+## Providers
+
+| Name                                                             | Version |
+| ---------------------------------------------------------------- | ------- |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)    | 2.83.0  |
+| <a name="provider_external"></a> [external](#provider\_external) | 2.2.0   |
+| <a name="provider_random"></a> [random](#provider\_random)       | 3.1.0   |
+| <a name="provider_dns"></a> [dns](#provider\_dns)                | 3.3.0   |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name                                                                                                                                                                                   | Type        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [azurerm_databricks_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/databricks_workspace)                                              | resource    |
+| [azurerm_firewall.hubfw](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/firewall)                                                                     | resource    |
+| [azurerm_firewall_application_rule_collection.adbfqdn](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/firewall_application_rule_collection)           | resource    |
+| [azurerm_firewall_network_rule_collection.adbfnetwork](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/firewall_network_rule_collection)               | resource    |
+| [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/network_security_group)                                          | resource    |
+| [azurerm_public_ip.fwpublicip](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/public_ip)                                                              | resource    |
+| [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/resource_group)                                                          | resource    |
+| [azurerm_route_table.adbroute](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/route_table)                                                            | resource    |
+| [azurerm_storage_account.allowedstorage](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/storage_account)                                              | resource    |
+| [azurerm_storage_account.deniedstorage](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/storage_account)                                               | resource    |
+| [azurerm_subnet.hubfw](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                         | resource    |
+| [azurerm_subnet.private](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                       | resource    |
+| [azurerm_subnet.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet)                                                                        | resource    |
+| [azurerm_subnet_network_security_group_association.private](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet_network_security_group_association) | resource    |
+| [azurerm_subnet_network_security_group_association.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet_network_security_group_association)  | resource    |
+| [azurerm_subnet_route_table_association.privateudr](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet_route_table_association)                    | resource    |
+| [azurerm_subnet_route_table_association.publicudr](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/subnet_route_table_association)                     | resource    |
+| [azurerm_virtual_network.hubvnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/virtual_network)                                                     | resource    |
+| [azurerm_virtual_network.this](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/virtual_network)                                                        | resource    |
+| [azurerm_virtual_network_peering.hubvnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/virtual_network_peering)                                     | resource    |
+| [azurerm_virtual_network_peering.spokevnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/resources/virtual_network_peering)                                   | resource    |
+| [random_string.naming](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string)                                                                          | resource    |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.83.0/docs/data-sources/client_config)                                                      | data source |
+| [external_external.me](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external)                                                                   | data source |
+
+## Inputs
+
+| Name                                                                                                           | Description | Type        | Default           | Required |
+| -------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ----------------- | :------: |
+| <a name="input_bypass_scc_relay"></a> [bypass\_scc\_relay](#input\_bypass\_scc\_relay)                         | n/a         | `bool`      | `true`          |    no    |
+| <a name="input_dbfs_prefix"></a> [dbfs\_prefix](#input\_dbfs\_prefix)                                          | n/a         | `string`    | `"dbfs"`          |    no    |
+| <a name="input_eventhubs"></a> [eventhubs](#input\_eventhubs)                                                  | n/a         | `list(string)` | n/a               |   yes    |
+| <a name="input_firewallfqdn"></a> [firewallfqdn](#input\_firewallfqdn)                                         | n/a         | `list(string)` | n/a               |   yes    |
+| <a name="input_hubcidr"></a> [hubcidr](#input\_hubcidr)                                                        | n/a         | `string`    | `"10.178.0.0/20"` |    no    |
+| <a name="input_metastore"></a> [metastore](#input\_metastore)                                                  | n/a         | `list(string)`    | n/a               |   yes    |
+| <a name="input_no_public_ip"></a> [no\_public\_ip](#input\_no\_public\_ip)                                     | n/a         | `bool`      | `true`            |    no    |
+| <a name="input_private_subnet_endpoints"></a> [private\_subnet\_endpoints](#input\_private\_subnet\_endpoints) | n/a         | `list`      | `[]`              |    no    |
+| <a name="input_rglocation"></a> [rglocation](#input\_rglocation)                                               | n/a         | `string`    | `"southeastasia"` |    no    |
+| <a name="input_scc_relay"></a> [scc_relay](#input\_scc_relay)                                                  | n/a         | `list(string)`    | n/a               |   yes    |
+| <a name="input_spokecidr"></a> [spokecidr](#input\_spokecidr)                                                  | n/a         | `string`    | `"10.179.0.0/20"` |    no    |
+| <a name="input_tags"></a> [tags](#input\_tags)                                                                 | n/a         | `map`    | `{}`               |   no    |
+| <a name="input_webappip"></a> [webappip](#input\_webappip)                                                     | n/a         | `list(string)`    | n/a               |   yes    |
+| <a name="input_workspace_prefix"></a> [workspace\_prefix](#input\_workspace\_prefix)                           | n/a         | `string`    | `"adb"`           |    no    |
+
+## Outputs
+
+| Name                                                                                                                                                           | Description |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| <a name="output_arm_client_id"></a> [arm\_client\_id](#output\_arm\_client\_id)                                                                                | Deprecated  |
+| <a name="output_arm_subscription_id"></a> [arm\_subscription\_id](#output\_arm\_subscription\_id)                                                              | Deprecated  |
+| <a name="output_arm_tenant_id"></a> [arm\_tenant\_id](#output\_arm\_tenant\_id)                                                                                | Deprecated  |
+| <a name="output_azure_region"></a> [azure\_region](#output\_azure\_region)                                                                                     | Deprecated  |
+| <a name="output_databricks_azure_workspace_resource_id"></a> [databricks\_azure\_workspace\_resource\_id](#output\_databricks\_azure\_workspace\_resource\_id) | Deprecated  |
+| <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group)                                                                               | Deprecated  |
+| <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url)                                                                                  | n/a         |
+| <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id)                                                                    | n/a         |
+| <a name="output_workspace_id"></a> [resource\_workspace\_id](#output\_resource\_workspace\_id)                                                                 | n/a         |
+<!-- END_TF_DOCS -->
