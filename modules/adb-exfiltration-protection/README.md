@@ -1,17 +1,13 @@
 # Provisioning Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection
 
-This template provides an example deployment of: Hub-Spoke networking with egress firewall to control all outbound traffic from Databricks subnets. Details are described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
+This module will create Azure Databricks workspace with a Hub & Spoke firewall for data exfiltration protection.
 
-With this setup, you can setup firewall rules to block / allow egress traffic from your Databricks clusters. You can also use firewall to block all access to storage accounts, and use private endpoint connection to bypass this firewall, such that you allow access only to specific storage accounts.
+## Module content
 
-
-To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
-
-## Overall Architecture
+This module can be used to deploy the following:
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/modules/adb-exfiltration-protection/images/adb-exfiltration-classic.png?raw=true)
 
-Resources to be created:
 * Resource group with random prefix
 * Tags, including `Owner`, which is taken from `az account show --query user`
 * Hub-Spoke topology, with hub firewall in hub vnet's subnet.
@@ -31,22 +27,6 @@ Resources to be created:
 5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
 6. Run `terraform init` to initialize terraform and get provider ready.
 7. Run `terraform apply` to create the resources.
-
-
-## How to fill in variable values
-
-Most of the values are to be found at: https://learn.microsoft.com/en-us/azure/databricks/resources/supported-regions and https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
-
-In `variables.tfvars`, set these variables (bigger regions have multiple instances of each service):
-
-```hcl
-metastore         = ["consolidated-westeurope-prod-metastore.mysql.database.azure.com"]
-scc_relay         = ["tunnel.westeurope.azuredatabricks.net"]
-webapp_ips        = ["52.230.27.216/32"] # given at UDR page
-eventhubs         = ["prod-westeurope-observabilityeventhubs.servicebus.windows.net"]
-# find these for your region, follow Databricks blog tutorial.
-firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.blob.core.windows.net","dblogprodseasia.blob.core.windows.net","cdnjs.com"]
-```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -121,11 +101,13 @@ No modules.
 
 | Name                                                                                                                                                           | Description |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| <a name="output_arm_client_id"></a> [arm\_client\_id](#output\_arm\_client\_id)                                                                                | n/a         |
-| <a name="output_arm_subscription_id"></a> [arm\_subscription\_id](#output\_arm\_subscription\_id)                                                              | n/a         |
-| <a name="output_arm_tenant_id"></a> [arm\_tenant\_id](#output\_arm\_tenant\_id)                                                                                | n/a         |
-| <a name="output_azure_region"></a> [azure\_region](#output\_azure\_region)                                                                                     | n/a         |
-| <a name="output_databricks_azure_workspace_resource_id"></a> [databricks\_azure\_workspace\_resource\_id](#output\_databricks\_azure\_workspace\_resource\_id) | n/a         |
-| <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group)                                                                               | n/a         |
+| <a name="output_arm_client_id"></a> [arm\_client\_id](#output\_arm\_client\_id)                                                                                | Deprecated  |
+| <a name="output_arm_subscription_id"></a> [arm\_subscription\_id](#output\_arm\_subscription\_id)                                                              | Deprecated  |
+| <a name="output_arm_tenant_id"></a> [arm\_tenant\_id](#output\_arm\_tenant\_id)                                                                                | Deprecated  |
+| <a name="output_azure_region"></a> [azure\_region](#output\_azure\_region)                                                                                     | Deprecated  |
+| <a name="output_databricks_azure_workspace_resource_id"></a> [databricks\_azure\_workspace\_resource\_id](#output\_databricks\_azure\_workspace\_resource\_id) | Deprecated  |
+| <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group)                                                                               | Deprecated  |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url)                                                                                  | n/a         |
+| <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id)                                                                    | n/a         |
+| <a name="output_workspace_id"></a> [resource\_workspace\_id](#output\_resource\_workspace\_id)                                                                 | n/a         |
 <!-- END_TF_DOCS -->
