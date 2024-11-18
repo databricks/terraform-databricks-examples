@@ -1,3 +1,8 @@
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID to deploy the workspace into"
+}
+
 variable "hubcidr" {
   description = "IP range for creaiton of the Spoke VNet"
   type        = string
@@ -8,12 +13,6 @@ variable "spokecidr" {
   description = "IP range for creaiton of the Hub VNet"
   type        = string
   default     = "10.179.0.0/20"
-}
-
-variable "no_public_ip" {
-  description = "If workspace should be created with No-Public-IP"
-  type        = bool
-  default     = true
 }
 
 variable "rglocation" {

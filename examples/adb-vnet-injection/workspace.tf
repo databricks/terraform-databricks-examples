@@ -6,7 +6,6 @@ resource "azurerm_databricks_workspace" "example" {
   tags                = local.tags
 
   custom_parameters {
-    no_public_ip                                         = var.no_public_ip
     virtual_network_id                                   = azurerm_virtual_network.this.id
     private_subnet_name                                  = azurerm_subnet.private.name
     public_subnet_name                                   = azurerm_subnet.public.name
