@@ -11,6 +11,7 @@ resource "azurerm_databricks_access_connector" "access_connector" {
   identity {
     type = "SystemAssigned"
   }
+  tags = var.tags
 }
 
 resource "azurerm_storage_account" "unity_catalog" {
@@ -25,7 +26,7 @@ resource "azurerm_storage_account" "unity_catalog" {
 
 resource "azurerm_storage_container" "unity_catalog" {
   name                  = "${var.metastore_storage_name}-container"
-  storage_account_name  = azurerm_storage_account.unity_catalog.name
+  storage_account_id    = azurerm_storage_account.unity_catalog.id
   container_access_type = "private"
 }
 
