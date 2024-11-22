@@ -10,7 +10,13 @@ variable "location" {
 
 variable "spoke_resource_group_name" {
   type        = string
-  description = "(Required) The name of the Resource Group to create"
+  description = "(Required) The name of the Resource Group to create or to use"
+}
+
+variable "create_resource_group" {
+  type        = bool
+  description = "(Optional) Creates resource group if set to true (default)"
+  default     = true
 }
 
 variable "managed_resource_group_name" {

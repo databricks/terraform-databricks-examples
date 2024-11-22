@@ -20,6 +20,7 @@ module "adb-lakehouse" {
   location                        = var.location
   spoke_vnet_address_space        = var.spoke_vnet_address_space
   spoke_resource_group_name       = var.spoke_resource_group_name
+  create_resource_group           = var.create_resource_group
   managed_resource_group_name     = var.managed_resource_group_name
   databricks_workspace_name       = var.databricks_workspace_name
   data_factory_name               = var.data_factory_name

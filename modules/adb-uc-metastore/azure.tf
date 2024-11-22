@@ -11,6 +11,7 @@ resource "azurerm_databricks_access_connector" "access_connector" {
   identity {
     type = "SystemAssigned"
   }
+  tags = var.tags
 }
 
 resource "azurerm_storage_account" "unity_catalog" {
