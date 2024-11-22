@@ -2,7 +2,7 @@ resource "databricks_catalog" "bronze-catalog" {
   metastore_id  = var.metastore_id
   name          = "bronze_catalog_${var.environment_name}"
   comment       = "this catalog is for the bronze layer in the ${var.environment_name} environment"
-  force_destroy = false
+  force_destroy = true
 }
 
 resource "databricks_schema" "bronze_source1-schema" {
