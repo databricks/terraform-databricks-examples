@@ -6,8 +6,11 @@ resource "databricks_notebook" "ddl" {
 
 resource "databricks_job" "metastoresetup" {
   name                = "Initialize external hive metastore"
-  existing_cluster_id = databricks_cluster.coldstart.id
-  notebook_task {
-    notebook_path = databricks_notebook.ddl.path
+  task {
+    task_key = "task-1"
+    existing_cluster_id = databricks_cluster.coldstart.id
+    notebook_task {
+      notebook_path = databricks_notebook.ddl.path
+    }
   }
 }

@@ -6,7 +6,6 @@ resource "azurerm_databricks_workspace" "this" {
   tags                         = local.tags
   customer_managed_key_enabled = true
   custom_parameters {
-    no_public_ip                                         = var.no_public_ip
     virtual_network_id                                   = azurerm_virtual_network.this.id
     private_subnet_name                                  = azurerm_subnet.private.name
     public_subnet_name                                   = azurerm_subnet.public.name
@@ -26,6 +25,8 @@ resource "databricks_cluster" "coldstart" {
   cluster_name            = "cluster - external metastore"
   spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = var.node_type
+  data_security_mode      = "SINGLE_USER"
+  single_user_name        = local.my_username
   autotermination_minutes = 30
   autoscale {
     min_workers = 1

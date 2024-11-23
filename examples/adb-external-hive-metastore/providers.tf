@@ -2,20 +2,17 @@ terraform {
   required_providers {
     databricks = {
       source  = "databricks/databricks"
-      version = ">=1.27.0"
+      version = ">=1.52.0"
     }
-
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.76.0"
+      version = ">=4.0.0"
     }
   }
 }
 
-provider "random" {
-}
-
 provider "azurerm" {
+  subscription_id = var.subscription_id
   features {
     key_vault {
       purge_soft_delete_on_destroy = true
@@ -23,7 +20,7 @@ provider "azurerm" {
   }
 }
 
-# Use Azure CLI to authenticate at Azure Databricks account level, and the Azure Databricks workspace level
+# This will be used to manage Azure Databricks workspace resources (Azure Databricks workspace itself is managed by `azurerm` provider)
 provider "databricks" {
   host = azurerm_databricks_workspace.this.workspace_url
 }
