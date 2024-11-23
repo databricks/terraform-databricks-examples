@@ -1,3 +1,4 @@
 output "vm_public_ip" {
-  value = azurerm_public_ip.general-nic-pubip.ip_address
+  description = "Public IP of the VM"
+  value       = azurerm_public_ip.general-nic-pubip.ip_address
 }
