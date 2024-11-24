@@ -30,10 +30,7 @@ resource "azurerm_network_interface_security_group_association" "testvmnsgassoc"
 }
 
 data "http" "my_public_ip" { // add your host machine ip into nsg
-  url = "https://ifconfig.co/json"
-  request_headers = {
-    Accept = "application/json"
-  }
+  url = "https://ipinfo.io"
 }
 
 locals {
@@ -53,7 +50,7 @@ resource "azurerm_network_security_rule" "test0" {
   source_port_range           = "*"
   destination_port_range      = "3389"
   source_address_prefixes     = [local.ifconfig_co_json.ip]
-  destination_address_prefix  = "VirtualNetwork"
+  destination_address_prefix  = azurerm_public_ip.testvmpublicip.ip_address
   network_security_group_name = azurerm_network_security_group.testvm-nsg.name
   resource_group_name         = azurerm_resource_group.transit_rg.name
 }

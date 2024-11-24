@@ -12,7 +12,6 @@ data "external" "me" {
 }
 
 locals {
-  // dltp - databricks labs terraform provider
   prefix   = join("-", ["tfdemo", "${random_string.naming.result}"])
   dbfsname = join("", ["dbfs", "${random_string.naming.result}"]) // dbfs name must not have special chars
 

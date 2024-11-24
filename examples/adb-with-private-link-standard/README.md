@@ -24,3 +24,7 @@ This example can be used to deploy the following:
 2. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
 3. Run `terraform init` to initialize terraform and get provider ready.
 4. Run `terraform apply` to create the resources.
+
+## How to test
+
+Public access to the workspace deployed here is not allowed by default. If you can establish a direct network connection to the VNet into which the workspace is deployed then you should be able to browse the workspace directly. Alternatively, a virtual machine is created as part of this deployment allowing you to connect to the workspace in case you don't have direct network path to the VNet in which the workspace is deployed. You can use the `test_vm_public_ip` and `test_vm_password` to log into this VM (password value is marked as `sensitive` but can be found in the `teraform.tfstate` file). By default, access to this machine is only allowed from the deployer's public IP address. To allow access from other sources, extra rules can be added to the Network Security Group created for the VM as part of this deployment.
