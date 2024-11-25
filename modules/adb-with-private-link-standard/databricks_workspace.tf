@@ -9,7 +9,6 @@ resource "azurerm_databricks_workspace" "dp_workspace" {
   network_security_group_rules_required = "NoAzureDatabricksRules"
   customer_managed_key_enabled          = true
   custom_parameters {
-    no_public_ip                                         = true
     virtual_network_id                                   = azurerm_virtual_network.dp_vnet.id
     private_subnet_name                                  = azurerm_subnet.dp_private.name
     public_subnet_name                                   = azurerm_subnet.dp_public.name
