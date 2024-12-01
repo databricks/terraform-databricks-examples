@@ -1,12 +1,13 @@
 name: Terraform CI
 
 on:
-    push:
-        paths:
-            - 'modules/**'
-    pull_request:
-        paths:
-            - 'modules/**'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'modules/**'
+  pull_request:
+    paths:
+      - 'modules/**'
 
 env:
   TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
