@@ -12,11 +12,6 @@ variable "logs_sa_name" {
   description = "Logs storage account name"
 }
 
-variable "overwatch_spn_app_id" {
-    type = string
-    description = "Azure SPN ID used to create the mount points"
-}
-
 variable "overwatch_spn_secret" {
   type = string
   description = "Azure SPN secret"

@@ -24,16 +24,16 @@ resource "azurerm_storage_account" "log-sa" {
   }
 }
 
+data "azuread_client_config" "current" {}
 
-// Role Assignment
-data "azuread_service_principal" "overwatch-spn" {
-  application_id = var.overwatch_spn_app_id
+resource "azuread_service_principal" "overwatch-spn" {
+  client_id = data.azuread_client_config.current.client_id
 }
 
 resource "azurerm_role_assignment" "data-contributor-role-log"{
   scope = azurerm_storage_account.log-sa.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id = data.azuread_service_principal.overwatch-spn.object_id
+  principal_id = azuread_service_principal.overwatch-spn.object_id
 }
 
 
