@@ -53,7 +53,7 @@ jobs:
                   sed -i '/configuration_aliases = \[databricks.mws\]/d' $dir/*.tf
                 fi
                 echo "Processing module $dir"
-                terraform -chdir=$dir init -lock=false -backend=false -input=false
+                terraform -chdir=$dir init -upgrade=true -lock=false -backend=false -input=false
                 if ! terraform -chdir=$dir validate; then
                   failed_modules+=($dir)
                 fi
