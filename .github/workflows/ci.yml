@@ -23,7 +23,8 @@ jobs:
           - name: Set up Terraform
             uses: hashicorp/setup-terraform@v3
             with:
-              terraform_version: 1.0.0
+              terraform_wrapper: false
+              terraform_version: 1.4.1
 
           - name: Create Terraform Plugin Cache Dir
             run: mkdir -p $TF_PLUGIN_CACHE_DIR
