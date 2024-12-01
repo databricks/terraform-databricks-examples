@@ -3,8 +3,8 @@ name: Terraform CI
 on:
   workflow_dispatch:
   push:
-  #  paths:
-  #    - 'modules/**'
+    paths:
+      - 'modules/**'
   pull_request:
     paths:
       - 'modules/**'
