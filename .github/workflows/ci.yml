@@ -49,8 +49,8 @@ jobs:
                 fi
                 # hack: skip provider alias during ci
                 if ls $dir/*.tf 1> /dev/null 2>&1; then
-                  sed -i '/= databricks.mws/d' $dir/*.tf
-                  sed -i '/= \[databricks.mws\]/d' $dir/*.tf
+                  sed -i '/provider    = databricks.mws/d' $dir/*.tf
+                  sed -i '/configuration_aliases = \[databricks.mws\]/d' $dir/*.tf
                 fi
                 echo "Processing module $dir"
                 terraform -chdir=$dir init -lock=false -backend=false -input=false
