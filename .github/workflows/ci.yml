@@ -10,6 +10,8 @@ on:
       - 'modules/**'
 
 env:
+  TF_VERSION: 1.4.1
+  TF_IN_AUTOMATION: true
   TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
 
 jobs:
@@ -24,7 +26,7 @@ jobs:
             uses: hashicorp/setup-terraform@v3
             with:
               terraform_wrapper: false
-              terraform_version: 1.4.1
+              terraform_version: ${{ env.TF_VERSION }}
 
           - name: Create Terraform Plugin Cache Dir
             run: mkdir -p $TF_PLUGIN_CACHE_DIR
@@ -42,10 +44,10 @@ jobs:
             run: |
               failed_modules=()
               for dir in $(find ./modules -type d -mindepth 1 -maxdepth 1); do
-                # hack: dont need provider alias during ci
-                pushd $dir
-                    sed -i '/databricks.mws/d' *.tf
-                popd
+                # hack: skip provider alias during ci
+                sed -i '/provider    = databricks.mws/d' $dir/*.tf
+                sed -i '/configuration_aliases = [databricks.mws]/d' $dir/*.tf
+
                 echo "Processing module $dir"
                 terraform -chdir=$dir init -lock=false -backend=false -input=false
                 if ! terraform -chdir=$dir validate; then
@@ -54,7 +56,7 @@ jobs:
               done
               echo "failed_modules=${failed_modules[@]}" >> $GITHUB_ENV
 
-          - name: Validation status check
+          - name: Module status
             run: |
               if [ -n "${{ env.failed_modules }}" ]; then
                 echo "The following modules failed validation:"
@@ -64,4 +66,10 @@ jobs:
                 exit 1
               else
                 echo "All modules passed validation."
+              fi
+
+          - name: Ensure status check is correct
+            run: |
+              if [ -n "${{ env.failed_modules }}" ]; then
+                exit 1
               fi
