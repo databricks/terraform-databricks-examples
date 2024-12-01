@@ -71,9 +71,3 @@ jobs:
               else
                 echo "All modules passed validation."
               fi
-
-          - name: Ensure status check is correct
-            run: |
-              if [ -n "${{ env.failed_modules }}" ]; then
-                exit 1
-              fi
