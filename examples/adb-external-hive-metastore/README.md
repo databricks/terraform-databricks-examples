@@ -11,7 +11,7 @@ This template will complete 99% process for external hive metastore deployment w
 On your local machine:
 
 1. Clone this repository to local.
-2. Provide values to variables, some variabes will have default values defined. See inputs section below on optional/required variables.
+2. Update `terraform.tfvars` file and provide values to each defined variable. Some variabes may have default values defined in `variables.tf` file. 
 3. For step 2, variables for db_username and db_password, you can also use your environment variables: terraform will automatically look for environment variables with name format TF_VAR_xxxxx.
 
     `export TF_VAR_db_username=yoursqlserveradminuser`

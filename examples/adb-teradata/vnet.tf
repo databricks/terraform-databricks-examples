@@ -19,7 +19,7 @@ resource "azurerm_network_security_group" "vmnsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "*"
+    source_address_prefix      = jsondecode(data.http.my_public_ip.response_body).ip
     destination_address_prefix = "*"
   }
   security_rule {
@@ -95,7 +95,7 @@ resource "azurerm_subnet" "private" {
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 1)]
 
-  private_endpoint_network_policies_enabled     = true
+  private_endpoint_network_policies             = "Enabled"
   private_link_service_network_policies_enabled = true
 
   delegation {

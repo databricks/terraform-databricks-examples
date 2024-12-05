@@ -1,12 +1,3 @@
-/**
- * this example creates:
- * * Resource group with random prefix
- * * Tags, including `Owner`, which is taken from `az account show --query user`
- * * VNet with public and private subnet
- * * Databricks workspace
- * * External Hive Metastore for ADB workspace
- */
-
 resource "random_string" "naming" {
   special = false
   upper   = false
@@ -33,17 +24,16 @@ data "databricks_spark_version" "latest_lts" {
 
 
 locals {
-  // dltp - databricks labs terraform provider
-  prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
-  location = var.rglocation
-  cidr     = var.spokecidr
-  sqlcidr  = var.sqlvnetcidr
-  dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
-  db_url   = "jdbc:sqlserver://${azurerm_mssql_server.metastoreserver.name}.database.windows.net:1433;database=${azurerm_mssql_database.sqlmetastore.name};user=${var.db_username}@${azurerm_mssql_server.metastoreserver.name};password={${var.db_password}};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-
+  prefix      = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
+  location    = var.rglocation
+  cidr        = var.spokecidr
+  sqlcidr     = var.sqlvnetcidr
+  dbfsname    = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
+  db_url      = "jdbc:sqlserver://${azurerm_mssql_server.metastoreserver.name}.database.windows.net:1433;database=${azurerm_mssql_database.sqlmetastore.name};user=${var.db_username}@${azurerm_mssql_server.metastoreserver.name};password={${var.db_password}};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+  my_username = lookup(data.external.me.result, "name")
   tags = {
     Environment = "Testing"
-    Owner       = lookup(data.external.me.result, "name")
+    Owner       = local.my_username
     Epoch       = random_string.naming.result
   }
 }

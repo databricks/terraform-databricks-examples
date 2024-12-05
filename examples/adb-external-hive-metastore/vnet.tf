@@ -42,7 +42,7 @@ resource "azurerm_subnet" "private" {
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(local.cidr, 3, 1)]
 
-  private_endpoint_network_policies_enabled     = true
+  private_endpoint_network_policies             = "Enabled"
   private_link_service_network_policies_enabled = true
 
   delegation {
@@ -70,7 +70,7 @@ resource "azurerm_subnet" "plsubnet" {
   resource_group_name                       = azurerm_resource_group.this.name
   virtual_network_name                      = azurerm_virtual_network.this.name
   address_prefixes                          = [cidrsubnet(local.cidr, 3, 2)]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies         = "Enabled"
 }
 
 

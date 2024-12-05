@@ -26,6 +26,7 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 | Name             | Description | Type        | Default         | Required |
 | ---------------- | ----------- | ----------- | --------------- | :------: |
+| subscription_id  | n/a         | `string`    |                 |   yes    |
 | hubcidr          | n/a         | `string`    | "10.178.0.0/20" |   yes    |
 | spokecidr        | n/a         | `string`    | "10.179.0.0/20" |   yes    |
 | no\_public\_ip   | n/a         | `bool`      | `true`          |   yes    |
@@ -44,6 +45,8 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 | arm\_subscription\_id                      | n/a         |
 | arm\_tenant\_id                            | n/a         |
 | azure\_region                              | n/a         |
+| azure\_resource_group                      | n/a         |
 | databricks\_azure\_workspace\_resource\_id | n/a         |
 | resource\_group                            | n/a         |
+| workspace\_id                              | n/a         |
 | workspace\_url                             | n/a         |

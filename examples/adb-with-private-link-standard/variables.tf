@@ -1,3 +1,8 @@
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID to deploy the workspace into"
+}
+
 variable "cidr_transit" {
   type        = string
   description = "(Required) The CIDR for the Azure transit VNet"

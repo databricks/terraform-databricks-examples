@@ -1,6 +1,7 @@
+subscription_id  = "<your Azure Subscription ID here>"
 hubcidr          = "10.178.0.0/20"
 spokecidr        = "10.179.0.0/20"
-rglocation       = "southeastasia"
+rglocation       = "northeurope"
 metastoreip      = "40.78.233.2"
 dbfs_prefix      = "dbfs"
 workspace_prefix = "adb"

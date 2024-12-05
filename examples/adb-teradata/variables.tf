@@ -1,9 +1,10 @@
-variable "spokecidr" {
-  type = string
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID to deploy the workspace into"
 }
 
-variable "no_public_ip" {
-  type = bool
+variable "spokecidr" {
+  type = string
 }
 
 variable "rglocation" {

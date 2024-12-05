@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    databricks = {
+      source  = "databricks/databricks"
+      version = ">=1.52.0"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = ">=4.0.0"
@@ -7,13 +11,10 @@ terraform {
     random = {
       source = "hashicorp/random"
     }
-    http = {
-      source  = "hashicorp/http"
-    }
   }
 }
 
 provider "azurerm" {
-    subscription_id = var.subscription_id
+  subscription_id = var.subscription_id
   features {}
 }

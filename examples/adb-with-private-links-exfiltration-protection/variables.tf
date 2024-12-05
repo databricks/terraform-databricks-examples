@@ -1,3 +1,8 @@
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID to deploy the workspace into"
+}
+
 variable "hubcidr" {
   type        = string
   default     = "10.178.0.0/20"
