@@ -6,7 +6,7 @@ This module deploys the following Databricks [python notebooks](./notebooks) on 
 
 ## Inputs
 
-| Name           | Description                          | Type   | Default | Required |
-|----------------|--------------------------------------|--------|---------|----------|
-|`rg_name`|Resource group name|string||yes|
-|`overwatch_ws_name`|Overwatch existing workspace name|string||yes|
+| Name                                                                                      | Description                                  | Type     | Default | Required |
+|-------------------------------------------------------------------------------------------|----------------------------------------------|----------|---------|:--------:|
+| <a name="input_overwatch_ws_name"></a> [overwatch\_ws\_name](#input\_overwatch\_ws\_name) | The name of the Overwatch existing workspace | `string` | n/a     |   yes    |
+| <a name="input_rg_name"></a> [rg\_name](#input\_rg\_name)                                 | Resource group name                          | `string` | n/a     |   yes    |
