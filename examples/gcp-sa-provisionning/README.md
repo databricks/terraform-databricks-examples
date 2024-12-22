@@ -12,7 +12,7 @@ In this template, we create a [Service Account](https://cloud.google.com/iam/doc
 
 - The built-in roles of Kubernetes Admin and Compute Storage Admin needs to be available
 
-- you need to run `glcoud auth application-default login` and login with your google account
+- you need to run `gcloud auth application-default login` and login with your google account
 
 ## Run as an SA 
 
