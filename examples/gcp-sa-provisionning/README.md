@@ -16,10 +16,10 @@ In this template, we create a [Service Account](https://cloud.google.com/iam/doc
 
 ## Run as an SA 
 
-You can do the same thing by provisionning a service account that will have the same permissions - and associate the key associated to it.
+You can do the same thing by provisioning a service account that will have the same permissions - and associate the key associated to it.
 
 
-## Run the tempalte
+## Run the template
 
 - You need to fill in the variables.tf 
 - run `terraform init`
