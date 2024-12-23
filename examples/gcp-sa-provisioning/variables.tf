@@ -5,7 +5,7 @@ variable "google_project" {
 
 variable "prefix" {
   type        = string
-  description = "Prefix to use in generated service account name"
+  description = "Prefix to use in generated service account name.  This should not contain underscores or dashes."
 }
 
 variable "delegate_from" {
