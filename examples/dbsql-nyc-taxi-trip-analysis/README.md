@@ -28,3 +28,30 @@ Upon opening the dashboard URL as printed as part of the output of `terraform ap
 you should see the following:
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/dbsql-nyc-taxi-trip-analysis/images/dbsql-nyc-taxi-trip-analysis.png?raw=true)
+
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name                                                                   | Version |
+|------------------------------------------------------------------------|---------|
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | n/a     |
+
+## Resources
+
+| Name                                                                                                                              | Type        |
+|-----------------------------------------------------------------------------------------------------------------------------------|-------------|
+| [databricks_sql_endpoint.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/sql_endpoint)  | resource    |
+| [databricks_current_user.me](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/current_user) | data source |
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+| Name                                                                          | Description |
+|-------------------------------------------------------------------------------|-------------|
+| <a name="output_dashboard_url"></a> [dashboard\_url](#output\_dashboard\_url) | n/a         |
