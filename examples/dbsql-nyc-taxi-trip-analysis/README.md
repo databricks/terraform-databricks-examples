@@ -39,12 +39,6 @@ No requirements.
 |------------------------------------------------------------------------|---------|
 | <a name="provider_databricks"></a> [databricks](#provider\_databricks) | n/a     |
 
-## Modules
-
-| Name                                                                                                                             | Source                                     | Version |
-|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|---------|
-| <a name="module_dbsql_nyc_taxi_trip_analysis"></a> [dbsql\_nyc\_taxi\_trip\_analysis](#module\_dbsql\_nyc\_taxi\_trip\_analysis) | ../../modules/dbsql-nyc-taxi-trip-analysis | n/a     |
-
 ## Resources
 
 | Name                                                                                                                              | Type        |

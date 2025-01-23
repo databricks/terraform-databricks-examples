@@ -17,14 +17,11 @@ Include:
 > You can customize this module by adding, deleting or updating the AWS resources to adapt the module to your requirements.
 > A deployment example using this module can be found in [examples/aws-workspace-basic](../../examples/aws-workspace-basic)
 
+
+## How to use
+
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
-2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
-3. Add a `terraform.tfvars` file and provide values to each defined variable
-4. Add a `output.tf` file.
-5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
-6. Run `terraform init` to initialize terraform and get provider ready.
-7. Run `terraform apply` to create the resources.
-7. Run `terraform apply` to create the resources.
+2. Add `terraform.tfvars` with the information about the required input variables.
 
 ## Requirements
 

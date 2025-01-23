@@ -34,13 +34,6 @@ When running tf configs for UC resources, due to sometimes requires a few minute
 | <a name="provider_random"></a> [random](#provider\_random)                                           | =3.4.1            |
 | <a name="provider_time"></a> [time](#provider\_time)                                                 | =0.9.1            |
 
-## Modules
-
-| Name                                                                                               | Source                                     | Version |
-|----------------------------------------------------------------------------------------------------|--------------------------------------------|---------|
-| <a name="module_aws_base"></a> [aws\_base](#module\_aws\_base)                                     | ../../modules/aws-databricks-base-infra    | n/a     |
-| <a name="module_databricks_workspace"></a> [databricks\_workspace](#module\_databricks\_workspace) | ../../modules/aws-databricks-workspace     | n/a     |
-| <a name="module_unity_catalog"></a> [unity\_catalog](#module\_unity\_catalog)                      | ../../modules/aws-databricks-unity-catalog | n/a     |
 
 ## Resources
 
