@@ -1,4 +1,4 @@
-sa provisionning
+# Provisioning a Google Service Account that can be used to deploy Databricks workspace on GCP
 =========================
 
 In this template, we show how to deploy a service account that can be used to deploy gcp workspaces.
@@ -12,11 +12,11 @@ In this template, we create a [Service Account](https://cloud.google.com/iam/doc
 
 - The built-in roles of Kubernetes Admin and Compute Storage Admin needs to be available
 
-- you need to run `glcoud auth application-default login` and login with your google account
+- you need to run `gcloud auth application-default login` and login with your google account
 
 ## Run as an SA 
 
-You can do the same thing by provisionning a service account that will have the same permissions - and associate the key associated to it.
+You can do the same thing by provisioning a service account that will have the same permissions - and associate the key associated to it.
 
 
 ## Run the tempalte
