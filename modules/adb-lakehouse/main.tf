@@ -13,7 +13,7 @@ data "azurerm_resource_group" "this" {
 locals {
   rg_name     = var.create_resource_group ? azurerm_resource_group.this[0].name : data.azurerm_resource_group.this[0].name
   rg_id       = var.create_resource_group ? azurerm_resource_group.this[0].id : data.azurerm_resource_group.this[0].id
-  rg_location = var.create_resource_group ? azurerm_resource_group.this[0].location : data.azurerm_resource_group.this[0].location
+  rg_location = var.create_resource_group ? azurerm_resource_group.this[0].location : (var.location == "" ? data.azurerm_resource_group.this[0].location : var.location)
 }
 
 data "azurerm_client_config" "current" {

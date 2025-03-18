@@ -1,6 +1,7 @@
 variable "location" {
   type        = string
-  description = "(Required) The location for the resources in this module"
+  description = "(Optional if `create_resource_group` is set to `false`) The location for the resources in this module"
+  default     = ""
 }
 
 variable "spoke_resource_group_name" {
