@@ -44,6 +44,11 @@ output "workspace_url" {
 }
 
 output "azure_resource_group_id" {
-  description = "ID of the created Azure resource group"
+  description = "ID of the created or existing Azure resource group"
+  value       = local.rg_id
+}
+
+output "azure_resource_group_location" {
+  description = "Location of the created or existing Azure resource group"
   value       = local.rg_id
 }

@@ -65,8 +65,8 @@ resource "azurerm_subnet_route_table_association" "public" {
 resource "azurerm_databricks_workspace" "this" {
   name                        = var.databricks_workspace_name
   resource_group_name         = local.rg_name
-  managed_resource_group_name = var.managed_resource_group_name
-  location                    = var.location
+  managed_resource_group_name = local.managed_resource_group_name
+  location                    = local.rg_location
   sku                         = "premium"
 
   custom_parameters {
