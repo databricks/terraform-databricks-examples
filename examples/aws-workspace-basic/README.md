@@ -48,7 +48,7 @@ No resources.
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID                     | `string`      | n/a             |   yes    |
 | <a name="input_region"></a> [region](#input\_region)                                                  | AWS region to deploy to                   | `string`      | `"eu-west-1"`   |    no    |
 | <a name="input_tags"></a> [tags](#input\_tags)                                                        | Optional tags to add to created resources | `map(string)` | `{}`            |    no    |
-| <a name="input_prefix"></a> [prefix](#input\_prefix)                                                        | Optional prefix to add to resource names | `string` | `demo`            |    no    |
+| <a name="input_prefix"></a> [prefix](#input\_prefix)                                                        | Optional prefix to add to resource names | `string` | `""`            |    no    |
 
 ## Outputs
 

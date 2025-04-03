@@ -22,7 +22,7 @@ variable "region" {
 }
 
 variable "prefix" {
-  default     = "demo"
+  default     = ""
   type        = string
   description = "Prefix for use in the generated names"
 }
