@@ -9,6 +9,7 @@ module "my_mws_network" {
   prefix                = "${var.prefix}-network"
   relay_vpce_id         = var.relay_vpce_id
   rest_vpce_id          = var.rest_vpce_id
+  enable_privatelink    = var.enable_privatelink
   tags                  = var.tags
 }
 
@@ -38,7 +39,6 @@ resource "databricks_mws_customer_managed_keys" "managed_services" {
   use_cases = ["MANAGED_SERVICES"]
 }
 
-
 resource "databricks_mws_private_access_settings" "pas" {
   account_id                   = var.databricks_account_id
   private_access_settings_name = "Private Access Settings for ${var.prefix}"
@@ -47,12 +47,11 @@ resource "databricks_mws_private_access_settings" "pas" {
   private_access_level         = "ACCOUNT" // a fix for recent changes - 202209
 }
 
-
 resource "databricks_mws_workspaces" "this" {
   account_id                 = var.databricks_account_id
   aws_region                 = var.region
   workspace_name             = var.workspace_name
-  private_access_settings_id = databricks_mws_private_access_settings.pas.private_access_settings_id
+  private_access_settings_id = var.enable_privatelink ? databricks_mws_private_access_settings.pas.private_access_settings_id : null
   pricing_tier               = "ENTERPRISE"
 
   # deployment_name = local.prefix

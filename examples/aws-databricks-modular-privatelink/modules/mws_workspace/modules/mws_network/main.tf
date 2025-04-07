@@ -34,11 +34,14 @@ resource "databricks_mws_networks" "mwsnetwork" {
   account_id         = var.databricks_account_id
   network_name       = "${var.prefix}-network"
   vpc_id             = var.existing_vpc_id
-  subnet_ids         = [aws_subnet.private_subnets.0.id, aws_subnet.private_subnets.1.id]
+  subnet_ids         = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id]
   security_group_ids = var.security_group_ids
 
-  vpc_endpoints {
-    dataplane_relay = var.relay_vpce_id
-    rest_api        = var.rest_vpce_id
+  dynamic "vpc_endpoints" {
+    for_each = var.enable_privatelink ? [1] : []
+    content {
+      dataplane_relay = var.relay_vpce_id
+      rest_api        = var.rest_vpce_id
+    }
   }
 }

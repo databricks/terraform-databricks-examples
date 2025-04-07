@@ -1,7 +1,7 @@
 Deploy Multiple AWS Databricks Workspace with CMK, Customer-managed VPC, Private Links, IP Access Lists
 =========================
 
-In this example, we created modules and root level template to deploy multiple (e.g. 10+) E2 Databricks workspaces at scale easily. Users of this template minimally should do these:
+In this example, we created modules and root level template to deploy multiple (e.g. 10+) E2 Privatelink and Non-privatelink Databricks workspaces at scale easily. Users of this template minimally should do these:
 1. Supply credentials (aws+databricks) and configuration variables for each workspaces 
 2. Edit the locals block in `main.tf` to decide what & how many workspaces to deploy
 3. Run `terraform init` and `terraform apply` to deploy 1 or more workspaces into your VPC.
@@ -72,6 +72,7 @@ variable "workspace_1_config" {
     prefix              = "ws1" // prefix decides subnets name
     region              = "ap-southeast-1"
     root_bucket_name    = "test-workspace-1-rootbucket"
+    enable_privatelink  = true // Switch to false if you don't want your workspace to use Privatelink. Please note once PL is enabled you can't disable it
     block_list          = ["58.133.93.159"]
     allow_list          = [] // if allow_list empty, all public IP not blocked by block_list are allowed
     tags = {
@@ -92,6 +93,7 @@ workspace_confs = {
     workspace_1 = var.workspace_1_config
     workspace_2 = var.workspace_2_config
     workspace_3 = var.workspace_3_config
+    workspace_4 = var.workspace_4_config
 }
 ```
 

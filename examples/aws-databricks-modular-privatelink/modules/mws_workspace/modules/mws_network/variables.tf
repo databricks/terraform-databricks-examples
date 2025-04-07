@@ -39,3 +39,7 @@ variable "rest_vpce_id" {
 variable "tags" {
   type = map(string)
 }
+
+variable "enable_privatelink" {
+  type    = bool
+}

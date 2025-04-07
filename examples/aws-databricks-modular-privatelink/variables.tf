@@ -61,8 +61,9 @@ variable "workspace_1_config" {
     workspace_name      = "test-workspace-1"
     prefix              = "ws1" // prefix decides subnets name
     region              = "ap-southeast-1"
+    enable_privatelink  = true
     root_bucket_name    = "test-workspace-1-rootbucket"
-    block_list          = ["58.133.93.159"]
+    block_list          = ["54.112.179.135", "195.78.164.130"]
     allow_list          = ["65.184.145.97"] // if allow_list empty, all public IP not blocked by block_list are allowed
     tags = {
       "Name" = "test-workspace-1-tags",
@@ -78,10 +79,27 @@ variable "workspace_2_config" {
     prefix              = "ws2" // prefix decides subnets name
     region              = "ap-southeast-1"
     root_bucket_name    = "test-workspace-2-rootbucket"
+    enable_privatelink  = true
     block_list          = ["54.112.179.135", "195.78.164.130"]
     allow_list          = ["65.184.145.97"] // if allow_list empty, all public IP not blocked by block_list are allowed
     tags = {
       "Name" = "test-workspace-2-tags"
+    }
+  }
+}
+
+variable "workspace_3_config" {
+  default = {
+    private_subnet_pair = { subnet1_cidr = "10.109.18.0/23", subnet2_cidr = "10.109.20.0/23" }
+    workspace_name      = "test-workspace-3"
+    prefix              = "ws3" // prefix decides subnets name
+    region              = "ap-southeast-1"
+    root_bucket_name    = "test-workspace-3-rootbucket"
+    enable_privatelink  = false
+    block_list          = ["54.112.179.135", "195.78.164.130"]
+    allow_list          = ["65.184.145.97"] // if allow_list empty, all public IP not blocked by block_list are allowed
+    tags = {
+      "Name" = "test-workspace-3-tags"
     }
   }
 }
