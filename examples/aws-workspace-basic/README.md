@@ -13,10 +13,7 @@ This template provides an example of a simple deployment of AWS Databricks E2 wo
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
 2. Add a `variables.tf` with the same content in [variables.tf](variables.tf)
 3. Add a `terraform.tfvars` file and provide values to each defined variable
-4. Configure the following environment variables:
-    * TF_VAR_databricks_account_client_id, set to the value of application ID of your Databricks account-level service principal with admin permission.
-    * TF_VAR_databricks_account_client_secret, set to the value of the client secret for your Databricks account-level service principal.
-    * TF_VAR_databricks_account_id, set to the value of the ID of your Databricks account. You can find this value in the corner of your Databricks account console.
+4. Configure authentication to the Databricks Account (i.e., via Databricks CLI profiles or service principal).
 5. Add a `output.tf` file.
 6. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
 7. Run `terraform init` to initialize terraform and get provider ready.
@@ -51,6 +48,7 @@ No resources.
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID                     | `string`      | n/a             |   yes    |
 | <a name="input_region"></a> [region](#input\_region)                                                  | AWS region to deploy to                   | `string`      | `"eu-west-1"`   |    no    |
 | <a name="input_tags"></a> [tags](#input\_tags)                                                        | Optional tags to add to created resources | `map(string)` | `{}`            |    no    |
+| <a name="input_prefix"></a> [prefix](#input\_prefix)                                                        | Optional prefix to add to resource names | `string` | `""`            |    no    |
 
 ## Outputs
 
