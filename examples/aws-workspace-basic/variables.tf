@@ -20,3 +20,9 @@ variable "region" {
   type        = string
   description = "AWS region to deploy to"
 }
+
+variable "prefix" {
+  default     = ""
+  type        = string
+  description = "Prefix for use in the generated names"
+}
