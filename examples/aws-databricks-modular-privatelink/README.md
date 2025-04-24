@@ -123,7 +123,7 @@ new_users:
 
 # Import existing users that you want to interact with terraform (add them into group definitions below)
 existing_users:
-  - "hwang012@outlook.com"
+  - "your_existing_user@example.com"
 
 # Explicit section for metastore admins
 tf_admin_groups:
