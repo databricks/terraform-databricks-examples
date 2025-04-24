@@ -176,7 +176,7 @@ First, `cd` into `databricks_workspace_tf_pipeline/prerequisite_step/` folder, r
 
 Then move to `databricks_workspace_tf_pipeline` directory, supply values for the variables, make sure you point the databricks_host to the specific workspace URL you are deploying resources into. 
 
-One way is to still keep the env vars you did before:
+One quick way is to still keep the env vars you supplied before, driven by the same service principal:
 
 ```bash
 export TF_VAR_client_id=xxxx # your databricks spn client id
@@ -188,7 +188,7 @@ export AWS_ACCESS_KEY_ID=your_aws_role_access_key_id
 export AWS_SECRET_ACCESS_KEY=your_aws_role_secret_access_key
 ```
 
-And then create a `terraform.tfvars` file to contain values like below:
+And then create a `terraform.tfvars` file to contain the rest of the variables' values as below:
 
 ```
 databricks_host  = "https://xxxxxx.cloud.databricks.com"
