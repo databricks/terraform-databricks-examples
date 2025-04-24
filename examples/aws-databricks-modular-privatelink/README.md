@@ -44,11 +44,11 @@ With env vars supplied and region set, we are ready to deploy both account and w
 ```yml
 # VPC Configuration
 vpc:
-  name: "hao-demo-vpc1"
+  name: "demo-vpc1"
   cidr: "10.0.0.0/16"
 
 workspace_number: 2  # how many workspaces & security groups will be created
-resource_prefix: "hao-tf"
+resource_prefix: "tf-vpc"
 
 subnets:
   number_of_azs: 2
