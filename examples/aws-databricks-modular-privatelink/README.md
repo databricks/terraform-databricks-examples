@@ -170,7 +170,7 @@ In this pipeline, we deploy:
 1. Multiple UC catalogs with dedicated External locations (mapping to dedicated S3).
 2. Pre-create interactive clusters in workspace for users; as example of deploying workspace resource. 
 
-![UC](./artifacts/UC-starter.png)
+![UC](./artifacts/uc-starter.png)
 
 First, `cd` into `databricks_workspace_tf_pipeline/prerequisite_step/` folder, run terraform init and apply to generate a yaml file in `databricks_workspace_tf_pipeline/configs/`, this will be the catalog specification.
 
