@@ -34,26 +34,25 @@ Resources to be created:
 
 Variables have no default values in order to avoid misconfiguration
 
-Most of the values are related to resources managed by Databricks. Values to use be found at: https://docs.gcp.databricks.com/en/resources/ip-domain-region.html
+Most values are related to resources managed by Databricks. The required values can be found at: https://docs.gcp.databricks.com/en/resources/ip-domain-region.html
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name                                                             | Version |
-|------------------------------------------------------------------|---------|
-| <a name="requirement_google"></a> [google](#requirement\_google) | 6.17.0  |
+| Name                                                                         | Version  |
+|------------------------------------------------------------------------------|----------|
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.77.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google)             | 6.17.0   |
 
 ## Providers
 
-| Name                                                                   | Version |
-|------------------------------------------------------------------------|---------|
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | n/a     |
-| <a name="provider_google"></a> [google](#provider\_google)             | n/a     |
-| <a name="provider_random"></a> [random](#provider\_random)             | n/a     |
+No providers.
 
 ## Modules
 
-No modules.
+| Name                                                                                                                                                        | Source                                             | Version |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|---------|
+| <a name="module_gcp_with_data_exfiltration_protection"></a> [gcp\_with\_data\_exfiltration\_protection](#module\_gcp\_with\_data\_exfiltration\_protection) | ../../modules/gcp-with-psc-exfiltration-protection | n/a     |
 
 ## Resources
 
@@ -64,16 +63,13 @@ No resources.
 | Name                                                                                                             | Description                                             | Type          | Default | Required |
 |------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|---------------|---------|:--------:|
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id)            | Databricks Account ID                                   | `string`      | n/a     |   yes    |
-| <a name="input_gke_master_ip_range"></a> [gke\_master\_ip\_range](#input\_gke\_master\_ip\_range)                | IP Range for GKE Master subnet                          | `string`      | n/a     |   yes    |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region)                                      | Google Cloud region where the resources will be created | `string`      | n/a     |   yes    |
 | <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip)                        | Value of regional default Hive Metastore IP             | `string`      | n/a     |   yes    |
 | <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr)                                       | CIDR for Hub VPC                                        | `string`      | n/a     |   yes    |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project)       | Google Cloud project ID related to Hub VPC              | `string`      | n/a     |   yes    |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared)                | Whether the Spoke VPC is a Shared or a dedicated VPC    | `bool`        | n/a     |   yes    |
-| <a name="input_pod_ip_cidr_range"></a> [pod\_ip\_cidr\_range](#input\_pod\_ip\_cidr\_range)                      | IP Range for Pods subnet (secondary)                    | `string`      | n/a     |   yes    |
 | <a name="input_prefix"></a> [prefix](#input\_prefix)                                                             | Prefix to use in generated resources name               | `string`      | n/a     |   yes    |
 | <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr)                              | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
-| <a name="input_service_ip_cidr_range"></a> [service\_ip\_cidr\_range](#input\_service\_ip\_cidr\_range)          | IP Range for Services subnet (secondary)                | `string`      | n/a     |   yes    |
 | <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr)                                 | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC            | `string`      | n/a     |   yes    |
 | <a name="input_tags"></a> [tags](#input\_tags)                                                                   | Map of tags to add to all resources                     | `map(string)` | `{}`    |    no    |

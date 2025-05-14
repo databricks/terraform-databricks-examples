@@ -55,21 +55,6 @@ variable "psc_subnet_cidr" {
   description = "CIDR for Spoke VPC"
 }
 
-variable "gke_master_ip_range" {
-  type        = string
-  description = "IP Range for GKE Master subnet"
-}
-
-variable "pod_ip_cidr_range" {
-  type        = string
-  description = "IP Range for Pods subnet (secondary)"
-}
-
-variable "service_ip_cidr_range" {
-  type        = string
-  description = "IP Range for Services subnet (secondary)"
-}
-
 variable "tags" {
   description = "Map of tags to add to all resources"
   type        = map(string)

@@ -20,8 +20,7 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 * Databricks workspace with private link to control plane, user to webapp and private link to DBFS
 
 
-**REMARK THAT** the module does not contain the VPC SC implementation. This can be added to increase the security level in the Databricks deployment, providing detailed access level for ingress and egress traffic.
-
+**Note that** the module does not contain the VPC SC implementation. This can be added to increase the security level in the Databricks deployment, providing detailed access level for ingress and egress traffic.
 ## How to use
 
 > **Note**  
@@ -30,7 +29,6 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
 2. Add `terraform.tfvars` with the information about service principals to be provisioned at account level.
-
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -64,12 +62,8 @@ No modules.
 | [google_compute_address.spoke_frontend_pe_ip_address](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_address)                  | resource |
 | [google_compute_firewall.databricks_workspace_traffic](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                | resource |
 | [google_compute_firewall.default_deny_egress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                         | resource |
-| [google_compute_firewall.from_gcp_health_checks](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                      | resource |
 | [google_compute_firewall.hub_net_traffic](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                             | resource |
 | [google_compute_firewall.to_databricks_control_plane](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                 | resource |
-| [google_compute_firewall.to_gcp_health_checks](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                        | resource |
-| [google_compute_firewall.to_gke_master](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                               | resource |
-| [google_compute_firewall.to_gke_nodes_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                         | resource |
 | [google_compute_firewall.to_google_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                              | resource |
 | [google_compute_firewall.to_managed_hive](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)                             | resource |
 | [google_compute_forwarding_rule.backend_psc_ep](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_forwarding_rule)                | resource |
@@ -111,16 +105,13 @@ No modules.
 | Name                                                                                                             | Description                                             | Type          | Default | Required |
 |------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|---------------|---------|:--------:|
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id)            | Databricks Account ID                                   | `string`      | n/a     |   yes    |
-| <a name="input_gke_master_ip_range"></a> [gke\_master\_ip\_range](#input\_gke\_master\_ip\_range)                | IP Range for GKE Master subnet                          | `string`      | n/a     |   yes    |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region)                                      | Google Cloud region where the resources will be created | `string`      | n/a     |   yes    |
 | <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip)                        | Value of regional default Hive Metastore IP             | `string`      | n/a     |   yes    |
 | <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr)                                       | CIDR for Hub VPC                                        | `string`      | n/a     |   yes    |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project)       | Google Cloud project ID related to Hub VPC              | `string`      | n/a     |   yes    |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared)                | Whether the Spoke VPC is a Shared or a dedicated VPC    | `bool`        | n/a     |   yes    |
-| <a name="input_pod_ip_cidr_range"></a> [pod\_ip\_cidr\_range](#input\_pod\_ip\_cidr\_range)                      | IP Range for Pods subnet (secondary)                    | `string`      | n/a     |   yes    |
 | <a name="input_prefix"></a> [prefix](#input\_prefix)                                                             | Prefix to use in generated resources name               | `string`      | n/a     |   yes    |
 | <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr)                              | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
-| <a name="input_service_ip_cidr_range"></a> [service\_ip\_cidr\_range](#input\_service\_ip\_cidr\_range)          | IP Range for Services subnet (secondary)                | `string`      | n/a     |   yes    |
 | <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr)                                 | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC            | `string`      | n/a     |   yes    |
 | <a name="input_tags"></a> [tags](#input\_tags)                                                                   | Map of tags to add to all resources                     | `map(string)` | n/a     |   yes    |
