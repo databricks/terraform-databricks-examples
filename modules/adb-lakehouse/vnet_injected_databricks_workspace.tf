@@ -15,6 +15,8 @@ resource "azurerm_subnet" "private" {
 
   address_prefixes = var.private_subnet_address_prefixes
 
+  service_endpoints = var.service_endpoints
+
   delegation {
     name = "databricks-private-subnet-delegation"
 
@@ -31,6 +33,8 @@ resource "azurerm_subnet" "public" {
   virtual_network_name = azurerm_virtual_network.this.name
 
   address_prefixes = var.public_subnet_address_prefixes
+
+  service_endpoints = var.service_endpoints
 
   delegation {
     name = "databricks-public-subnet-delegation"
@@ -53,13 +57,24 @@ resource "azurerm_subnet_network_security_group_association" "public" {
 }
 
 resource "azurerm_subnet_route_table_association" "private" {
+  count = var.create_nat_gateway ? 0 : 1
+
   subnet_id      = azurerm_subnet.private.id
-  route_table_id = azurerm_route_table.this.id
+  route_table_id = azurerm_route_table.this[0].id
 }
 
 resource "azurerm_subnet_route_table_association" "public" {
+  count = var.create_nat_gateway ? 0 : 1
+
   subnet_id      = azurerm_subnet.public.id
-  route_table_id = azurerm_route_table.this.id
+  route_table_id = azurerm_route_table.this[0].id
+}
+
+resource "azurerm_subnet_nat_gateway_association" "public" {
+  count = var.create_nat_gateway ? 1 : 0
+
+  subnet_id      = azurerm_subnet.public.id
+  nat_gateway_id = azurerm_nat_gateway.this[0].id
 }
 
 resource "azurerm_databricks_workspace" "this" {

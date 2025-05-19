@@ -19,7 +19,7 @@ output "nsg_id" {
 }
 
 output "route_table_id" {
-  value       = azurerm_route_table.this.id
+  value       = var.create_nat_gateway ? "" : azurerm_route_table.this[0].id
   description = "**Depricated** ID of the new route table"
 }
 
