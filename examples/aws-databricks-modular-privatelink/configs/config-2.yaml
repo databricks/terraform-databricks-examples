@@ -1,0 +1,39 @@
+# VPC Configuration
+vpc:
+  name: "demo-vpc-2"
+  cidr: "10.0.0.0/16"
+
+workspace_number: 1
+resource_prefix: "tf-sec-vpc"
+
+subnets:
+  number_of_azs: 2
+  private:
+    - name: "private-subnet-1"
+      cidr: "10.0.1.0/24"
+    - name: "private-subnet-2" 
+      cidr: "10.0.2.0/24"
+    
+  public:
+    - name: "public-subnet-1"
+      cidr: "10.0.101.0/24"
+    - name: "public-subnet-2"
+      cidr: "10.0.102.0/24"
+  
+  intra:
+    - name: "privatelink-subnet-1" 
+      cidr: "10.0.103.0/27"
+    - name: "privatelink-subnet-2"
+      cidr: "10.0.104.0/27"
+
+scc_relay: "com.amazonaws.vpce.ap-southeast-1.vpce-svc-0557367c6fc1a0c5c"
+workspace: "com.amazonaws.vpce.ap-southeast-1.vpce-svc-02535b257fc253ff4"
+
+deploy_metastore: "false"
+existing_metastore_id: "xxxxx-xxxx-xxxx-xxxx-xxxxxx"
+
+# Optional: Add any other configuration parameters here
+tags:
+  Environment: "Development"
+  Project: "Databricks"
+  ManagedBy: "Terraform"

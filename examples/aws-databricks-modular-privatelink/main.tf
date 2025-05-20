@@ -1,74 +1,60 @@
-resource "random_string" "naming" {
-  special = false
-  upper   = false
-  length  = 6
-
-}
-
+# Define the environments we want to create
 locals {
-  prefix              = "adi-aws-resources"
-  sg_egress_ports     = [443, 3306, 6666]
-  sg_ingress_protocol = ["tcp", "udp"]
-  sg_egress_protocol  = ["tcp", "udp"]
-  workspace_confs = { //add more workspaces here, remove from here to delete specific workspace
-    workspace_1 = var.workspace_1_config
-    workspace_2 = var.workspace_2_config
+  environments = {
+    env1 = {
+      config_file_path = "${path.module}/configs/config-1.yaml"
+    }
+    /*
+    env2 = {
+      config_file_path = "${path.module}/configs/config-2.yaml"
+    }
+    */
+    # You can add more environments here if needed
+  }
+
+  # Parse each config file once and store the results
+  config_files = {
+    for env_key, env in local.environments : env_key => yamldecode(file(env.config_file_path))
   }
 }
 
-
-module "databricks_cmk" {
-  source                 = "./modules/databricks_cmk"
-  cross_account_role_arn = aws_iam_role.cross_account_role.arn
-  resource_prefix        = local.prefix
-  region                 = var.region
-  cmk_admin              = var.cmk_admin
-}
-
-// for each VPC, you should create workspace_collection
-module "workspace_collection" {
-  for_each = local.workspace_confs
+# Single module block that creates multiple workspaces
+module "multiple_workspaces" {
+  for_each = local.environments
 
   providers = {
-    databricks = databricks.mws
-    aws        = aws
+    aws            = aws
+    databricks.mws = databricks.mws
+    time           = time
   }
 
-  source                = "./modules/mws_workspace"
+  source                = "./databricks_account_tf_pipeline"
+  aws_account_id        = var.aws_account_id
   databricks_account_id = var.databricks_account_id
-  credentials_id        = databricks_mws_credentials.this.credentials_id
-  prefix                = each.value.prefix
-  region                = each.value.region
-  workspace_name        = each.value.workspace_name
-  tags                  = each.value.tags
-  existing_vpc_id       = aws_vpc.mainvpc.id
-  nat_gateways_id       = aws_nat_gateway.nat_gateways[0].id
-  security_group_ids    = [aws_security_group.sg.id]
-  private_subnet_pair   = [each.value.private_subnet_pair.subnet1_cidr, each.value.private_subnet_pair.subnet2_cidr]
-  workspace_storage_cmk = module.databricks_cmk.workspace_storage_cmk
-  managed_services_cmk  = module.databricks_cmk.managed_services_cmk
-  root_bucket_name      = each.value.root_bucket_name
-  relay_vpce_id         = [databricks_mws_vpc_endpoint.relay.vpc_endpoint_id]
-  rest_vpce_id          = [databricks_mws_vpc_endpoint.backend_rest_vpce.vpc_endpoint_id]
-  depends_on = [
-    databricks_mws_vpc_endpoint.relay,
-    databricks_mws_vpc_endpoint.backend_rest_vpce
-  ]
-}
+  region                = var.region
+  client_id             = var.client_id
+  client_secret         = var.client_secret
 
-data "http" "my" { // check host machine public IP
-  url = "https://ifconfig.me"
-}
+  # Use the values extracted from the YAML for this environment
+  vpc_name         = local.config_files[each.key].vpc.name
+  vpc_cidr         = local.config_files[each.key].vpc.cidr
+  workspace_number = local.config_files[each.key].workspace_number
+  number_of_azs    = local.config_files[each.key].subnets.number_of_azs
 
-// save deployment info to local file for future configuration
-resource "local_file" "deployment_information" {
-  for_each = local.workspace_confs
+  private_subnets      = [for subnet in local.config_files[each.key].subnets.private : subnet.cidr]
+  private_subnet_names = [for subnet in local.config_files[each.key].subnets.private : subnet.name]
+  public_subnets       = [for subnet in local.config_files[each.key].subnets.public : subnet.cidr]
+  public_subnet_names  = [for subnet in local.config_files[each.key].subnets.public : subnet.name]
+  intra_subnets        = [for subnet in local.config_files[each.key].subnets.intra : subnet.cidr]
+  intra_subnet_names   = [for subnet in local.config_files[each.key].subnets.intra : subnet.name]
 
-  content = jsonencode({
-    "prefix"        = "${local.workspace_confs[each.key].prefix}-${local.prefix}"
-    "workspace_url" = module.workspace_collection[each.key].workspace_url
-    "block_list"    = "${local.workspace_confs[each.key].block_list}"
-    "allow_list"    = "${concat(local.workspace_confs[each.key].allow_list, ["${data.http.my.body}/32"])}"
-  })
-  filename = "./artifacts/${each.key}.json"
+  scc_relay = local.config_files[each.key].scc_relay
+  workspace = local.config_files[each.key].workspace
+
+  resource_prefix            = local.config_files[each.key].resource_prefix
+  deploy_metastore           = local.config_files[each.key].deploy_metastore
+  existing_metastore_id      = lookup(local.config_files[each.key], "existing_metastore_id", null)
+  metastore_admin_group_name = lookup(local.config_files[each.key], "metastore_admin_group_name", null)
+  deploy_log_delivery        = lookup(local.config_files[each.key], "deploy_log_delivery", false)
+  tags                       = local.config_files[each.key].tags
 }

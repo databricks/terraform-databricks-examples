@@ -1,0 +1,48 @@
+# Create users and manage in TF
+new_users:
+  "new.admin@example.com":
+    display_name: "New Admin User"
+
+  "new.de@example.com":
+    display_name: "New Data Engineer"
+    
+  "new.ds@example.com":
+    display_name: "New Data Scientist"
+    
+  "new.analyst@example.com":
+    display_name: "New Analyst"
+
+# Import existing users that you want to interact with terraform (add them into group definitions below)
+existing_users:
+  - "your_existing_user@example.com"
+
+# Explicit section for metastore admins
+tf_admin_groups:
+  metastore_admin_group:
+    display_name: "metastore_admin_group"
+    members:
+      new_metastore_admins:
+        - "new.admin@example.com"
+      existing_metastore_admins:
+        - "your_existing_user@example.com"
+
+# Group users into non Admin groups, each user can exist in 1 or multiple groups; 
+# Emails must exist in the new_users or existing_users section first
+tf_non_admin_groups:
+  data_engineers:
+    display_name: "TF Managed Data Engineers"
+    members:
+      - "new.de@example.com"
+      - "new.admin@example.com"  
+
+  data_scientists:
+    display_name: "TF Managed Data Scientists"
+    members:
+      - "new.ds@example.com"
+      - "new.de@example.com"
+      - "your_existing_user@example.com"
+
+  analysts:
+    display_name: "TF Managed Analysts"
+    members:
+      - "new.analyst@example.com"
