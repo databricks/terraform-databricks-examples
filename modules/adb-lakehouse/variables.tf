@@ -73,3 +73,21 @@ variable "storage_account_names" {
   description = "Names of additional storage accounts to create"
   default     = []
 }
+
+variable "create_nat_gateway" {
+  type        = bool
+  description = "If we should create NAT gateway and associate it with subnets"
+  default     = true
+}
+
+variable "service_endpoints" {
+  type        = list(string)
+  description = "Service endpoints to associate with subnets"
+  default = [
+    "Microsoft.EventHub",
+    "Microsoft.Storage",
+    "Microsoft.AzureActiveDirectory",
+    "Microsoft.Sql"
+  ]
+}
+
