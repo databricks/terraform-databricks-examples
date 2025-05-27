@@ -1,14 +1,22 @@
 // aws resources for UC
 resource "aws_s3_bucket" "metastore" {
   bucket = "${local.prefix}-metastore-jlaw"
-  acl    = "private"
-  versioning {
-    enabled = false
-  }
   force_destroy = true
   tags = merge(var.tags, {
     Name = "${local.prefix}-uc-metastore"
   })
+}
+
+resource "aws_s3_bucket_versioning" "metastore" {
+  bucket = aws_s3_bucket.metastore.id
+  versioning_configuration {
+    status = "Disabled"
+  }
+}
+
+resource "aws_s3_bucket_acl" "metastore" {
+  bucket = aws_s3_bucket.metastore.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "metastore" {

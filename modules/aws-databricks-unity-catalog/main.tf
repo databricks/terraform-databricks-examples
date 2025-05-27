@@ -24,5 +24,10 @@ resource "databricks_metastore_assignment" "default_metastore" {
   count                = length(var.databricks_workspace_ids)
   workspace_id         = var.databricks_workspace_ids[count.index]
   metastore_id         = databricks_metastore.this.id
-  default_catalog_name = "hive_metastore"
+}
+
+resource "databricks_default_namespace_setting" "this" {
+  namespace {
+    value = "main"
+  }
 }
