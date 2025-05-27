@@ -62,3 +62,12 @@ variable "tags" {
   default = {}
 }
 
+variable "metastore_name" {
+  type        = string
+  description = "Name to assign to regional metastore"
+}
+
+variable "catalog_name" {
+  type        = string
+  description = "Name to assign to default catalog"
+}

@@ -16,6 +16,13 @@ locals {
 # Random String Resource: Suffix Generator
 # ---------------------------------------------------
 resource "random_string" "suffix" {
+  lifecycle {
+    ignore_changes = [
+      special,
+      upper
+    ]
+  }
+
   special = false
   upper   = false
   length  = 6
