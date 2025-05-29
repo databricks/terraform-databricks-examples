@@ -5,11 +5,11 @@ This template shows how to use terraform to manage workspace configurations and 
 
 
 Specifically, you can find examples here for:
-1. [Provider configurations for multiple workspaces](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_workspace_config#provider-configurations-for-multiple-workspaces)
-2. [Configure IP Access List for multiple workspaces](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_workspace_config#configure-ip-access-list-for-multiple-workspaces)
-3. [Workspace Object Management](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_workspace_config#workspace-object-management)
-4. [Cluster Policy Management](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_workspace_config#cluster-policy-management)
-5. [Workspace users and groups](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_workspace_config#workspace-users-and-groups)
+1. [Provider configurations for multiple workspaces](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-workspace-config#provider-configurations-for-multiple-workspaces)
+2. [Configure IP Access List for multiple workspaces](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-workspace-config#configure-ip-access-list-for-multiple-workspaces)
+3. [Workspace Object Management](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-workspace-config#workspace-object-management)
+4. [Cluster Policy Management](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-workspace-config#cluster-policy-management)
+5. [Workspace users and groups](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-workspace-config#workspace-users-and-groups)
 
 ## Provider configurations for multiple workspaces
 
@@ -18,9 +18,9 @@ When you spin up resources/modules, you need to explicitly pass in the provider 
 
 ## Configure IP Access List for multiple workspaces
 
-In this example, we show how to patch multiple workspaces using multiple json files as input; the json file contains block lists and allow lists for each workspace and we use the exact json files generated in workspace deployment template inside this repo, see this [[link](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_databricks_modular_privatelink#ip-access-list)] for more details.
+In this example, we show how to patch multiple workspaces using multiple json files as input; the json file contains block lists and allow lists for each workspace and we use the exact json files generated in workspace deployment template inside this repo, see this [[link](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-databricks-modular-privatelink#ip-access-list)] for more details.
 
-Assume you have deployed 2 workspaces using the `aws_databricks_modular_privatelink` template, you will find 2 generated json file under `../aws_databricks_modular_privatelink/artifacts/`, and you want to patch the IP access list for both workspaces. You can refer to `main.tf` and continue to add/remove the module instances you want. For each workspace, we recommend you using a dedicated block for configuration, like the one below:
+Assume you have deployed 2 workspaces using the `aws-databricks-modular-privatelink` template, you will find 2 generated json file under `../aws_databricks_modular_privatelink/artifacts/`, and you want to patch the IP access list for both workspaces. You can refer to `main.tf` and continue to add/remove the module instances you want. For each workspace, we recommend you using a dedicated block for configuration, like the one below:
 
 ```hcl
 module "ip_access_list_workspace_1" {
