@@ -6,7 +6,7 @@ In this template, we show how to dpeloy Unity Catalog related resources such as 
 This is stage 2 of UC deployment, you can also run this stage 2 template directly without stage 1 (which helps you create `account admin` identity), but you need to make sure using account admin identity to authenticate the `databricks mws` provider, instead of using `account owner`. One major reason of not using `account owner` in terraform is you cannot destroy yourself from admin list.
 
 If you don't have an `account admin` identity, you can refer to stage 1: 
-[aws_databricks_unity_catalog_bootstrap](https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_databricks_unity_catalog_bootstrap)
+[aws-databricks-unity-catalog-bootstrap](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-databricks-uc-bootstrap)
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-uc/images/uc-tf-onboarding.png?raw=true)
 

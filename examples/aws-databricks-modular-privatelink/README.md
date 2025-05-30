@@ -151,7 +151,7 @@ terraform {
 }
 ```
 
-You should create the infra for remote backend in another Terraform Project, like the `aws_remote_backend_infra` project in this repo's root level - https://github.com/hwang-db/tf_aws_deployment/tree/main/aws_remote_backend_infra, since we want to separate the backend infra out from any databricks project infra. As shown below, you create a separate set of tf scripts and create the S3 and DynamoDB Table. Then all other tf projects can store their state files in this remote backend.
+You should create the infra for remote backend in another Terraform Project, like the `aws_remote_backend_infra` project in this repo's root level - https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-remote-backend-infra, since we want to separate the backend infra out from any databricks project infra. As shown below, you create a separate set of tf scripts and create the S3 and DynamoDB Table. Then all other tf projects can store their state files in this remote backend.
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-modular-privatelink/images/tf-remote-s3-backend.png?raw=true)
 
