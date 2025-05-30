@@ -27,7 +27,12 @@ resource "databricks_metastore_assignment" "default_metastore" {
   for_each             = toset(var.databricks_workspace_ids)
   workspace_id         = each.key
   metastore_id         = databricks_metastore.this.id
-  default_catalog_name = "hive_metastore"
+}
+
+resource "databricks_default_namespace_setting" "this" {
+  namespace {
+    value = "main"
+  }
 }
 
 // metastore - catalog - schema - table
