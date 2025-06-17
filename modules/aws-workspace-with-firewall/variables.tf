@@ -22,7 +22,7 @@ variable "region" {
 }
 
 variable "whitelisted_urls" {
-  default     = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org"]
+  default     = [".pypi.org", ".pythonhosted.org", ".cran.r-project.org", ".githubusercontent.com", ".github.com"]
   description = "List of the domains to allow traffic to"
   type        = list(string)
 }
