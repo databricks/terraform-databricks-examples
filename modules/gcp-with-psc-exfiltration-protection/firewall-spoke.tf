@@ -94,3 +94,19 @@ resource "google_compute_firewall" "databricks_workspace_traffic" {
 
   allow { protocol = "all" } # Full internal access
 }
+
+resource "google_compute_firewall" "to_databricks_compute_plane" {
+  name    = "${google_compute_network.spoke_vpc.name}-to-databricks-compute-plane"
+  project = var.spoke_vpc_google_project
+  network = google_compute_network.spoke_vpc.self_link
+
+  direction = "EGRESS"
+  priority  = 1000
+  destination_ranges = [
+    var.spoke_vpc_cidr
+  ]
+
+  allow {
+    protocol = "all"
+  }
+}

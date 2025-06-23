@@ -1,7 +1,7 @@
 resource "google_storage_bucket" "ext_bucket" {
-  name          = "${var.prefix}-bucket"
+  name = "${var.prefix}-bucket"
 
-  project = var.google_project
+  project       = var.google_project
   location      = var.google_region
   force_destroy = true
 }

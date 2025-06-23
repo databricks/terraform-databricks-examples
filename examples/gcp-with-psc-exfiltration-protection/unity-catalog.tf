@@ -2,7 +2,7 @@ module "unity_catalog" {
   source = "../../modules/gcp-unity-catalog"
 
   providers = {
-    databricks = databricks,
+    databricks           = databricks,
     databricks.workspace = databricks.workspace
   }
   databricks_workspace_id  = module.gcp_with_data_exfiltration_protection.workspace_id

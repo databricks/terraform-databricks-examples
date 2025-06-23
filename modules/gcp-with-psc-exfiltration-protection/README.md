@@ -1,13 +1,25 @@
 # Databricks on Google Cloud with Private Service Connect and Hub-Spoke network structure (data exfiltration protection).
 
-Include:
+## ⚠️ Prerequisites
+To **enable Private Service Connect for your Databricks workspace** on Google Cloud, you must contact your Databricks account team and provide:
+- Databricks account ID
+- VPC Host Project ID of the **compute plane VPC** for enabling back-end Private Service Connect
+- VPC Host Project ID of the **transit VPC** for enabling front-end Private Service Connect
+- Workspace region
+
+This configuration **cannot be completed independently** and requires coordination with your Databricks account team.  
+
+## Overview
+
+The module includes:
 1. Hub-Spoke networking with egress firewall to control all outbound traffic, e.g. to pypi.org.
 2. Private Service Connect connection for backend traffic from data plane to control plane.
 3. Private Service Connect connection from user client to webapp service.
 4. Private Google Access from data plane to DBFS storage.
 5. Private Service Connect connection for web-auth traffic.
 
-Overall Architecture:
+## Overall Architecture
+
 ![alt text](images/architecture.png)
 
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through PSC endpoints. This terraform sample will create:
