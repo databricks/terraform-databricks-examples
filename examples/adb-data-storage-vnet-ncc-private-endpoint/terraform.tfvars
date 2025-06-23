@@ -1,0 +1,23 @@
+azure_region = ""
+rg_name = "" 
+name_prefix = ""
+dbfs_storage_account = ""
+azure_subscription_id = ""
+cidr_block = "10.22.0.0/23"
+private_subnets_cidr = "10.22.0.0/25"
+public_subnets_cidr = "10.22.0.128/25"
+pl_subnets_cidr= "10.22.1.0/27"
+subnet_service_endpoints =  [] #["Microsoft.Sql", "Microsoft.EventHub","Microsoft.Storage"]
+network_security_group_rules_required =  "AllRules" # "AllRules" # "NoAzureDatabricksRules" (if backend privatelink)
+default_storage_firewall_enabled = true
+public_network_access_enabled = true #false
+databricks_host = "https://accounts.azuredatabricks.net"
+databricks_account_id = ""
+databricks_metastore = ""
+data_storage_account_rg = ""
+data_storage_account = ""
+storage_account_allowed_ips = [] # optional
+databricks_calalog = ""
+principal_name = "fname.lname@example.com"
+catalog_privileges = []
+tags = { Owner = "fname.lname@example.com" }
