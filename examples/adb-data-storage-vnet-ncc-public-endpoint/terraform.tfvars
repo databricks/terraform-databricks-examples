@@ -16,7 +16,7 @@ databricks_metastore = ""
 data_storage_account_rg = ""
 data_storage_account = ""
 storage_account_allowed_ips = [] # optional
-databricks_calalog = ""
+databricks_catalog = ""
 principal_name = "fname.lname@example.com"
 catalog_privileges = []
 tags = { Owner = "fname.lname@example.com" }

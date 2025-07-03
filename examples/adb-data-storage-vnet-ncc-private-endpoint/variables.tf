@@ -125,7 +125,7 @@ variable "storage_account_allowed_ips" {
 }
 
 # Variable for the name of the catalog in the metastore
-variable "databricks_calalog" {
+variable "databricks_catalog" {
   description = "Name of catalog in metastore"
   type        = string
   default     = ""
@@ -147,5 +147,6 @@ variable "catalog_privileges" {
 
 # Variable for tags to apply to resources for organization and billing
 variable "tags" {
-  default = ""
+  type        = map(string)
+  default     = {}
 }

@@ -4,7 +4,7 @@ This example is using the [adb-data-storage-vnet-ncc-private-endpoint](../../mod
 
 Include:
 1. Resource group 1 with name as defined in the variable rg_name
-2. Reource group 1 includes virtual network, subnets (private & public), network security group for subnets, databricks access connector and databricks workspace ( also binds it to a metastore).
+2. Resource group 1 includes virtual network, subnets (private & public), network security group for subnets, databricks access connector and databricks workspace ( also binds it to a metastore).
 3. Resource group 2 with name as defind in the variable data_storage_account_rg
 4. Resource group 2 includes data storage account includes a container with networks rules to allow conncection only from workspace virtual network public subnets and serverless NCC subnets and associated user identity + databricks access connector.
 5. Also creates storage credentials , external location and catalog using the storage container in the metastore.

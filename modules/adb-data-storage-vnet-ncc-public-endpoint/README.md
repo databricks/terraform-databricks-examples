@@ -9,7 +9,7 @@ This module can be used to deploy the following:
 ![alt text](architecture.drawio.svg)
 
 * Resource group 1 with name as defined in the variable rg_name
-* Reource group 1 includes virtual network, subnets (private & public), network security group for subnets, databricks access connector and databricks workspace ( also binds it to a metastore).
+* Resource group 1 includes virtual network, subnets (private & public), network security group for subnets, databricks access connector and databricks workspace ( also binds it to a metastore).
 * Also deploys network connectivity configuration (NCC) for workspace
 * Resource group 2 with name as defind in the variable data_storage_account_rg
 * Resource group 2 includes data storage account includes a container with networks rules to allow conncection only from workspace virtual network public subnets and serverless NCC subnets and associated user identity + databricks access connector.
