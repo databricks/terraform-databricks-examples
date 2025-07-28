@@ -22,7 +22,7 @@ resource "google_compute_forwarding_rule" "backend_psc_ep" {
   region                = var.google_region
   network               = google_compute_network.spoke_vpc.id
   ip_address            = google_compute_address.backend_pe_ip_address.id
-  target                = "projects/prod-gcp-${var.google_region}/regions/${var.google_region}/serviceAttachments/ngrok-psc-endpoint"
+  target                = local.google_backend_psc_targets[var.google_region]
   load_balancing_scheme = "" # Must be set to "" for service attachment targets
 }
 
@@ -46,7 +46,7 @@ resource "google_compute_forwarding_rule" "spoke_frontend_psc_ep" {
   region                = var.google_region
   network               = google_compute_network.spoke_vpc.id
   ip_address            = google_compute_address.spoke_frontend_pe_ip_address.id
-  target                = "projects/prod-gcp-${var.google_region}/regions/${var.google_region}/serviceAttachments/plproxy-psc-endpoint-all-ports"
+  target                = local.google_frontend_psc_targets[var.google_region]
   load_balancing_scheme = "" # Must be set to "" for service attachment targets
 }
 
@@ -70,6 +70,6 @@ resource "google_compute_forwarding_rule" "hub_frontend_psc_ep" {
   region                = var.google_region
   network               = google_compute_network.hub_vpc.id
   ip_address            = google_compute_address.hub_frontend_pe_ip_address.id
-  target                = "projects/prod-gcp-${var.google_region}/regions/${var.google_region}/serviceAttachments/plproxy-psc-endpoint-all-ports"
+  target                = local.google_frontend_psc_targets[var.google_region]
   load_balancing_scheme = "" # Must be set to "" for service attachment targets
 }
