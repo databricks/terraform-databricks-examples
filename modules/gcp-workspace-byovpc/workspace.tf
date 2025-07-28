@@ -10,10 +10,6 @@ resource "databricks_mws_workspaces" "databricks_workspace" {
   }
 
   network_id = databricks_mws_networks.databricks_network.network_id
-  gke_config {
-    connectivity_type = "PRIVATE_NODE_PUBLIC_MASTER"
-    master_ip_range   = "10.3.0.0/28"
-  }
 
   token {
     comment = "Terraform token"
@@ -22,5 +18,3 @@ resource "databricks_mws_workspaces" "databricks_workspace" {
   # this makes sure that the NAT is created for outbound traffic before creating the workspace
   depends_on = [google_compute_router_nat.nat]
 }
-
-

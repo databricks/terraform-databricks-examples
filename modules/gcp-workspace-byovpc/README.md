@@ -1,7 +1,7 @@
 gcp byovpc
 =========================
 
-In this template, we show how to deploy a workspace with a custom vpc.
+In this template, we show how to deploy a workspace with a custom vpc. This template has been updated to reflect the latest changes in Databricks workspace compute usage in GCP. Databricks now [use GCE instead of GKE](https://docs.databricks.com/gcp/en/admin/cloud-configurations/gcp/gce-update) to speed up compute start-up times. Compute on GKE was deprecated on 17 March 2025.
 
 
 ## Requirements

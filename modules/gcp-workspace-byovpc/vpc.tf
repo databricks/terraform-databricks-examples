@@ -9,14 +9,6 @@ resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" 
   ip_cidr_range = var.subnet_ip_cidr_range
   region        = var.google_region
   network       = google_compute_network.dbx_private_vpc.id
-  secondary_ip_range {
-    range_name    = "pods"
-    ip_cidr_range = var.pod_ip_cidr_range
-  }
-  secondary_ip_range {
-    range_name    = "svc"
-    ip_cidr_range = var.svc_ip_cidr_range
-  }
   private_ip_google_access = true
 }
 
@@ -44,7 +36,5 @@ resource "databricks_mws_networks" "databricks_network" {
     vpc_id                = google_compute_network.dbx_private_vpc.name
     subnet_id             = google_compute_subnetwork.network-with-private-secondary-ip-ranges.name
     subnet_region         = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
-    pod_ip_range_name     = "pods"
-    service_ip_range_name = "svc"
   }
 }
