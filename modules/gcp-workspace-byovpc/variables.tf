@@ -24,16 +24,6 @@ variable "subnet_ip_cidr_range" {
   description = "IP Range for Nodes subnet (primary)"
 }
 
-variable "pod_ip_cidr_range" {
-  type        = string
-  description = "IP Range for Pods subnet (secondary)"
-}
-
-variable "svc_ip_cidr_range" {
-  type        = string
-  description = "IP Range for Services subnet (secondary)"
-}
-
 variable "subnet_name" {
   type        = string
   description = "Name of the subnet to create"
