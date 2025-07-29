@@ -8,12 +8,12 @@ terraform {
       source = "hashicorp/random"
     }
     http = {
-      source  = "hashicorp/http"
+      source = "hashicorp/http"
     }
   }
 }
 
 provider "azurerm" {
-    subscription_id = var.subscription_id
+  subscription_id = var.subscription_id
   features {}
 }

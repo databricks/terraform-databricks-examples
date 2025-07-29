@@ -18,6 +18,6 @@ provider "aws" {
 }
 
 provider "databricks" {
-  host = "https://accounts.cloud.databricks.com"
+  host       = "https://accounts.cloud.databricks.com"
   account_id = var.databricks_account_id
 }

@@ -23,10 +23,10 @@ resource "databricks_metastore_data_access" "this" {
 }
 
 resource "databricks_metastore_assignment" "default_metastore" {
-  provider             = databricks.ws1
-  for_each             = toset(var.databricks_workspace_ids)
-  workspace_id         = each.key
-  metastore_id         = databricks_metastore.this.id
+  provider     = databricks.ws1
+  for_each     = toset(var.databricks_workspace_ids)
+  workspace_id = each.key
+  metastore_id = databricks_metastore.this.id
 }
 
 resource "databricks_default_namespace_setting" "this" {

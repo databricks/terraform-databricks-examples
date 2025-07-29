@@ -1,7 +1,7 @@
 resource "databricks_secret_scope" "kv" {
   # akv backed secret scope
-  name                      = "hive"
-  initial_manage_principal  = "users"
+  name                     = "hive"
+  initial_manage_principal = "users"
   keyvault_metadata {
     resource_id = azurerm_key_vault.akv1.id
     dns_name    = azurerm_key_vault.akv1.vault_uri

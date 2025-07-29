@@ -1,6 +1,6 @@
 // aws resources for UC
 resource "aws_s3_bucket" "metastore" {
-  bucket = "${local.prefix}-metastore-jlaw"
+  bucket        = "${local.prefix}-metastore-jlaw"
   force_destroy = true
   tags = merge(var.tags, {
     Name = "${local.prefix}-uc-metastore"

@@ -1,9 +1,9 @@
 variable "rg_name" {
-  type = string
+  type        = string
   description = "Resource group name"
 }
 
 variable "overwatch_ws_name" {
-  type = string
+  type        = string
   description = "The name of the Overwatch workspace"
 }

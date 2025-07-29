@@ -91,8 +91,8 @@ resource "databricks_metastore_data_access" "first" {
 
 // Attach the databricks workspace to the metastore
 resource "databricks_metastore_assignment" "this" {
-  workspace_id         = local.databricks_workspace_id
-  metastore_id         = databricks_metastore.this.id
+  workspace_id = local.databricks_workspace_id
+  metastore_id = databricks_metastore.this.id
 }
 
 resource "databricks_default_namespace_setting" "this" {
@@ -156,8 +156,8 @@ resource "databricks_user" "this" {
   force                    = true
   disable_as_user_deletion = true # default behavior
 
-// Review warning before deactivating or deleting users from databricks account
-// https://learn.microsoft.com/en-us/azure/databricks/administration-guide/users-groups/scim/#add-users-and-groups-to-your-azure-databricks-account-using-azure-active-directory-azure-ad
+  // Review warning before deactivating or deleting users from databricks account
+  // https://learn.microsoft.com/en-us/azure/databricks/administration-guide/users-groups/scim/#add-users-and-groups-to-your-azure-databricks-account-using-azure-active-directory-azure-ad
   lifecycle {
     prevent_destroy = true
   }
@@ -202,9 +202,9 @@ locals {
 
 // Making all users on account_unity_admin group as databricks account admin
 resource "databricks_user_role" "account_admin" {
-  provider = databricks.azure_account
-  for_each = local.all_account_admin_users
-  user_id  = databricks_user.this[each.key].id
-  role     = "account_admin"
+  provider   = databricks.azure_account
+  for_each   = local.all_account_admin_users
+  user_id    = databricks_user.this[each.key].id
+  role       = "account_admin"
   depends_on = [databricks_group.this, databricks_user.this, databricks_service_principal.sp]
 }

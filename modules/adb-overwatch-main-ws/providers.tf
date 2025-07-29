@@ -12,5 +12,5 @@ terraform {
 
 provider "databricks" {
   alias = "ow-main-ws"
-  host = var.use_existing_ws ? one(data.azurerm_databricks_workspace.adb-existing-ws[*].workspace_url) : one(azurerm_databricks_workspace.adb-new-ws[*].workspace_url)
+  host  = var.use_existing_ws ? one(data.azurerm_databricks_workspace.adb-existing-ws[*].workspace_url) : one(azurerm_databricks_workspace.adb-new-ws[*].workspace_url)
 }

@@ -4,13 +4,13 @@ terraform {
   required_providers {
     # Specify the Azure Provider and its source
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = ">=4.31.0"
     }
-    
+
     # Specify the Databricks Provider and its source
     databricks = {
-      source = "databricks/databricks"
+      source  = "databricks/databricks"
       version = ">=1.81.1"
     }
   }
@@ -23,29 +23,29 @@ provider "azurerm" {
 
   # Enable features for the Azure Provider
   features {}
-  
+
 }
 
 # Configure the Databricks Provider for account-level operations
 provider "databricks" {
   # Create an alias for this provider instance to differentiate it from others
-  alias         = "accounts"
-  
+  alias = "accounts"
+
   # Host URL for the Databricks workspace or account
-  host          = var.databricks_host
-  
+  host = var.databricks_host
+
   # Databricks account ID for authentication
-  account_id    = var.databricks_account_id
-  
+  account_id = var.databricks_account_id
+
 }
 
 # Configure the Databricks Provider for workspace-level operations
 provider "databricks" {
   # Create an alias for this provider instance to differentiate it from others
-  alias         = "workspace"
-  
+  alias = "workspace"
+
   # Host URL for the Databricks workspace
-  host          = azurerm_databricks_workspace.this.workspace_url
-  
+  host = azurerm_databricks_workspace.this.workspace_url
+
 }
 

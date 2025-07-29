@@ -17,8 +17,8 @@ resource "databricks_metastore_data_access" "first" {
 }
 
 resource "databricks_metastore_assignment" "this" {
-  workspace_id         = local.databricks_workspace_id
-  metastore_id         = databricks_metastore.this.id
+  workspace_id = local.databricks_workspace_id
+  metastore_id = databricks_metastore.this.id
 }
 
 resource "databricks_default_namespace_setting" "this" {

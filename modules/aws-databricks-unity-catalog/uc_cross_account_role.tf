@@ -50,7 +50,7 @@ resource "aws_iam_policy" "unity_metastore" {
           "${aws_s3_bucket.metastore.arn}/*"
         ],
         "Effect" : "Allow"
-       },
+      },
       {
         "Action" : [
           "sts:AssumeRole"
@@ -104,6 +104,6 @@ resource "aws_iam_role" "metastore_data_access" {
 
 # Sleeping for 20s to wait for the workspace to enable identity federation
 resource "time_sleep" "wait_role_creation" {
-  depends_on = [aws_iam_role.metastore_data_access]
+  depends_on      = [aws_iam_role.metastore_data_access]
   create_duration = "20s"
 }

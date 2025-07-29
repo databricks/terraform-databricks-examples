@@ -1,5 +1,5 @@
-subscription_id                 = "<your Azure Subscription ID here>"
-account_id                      = "<your Databricks Account ID here>"
+subscription_id = "<your Azure Subscription ID here>"
+account_id      = "<your Databricks Account ID here>"
 
 location                        = "ukwest"
 spoke_resource_group_name       = "db_lh_example_rg"
