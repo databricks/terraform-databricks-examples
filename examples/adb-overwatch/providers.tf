@@ -17,5 +17,5 @@ provider "azurerm" {
 
 provider "databricks" {
   alias = "adb-ow-main-ws"
-  host = module.adb-overwatch-main-ws.adb_ow_main_ws_url
+  host  = module.adb-overwatch-main-ws.adb_ow_main_ws_url
 }

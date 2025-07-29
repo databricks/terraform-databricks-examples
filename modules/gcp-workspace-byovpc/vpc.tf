@@ -5,10 +5,10 @@ resource "google_compute_network" "dbx_private_vpc" {
 }
 
 resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
-  name          = var.subnet_name
-  ip_cidr_range = var.subnet_ip_cidr_range
-  region        = var.google_region
-  network       = google_compute_network.dbx_private_vpc.id
+  name                     = var.subnet_name
+  ip_cidr_range            = var.subnet_ip_cidr_range
+  region                   = var.google_region
+  network                  = google_compute_network.dbx_private_vpc.id
   private_ip_google_access = true
 }
 
@@ -32,9 +32,9 @@ resource "databricks_mws_networks" "databricks_network" {
   network_name = "${var.prefix}-${random_string.suffix.result}"
 
   gcp_network_info {
-    network_project_id    = var.google_project
-    vpc_id                = google_compute_network.dbx_private_vpc.name
-    subnet_id             = google_compute_subnetwork.network-with-private-secondary-ip-ranges.name
-    subnet_region         = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
+    network_project_id = var.google_project
+    vpc_id             = google_compute_network.dbx_private_vpc.name
+    subnet_id          = google_compute_subnetwork.network-with-private-secondary-ip-ranges.name
+    subnet_region      = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
   }
 }

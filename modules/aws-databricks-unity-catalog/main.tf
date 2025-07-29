@@ -1,6 +1,6 @@
 locals {
   iam_role_name = "${var.prefix}-unity-catalog-metastore-access"
-  iam_role_arn = "arn:aws:iam::${var.aws_account_id}:role/${local.iam_role_name}"
+  iam_role_arn  = "arn:aws:iam::${var.aws_account_id}:role/${local.iam_role_name}"
 }
 
 resource "databricks_metastore" "this" {
@@ -21,9 +21,9 @@ resource "databricks_metastore_data_access" "this" {
 }
 
 resource "databricks_metastore_assignment" "default_metastore" {
-  count                = length(var.databricks_workspace_ids)
-  workspace_id         = var.databricks_workspace_ids[count.index]
-  metastore_id         = databricks_metastore.this.id
+  count        = length(var.databricks_workspace_ids)
+  workspace_id = var.databricks_workspace_ids[count.index]
+  metastore_id = databricks_metastore.this.id
 }
 
 resource "databricks_default_namespace_setting" "this" {

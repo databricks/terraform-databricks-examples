@@ -24,7 +24,7 @@ variable "dbfs_storage_account" {
 
 # Variable for the Azure subscription ID used for authentication
 variable "azure_subscription_id" {
-  type  = string
+  type    = string
   default = ""
 }
 
@@ -38,25 +38,25 @@ variable "cidr_block" {
 
 # Variable for the CIDR block of the private subnet for cluster containers
 variable "private_subnets_cidr" {
-  type = string
+  type    = string
   default = "10.20.0.0/25"
 }
 
 # Variable for the CIDR block of the public subnet for cluster hosts
 variable "public_subnets_cidr" {
-  type = string
+  type    = string
   default = "10.20.0.128/25"
 }
 
 # Variable for service endpoints to enable on subnets
 variable "subnet_service_endpoints" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 # Variable to control whether network security group rules are required
 variable "network_security_group_rules_required" {
-  type = string
+  type    = string
   default = "AllRules"
   # Options:
   #   - "AllRules"
@@ -67,15 +67,15 @@ variable "network_security_group_rules_required" {
 # Variable to control whether public access to the default storage account is disallowed
 variable "default_storage_firewall_enabled" {
   description = "Disallow public access to default storage account"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 # Variable to control whether public access to the frontend workspace web UI is allowed
 variable "public_network_access_enabled" {
   description = "Allow public access to frontend workspace web UI"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 # Variable for the Databricks account URL
@@ -89,7 +89,7 @@ variable "databricks_host" {
 variable "databricks_account_id" {
   description = "Your Databricks Account ID"
   type        = string
-  default = ""
+  default     = ""
 }
 
 # Variable for the name of the Databricks Unity Catalog metastore
@@ -114,7 +114,7 @@ variable "data_storage_account" {
 
 # Variable for the list of allowed IP addresses for the storage account
 variable "storage_account_allowed_ips" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
@@ -141,6 +141,6 @@ variable "catalog_privileges" {
 
 # Variable for tags to apply to resources for organization and billing
 variable "tags" {
-  type        = map(string)
-  default     = {}
+  type    = map(string)
+  default = {}
 }

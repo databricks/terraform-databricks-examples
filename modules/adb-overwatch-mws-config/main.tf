@@ -21,9 +21,9 @@ resource "azurerm_storage_account" "ow-sa" {
   }
 
   tags = {
-    source = "Databricks"
+    source      = "Databricks"
     application = "Overwatch"
-    description="Overwatch ETL database storage"
+    description = "Overwatch ETL database storage"
   }
 }
 
@@ -37,10 +37,10 @@ data "azuread_service_principal" "overwatch-spn" {
   application_id = var.overwatch_spn_app_id
 }
 
-resource "azurerm_role_assignment" "data-contributor-role"{
-  scope = azurerm_storage_account.ow-sa.id
+resource "azurerm_role_assignment" "data-contributor-role" {
+  scope                = azurerm_storage_account.ow-sa.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id = data.azuread_service_principal.overwatch-spn.object_id
+  principal_id         = data.azuread_service_principal.overwatch-spn.object_id
 }
 
 // AKV data
@@ -65,7 +65,7 @@ data "azurerm_key_vault_secret" "spn-key" {
 }
 
 resource "databricks_mount" "overwatch_db" {
-  name       = "overwatch-etl-db"
+  name = "overwatch-etl-db"
 
   abfs {
     tenant_id              = var.tenant_id
@@ -84,13 +84,13 @@ locals {
 
 resource "databricks_job" "overwatch" {
   name = "Overwatch ETL Job"
-  new_cluster{
+  new_cluster {
     autoscale {
-        min_workers = 1
-        max_workers = 3
+      min_workers = 1
+      max_workers = 3
     }
-    spark_version           = var.latest_dbr_lts
-    node_type_id            = "Standard_DS3_v2"
+    spark_version = var.latest_dbr_lts
+    node_type_id  = "Standard_DS3_v2"
 
     spark_conf = {
       "fs.azure.account.auth.type" : "OAuth"
@@ -109,43 +109,43 @@ resource "databricks_job" "overwatch" {
   notebook_task {
     notebook_path = "/Overwatch/ETL/overwatch-runner"
     base_parameters = {
-      "TempDir": "/tmp/overwatch/",
-      "Parallelism": 4,
-      "ETLStoragePrefix": local.etl_storage_prefix,
-      "PathToCsvConfig": "/mnt/${databricks_mount.overwatch_db.name}/config/overwatch_deployment_config.csv"
+      "TempDir" : "/tmp/overwatch/",
+      "Parallelism" : 4,
+      "ETLStoragePrefix" : local.etl_storage_prefix,
+      "PathToCsvConfig" : "/mnt/${databricks_mount.overwatch_db.name}/config/overwatch_deployment_config.csv"
     }
   }
 
   library {
     maven {
-    coordinates = "com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.21"
-    exclusions  = []
+      coordinates = "com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.21"
+      exclusions  = []
     }
   }
-  library{
+  library {
     maven {
-    coordinates = "com.databricks.labs:${var.overwatch_version}"
-    exclusions  = []
+      coordinates = "com.databricks.labs:${var.overwatch_version}"
+      exclusions  = []
     }
   }
   email_notifications {
 
-    on_failure = [var.overwatch_job_notification_email]
+    on_failure                = [var.overwatch_job_notification_email]
     no_alert_for_skipped_runs = false
 
   }
 
-  schedule{
+  schedule {
     quartz_cron_expression = var.cron_job_schedule
-    timezone_id = var.cron_timezone_id
-    pause_status = "PAUSED"
+    timezone_id            = var.cron_timezone_id
+    pause_status           = "PAUSED"
   }
 }
 
 //Upload Databricks notebook
 resource "databricks_notebook" "overwatch_etl" {
-  source = "${path.module}/notebooks/overwatch-runner.scala"
-  path   = "/Overwatch/ETL/overwatch-runner"
-  format = "SOURCE"
+  source   = "${path.module}/notebooks/overwatch-runner.scala"
+  path     = "/Overwatch/ETL/overwatch-runner"
+  format   = "SOURCE"
   language = "SCALA"
 }

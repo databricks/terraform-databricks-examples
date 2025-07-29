@@ -1,4 +1,4 @@
-subscription_id   = "<your Azure Subscription ID here>"
+subscription_id  = "<your Azure Subscription ID here>"
 hubcidr          = "10.178.0.0/20"
 spokecidr        = "10.179.0.0/20"
 rglocation       = "southeastasia"

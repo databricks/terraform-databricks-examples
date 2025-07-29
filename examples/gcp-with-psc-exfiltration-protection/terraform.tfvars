@@ -10,11 +10,11 @@ is_spoke_vpc_shared      = true
 
 prefix = ""
 
-hive_metastore_ip     = ""
-hub_vpc_cidr          = ""
-spoke_vpc_cidr        = ""
-psc_subnet_cidr       = ""
+hive_metastore_ip = ""
+hub_vpc_cidr      = ""
+spoke_vpc_cidr    = ""
+psc_subnet_cidr   = ""
 
 metastore_name = ""
-catalog_name = ""
+catalog_name   = ""
 

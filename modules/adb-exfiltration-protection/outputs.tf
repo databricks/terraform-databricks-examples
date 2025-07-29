@@ -1,6 +1,6 @@
 output "databricks_azure_workspace_resource_id" {
   description = "**Deprecated** The ID of the Databricks Workspace in the Azure management plane"
-  value = azurerm_databricks_workspace.this.id
+  value       = azurerm_databricks_workspace.this.id
 }
 
 output "arm_client_id" {
