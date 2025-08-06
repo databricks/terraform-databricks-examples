@@ -1,3 +1,11 @@
+output "databricks_security_group_id" {
+  value = aws_security_group.databricks.id
+}
+
+output "privatelink_security_group_id" {
+  value = aws_security_group.privatelink.id
+}
+
 output "workspace_storage_cmk" {
   value = {
     key_alias = aws_kms_alias.workspace_storage_cmk_alias.name
