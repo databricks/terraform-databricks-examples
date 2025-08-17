@@ -69,16 +69,25 @@ The process will be: provision ordinary users -> assign users to groups -> assig
 
 You can manage users/groups inside terraform. Examples were given in `main.tf`. Note that with Unity Catalog, you can have account level users/groups. The example here is at workspace level.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
 
 ## Providers
 
-| Name                                                                               | Version |
-|------------------------------------------------------------------------------------|---------|
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks)             | 1.3.1   |
-| <a name="provider_databricks.ws1"></a> [databricks.ws1](#provider\_databricks.ws1) | 1.3.1   |
+| Name | Version |
+|------|---------|
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.3.1 |
+| <a name="provider_databricks.ws1"></a> [databricks.ws1](#provider\_databricks.ws1) | 1.3.1 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_engineering_compute_policy"></a> [engineering\_compute\_policy](#module\_engineering\_compute\_policy) | ./modules/base_policy | n/a |
+| <a name="module_ip_access_list_workspace_1"></a> [ip\_access\_list\_workspace\_1](#module\_ip\_access\_list\_workspace\_1) | ./modules/ip_access_list | n/a |
+| <a name="module_ip_access_list_workspace_2"></a> [ip\_access\_list\_workspace\_2](#module\_ip\_access\_list\_workspace\_2) | ./modules/ip_access_list | n/a |
 
 ## Resources
 
@@ -93,15 +102,16 @@ No requirements.
 
 ## Inputs
 
-| Name                                                           | Description | Type     | Default | Required |
-|----------------------------------------------------------------|-------------|----------|---------|:--------:|
-| <a name="input_pat_ws_1"></a> [pat\_ws\_1](#input\_pat\_ws\_1) | n/a         | `string` | n/a     |   yes    |
-| <a name="input_pat_ws_2"></a> [pat\_ws\_2](#input\_pat\_ws\_2) | n/a         | `string` | n/a     |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_pat_ws_1"></a> [pat\_ws\_1](#input\_pat\_ws\_1) | n/a | `string` | n/a | yes |
+| <a name="input_pat_ws_2"></a> [pat\_ws\_2](#input\_pat\_ws\_2) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
-| Name                                                                                                            | Description |
-|-----------------------------------------------------------------------------------------------------------------|-------------|
-| <a name="output_all_allow_lists_patched"></a> [all\_allow\_lists\_patched](#output\_all\_allow\_lists\_patched) | n/a         |
-| <a name="output_all_block_lists_patched"></a> [all\_block\_lists\_patched](#output\_all\_block\_lists\_patched) | n/a         |
-| <a name="output_sample_cluster_id"></a> [sample\_cluster\_id](#output\_sample\_cluster\_id)                     | n/a         |
+| Name | Description |
+|------|-------------|
+| <a name="output_all_allow_lists_patched"></a> [all\_allow\_lists\_patched](#output\_all\_allow\_lists\_patched) | n/a |
+| <a name="output_all_block_lists_patched"></a> [all\_block\_lists\_patched](#output\_all\_block\_lists\_patched) | n/a |
+| <a name="output_sample_cluster_id"></a> [sample\_cluster\_id](#output\_sample\_cluster\_id) | n/a |
+<!-- END_TF_DOCS -->

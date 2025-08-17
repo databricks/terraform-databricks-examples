@@ -22,9 +22,6 @@ Resources to be created:
 * Firewall rules for Hub and Spoke VPCs
 * Databricks workspace with private link to control plane, user to webapp and private link to DBFS
 
-
-
-
 ## How to use
 
 1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
@@ -39,10 +36,10 @@ Most values are related to resources managed by Databricks. The required values 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name                                                                         | Version  |
-|------------------------------------------------------------------------------|----------|
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.77.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google)             | 6.17.0   |
+| Name | Version |
+|------|---------|
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.81.1 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | 6.17.0 |
 
 ## Providers
 
@@ -50,9 +47,10 @@ No providers.
 
 ## Modules
 
-| Name                                                                                                                                                        | Source                                             | Version |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|---------|
-| <a name="module_gcp_with_data_exfiltration_protection"></a> [gcp\_with\_data\_exfiltration\_protection](#module\_gcp\_with\_data\_exfiltration\_protection) | ../../modules/gcp-with-psc-exfiltration-protection | n/a     |
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_gcp_with_data_exfiltration_protection"></a> [gcp\_with\_data\_exfiltration\_protection](#module\_gcp\_with\_data\_exfiltration\_protection) | ../../modules/gcp-with-psc-exfiltration-protection | n/a |
+| <a name="module_unity_catalog"></a> [unity\_catalog](#module\_unity\_catalog) | ../../modules/gcp-unity-catalog | n/a |
 
 ## Resources
 
@@ -60,25 +58,27 @@ No resources.
 
 ## Inputs
 
-| Name                                                                                                             | Description                                             | Type          | Default | Required |
-|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|---------------|---------|:--------:|
-| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id)            | Databricks Account ID                                   | `string`      | n/a     |   yes    |
-| <a name="input_google_region"></a> [google\_region](#input\_google\_region)                                      | Google Cloud region where the resources will be created | `string`      | n/a     |   yes    |
-| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip)                        | Value of regional default Hive Metastore IP             | `string`      | n/a     |   yes    |
-| <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr)                                       | CIDR for Hub VPC                                        | `string`      | n/a     |   yes    |
-| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project)       | Google Cloud project ID related to Hub VPC              | `string`      | n/a     |   yes    |
-| <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared)                | Whether the Spoke VPC is a Shared or a dedicated VPC    | `bool`        | n/a     |   yes    |
-| <a name="input_prefix"></a> [prefix](#input\_prefix)                                                             | Prefix to use in generated resources name               | `string`      | n/a     |   yes    |
-| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr)                              | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
-| <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr)                                 | CIDR for Spoke VPC                                      | `string`      | n/a     |   yes    |
-| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC            | `string`      | n/a     |   yes    |
-| <a name="input_tags"></a> [tags](#input\_tags)                                                                   | Map of tags to add to all resources                     | `map(string)` | `{}`    |    no    |
-| <a name="input_workspace_google_project"></a> [workspace\_google\_project](#input\_workspace\_google\_project)   | Google Cloud project ID related to Databricks workspace | `string`      | n/a     |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_catalog_name"></a> [catalog\_name](#input\_catalog\_name) | Name to assign to default catalog | `string` | n/a | yes |
+| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
+| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | Google Cloud region where the resources will be created | `string` | n/a | yes |
+| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | Value of regional default Hive Metastore IP | `string` | n/a | yes |
+| <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for Hub VPC | `string` | n/a | yes |
+| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | Google Cloud project ID related to Hub VPC | `string` | n/a | yes |
+| <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared) | Whether the Spoke VPC is a Shared or a dedicated VPC | `bool` | n/a | yes |
+| <a name="input_metastore_name"></a> [metastore\_name](#input\_metastore\_name) | Name to assign to regional metastore | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated resources name | `string` | n/a | yes |
+| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
+| <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
+| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC | `string` | n/a | yes |
+| <a name="input_workspace_google_project"></a> [workspace\_google\_project](#input\_workspace\_google\_project) | Google Cloud project ID related to Databricks workspace | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to add to all resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
-| Name                                                                          | Description                                                                          |
-|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id)    | The Databricks workspace ID                                                          |
+| Name | Description |
+|------|-------------|
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | The Databricks workspace ID |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | The workspace URL which is of the format '{workspaceId}.{random}.gcp.databricks.com' |
 <!-- END_TF_DOCS -->

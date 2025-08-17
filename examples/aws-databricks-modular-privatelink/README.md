@@ -200,82 +200,95 @@ By default, the instance profile you created from the above steps is only access
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name                                                    | Version |
-| ------------------------------------------------------- | ------- |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0  |
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
 
-| Name                                                                               | Version |
-| ---------------------------------------------------------------------------------- | ------- |
-| <a name="provider_aws"></a> [aws](#provider\_aws)                                  | 4.32.0  |
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks)             | 1.3.1   |
-| <a name="provider_databricks.mws"></a> [databricks.mws](#provider\_databricks.mws) | 1.3.1   |
-| <a name="provider_http"></a> [http](#provider\_http)                               | 3.1.0   |
-| <a name="provider_local"></a> [local](#provider\_local)                            | 2.2.3   |
-| <a name="provider_random"></a> [random](#provider\_random)                         | 3.4.3   |
-| <a name="provider_time"></a> [time](#provider\_time)                               | 0.8.0   |
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.32.0 |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.3.1 |
+| <a name="provider_databricks.mws"></a> [databricks.mws](#provider\_databricks.mws) | 1.3.1 |
+| <a name="provider_http"></a> [http](#provider\_http) | 3.1.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.2.3 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_time"></a> [time](#provider\_time) | 0.8.0 |
 
 ## Modules
 
-| Name                                                                                               | Source                   | Version |
-| -------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
-| <a name="module_databricks_cmk"></a> [databricks\_cmk](#module\_databricks\_cmk)                   | ./modules/databricks_cmk | n/a     |
-| <a name="module_workspace_collection"></a> [workspace\_collection](#module\_workspace\_collection) | ./modules/mws_workspace  | n/a     |
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_databricks_cmk"></a> [databricks\_cmk](#module\_databricks\_cmk) | ./modules/databricks_cmk | n/a |
+| <a name="module_workspace_collection"></a> [workspace\_collection](#module\_workspace\_collection) | ./modules/mws_workspace | n/a |
 
 ## Resources
 
-| Name                                                                                                                                                               | Type        |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| [aws_eip.nat_gateway_elastic_ips](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip)                                                 | resource    |
-| [aws_iam_role.cross_account_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)                                            | resource    |
-| [aws_iam_role_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy)                                            | resource    |
-| [aws_internet_gateway.igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway)                                           | resource    |
-| [aws_nat_gateway.nat_gateways](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway)                                            | resource    |
-| [aws_route_table.pl_subnet_rt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)                                            | resource    |
-| [aws_route_table.public_route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)                                      | resource    |
-| [aws_route_table_association.dataplane_vpce_rtb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)              | resource    |
-| [aws_route_table_association.public_route_table_associations](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource    |
-| [aws_security_group.privatelink](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                       | resource    |
-| [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                                | resource    |
-| [aws_subnet.privatelink](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)                                                       | resource    |
-| [aws_subnet.public_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)                                                    | resource    |
-| [aws_vpc.mainvpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)                                                                 | resource    |
-| [aws_vpc_endpoint.backend_relay](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint)                                         | resource    |
-| [aws_vpc_endpoint.backend_rest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint)                                          | resource    |
-| [databricks_mws_credentials.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_credentials)                             | resource    |
-| [databricks_mws_vpc_endpoint.backend_rest_vpce](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint)              | resource    |
-| [databricks_mws_vpc_endpoint.relay](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint)                          | resource    |
-| [local_file.deployment_information](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file)                                            | resource    |
-| [random_string.naming](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string)                                                      | resource    |
-| [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep)                                                              | resource    |
-| [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones)                              | data source |
-| [databricks_aws_assume_role_policy.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_assume_role_policy)            | data source |
-| [databricks_aws_crossaccount_policy.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_crossaccount_policy)          | data source |
-| [http_http.my](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http)                                                               | data source |
+| Name | Type |
+|------|------|
+| [aws_eip.nat_gateway_elastic_ips](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
+| [aws_iam_instance_profile.instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
+| [aws_iam_policy.added_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.pass_role_for_s3_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_role.cross_account_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.role_for_s3_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachment.cross_account](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.s3-policy-attach](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_internet_gateway.igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
+| [aws_nat_gateway.nat_gateways](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
+| [aws_route_table.pl_subnet_rt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table.public_route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table_association.dataplane_vpce_rtb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_route_table_association.public_route_table_associations](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_s3_bucket.data_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_security_group.privatelink](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_subnet.privatelink](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
+| [aws_subnet.public_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
+| [aws_vpc.mainvpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
+| [aws_vpc_endpoint.backend_relay](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint.backend_rest](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [databricks_mws_credentials.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_credentials) | resource |
+| [databricks_mws_vpc_endpoint.backend_rest_vpce](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint) | resource |
+| [databricks_mws_vpc_endpoint.relay](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint) | resource |
+| [local_file.deployment_information](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [random_string.naming](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
+| [aws_iam_policy_document.assume_role_for_ec2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.pass_role_for_s3_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [databricks_aws_assume_role_policy.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_assume_role_policy) | data source |
+| [databricks_aws_crossaccount_policy.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_crossaccount_policy) | data source |
+| [http_http.my](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 
 ## Inputs
 
-| Name                                                                                                                    | Description | Type           | Default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Required |
-| ----------------------------------------------------------------------------------------------------------------------- | ----------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| <a name="input_cmk_admin"></a> [cmk\_admin](#input\_cmk\_admin)                                                         | cmk         | `string`       | `"arn:aws:iam::026655378770:user/hao"`                                                                                                                                                                                                                                                                                                                                                                                                                                                            |    no    |
-| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id)                   | n/a         | `string`       | n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |   yes    |
-| <a name="input_databricks_account_client_secret"></a> [databricks\_account\_password](#input\_databricks\_account\_client\_secret) | n/a         | `string`       | n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |   yes    |
-| <a name="input_databricks_account_client_id"></a> [databricks\_account\_client_id](#input\_databricks\_account\_client\_id) | n/a         | `string`       | n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |   yes    |
-| <a name="input_privatelink_subnets_cidr"></a> [privatelink\_subnets\_cidr](#input\_privatelink\_subnets\_cidr)          | n/a         | `list(string)` | <pre>[<br>  "10.109.4.0/23"<br>]</pre>                                                                                                                                                                                                                                                                                                                                                                                                                                                            |    no    |
-| <a name="input_public_subnets_cidr"></a> [public\_subnets\_cidr](#input\_public\_subnets\_cidr)                         | n/a         | `list(string)` | <pre>[<br>  "10.109.2.0/23"<br>]</pre>                                                                                                                                                                                                                                                                                                                                                                                                                                                            |    no    |
-| <a name="input_region"></a> [region](#input\_region)                                                                    | n/a         | `string`       | `"ap-southeast-1"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |    no    |
-| <a name="input_relay_vpce_service"></a> [relay\_vpce\_service](#input\_relay\_vpce\_service)                            | n/a         | `string`       | `"com.amazonaws.vpce.ap-southeast-1.vpce-svc-0557367c6fc1a0c5c"`                                                                                                                                                                                                                                                                                                                                                                                                                                  |    no    |
-| <a name="input_tags"></a> [tags](#input\_tags)                                                                          | n/a         | `map`          | `{}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |    no    |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr)                                                            | n/a         | `string`       | `"10.109.0.0/17"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |    no    |
-| <a name="input_workspace_1_config"></a> [workspace\_1\_config](#input\_workspace\_1\_config)                            | n/a         | `map`          | <pre>{<br>  "allow_list": [<br>    "65.184.145.97"<br>  ],<br>  "block_list": [<br>    "58.133.93.159"<br>  ],<br>  "prefix": "ws1",<br>  "private_subnet_pair": {<br>    "subnet1_cidr": "10.109.6.0/23",<br>    "subnet2_cidr": "10.109.8.0/23"<br>  },<br>  "region": "ap-southeast-1",<br>  "root_bucket_name": "test-workspace-1-rootbucket",<br>  "tags": {<br>    "Env": "test-ws-1",<br>    "Name": "test-workspace-1-tags"<br>  },<br>  "workspace_name": "test-workspace-1"<br>}</pre>  |    no    |
-| <a name="input_workspace_2_config"></a> [workspace\_2\_config](#input\_workspace\_2\_config)                            | n/a         | `map`          | <pre>{<br>  "allow_list": [<br>    "65.184.145.97"<br>  ],<br>  "block_list": [<br>    "54.112.179.135",<br>    "195.78.164.130"<br>  ],<br>  "prefix": "ws2",<br>  "private_subnet_pair": {<br>    "subnet1_cidr": "10.109.10.0/23",<br>    "subnet2_cidr": "10.109.12.0/23"<br>  },<br>  "region": "ap-southeast-1",<br>  "root_bucket_name": "test-workspace-2-rootbucket",<br>  "tags": {<br>    "Name": "test-workspace-2-tags"<br>  },<br>  "workspace_name": "test-workspace-2"<br>}</pre> |    no    |
-| <a name="input_workspace_vpce_service"></a> [workspace\_vpce\_service](#input\_workspace\_vpce\_service)                | n/a         | `string`       | `"com.amazonaws.vpce.ap-southeast-1.vpce-svc-02535b257fc253ff4"`                                                                                                                                                                                                                                                                                                                                                                                                                                  |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_databricks_account_client_id"></a> [databricks\_account\_client\_id](#input\_databricks\_account\_client\_id) | Application ID of account-level service principal | `string` | n/a | yes |
+| <a name="input_databricks_account_client_secret"></a> [databricks\_account\_client\_secret](#input\_databricks\_account\_client\_secret) | Client secret of account-level service principal | `string` | n/a | yes |
+| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
+| <a name="input_cmk_admin"></a> [cmk\_admin](#input\_cmk\_admin) | cmk | `string` | `"arn:aws:iam::026655378770:user/hao"` | no |
+| <a name="input_privatelink_subnets_cidr"></a> [privatelink\_subnets\_cidr](#input\_privatelink\_subnets\_cidr) | n/a | `list(string)` | <pre>[<br/>  "10.109.4.0/23"<br/>]</pre> | no |
+| <a name="input_public_subnets_cidr"></a> [public\_subnets\_cidr](#input\_public\_subnets\_cidr) | n/a | `list(string)` | <pre>[<br/>  "10.109.2.0/23"<br/>]</pre> | no |
+| <a name="input_region"></a> [region](#input\_region) | AWS region to deploy to | `string` | `"ap-southeast-1"` | no |
+| <a name="input_relay_vpce_service"></a> [relay\_vpce\_service](#input\_relay\_vpce\_service) | n/a | `string` | `"com.amazonaws.vpce.ap-southeast-1.vpce-svc-0557367c6fc1a0c5c"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Optional tags to add to created resources | `map(string)` | `{}` | no |
+| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"10.109.0.0/17"` | no |
+| <a name="input_workspace_1_config"></a> [workspace\_1\_config](#input\_workspace\_1\_config) | n/a | `map` | <pre>{<br/>  "allow_list": [<br/>    "65.184.145.97"<br/>  ],<br/>  "block_list": [<br/>    "58.133.93.159"<br/>  ],<br/>  "prefix": "ws1",<br/>  "private_subnet_pair": {<br/>    "subnet1_cidr": "10.109.6.0/23",<br/>    "subnet2_cidr": "10.109.8.0/23"<br/>  },<br/>  "region": "ap-southeast-1",<br/>  "root_bucket_name": "test-workspace-1-rootbucket",<br/>  "tags": {<br/>    "Env": "test-ws-1",<br/>    "Name": "test-workspace-1-tags"<br/>  },<br/>  "workspace_name": "test-workspace-1"<br/>}</pre> | no |
+| <a name="input_workspace_2_config"></a> [workspace\_2\_config](#input\_workspace\_2\_config) | n/a | `map` | <pre>{<br/>  "allow_list": [<br/>    "65.184.145.97"<br/>  ],<br/>  "block_list": [<br/>    "54.112.179.135",<br/>    "195.78.164.130"<br/>  ],<br/>  "prefix": "ws2",<br/>  "private_subnet_pair": {<br/>    "subnet1_cidr": "10.109.10.0/23",<br/>    "subnet2_cidr": "10.109.12.0/23"<br/>  },<br/>  "region": "ap-southeast-1",<br/>  "root_bucket_name": "test-workspace-2-rootbucket",<br/>  "tags": {<br/>    "Name": "test-workspace-2-tags"<br/>  },<br/>  "workspace_name": "test-workspace-2"<br/>}</pre> | no |
+| <a name="input_workspace_vpce_service"></a> [workspace\_vpce\_service](#input\_workspace\_vpce\_service) | n/a | `string` | `"com.amazonaws.vpce.ap-southeast-1.vpce-svc-02535b257fc253ff4"` | no |
 
 ## Outputs
 
-| Name                                                                                   | Description |
-| -------------------------------------------------------------------------------------- | ----------- |
-| <a name="output_arn"></a> [arn](#output\_arn)                                          | n/a         |
-| <a name="output_databricks_hosts"></a> [databricks\_hosts](#output\_databricks\_hosts) | n/a         |
+| Name | Description |
+|------|-------------|
+| <a name="output_arn"></a> [arn](#output\_arn) | n/a |
+| <a name="output_databricks_hosts"></a> [databricks\_hosts](#output\_databricks\_hosts) | n/a |
+| <a name="output_instance_profile_arn"></a> [instance\_profile\_arn](#output\_instance\_profile\_arn) | n/a |
+| <a name="output_policy"></a> [policy](#output\_policy) | n/a |
+| <a name="output_role_for_s3_access_id"></a> [role\_for\_s3\_access\_id](#output\_role\_for\_s3\_access\_id) | n/a |
+| <a name="output_role_for_s3_access_name"></a> [role\_for\_s3\_access\_name](#output\_role\_for\_s3\_access\_name) | n/a |
 <!-- END_TF_DOCS -->
