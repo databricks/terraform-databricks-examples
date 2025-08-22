@@ -13,8 +13,10 @@ module "vpc" {
   create_igw           = true
 
   public_subnets = [cidrsubnet(var.cidr_block, 3, 0)]
-  private_subnets = [cidrsubnet(var.cidr_block, 3, 1),
-  cidrsubnet(var.cidr_block, 3, 2)]
+  private_subnets = [
+    cidrsubnet(var.cidr_block, 3, 1),
+    cidrsubnet(var.cidr_block, 3, 2)
+  ]
 
   manage_default_security_group = true
   default_security_group_name   = "${local.prefix}-sg"
