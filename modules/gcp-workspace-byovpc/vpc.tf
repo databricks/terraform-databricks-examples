@@ -5,6 +5,7 @@ resource "google_compute_network" "dbx_private_vpc" {
 }
 
 resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
+  project                  = var.google_project
   name                     = var.subnet_name
   ip_cidr_range            = var.subnet_ip_cidr_range
   region                   = var.google_region
@@ -13,12 +14,14 @@ resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" 
 }
 
 resource "google_compute_router" "router" {
+  project = var.google_project
   name    = var.router_name
   region  = google_compute_subnetwork.network-with-private-secondary-ip-ranges.region
   network = google_compute_network.dbx_private_vpc.id
 }
 
 resource "google_compute_router_nat" "nat" {
+  project                            = var.google_project
   name                               = var.nat_name
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region

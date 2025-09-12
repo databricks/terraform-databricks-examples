@@ -19,4 +19,5 @@ You can do the same thing by provisionning a service account that will have the 
 
 - You need to fill in the `variables.tf`
 - run `terraform init`
-- run `teraform apply`
+- run `terraform apply`
+- run `teraform destroy`

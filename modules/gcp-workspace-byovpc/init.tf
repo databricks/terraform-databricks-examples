@@ -9,6 +9,13 @@ terraform {
   }
 }
 
+provider "databricks" {
+  alias                  = "accounts"
+  host                   = "https://accounts.gcp.databricks.com"
+  google_service_account = "databricks-sa2@enhanced-kit-420908.iam.gserviceaccount.com"
+  account_id             = var.databricks_account_id
+}
+
 data "google_client_openid_userinfo" "me" {
 }
 
