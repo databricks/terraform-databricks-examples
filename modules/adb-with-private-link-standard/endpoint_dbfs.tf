@@ -1,8 +1,8 @@
 // For DFS
 resource "azurerm_private_endpoint" "dp_dbfspe_dfs" {
   name                = "dbfspvtendpoint-dp-dfs"
-  location            = azurerm_resource_group.dp_rg.location
-  resource_group_name = azurerm_resource_group.dp_rg.name
+  location            = local.dp_rg_location
+  resource_group_name = local.dp_rg_name
   subnet_id           = azurerm_subnet.dp_plsubnet.id
 
 
@@ -22,8 +22,8 @@ resource "azurerm_private_endpoint" "dp_dbfspe_dfs" {
 // for Blob
 resource "azurerm_private_endpoint" "dp_dbfspe_blob" {
   name                = "dbfspvtendpoint-dp-blob"
-  location            = azurerm_resource_group.dp_rg.location
-  resource_group_name = azurerm_resource_group.dp_rg.name
+  location            = local.dp_rg_location
+  resource_group_name = local.dp_rg_name
   subnet_id           = azurerm_subnet.dp_plsubnet.id
 
 

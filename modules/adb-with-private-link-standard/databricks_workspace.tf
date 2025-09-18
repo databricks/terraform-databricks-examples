@@ -1,8 +1,8 @@
 
 resource "azurerm_databricks_workspace" "dp_workspace" {
   name                                  = "${local.prefix}-dp-workspace"
-  resource_group_name                   = azurerm_resource_group.dp_rg.name
-  location                              = azurerm_resource_group.dp_rg.location
+  resource_group_name                   = local.dp_rg_name
+  location                              = local.dp_rg_location
   sku                                   = "premium"
   tags                                  = local.tags
   public_network_access_enabled         = var.public_network_access_enabled

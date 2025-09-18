@@ -1,7 +1,7 @@
 resource "azurerm_private_endpoint" "transit_auth" {
   name                = "aadauthpvtendpoint-transit"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   subnet_id           = azurerm_subnet.transit_plsubnet.id
 
   private_service_connection {
@@ -19,8 +19,8 @@ resource "azurerm_private_endpoint" "transit_auth" {
 
 resource "azurerm_databricks_workspace" "transit_workspace" {
   name                                  = "${local.prefix}-transit-workspace"
-  resource_group_name                   = azurerm_resource_group.transit_rg.name
-  location                              = azurerm_resource_group.transit_rg.location
+  resource_group_name                   = local.transit_rg_name
+  location                              = local.transit_rg_location
   sku                                   = "premium"
   tags                                  = local.tags
   public_network_access_enabled         = false                    //use private endpoint

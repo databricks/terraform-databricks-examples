@@ -4,12 +4,6 @@ resource "random_string" "naming" {
   length  = 6
 }
 
-resource "azurerm_resource_group" "this" {
-  name     = "${random_string.naming.result}-basic-demo-rg"
-  location = var.rglocation
-  tags     = local.tags
-}
-
 locals {
   prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
   location = var.rglocation
@@ -20,6 +14,22 @@ locals {
     Environment = "Testing"
     Epoch       = random_string.naming.result
   }, var.tags)
+
+  rg_name     = var.create_resource_group ? azurerm_resource_group.this[0].name : data.azurerm_resource_group.this[0].name
+  rg_id       = var.create_resource_group ? azurerm_resource_group.this[0].id : data.azurerm_resource_group.this[0].id
+  rg_location = var.create_resource_group ? azurerm_resource_group.this[0].location : (var.rglocation == "" ? data.azurerm_resource_group.this[0].location : var.rglocation)
+}
+
+resource "azurerm_resource_group" "this" {
+  count    = var.create_resource_group ? 1 : 0
+  name     = "${local.prefix}-basic-demo-rg"
+  location = local.location
+  tags     = local.tags
+}
+
+data "azurerm_resource_group" "this" {
+  count = var.create_resource_group ? 0 : 1
+  name  = var.existing_resource_group_name
 }
 
 

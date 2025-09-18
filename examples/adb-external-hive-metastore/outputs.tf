@@ -5,12 +5,12 @@ output "databricks_azure_workspace_resource_id" {
 
 output "resource_group" {
   description = "**Depricated**"
-  value       = azurerm_resource_group.this.name
+  value       = local.rg_name
 }
 
 output "azure_resource_group_id" {
   description = "The Azure resource group ID"
-  value       = azurerm_resource_group.this.id
+  value       = local.rg_id
 }
 
 output "workspace_id" {

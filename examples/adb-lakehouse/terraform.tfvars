@@ -2,7 +2,7 @@ subscription_id = "<your Azure Subscription ID here>"
 account_id      = "<your Databricks Account ID here>"
 
 location                        = "ukwest"
-spoke_resource_group_name       = "db_lh_example_rg"
+existing_resource_group_name    = "db_lh_example_rg"
 project_name                    = "db_lh_example"
 environment_name                = "db_lh_example_env"
 databricks_workspace_name       = "db_lh_example_ws"

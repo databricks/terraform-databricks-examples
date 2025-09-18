@@ -1,21 +1,21 @@
 resource "azurerm_virtual_network" "this" {
   name                = "${local.prefix}-vnet"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   address_space       = [var.cidr]
   tags                = local.tags
 }
 
 resource "azurerm_network_security_group" "this" {
   name                = "${local.prefix}-nsg"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   tags                = local.tags
 }
 
 resource "azurerm_subnet" "public" {
   name                 = "${local.prefix}-public"
-  resource_group_name  = azurerm_resource_group.this.name
+  resource_group_name  = local.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 0)]
 
@@ -38,7 +38,7 @@ resource "azurerm_subnet_network_security_group_association" "public" {
 
 resource "azurerm_subnet" "private" {
   name                 = "${local.prefix}-private"
-  resource_group_name  = azurerm_resource_group.this.name
+  resource_group_name  = local.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 1)]
 

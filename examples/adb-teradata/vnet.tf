@@ -1,6 +1,6 @@
 resource "azurerm_virtual_network" "this" {
   name                = "project-${local.prefix}-vnet"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
   location            = local.location
   address_space       = [var.cidr]
   tags                = local.tags
@@ -8,8 +8,8 @@ resource "azurerm_virtual_network" "this" {
 
 resource "azurerm_network_security_group" "vmnsg" {
   name                = "${local.prefix}-vm-nsg"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
 
   security_rule {
     name                       = "allow_ssh"
@@ -53,7 +53,7 @@ resource "azurerm_subnet_network_security_group_association" "example" {
 
 resource "azurerm_subnet" "teradatasubnet" {
   name                 = "adb-teradata-${local.prefix}-vm-subnet"
-  resource_group_name  = azurerm_resource_group.this.name
+  resource_group_name  = local.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 0)]
 }
@@ -61,14 +61,14 @@ resource "azurerm_subnet" "teradatasubnet" {
 // For Databricks workspace
 resource "azurerm_network_security_group" "this" {
   name                = "${local.prefix}-nsg"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   tags                = local.tags
 }
 
 resource "azurerm_subnet" "public" {
   name                 = "databricks-${local.prefix}-public-subnet"
-  resource_group_name  = azurerm_resource_group.this.name
+  resource_group_name  = local.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 2)]
 
@@ -91,7 +91,7 @@ resource "azurerm_subnet_network_security_group_association" "public" {
 
 resource "azurerm_subnet" "private" {
   name                 = "databricks-${local.prefix}-private-subnet"
-  resource_group_name  = azurerm_resource_group.this.name
+  resource_group_name  = local.rg_name
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 1)]
 

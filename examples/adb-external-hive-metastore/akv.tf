@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "akv1" {
   name                        = "${local.prefix}-akv"
-  location                    = azurerm_resource_group.this.location
-  resource_group_name         = azurerm_resource_group.this.name
+  location                    = local.rg_location
+  resource_group_name         = local.rg_name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   sku_name                    = "premium"
   soft_delete_retention_days  = 7

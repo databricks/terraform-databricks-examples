@@ -19,7 +19,7 @@ output "azure_region" {
 }
 
 output "resource_group" {
-  value       = azurerm_resource_group.this.name
+  value       = local.rg_name
   description = "Name of created resource group"
 }
 
@@ -45,7 +45,7 @@ output "workspace_url" {
 
 output "azure_resource_group_id" {
   description = "ID of the created Azure resource group"
-  value       = azurerm_resource_group.this.id
+  value       = local.rg_id
 }
 
 output "workspace_id" {

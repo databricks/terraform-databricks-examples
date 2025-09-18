@@ -25,7 +25,7 @@ output "azure_region" {
 
 output "resource_group" {
   description = "**Deprecated**"
-  value       = azurerm_resource_group.this.name
+  value       = local.rg_name
 }
 
 output "workspace_url" {
@@ -35,7 +35,7 @@ output "workspace_url" {
 
 output "azure_resource_group_id" {
   description = "ID of the created Azure resource group"
-  value       = azurerm_resource_group.this.id
+  value       = local.rg_id
 }
 
 output "workspace_id" {

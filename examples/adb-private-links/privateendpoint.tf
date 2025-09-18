@@ -1,8 +1,8 @@
 //dpcp pvt endpoint
 resource "azurerm_private_endpoint" "dpcp" {
   name                = "dpcppvtendpoint"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks spoke vnet
 
   private_service_connection {
@@ -20,20 +20,20 @@ resource "azurerm_private_endpoint" "dpcp" {
 
 resource "azurerm_private_dns_zone" "dnsdpcp" {
   name                = "privatelink.azuredatabricks.net"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dpcpdnszonevnetlink" {
   name                  = "dpcpspokevnetconnection"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = local.rg_name
   private_dns_zone_name = azurerm_private_dns_zone.dnsdpcp.name
   virtual_network_id    = azurerm_virtual_network.this.id // connect to spoke vnet
 }
 
 resource "azurerm_private_endpoint" "auth" {
   name                = "aadauthpvtendpoint"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks spoke vnet
 
   private_service_connection {
@@ -52,8 +52,8 @@ resource "azurerm_private_endpoint" "auth" {
 //dbfs pvt endpoint
 resource "azurerm_private_endpoint" "dbfspe" {
   name                = "dbfspvtendpoint"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks spoke vnet
 
 
@@ -71,12 +71,12 @@ resource "azurerm_private_endpoint" "dbfspe" {
 }
 resource "azurerm_private_dns_zone" "dnsdbfs" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dbfsdnszonevnetlink" {
   name                  = "dbfsspokevnetconnection"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = local.rg_name
   private_dns_zone_name = azurerm_private_dns_zone.dnsdbfs.name
   virtual_network_id    = azurerm_virtual_network.this.id // connect to spoke vnet
 }
