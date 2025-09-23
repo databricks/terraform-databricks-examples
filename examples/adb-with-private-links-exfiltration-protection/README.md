@@ -31,6 +31,7 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=4.0.0 |
 
 ## Providers
@@ -68,6 +69,7 @@ No resources.
 |------|-------------|
 | <a name="output_azure_resource_group_id"></a> [azure\_resource\_group\_id](#output\_azure\_resource\_group\_id) | ID of the created Azure resource group |
 | <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group) | ***Depricated***. Use azure\_resource\_group\_id instead |
+| <a name="output_test_vm_public_ip"></a> [test\_vm\_public\_ip](#output\_test\_vm\_public\_ip) | Public IP of the Azure VM created for testing |
 | <a name="output_workspace_azure_resource_id"></a> [workspace\_azure\_resource\_id](#output\_workspace\_azure\_resource\_id) | ***Depricated***. Use workspace\_id |
 | <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | The Databricks workspace ID |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | The Databricks workspace URL |

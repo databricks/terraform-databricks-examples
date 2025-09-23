@@ -14,7 +14,6 @@ resource "azurerm_network_interface" "testvmnic" {
     ignore_changes = [tags]
   }
 }
-}
 
 resource "azurerm_network_security_group" "testvm-nsg" {
   name                = "${local.prefix}-testvm-nsg"

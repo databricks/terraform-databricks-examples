@@ -35,20 +35,19 @@ Most of the values are to be found at: https://docs.microsoft.com/en-us/azure/da
 
 In `variables.tfvars`, set these variables:
 
+```hcl
 metastoreip      = "40.78.233.2" # find your metastore service ip
-
 sccip            = "52.230.27.216" # use nslookup on the domain name to find the ip
-
 webappip         = "52.187.145.107/32" # given at UDR page
-
 firewallfqdn = ["dbartifactsprodseap.blob.core.windows.net","dbartifactsprodeap.blob.core.windows.net","dblogprodseasia.blob.core.windows.net","prod-southeastasia-observabilityeventhubs.servicebus.windows.net","cdnjs.com"] # find these for your region, follow Databricks blog tutorial.
-
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=4.0.0 |
 | <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.52.0 |
 
