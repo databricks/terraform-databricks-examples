@@ -6,8 +6,8 @@ resource "random_string" "password" {
 
 resource "azurerm_network_interface" "testvmnic" {
   name                = "${local.prefix}-testvm-nic"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
 
   ip_configuration {
     name                          = "testvmip"
@@ -19,8 +19,8 @@ resource "azurerm_network_interface" "testvmnic" {
 
 resource "azurerm_network_security_group" "testvm-nsg" {
   name                = "${local.prefix}-testvm-nsg"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   tags                = local.tags
 }
 
@@ -52,21 +52,21 @@ resource "azurerm_network_security_rule" "test0" {
   source_address_prefixes     = [local.ifconfig_co_json.ip]
   destination_address_prefix  = azurerm_public_ip.testvmpublicip.ip_address
   network_security_group_name = azurerm_network_security_group.testvm-nsg.name
-  resource_group_name         = azurerm_resource_group.transit_rg.name
+  resource_group_name         = local.transit_rg_name
 }
 
 resource "azurerm_public_ip" "testvmpublicip" {
   name                = "${local.prefix}-vmpublicip"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
 resource "azurerm_windows_virtual_machine" "testvm" {
   name                = "${local.prefix}vm"
-  resource_group_name = azurerm_resource_group.transit_rg.name
-  location            = azurerm_resource_group.transit_rg.location
+  resource_group_name = local.transit_rg_name
+  location            = local.transit_rg_location
   size                = "Standard_F4s_v2"
   admin_username      = "azureuser"
   admin_password      = "T${random_string.password.result}!!"
@@ -89,7 +89,7 @@ resource "azurerm_windows_virtual_machine" "testvm" {
 
 resource "azurerm_subnet" "testvmsubnet" {
   name                 = "${local.prefix}-testvmsubnet"
-  resource_group_name  = azurerm_resource_group.transit_rg.name
+  resource_group_name  = local.transit_rg_name
   virtual_network_name = azurerm_virtual_network.transit_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_transit, 3, 3)]
 }

@@ -1,7 +1,7 @@
 resource "azurerm_databricks_workspace" "this" {
   name                                  = "${local.prefix}-workspace"
-  resource_group_name                   = azurerm_resource_group.this.name
-  location                              = azurerm_resource_group.this.location
+  resource_group_name                   = local.rg_name
+  location                              = local.rg_location
   sku                                   = "premium"
   tags                                  = local.tags
   public_network_access_enabled         = false                    //use private endpoint

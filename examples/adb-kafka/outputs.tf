@@ -5,7 +5,7 @@ output "pip" {
 
 output "azure_resource_group_id" {
   description = "The Azure resource group ID"
-  value       = azurerm_resource_group.this.id
+  value       = local.rg_id
 }
 
 output "workspace_id" {

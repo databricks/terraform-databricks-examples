@@ -1,15 +1,15 @@
 resource "azurerm_virtual_network" "dp_vnet" {
   name                = "${local.prefix}-dp-vnet"
-  location            = azurerm_resource_group.dp_rg.location
-  resource_group_name = azurerm_resource_group.dp_rg.name
+  location            = local.dp_rg_location
+  resource_group_name = local.dp_rg_name
   address_space       = [var.cidr_dp]
   tags                = local.tags
 }
 
 resource "azurerm_network_security_group" "dp_sg" {
   name                = "${local.prefix}-dp-nsg"
-  location            = azurerm_resource_group.dp_rg.location
-  resource_group_name = azurerm_resource_group.dp_rg.name
+  location            = local.dp_rg_location
+  resource_group_name = local.dp_rg_name
   tags                = local.tags
 }
 
@@ -23,7 +23,7 @@ resource "azurerm_network_security_rule" "dp_aad" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureActiveDirectory"
-  resource_group_name         = azurerm_resource_group.dp_rg.name
+  resource_group_name         = local.dp_rg_name
   network_security_group_name = azurerm_network_security_group.dp_sg.name
 }
 
@@ -37,13 +37,13 @@ resource "azurerm_network_security_rule" "dp_azfrontdoor" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureFrontDoor.Frontend"
-  resource_group_name         = azurerm_resource_group.dp_rg.name
+  resource_group_name         = local.dp_rg_name
   network_security_group_name = azurerm_network_security_group.dp_sg.name
 }
 
 resource "azurerm_subnet" "dp_public" {
   name                 = "${local.prefix}-dp-public"
-  resource_group_name  = azurerm_resource_group.dp_rg.name
+  resource_group_name  = local.dp_rg_name
   virtual_network_name = azurerm_virtual_network.dp_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_dp, 6, 0)]
 
@@ -66,7 +66,7 @@ resource "azurerm_subnet_network_security_group_association" "dp_public" {
 
 resource "azurerm_subnet" "dp_private" {
   name                 = "${local.prefix}-dp-private"
-  resource_group_name  = azurerm_resource_group.dp_rg.name
+  resource_group_name  = local.dp_rg_name
   virtual_network_name = azurerm_virtual_network.dp_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_dp, 6, 1)]
 
@@ -93,7 +93,7 @@ resource "azurerm_subnet_network_security_group_association" "dp_private" {
 
 resource "azurerm_subnet" "dp_plsubnet" {
   name                              = "${local.prefix}-dp-privatelink"
-  resource_group_name               = azurerm_resource_group.dp_rg.name
+  resource_group_name               = local.dp_rg_name
   virtual_network_name              = azurerm_virtual_network.dp_vnet.name
   address_prefixes                  = [cidrsubnet(var.cidr_dp, 6, 2)]
   private_endpoint_network_policies = "Enabled"

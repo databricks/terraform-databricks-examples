@@ -12,3 +12,6 @@ firewallfqdn = [                                                      // we don'
   "prod-southeastasia-observabilityeventhubs.servicebus.windows.net", //eventhub
   "cdnjs.com",                                                        //ganglia
 ]
+
+existing_resource_group_name = ""
+create_resource_group        = true

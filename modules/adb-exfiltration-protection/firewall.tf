@@ -1,7 +1,7 @@
 resource "azurerm_public_ip" "fwpublicip" {
   name                = "hubfirewallpublicip"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   allocation_method   = "Static"
   sku                 = "Standard"
   tags                = local.tags
@@ -9,8 +9,8 @@ resource "azurerm_public_ip" "fwpublicip" {
 
 resource "azurerm_firewall" "hubfw" {
   name                = "hubfirewall"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
   tags                = local.tags
@@ -46,7 +46,7 @@ data "dns_a_record_set" "scc_relay" {
 resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
   name                = "adbcontrolplanenetwork"
   azure_firewall_name = azurerm_firewall.hubfw.name
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
   priority            = 200
   action              = "Allow"
 
@@ -105,7 +105,7 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
 resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
   name                = "adbcontrolplanefqdn"
   azure_firewall_name = azurerm_firewall.hubfw.name
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
   priority            = 200
   action              = "Allow"
 
@@ -180,8 +180,8 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
 resource "azurerm_route_table" "adbroute" {
   //route all traffic from spoke vnet to hub vnet
   name                = "spoke-routetable"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   tags                = local.tags
 
   route {

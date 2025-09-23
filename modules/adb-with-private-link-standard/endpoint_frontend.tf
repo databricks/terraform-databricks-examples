@@ -1,7 +1,7 @@
 resource "azurerm_private_endpoint" "front_pe" {
   name                = "frontprivatendpoint"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   subnet_id           = azurerm_subnet.transit_plsubnet.id
 
   private_service_connection {

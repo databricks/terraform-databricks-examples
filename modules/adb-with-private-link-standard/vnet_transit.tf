@@ -1,15 +1,15 @@
 resource "azurerm_virtual_network" "transit_vnet" {
   name                = "${local.prefix}-transit-vnet"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   address_space       = [var.cidr_transit]
   tags                = local.tags
 }
 
 resource "azurerm_network_security_group" "transit_sg" {
   name                = "${local.prefix}-transit-nsg"
-  location            = azurerm_resource_group.transit_rg.location
-  resource_group_name = azurerm_resource_group.transit_rg.name
+  location            = local.transit_rg_location
+  resource_group_name = local.transit_rg_name
   tags                = local.tags
 }
 
@@ -23,7 +23,7 @@ resource "azurerm_network_security_rule" "transit_aad" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureActiveDirectory"
-  resource_group_name         = azurerm_resource_group.transit_rg.name
+  resource_group_name         = local.transit_rg_name
   network_security_group_name = azurerm_network_security_group.transit_sg.name
 }
 
@@ -37,12 +37,12 @@ resource "azurerm_network_security_rule" "transit_azfrontdoor" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureFrontDoor.Frontend"
-  resource_group_name         = azurerm_resource_group.transit_rg.name
+  resource_group_name         = local.transit_rg_name
   network_security_group_name = azurerm_network_security_group.transit_sg.name
 }
 resource "azurerm_subnet" "transit_public" {
   name                 = "${local.prefix}-transit-public"
-  resource_group_name  = azurerm_resource_group.transit_rg.name
+  resource_group_name  = local.transit_rg_name
   virtual_network_name = azurerm_virtual_network.transit_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_transit, 6, 0)]
 
@@ -65,7 +65,7 @@ resource "azurerm_subnet_network_security_group_association" "transit_public" {
 
 resource "azurerm_subnet" "transit_private" {
   name                 = "${local.prefix}-transit-private"
-  resource_group_name  = azurerm_resource_group.transit_rg.name
+  resource_group_name  = local.transit_rg_name
   virtual_network_name = azurerm_virtual_network.transit_vnet.name
   address_prefixes     = [cidrsubnet(var.cidr_transit, 6, 1)]
 
@@ -93,7 +93,7 @@ resource "azurerm_subnet_network_security_group_association" "transit_private" {
 
 resource "azurerm_subnet" "transit_plsubnet" {
   name                              = "${local.prefix}-transit-privatelink"
-  resource_group_name               = azurerm_resource_group.transit_rg.name
+  resource_group_name               = local.transit_rg_name
   virtual_network_name              = azurerm_virtual_network.transit_vnet.name
   address_prefixes                  = [cidrsubnet(var.cidr_transit, 6, 2)]
   private_endpoint_network_policies = "Enabled"

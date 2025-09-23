@@ -1,15 +1,15 @@
 resource "azurerm_storage_account" "sqlserversa" {
   name                     = "${random_string.naming.result}sqlserversa"
-  resource_group_name      = azurerm_resource_group.this.name
-  location                 = azurerm_resource_group.this.location
+  resource_group_name      = local.rg_name
+  location                 = local.rg_location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
 resource "azurerm_mssql_server" "metastoreserver" {
   name                          = "${random_string.naming.result}mssqlserver"
-  resource_group_name           = azurerm_resource_group.this.name
-  location                      = azurerm_resource_group.this.location
+  resource_group_name           = local.rg_name
+  location                      = local.rg_location
   version                       = "12.0"
   administrator_login           = var.db_username // sensitive data stored as env variables locally
   administrator_login_password  = var.db_password
@@ -47,8 +47,8 @@ resource "azurerm_mssql_virtual_network_rule" "sqlservervnetrule" {
 // add private endpoint connection to sql server / metastore
 resource "azurerm_private_endpoint" "sqlserverpe" {
   name                = "sqlserverpvtendpoint"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = local.rg_location
+  resource_group_name = local.rg_name
   subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks vnet
 
   private_service_connection {
@@ -66,12 +66,12 @@ resource "azurerm_private_endpoint" "sqlserverpe" {
 
 resource "azurerm_private_dns_zone" "dnsmetastore" {
   name                = "privatelink.database.windows.net"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = local.rg_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "metastorednszonevnetlink" {
   name                  = "metastorednsvnetconnection"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = local.rg_name
   private_dns_zone_name = azurerm_private_dns_zone.dnsmetastore.name
   virtual_network_id    = azurerm_virtual_network.this.id // connect to databricks vnet
 }

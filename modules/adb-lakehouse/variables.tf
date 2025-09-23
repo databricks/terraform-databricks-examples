@@ -4,15 +4,18 @@ variable "location" {
   default     = ""
 }
 
-variable "spoke_resource_group_name" {
+variable "existing_resource_group_name" {
   type        = string
-  description = "(Required) The name of the Resource Group to create"
+  description = "Specify the name of an existing Resource Group only if you do not want Terraform to create a new one"
+  validation {
+    condition     = var.create_resource_group == true || length(var.existing_resource_group_name) > 0
+    error_message = "The existing_resource_group_name must be provided when create_resource_group is set to false"
+  }
 }
 
 variable "create_resource_group" {
   type        = bool
-  description = "(Optional) Creates resource group if set to true (default)"
-  default     = true
+  description = "Set to true to create a new Azure Resource Group. Set to false to use an existing Resource Group specified in existing_resource_group_name"
 }
 
 variable "managed_resource_group_name" {

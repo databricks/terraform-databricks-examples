@@ -10,6 +10,20 @@ variable "spokecidr" {
   description = "CIDR for Spoke VNet"
 }
 
+variable "existing_resource_group_name" {
+  type        = string
+  description = "(Required) The name of the Resource Group to create"
+  validation {
+    condition     = var.create_resource_group == true || length(var.existing_resource_group_name) > 0
+    error_message = "The resource_group_name variable cannot be empty if create_resource_group is set to false"
+  }
+}
+
+variable "create_resource_group" {
+  type        = bool
+  description = "(Optional) Creates resource group if set to true (default)"
+}
+
 variable "rglocation" {
   type        = string
   default     = "southeastasia"
