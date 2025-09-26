@@ -22,40 +22,13 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 3. Change `terraform.tfvars` values to your own values.
 4. Inside the local project folder, run `terraform apply` to create the resources.
 
-## Inputs
-
-| Name             | Description | Type        | Default         | Required |
-| ---------------- | ----------- | ----------- | --------------- | :------: |
-| subscription_id  | n/a         | `string`    |                 |   yes    |
-| hubcidr          | n/a         | `string`    | "10.178.0.0/20" |   yes    |
-| spokecidr        | n/a         | `string`    | "10.179.0.0/20" |   yes    |
-| no\_public\_ip   | n/a         | `bool`      | `true`          |   yes    |
-| rglocation       | n/a         | `string`    | "southeastasia" |   yes    |
-| metastoreip      | n/a         | `string`    | "40.78.233.2"   |   yes    |
-| dbfs_prefix      | n/a         | `string`    | "dbfs"          |   yes    |
-| workspace_prefix | n/a         | `string`    | "adb"           |   yes    |
-| firewallfqdn     | n/a         | list(`any`) | fqdn rules      |   yes    |
-
-
-## Outputs
-
-| Name                                       | Description |
-| ------------------------------------------ | ----------- |
-| arm\_client\_id                            | n/a         |
-| arm\_subscription\_id                      | n/a         |
-| arm\_tenant\_id                            | n/a         |
-| azure\_region                              | n/a         |
-| azure\_resource_group                      | n/a         |
-| databricks\_azure\_workspace\_resource\_id | n/a         |
-| resource\_group                            | n/a         |
-| workspace\_id                              | n/a         |
-| workspace\_url                             | n/a         |
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=4.0.0 |
 | <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.52.0 |
 
@@ -63,9 +36,9 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >=4.0.0 |
-| <a name="provider_external"></a> [external](#provider\_external) | n/a |
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.55.0 |
+| <a name="provider_external"></a> [external](#provider\_external) | 2.3.1 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
 

@@ -25,16 +25,18 @@ This module can be used to perform following tasks:
 6. Run `terraform init` to initialize terraform and get provider ready.
 7. Run `terraform apply` to create the resources.
 
+                                                                                                       |
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
 
 ## Providers
 
-| Name                                                                   | Version |
-|------------------------------------------------------------------------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm)          | 4.9.0   |
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.58.0  |
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | n/a |
 
 ## Modules
 
@@ -42,31 +44,32 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                                                       | Type     |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| [azurerm_databricks_access_connector.access_connector](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector)        | resource |
-| [azurerm_resource_group.shared_resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group)                             | resource |
-| [azurerm_role_assignment.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment)                                   | resource |
-| [azurerm_storage_account.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account)                                   | resource |
-| [azurerm_storage_container.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container)                               | resource |
-| [databricks_metastore.databricks-metastore](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/metastore)                                 | resource |
+| Name | Type |
+|------|------|
+| [azurerm_databricks_access_connector.access_connector](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector) | resource |
+| [azurerm_resource_group.shared_resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_storage_account.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.unity_catalog](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [databricks_metastore.databricks-metastore](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/metastore) | resource |
 | [databricks_metastore_data_access.access-connector-data-access](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/metastore_data_access) | resource |
 
 ## Inputs
 
-| Name                                                                                                                   | Description                                              | Type          | Default | Required |
-|------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|---------------|---------|:--------:|
-| <a name="input_access_connector_name"></a> [access\_connector\_name](#input\_access\_connector\_name)                  | Name of the access connector for Unity Catalog metastore | `string`      | n/a     |   yes    |
-| <a name="input_location"></a> [location](#input\_location)                                                             | (Required) The location for the resources in this module | `string`      | n/a     |   yes    |
-| <a name="input_metastore_name"></a> [metastore\_name](#input\_metastore\_name)                                         | the name of the metastore                                | `string`      | n/a     |   yes    |
-| <a name="input_metastore_storage_name"></a> [metastore\_storage\_name](#input\_metastore\_storage\_name)               | Name of the storage account for Unity Catalog metastore  | `string`      | n/a     |   yes    |
-| <a name="input_shared_resource_group_name"></a> [shared\_resource\_group\_name](#input\_shared\_resource\_group\_name) | Name of the shared resource group                        | `string`      | n/a     |   yes    |
-| <a name="input_tags"></a> [tags](#input\_tags)                                                                         | (Required) Map of tags to attach to resources            | `map(string)` | n/a     |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_access_connector_name"></a> [access\_connector\_name](#input\_access\_connector\_name) | Name of the access connector for Unity Catalog metastore | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | (Required) The location for the resources in this module | `string` | n/a | yes |
+| <a name="input_metastore_name"></a> [metastore\_name](#input\_metastore\_name) | the name of the metastore | `string` | n/a | yes |
+| <a name="input_metastore_storage_name"></a> [metastore\_storage\_name](#input\_metastore\_storage\_name) | Name of the storage account for Unity Catalog metastore | `string` | n/a | yes |
+| <a name="input_shared_resource_group_name"></a> [shared\_resource\_group\_name](#input\_shared\_resource\_group\_name) | Name of the shared resource group | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | (Required) Map of tags to attach to resources | `map(string)` | n/a | yes |
 
 ## Outputs
 
-| Name                                                                                                                              | Description                                                                                                  |
-|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| <a name="output_access_connector_id"></a> [access\_connector\_id](#output\_access\_connector\_id)                                 | the id of the access connector                                                                               |
+| Name | Description |
+|------|-------------|
+| <a name="output_access_connector_id"></a> [access\_connector\_id](#output\_access\_connector\_id) | the id of the access connector |
 | <a name="output_access_connector_principal_id"></a> [access\_connector\_principal\_id](#output\_access\_connector\_principal\_id) | The Principal ID of the System Assigned Managed Service Identity that is configured on this Access Connector |
-| <a name="output_metastore_id"></a> [metastore\_id](#output\_metastore\_id)                                                        | n/a                                                                                                          |
+| <a name="output_metastore_id"></a> [metastore\_id](#output\_metastore\_id) | n/a |
+<!-- END_TF_DOCS -->

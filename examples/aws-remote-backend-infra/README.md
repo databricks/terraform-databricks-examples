@@ -29,3 +29,42 @@ To properly destroy remote backend infra, you need to migrate the state files to
 ### Other projects to use this remote backend
 
 You only need to configure the same terraform backend block in other terraform projects, to let them use the same remote backend. Inside the backend configs, you need to design the `key` in your bucket to be unique for each project.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.31.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_dynamodb_table.terraform_locks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
+| [aws_dynamodb_table.terraform_locks_databricks_project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
+| [aws_s3_bucket.terraform_state](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.terraform_state](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_versioning.terraform_state](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name of the S3 bucket to store the Terraform state file | `string` | `"tf-backend-bucket-haowang"` | no |
+| <a name="input_dynamodb_table"></a> [dynamodb\_table](#input\_dynamodb\_table) | The name of the DynamoDB table to use for state locking | `string` | `"tf-backend-dynamodb-haowang"` | no |
+| <a name="input_dynamodb_table_databricks_project"></a> [dynamodb\_table\_databricks\_project](#input\_dynamodb\_table\_databricks\_project) | The name of the DynamoDB table to use for state locking | `string` | `"tf-backend-dynamodb-databricks-project"` | no |
+| <a name="input_region"></a> [region](#input\_region) | The AWS region to use for the backend | `string` | `"ap-southeast-1"` | no |
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

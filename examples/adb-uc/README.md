@@ -9,3 +9,30 @@ Go through this tutorial by sequence of stage 1 - 2 - 3 and modify the logic acc
 The flowchart below shows how to get the first Databricks account admin, deploy UC resources using SPN, while minimizing the exposure of AAD Global Admin role:
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-uc/images/uc-adb-spn.png?raw=true)
+
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

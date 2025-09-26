@@ -34,11 +34,13 @@ Run `terraform apply` to deploy resources to your Azure environment. Since we us
 Step 4: Verify deployment
 -------------------------
 Navigate to Azure Portal and verify that all resources were deployed successfully. You should now have a vnet-injected workspace with one cluster deployed.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=4.0.0 |
 | <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.52.0 |
 
@@ -47,11 +49,14 @@ Navigate to Azure Portal and verify that all resources were deployed successfull
 | Name | Version |
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >=4.0.0 |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | >=1.52.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_auto_scaling_cluster_example"></a> [auto\_scaling\_cluster\_example](#module\_auto\_scaling\_cluster\_example) | ./modules/autoscaling_cluster | n/a |
 
 ## Resources
 
@@ -67,6 +72,7 @@ No modules.
 | [azurerm_virtual_network.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [random_string.naming](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [databricks_spark_version.latest_lts](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/spark_version) | data source |
 
 ## Inputs
 
@@ -88,5 +94,6 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_databricks_azure_workspace_resource_id"></a> [databricks\_azure\_workspace\_resource\_id](#output\_databricks\_azure\_workspace\_resource\_id) | n/a |
+| <a name="output_module_cluster_id"></a> [module\_cluster\_id](#output\_module\_cluster\_id) | n/a |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | n/a |
 <!-- END_TF_DOCS -->

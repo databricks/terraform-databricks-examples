@@ -71,3 +71,29 @@ We used a single instance of squid proxy server to control granular outbound tra
 ## Future Work
 
 To expand to VMSS from current 1 vm setup, with load balancer. For now this project achieves the purpose of granular outbound traffic control, without using a firewall. 
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

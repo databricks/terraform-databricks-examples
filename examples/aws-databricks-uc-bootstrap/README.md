@@ -36,11 +36,11 @@ Refer to below diagram on the process.
 
 ## How to fill `terraform.tfvars`
 
+```hcl
 databricks_users          = [] (you can leave this as empty list)
-
 databricks_account_admins = ["hao.wang@databricks.com"] (do not put account owner in this list, add emails of the account admins)
-
 unity_admin_group         = " Bootstrap admin group" (this is the display name of the admin group)
+```
 
 ## Expected Outcome
 
@@ -49,3 +49,43 @@ After running this template using `terraform init` and `terraform apply` with yo
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/aws-databricks-uc/images/uc-tf-account-admin.png?raw=true)
 
 Now you can proceed to stage 2, navigate to [aws-databricks-uc](https://github.com/databricks/terraform-databricks-examples/tree/main/examples/aws-databricks-uc) for stage 2 deployments.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_databricks.mws"></a> [databricks.mws](#provider\_databricks.mws) | 1.4.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [databricks_group.admin_group](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) | resource |
+| [databricks_group_member.admin_group_member](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group_member) | resource |
+| [databricks_user.unity_users](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/user) | resource |
+| [databricks_user_role.account_admin_role](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/user_role) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_databricks_account_admins"></a> [databricks\_account\_admins](#input\_databricks\_account\_admins) | List of Admins to be added at account-level for Unity Catalog.<br/>  Enter with square brackets and double quotes<br/>  e.g ["first.admin@domain.com", "second.admin@domain.com"] | `list(string)` | n/a | yes |
+| <a name="input_databricks_account_client_id"></a> [databricks\_account\_client\_id](#input\_databricks\_account\_client\_id) | Application ID of account-level service principal | `string` | n/a | yes |
+| <a name="input_databricks_account_client_secret"></a> [databricks\_account\_client\_secret](#input\_databricks\_account\_client\_secret) | Client secret of account-level service principal | `string` | n/a | yes |
+| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
+| <a name="input_databricks_users"></a> [databricks\_users](#input\_databricks\_users) | List of Databricks users to be added at account-level for Unity Catalog.<br/>  Enter with square brackets and double quotes<br/>  e.g ["first.last@domain.com", "second.last@domain.com"] | `list(string)` | n/a | yes |
+| <a name="input_unity_admin_group"></a> [unity\_admin\_group](#input\_unity\_admin\_group) | Name of the admin group. This group will be set as the owner of the Unity Catalog metastore | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

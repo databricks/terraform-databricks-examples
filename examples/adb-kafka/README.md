@@ -91,11 +91,13 @@ Then we can write from Spark DataFrame to this topic; you can also test the conn
 Read from this topic in another stream job:
 
 ![alt text](https://raw.githubusercontent.com/databricks/terraform-databricks-examples/main/examples/adb-kafka/images/read-kafka.png?raw=true)
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=4.0.0 |
 
 ## Providers
