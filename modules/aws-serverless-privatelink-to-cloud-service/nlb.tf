@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "this" {
 }
 
 # Attach your desired target IP addresses to the target group.
-# These would be the IPs of your PyPI server
+# In this case, the IPs of the VPCE ENIs.
 resource "aws_lb_target_group_attachment" "this" {
   for_each         = toset(local.vpce_eni_ips)
   port             = 443

@@ -3,7 +3,7 @@ module "pl-secretsmanager" {
   vpc_id                         = var.vpc_id
   private_subnet_ids             = var.private_subnet_ids
   network_connectivity_config_id = var.network_connectivity_config_id
-  aws_service                    = "secretsmanager" # gets interopolated to: com.amazonaws.${var.region}.${var.aws_service}
+  aws_service                    = "secretsmanager" # gets interpolated to: com.amazonaws.${var.region}.${var.aws_service}
   region                         = var.region
   prefix                         = "pl-secretsmanager"
 }
