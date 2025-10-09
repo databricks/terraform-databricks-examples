@@ -8,9 +8,8 @@ terraform {
     }
 
     databricks = {
-      source                = "databricks/databricks"
-      version               = "~> 1.84"
-      configuration_aliases = [databricks.mws]
+      source  = "databricks/databricks"
+      version = "~> 1.84"
     }
   }
 }

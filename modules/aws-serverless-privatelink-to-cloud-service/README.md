@@ -23,7 +23,7 @@ This module creates a PrivateLink connection for Databricks Serverless compute t
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.10 |
-| <a name="provider_databricks.mws"></a> [databricks.mws](#provider\_databricks.mws) | ~> 1.84 |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | ~> 1.84 |
 
 ## Modules
 

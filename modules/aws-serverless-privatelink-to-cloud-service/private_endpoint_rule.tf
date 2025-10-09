@@ -23,7 +23,6 @@ resource "aws_vpc_endpoint_service_allowed_principal" "databricks_access_rule" {
 # Lastly, create the private endpoint rule on your Databricks NCC.
 # This instructs Databricks to create a VPC Endpoint to connect to your VPCE Service.
 resource "databricks_mws_ncc_private_endpoint_rule" "this" {
-  provider                       = databricks.mws
   network_connectivity_config_id = var.network_connectivity_config_id
   endpoint_service               = aws_vpc_endpoint_service.private_link_service.service_name
   domain_names = compact([
