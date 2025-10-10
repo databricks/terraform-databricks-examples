@@ -30,8 +30,19 @@ resource "aws_lb_target_group" "this" {
 # Attach your desired target IP addresses to the target group.
 # In this case, the IPs of the VPCE ENIs.
 resource "aws_lb_target_group_attachment" "this" {
-  for_each         = toset(local.vpce_eni_ips)
+  count            = length(var.private_subnet_ids)
   port             = 443
   target_group_arn = aws_lb_target_group.this.arn
-  target_id        = each.key
+  target_id        = data.aws_network_interface.aws_service[count.index].private_ip
+}
+
+# The NLB should listen on port 443 and forward to the target group.
+resource "aws_lb_listener" "this" {
+  load_balancer_arn = aws_lb.this.arn
+  port              = 443
+  protocol          = "TCP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.this.arn
+  }
 }

@@ -1,10 +1,5 @@
 locals {
   databricks_allowed_principal = "arn:aws:iam::565502421330:role/private-connectivity-role-${var.region}"
-
-  vpce_eni_ips = flatten([
-    for interface_id in aws_vpc_endpoint.aws_service.network_interface_ids :
-    data.aws_network_interface.aws_service[interface_id].private_ip
-  ])
 }
 
 variable "region" {

@@ -15,6 +15,20 @@ resource "aws_vpc_endpoint" "aws_service" {
 
 # Data source to fetch the private IPs of the ENIs created by the VPCE
 data "aws_network_interface" "aws_service" {
-  for_each = toset(aws_vpc_endpoint.aws_service.network_interface_ids)
-  id       = each.key
+  count = length(var.private_subnet_ids)
+
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
+
+  filter {
+    name   = "subnet-id"
+    values = [var.private_subnet_ids[count.index]]
+  }
+
+  filter {
+    name   = "description"
+    values = ["VPC Endpoint Interface ${aws_vpc_endpoint.aws_service.id}"]
+  }
 }

@@ -6,7 +6,6 @@ resource "aws_vpc_endpoint_service" "private_link_service" {
   # This is crucial for cross-account sharing. Databricks must request a connection.
   acceptance_required = true
 
-  # In case we provide own private DNS name:
   private_dns_name = var.private_dns_name
 }
 
@@ -25,8 +24,7 @@ resource "aws_vpc_endpoint_service_allowed_principal" "databricks_access_rule" {
 resource "databricks_mws_ncc_private_endpoint_rule" "this" {
   network_connectivity_config_id = var.network_connectivity_config_id
   endpoint_service               = aws_vpc_endpoint_service.private_link_service.service_name
-  domain_names = compact([
-    "${aws_vpc_endpoint_service.private_link_service.service_name}.${var.region}.vpce.amazonaws.com",
-    aws_vpc_endpoint_service.private_link_service.private_dns_name
-  ])
+  domain_names = var.private_dns_name != null ? [var.private_dns_name] : [
+    "${aws_vpc_endpoint_service.private_link_service.id}.${var.region}.vpce.amazonaws.com",
+  ]
 }

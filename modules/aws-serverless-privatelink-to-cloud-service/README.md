@@ -34,6 +34,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_lb.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
+| [aws_lb_listener.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
 | [aws_lb_target_group_attachment.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment) | resource |
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -63,6 +64,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_nlb_arn"></a> [nlb\_arn](#output\_nlb\_arn) | The ARN of the NLB |
+| <a name="output_private_dns_verification_records"></a> [private\_dns\_verification\_records](#output\_private\_dns\_verification\_records) | The private DNS verification records you need to add to your DNS provider |
 | <a name="output_vpc_endpoint_id"></a> [vpc\_endpoint\_id](#output\_vpc\_endpoint\_id) | ID of the VPCE created by Databricks |
 | <a name="output_vpce_ips"></a> [vpce\_ips](#output\_vpce\_ips) | Private IP addresses of the VPCE ENI; useful if you are using this for an NLB target group. |
 | <a name="output_vpce_sg_id"></a> [vpce\_sg\_id](#output\_vpce\_sg\_id) | Security Group ID of the VPCE |

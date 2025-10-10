@@ -5,5 +5,5 @@ module "pl-secretsmanager" {
   network_connectivity_config_id = var.network_connectivity_config_id
   aws_service                    = "secretsmanager" # gets interpolated to: com.amazonaws.${var.region}.${var.aws_service}
   region                         = var.region
-  prefix                         = "pl-secretsmanager"
+  prefix                         = "pl-sm"
 }
