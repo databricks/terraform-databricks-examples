@@ -6,6 +6,7 @@ variable "databricks_account_client_id" {
 variable "databricks_account_client_secret" {
   type        = string
   description = "Client secret of account-level service principal"
+  sensitive   = true
 }
 
 variable "databricks_account_id" {
@@ -26,7 +27,8 @@ variable "region" {
 }
 
 variable "vpc_id" {
-  type = string
+  type        = string
+  description = "The ID of the VPC to deploy the resources into"
 }
 
 variable "private_subnet_ids" {

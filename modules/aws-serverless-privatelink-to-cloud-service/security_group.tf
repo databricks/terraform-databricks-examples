@@ -10,7 +10,7 @@ resource "aws_security_group" "this" {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    cidr_blocks     = length(var.allowed_ingress_cidr_blocks) == 0 ? [data.aws_vpc.this.cidr_block] : var.allowed_ingress_cidr_blocks
+    cidr_blocks     = var.allowed_ingress_cidr_blocks
     security_groups = var.allowed_ingress_security_groups
 
     description = "Allow NLB to ${var.aws_service}"

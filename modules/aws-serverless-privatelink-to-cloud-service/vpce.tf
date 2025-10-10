@@ -1,9 +1,3 @@
-# Data query to validate that the VPC exists,
-# and so we can retrieve the VPC's CIDR block.
-data "aws_vpc" "this" {
-  id = var.vpc_id
-}
-
 resource "aws_vpc_endpoint" "aws_service" {
   vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.region}.${var.aws_service}"

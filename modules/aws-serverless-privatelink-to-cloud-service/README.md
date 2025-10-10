@@ -43,7 +43,6 @@ No modules.
 | [aws_vpc_endpoint_service_allowed_principal.databricks_access_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_service_allowed_principal) | resource |
 | [databricks_mws_ncc_private_endpoint_rule.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_ncc_private_endpoint_rule) | resource |
 | [aws_network_interface.aws_service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/network_interface) | data source |
-| [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -52,10 +51,10 @@ No modules.
 | <a name="input_aws_service"></a> [aws\_service](#input\_aws\_service) | The AWS service to connect to (e.g. secretsmanager, lambda, etc.) | `string` | n/a | yes |
 | <a name="input_network_connectivity_config_id"></a> [network\_connectivity\_config\_id](#input\_network\_connectivity\_config\_id) | The network connectivity config ID to use for the resources | `string` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The private subnet IDs to use for the resources | `list(string)` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
-| <a name="input_allowed_ingress_cidr_blocks"></a> [allowed\_ingress\_cidr\_blocks](#input\_allowed\_ingress\_cidr\_blocks) | The CIDR blocks to allow inbound traffic from. If empty, the VPC's CIDR block will be used. | `list(string)` | `[]` | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC to deploy the resources into | `string` | n/a | yes |
+| <a name="input_allowed_ingress_cidr_blocks"></a> [allowed\_ingress\_cidr\_blocks](#input\_allowed\_ingress\_cidr\_blocks) | The CIDR blocks to allow inbound traffic from. | `list(string)` | <pre>[<br/>  "172.18.0.0/16",<br/>  "10.0.0.0/8"<br/>]</pre> | no |
 | <a name="input_allowed_ingress_security_groups"></a> [allowed\_ingress\_security\_groups](#input\_allowed\_ingress\_security\_groups) | The security groups to allow inbound traffic from | `set(string)` | `null` | no |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix to use for the resources | `string` | `"pl-demo"` | no |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix to use for the resources | `string` | `"pl"` | no |
 | <a name="input_private_dns_name"></a> [private\_dns\_name](#input\_private\_dns\_name) | The private DNS name to use for the resources | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region of the cloud service | `string` | `"us-east-1"` | no |
 
@@ -67,5 +66,6 @@ No modules.
 | <a name="output_private_dns_verification_records"></a> [private\_dns\_verification\_records](#output\_private\_dns\_verification\_records) | The private DNS verification records you need to add to your DNS provider |
 | <a name="output_vpc_endpoint_id"></a> [vpc\_endpoint\_id](#output\_vpc\_endpoint\_id) | ID of the VPCE created by Databricks |
 | <a name="output_vpce_ips"></a> [vpce\_ips](#output\_vpce\_ips) | Private IP addresses of the VPCE ENI; useful if you are using this for an NLB target group. |
+| <a name="output_vpce_service_id"></a> [vpce\_service\_id](#output\_vpce\_service\_id) | ID of the VPCE Service that you need to accept the connection request on |
 | <a name="output_vpce_sg_id"></a> [vpce\_sg\_id](#output\_vpce\_sg\_id) | Security Group ID of the VPCE |
 <!-- END_TF_DOCS -->
