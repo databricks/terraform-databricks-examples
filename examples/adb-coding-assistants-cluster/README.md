@@ -38,21 +38,93 @@ This template provides an example deployment of a Databricks cluster pre-configu
 
 ## Post-Deployment
 
-After the cluster starts, SSH or connect via notebook and run:
+After the cluster starts, you can connect via SSH to use Claude Code and other development tools.
+
+### 1. Configure SSH Tunnel
+
+Use the Databricks CLI to set up SSH access to your new cluster:
 
 ```bash
-# Reload bashrc to get helper commands
+# Authenticate if needed
+databricks auth login --host https://your-workspace-url.cloud.databricks.com
+
+# Set up SSH config (replace 'claude-dev' with your preferred alias)
+databricks ssh setup --name claude-dev
+# Select your cluster from the list when prompted
+```
+
+This creates an entry in your `~/.ssh/config` file.
+
+### 2. Connect via VSCode or Cursor
+
+1.  Install the **Remote - SSH** extension in VSCode or Cursor.
+2.  Open the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`).
+3.  Select **Remote-SSH: Connect to Host**.
+4.  Choose `claude-dev` (or the alias you created).
+5.  Select **Linux** as the platform.
+6.  Once connected, open your persistent workspace folder: `/Workspace/Users/<your-email>/`.
+
+### 3. Launch Claude Code
+
+Open the terminal in your remote VSCode/Cursor session and run:
+
+```bash
+# 1. Load environment variables and helpers
 source ~/.bashrc
 
-# Verify installation
-check-claude
-
-# Start using Claude
-claude "Write a Python function to analyze customer churn"
-
-# Enable MLflow tracing (optional)
+# 2. Enable MLflow tracing (optional but recommended)
 claude-tracing-enable
+
+# 3. Start Claude Code
+claude
 ```
+
+**First-time setup tips:**
+-   Claude will ask for file permissions; use `Shift+Tab` to auto-allow edits in the current directory.
+-   If you need to refresh credentials, run `claude-refresh-token`.
+
+### 4. Remote Web App Development (Port Forwarding)
+
+VSCode and Cursor automatically forward ports. For example, to run a Streamlit app:
+
+1.  Create `app.py`:
+    ```python
+    import streamlit as st
+    st.title("Databricks Remote App")
+    st.write("Running on cluster!")
+    ```
+2.  Run it:
+    ```bash
+    streamlit run app.py --server.port 8501
+    ```
+3.  Click "Open in Browser" in the popup notification to view it at `localhost:8501`.
+
+### 5. Using the Databricks Python Interpreter
+
+You don't need to configure a virtual environment. Databricks manages it for you.
+
+1.  In the remote terminal, find the python path:
+    ```bash
+    echo $DATABRICKS_VIRTUAL_ENV
+    # Output example: /local_disk0/.ephemeral_nfs/envs/pythonEnv-xxxx/bin/python
+    ```
+2.  In VSCode/Cursor, open the Command Palette and select **Python: Select Interpreter**.
+3.  Paste the path from above.
+
+### 6. Persistent Sessions with tmux
+
+To keep your agent running even if you disconnect:
+
+```bash
+# Start a new session
+tmux new -s claude-session
+
+# Detach (Ctrl+B, then D)
+# Reattach later
+tmux attach -t claude-session
+```
+
+This allows you to leave long-running tasks (like "Build a data pipeline") executing on the cluster while you are offline.
 
 ## Helper Commands
 
