@@ -240,6 +240,53 @@ The init script installs these helper commands in `~/.bashrc`:
 | `claude-tracing-enable` | Enable MLflow tracing |
 | `claude-tracing-status` | Check tracing status |
 | `claude-tracing-disable` | Disable MLflow tracing |
+| `claude-vscode-setup` | Show VS Code/Cursor Remote SSH setup guide |
+| `claude-vscode-env` | Get Python virtual environment path |
+| `claude-vscode-check` | Verify VS Code/Cursor setup |
+| `claude-vscode-config` | Generate VS Code settings.json snippet |
+| `claude-token-status` | Check token freshness and auto-refresh status |
+| `claude-setup-token-refresh` | Enable hourly automatic token refresh |
+| `claude-remove-token-refresh` | Disable automatic token refresh |
+
+## VS Code/Cursor Remote SSH Setup
+
+For remote development using VS Code or Cursor, use the built-in helpers:
+
+```bash
+# Show complete setup guide
+claude-vscode-setup
+
+# Get Python interpreter path
+claude-vscode-env
+
+# Verify setup
+claude-vscode-check
+
+# Generate VS Code settings.json
+claude-vscode-config
+```
+
+### Quick Setup Steps
+
+1. **Install Remote SSH Extension**
+   - VS Code: Install "Remote - SSH" extension
+   - Cursor: Built-in (already included)
+
+2. **Configure Default Extensions**
+   - Command Palette → `Remote-SSH: Settings`
+   - Add: `ms-Python.python` and `ms-toolsai.jupyter`
+
+3. **Connect to Cluster**
+   - Command Palette → `Remote-SSH: Connect to Host`
+
+4. **Select Python Interpreter**
+   - Run `claude-vscode-env` to get the path
+   - Command Palette → `Python: Select Interpreter`
+   - Use the `pythonEnv-xxx` interpreter for full Databricks Runtime access
+
+**Important**: Regular Python `.py` files don't have access to Databricks globals (`dbutils`, `spark`). Only IPYNB notebooks and Databricks notebooks have this access.
+
+See the [VS Code Setup Script](scripts/vscode-setup.sh) for a standalone helper.
 
 ## Troubleshooting
 

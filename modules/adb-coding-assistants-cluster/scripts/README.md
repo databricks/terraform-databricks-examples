@@ -57,6 +57,11 @@ claude-debug
 # Refresh authentication
 claude-refresh-token
 
+# Token management
+claude-token-status              # Check token freshness
+claude-setup-token-refresh       # Enable automatic hourly refresh
+claude-remove-token-refresh       # Disable automatic refresh
+
 # Enable MLflow tracing
 claude-tracing-enable
 
@@ -65,6 +70,108 @@ claude-tracing-status
 
 # Disable tracing
 claude-tracing-disable
+
+# VS Code/Cursor Remote SSH helpers
+claude-vscode-setup              # Show setup guide
+claude-vscode-env                # Get Python virtual environment path
+claude-vscode-check              # Verify VS Code/Cursor setup
+claude-vscode-config             # Generate VS Code settings.json snippet
+```
+
+## VS Code/Cursor Remote SSH Setup
+
+For remote development using VS Code or Cursor, follow these steps:
+
+### Quick Setup
+
+1. **Get Python interpreter path** (after SSH connection):
+   ```bash
+   claude-vscode-env
+   # Or manually: echo $DATABRICKS_VIRTUAL_ENV
+   ```
+
+2. **Show complete setup guide**:
+   ```bash
+   claude-vscode-setup
+   ```
+
+3. **Generate VS Code settings**:
+   ```bash
+   claude-vscode-config
+   ```
+
+### Detailed Steps
+
+#### 1. Install Remote SSH Extension
+
+- **VS Code**: Install "Remote - SSH" extension from marketplace
+- **Cursor**: Built-in Remote SSH extension (already included)
+
+#### 2. Configure Default Extensions
+
+Open Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
+- Type: `Remote-SSH: Settings`
+- Or manually edit `settings.json`:
+
+```json
+{
+  "remote.SSH.defaultExtensions": [
+    "ms-Python.python",
+    "ms-toolsai.jupyter"
+  ]
+}
+```
+
+#### 3. Connect to Cluster
+
+- Command Palette → `Remote-SSH: Connect to Host`
+- Enter your cluster SSH connection details
+
+#### 4. Select Python Interpreter
+
+After connecting:
+
+1. Run `claude-vscode-env` to get the Python path
+2. Command Palette → `Python: Select Interpreter`
+3. Enter or browse to: `/databricks/python*/pythonEnv-*/bin/python`
+
+**Important**: Always select the `pythonEnv-xxx` interpreter for full Databricks Runtime library access.
+
+#### 5. Verify Setup
+
+```bash
+# Check setup status
+claude-vscode-check
+
+# Test in a Python file
+import pyspark
+import pandas
+import mlflow
+print("Setup successful!")
+```
+
+### Important Notes
+
+- **IPYNB notebooks** and **`*.py` Databricks notebooks** have access to Databricks globals (`dbutils`, `spark`, etc.)
+- **Regular Python `*.py` files** do NOT have access to Databricks globals
+- Always select the `pythonEnv-xxx` interpreter for full Databricks Runtime library access
+
+### Standalone Helper Script
+
+A standalone helper script is also available:
+
+```bash
+# Show setup guide
+./scripts/vscode-setup.sh --guide
+
+# Get Python interpreter path
+./scripts/vscode-setup.sh --env
+
+# Check current setup
+./scripts/vscode-setup.sh --check
+
+# Generate settings.json
+./scripts/vscode-setup.sh --settings
 ```
 
 ## Usage Examples
