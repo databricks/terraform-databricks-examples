@@ -4,7 +4,7 @@ variable "cluster_name" {
 }
 
 variable "catalog_name" {
-  description = "Unity Catalog name for the volume"
+  description = "Unity Catalog catalog name for the volume. The metastore must have a root storage credential configured."
   type        = string
 }
 

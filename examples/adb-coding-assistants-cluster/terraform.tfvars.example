@@ -1,12 +1,28 @@
 # Example terraform.tfvars file for Claude Code CLI Cluster
 # Copy this to terraform.tfvars and customize for your environment
 
-# Required variables
-databricks_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-rg/providers/Microsoft.Databricks/workspaces/my-workspace"
-cluster_name           = "claude-coding-assistant"
-catalog_name           = "main"
+#=============================================================================
+# AUTHENTICATION - Choose ONE approach
+#=============================================================================
 
-# Optional variables with recommended defaults
+# OPTION 1: Profile-based (Recommended - Simple and cloud-agnostic)
+# Uses your ~/.databrickscfg profile
+databricks_profile = "my-profile"  # Replace with your profile name from ~/.databrickscfg
+
+# OPTION 2: Azure Resource ID (Azure-specific)
+# Comment out databricks_profile above and uncomment below to use Azure resource ID
+# databricks_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-rg/providers/Microsoft.Databricks/workspaces/my-workspace"
+
+#=============================================================================
+# REQUIRED VARIABLES
+#=============================================================================
+
+cluster_name = "claude-coding-assistant"
+catalog_name = "main"
+
+#=============================================================================
+# OPTIONAL VARIABLES
+#=============================================================================
 
 # Unity Catalog configuration
 schema_name = "default"
@@ -23,7 +39,7 @@ autotermination_minutes = 30
 cluster_mode = "SINGLE_NODE"
 
 # Worker configuration (ignored if cluster_mode = "SINGLE_NODE")
-num_workers = 0  # Set to null to enable autoscaling, or a specific number
+num_workers = 0 # Set to null to enable autoscaling, or a specific number
 
 # Autoscaling configuration (only used if num_workers = null)
 min_workers = 1
@@ -43,8 +59,10 @@ tags = {
   CostCenter  = "engineering"
 }
 
-# Cloud-specific node types:
-#
+#=============================================================================
+# CLOUD-SPECIFIC NODE TYPES REFERENCE
+#=============================================================================
+
 # Azure VM Types (Premium SSD):
 # Modern Dpdsv6-series (Cobalt 100 processor, Premium SSD + local NVMe):
 #   - Standard_D4pds_v6 (4 cores, 16 GB RAM) - Cost-effective

@@ -1,6 +1,18 @@
-variable "databricks_resource_id" {
-  description = "The Azure resource ID for the Databricks workspace. Format: /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Databricks/workspaces/{workspace-name}"
+variable "databricks_profile" {
+  description = "Databricks CLI profile name from ~/.databrickscfg (recommended for simple, cloud-agnostic authentication). If set, databricks_resource_id is ignored."
   type        = string
+  default     = null
+}
+
+variable "databricks_resource_id" {
+  description = "The Azure resource ID for the Databricks workspace (Azure-specific approach). Format: /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Databricks/workspaces/{workspace-name}. Only used if databricks_profile is not set."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.databricks_profile != null || var.databricks_resource_id != null
+    error_message = "Either databricks_profile or databricks_resource_id must be set. Recommended: use databricks_profile for simpler configuration."
+  }
 }
 
 variable "cluster_name" {
