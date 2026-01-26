@@ -184,37 +184,6 @@ if [ -n "$DATABRICKS_TOKEN" ] && [ -n "$DATABRICKS_HOST" ]; then
     _check_and_refresh_token
 fi
 
-# Auto-enable Claude tracing on login (if not already enabled)
-# This ensures tracing is always active and saves to the shared workspace path
-if [ -n "$DATABRICKS_TOKEN" ] && [ -n "$DATABRICKS_HOST" ] && command -v mlflow >/dev/null 2>&1; then
-    # Check if tracing is already enabled (non-zero exit means not enabled)
-    if ! mlflow autolog claude --status >/dev/null 2>&1; then
-        # Create experiment if it doesn't exist
-        python3 <<MLFLOW_AUTO_SETUP
-import mlflow
-mlflow.set_tracking_uri("databricks")
-try:
-    exp = mlflow.get_experiment_by_name("EXP_PH")
-    if not exp:
-        mlflow.create_experiment("EXP_PH")
-except Exception:
-    pass  # Silently continue if experiment creation fails
-MLFLOW_AUTO_SETUP
-
-        # Determine workspace directory - prefer /Workspace if it exists, otherwise use current directory
-        WORKSPACE_DIR="."
-        if [ -d "/Workspace" ]; then
-            WORKSPACE_DIR="/Workspace"
-        elif [ -d "$HOME/Workspace" ]; then
-            WORKSPACE_DIR="$HOME/Workspace"
-        fi
-
-        # Enable autologging in the workspace directory
-        (cd "$WORKSPACE_DIR" && mlflow autolog claude "." -u databricks -n "EXP_PH" >/dev/null 2>&1) && \
-            echo "✓ Claude Code MLflow tracing auto-enabled in $WORKSPACE_DIR (experiment: EXP_PH)"
-    fi
-fi
-
 # Regenerate Claude settings from current environment
 claude-refresh-token() {
     if [ -z "$DATABRICKS_TOKEN" ] || [ -z "$DATABRICKS_HOST" ]; then
@@ -697,26 +666,12 @@ main() {
     log "  2. Verify: check-claude"
     log "  3. Use: claude command"
     log ""
-    # Setup automatic token refresh (optional - user can enable manually)
-    log "Setting up automatic token refresh..."
-    if [ -n "$DATABRICKS_TOKEN" ] && [ -n "$DATABRICKS_HOST" ]; then
-        # Setup cron job for periodic refresh
-        if command -v crontab >/dev/null 2>&1; then
-            # Source bashrc temporarily to get the function
-            source "$HOME/.bashrc" >/dev/null 2>&1 || true
-            claude-setup-token-refresh >/dev/null 2>&1 || log "⚠ Cron setup skipped (may require manual setup)"
-        else
-            log "⚠ Cron not available - token refresh will only happen on login"
-        fi
-    fi
-
-    log ""
     log "Helper commands:"
     log "  - check-claude: Verify installation status"
     log "  - claude-debug: Show Claude CLI configuration details"
     log "  - claude-refresh-token: Regenerate Claude settings"
     log "  - claude-token-status: Check token freshness and auto-refresh status"
-    log "  - claude-setup-token-refresh: Enable hourly automatic token refresh"
+    log "  - claude-setup-token-refresh: Enable hourly automatic token refresh (optional)"
     log "  - claude-remove-token-refresh: Disable automatic token refresh"
     log "  - claude-tracing-enable/disable/status: Manage MLflow tracing"
     log "  - claude-vscode-setup: Show VS Code/Cursor Remote SSH setup guide"
