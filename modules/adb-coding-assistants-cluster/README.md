@@ -56,6 +56,9 @@ This module can be used to deploy the following:
 - Databricks Runtime 13.3 LTS or higher (recommended for Unity Catalog volumes)
 - Databricks Terraform provider >= 1.40.0
 - Unity Catalog with an existing catalog and schema
+- **Unity Catalog metastore must have a root storage credential configured** (required for volumes)
+
+> **Note**: If you encounter an error about missing root storage credential, you need to configure the metastore's root storage credential first. See [Databricks documentation](https://docs.databricks.com/api-explorer/workspace/metastores/update) for details.
 
 ## Usage
 
@@ -233,16 +236,13 @@ After the cluster starts, users can:
 
 ```bash
 # Check installation status
-check-coding-assistants
+check-claude
 
 # Debug Claude configuration
 claude-debug
 
 # Use Claude Code
 claude "Analyze the customer churn data"
-
-# Use OpenCode
-opencode "Generate unit tests for my functions"
 
 # Enable MLflow tracing
 claude-tracing-enable
@@ -251,19 +251,68 @@ claude-tracing-enable
 claude-tracing-status
 ```
 
+### Persistent Work Storage
+
+**IMPORTANT: Do not use Databricks Repos (`/Repos/...`) for active development work.**
+
+Databricks Repos folders can be unreliable for persistent storage and may lose uncommitted changes during cluster restarts or sync operations. Instead:
+
+✅ **Use `/Workspace/Users/<email>/` for all development work**
+
+This location provides reliable persistent storage across cluster restarts. Use the provided git helpers to manage version control:
+
+```bash
+# Navigate to your workspace
+cd /Workspace/Users/$(whoami)/
+
+# Set up git (interactive helper)
+git-workspace-init
+
+# Check git status and location
+git-workspace-check
+
+# Configure git authentication
+git-workspace-setup-auth
+```
+
+The git helpers will:
+- Warn if you're working in `/Repos` (unreliable location)
+- Help you clone existing repos or initialize new ones
+- Check for uncommitted or unpushed changes
+- Guide you through authentication setup (PAT, SSH, or credential helper)
+
 ### Helper Commands
 
 The init script installs these helper commands in `~/.bashrc`:
 
+#### Claude CLI Commands
+
 | Command | Purpose |
 |---------|---------|
-| `check-coding-assistants` | Verify installation and configuration |
+| `check-claude` | Verify installation and configuration |
 | `claude-debug` | Show detailed Claude CLI configuration |
 | `claude-refresh-token` | Regenerate Claude settings |
-| `opencode-refresh-config` | Regenerate OpenCode config |
+| `claude-token-status` | Check token freshness and auto-refresh status |
 | `claude-tracing-enable` | Enable MLflow tracing |
 | `claude-tracing-status` | Check tracing status |
 | `claude-tracing-disable` | Disable MLflow tracing |
+
+#### Git Workspace Commands
+
+| Command | Purpose |
+|---------|---------|
+| `git-workspace-init` | Interactive git setup in /Workspace (clone or init) |
+| `git-workspace-check` | Check location and uncommitted/unpushed changes |
+| `git-workspace-setup-auth` | Configure git authentication (PAT/SSH/credential helper) |
+
+#### VS Code/Cursor Remote Commands
+
+| Command | Purpose |
+|---------|---------|
+| `claude-vscode-setup` | Show Remote SSH setup guide |
+| `claude-vscode-env` | Get Python interpreter path |
+| `claude-vscode-check` | Verify Remote SSH configuration |
+| `claude-vscode-config` | Generate settings.json snippet |
 
 ## Cluster Access Modes
 

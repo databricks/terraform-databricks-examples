@@ -32,9 +32,12 @@ This template provides an example deployment of a Databricks cluster pre-configu
 
 - Databricks workspace with Unity Catalog enabled
 - Unity Catalog with an existing catalog and schema
+- **Unity Catalog metastore must have a root storage credential configured** (required for volumes)
 - Permission to create clusters
 - (For Azure) Authenticated via `az login` or environment variables
 - Databricks Runtime 14.3 LTS or higher recommended
+
+> **Note**: If you encounter an error about missing root storage credential, you need to configure the metastore's root storage credential first. See [Databricks documentation](https://docs.databricks.com/api-explorer/workspace/metastores/update) for details.
 
 ## Post-Deployment
 
@@ -63,6 +66,11 @@ This creates an entry in your `~/.ssh/config` file.
 4.  Choose `claude-dev` (or the alias you created).
 5.  Select **Linux** as the platform.
 6.  Once connected, open your persistent workspace folder: `/Workspace/Users/<your-email>/`.
+
+> **Important: Work Storage Location**
+> ⚠️ **DO NOT use Databricks Repos (`/Repos/...`) for active development work.** Repos folders can be unreliable for persistent storage and may lose uncommitted changes during cluster restarts or sync operations.
+>
+> ✅ **Use `/Workspace/Users/<your-email>/` instead.** This location provides reliable persistent storage. You can use regular git commands to manage version control (see "Using Git in /Workspace" section below).
 
 ### 3. Launch Claude Code
 
@@ -126,16 +134,92 @@ tmux attach -t claude-session
 
 This allows you to leave long-running tasks (like "Build a data pipeline") executing on the cluster while you are offline.
 
+### 7. Using Git in /Workspace
+
+Since `/Workspace` doesn't have native Repos integration, use standard git commands:
+
+```bash
+# Navigate to your workspace directory
+cd /Workspace/Users/<your-email>/
+
+# Option 1: Clone an existing repository
+git clone https://github.com/your-org/your-repo.git
+cd your-repo
+
+# Option 2: Initialize a new repository
+mkdir my-project && cd my-project
+git init
+git remote add origin https://github.com/your-org/your-repo.git
+
+# Configure git (first time only)
+git config user.name "Your Name"
+git config user.email "your.email@company.com"
+
+# Regular git workflow
+git add .
+git commit -m "Your commit message"
+git push origin main
+```
+
+**Git Authentication Options:**
+
+1. **Personal Access Token (PAT)** - Recommended:
+   ```bash
+   # GitHub: Create at https://github.com/settings/tokens
+   # Use token as password when prompted
+   git clone https://github.com/your-org/repo.git
+   ```
+
+2. **SSH Keys**:
+   ```bash
+   # Generate SSH key on the cluster
+   ssh-keygen -t ed25519 -C "your.email@company.com"
+
+   # Add to GitHub: Copy output and add at https://github.com/settings/keys
+   cat ~/.ssh/id_ed25519.pub
+
+   # Clone using SSH
+   git clone git@github.com:your-org/repo.git
+   ```
+
+3. **Git Credential Manager**:
+   ```bash
+   # Store credentials to avoid repeated prompts
+   git config --global credential.helper store
+   ```
+
 ## Helper Commands
+
+### Claude CLI Commands
 
 | Command | Purpose |
 |---------|---------|
 | `check-claude` | Verify Claude CLI installation and configuration |
 | `claude-debug` | Show detailed Claude configuration |
 | `claude-refresh-token` | Regenerate Claude settings from environment |
+| `claude-token-status` | Check token freshness and auto-refresh status |
 | `claude-tracing-enable` | Enable MLflow tracing for Claude sessions |
 | `claude-tracing-status` | Check tracing status |
 | `claude-tracing-disable` | Disable tracing |
+
+### Git Workspace Commands
+
+| Command | Purpose |
+|---------|---------|
+| `git-workspace-init` | Interactive setup for git in /Workspace (clone or init) |
+| `git-workspace-check` | Verify location and check for uncommitted/unpushed changes |
+| `git-workspace-setup-auth` | Configure git authentication (PAT, SSH, or credential helper) |
+
+These helpers warn you if working in `/Repos` and ensure your work is backed up in git.
+
+### VS Code/Cursor Remote Commands
+
+| Command | Purpose |
+|---------|---------|
+| `claude-vscode-setup` | Show Remote SSH setup instructions |
+| `claude-vscode-env` | Get Python interpreter path for IDE |
+| `claude-vscode-check` | Verify Remote SSH configuration |
+| `claude-vscode-config` | Generate settings.json snippet |
 
 ## Offline Installation
 
