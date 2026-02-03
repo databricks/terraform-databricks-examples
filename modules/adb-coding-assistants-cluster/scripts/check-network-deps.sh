@@ -36,8 +36,8 @@ fi
 
 # Dependencies to check: "domain|purpose|test_url"
 DEPENDENCIES=(
-    "claude.ai|CLI installer|https://claude.ai/install.sh"
-    "api.anthropic.com|Claude CLI binary|https://api.anthropic.com/"
+    "claude.ai|CLI installer script|https://claude.ai/install.sh"
+    "storage.googleapis.com|Claude CLI binaries|https://storage.googleapis.com/"
     "deb.nodesource.com|Node.js repo|https://deb.nodesource.com/setup_20.x"
     "archive.ubuntu.com|APT packages (x86)|http://archive.ubuntu.com/ubuntu/"
     "ports.ubuntu.com|APT packages (ARM)|http://ports.ubuntu.com/ubuntu-ports/"
@@ -45,7 +45,6 @@ DEPENDENCIES=(
     "pypi.org|Python packages|https://pypi.org/simple/mlflow/"
     "files.pythonhosted.org|Package downloads|https://files.pythonhosted.org/"
     "raw.githubusercontent.com|Databricks skills|https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/README.md"
-    "storage.googleapis.com|Binary downloads|https://storage.googleapis.com/"
 )
 
 # ============================================================================

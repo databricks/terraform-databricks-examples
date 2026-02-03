@@ -197,7 +197,7 @@ The online installer requires access to:
 | Domain | Purpose |
 |--------|---------|
 | `claude.ai` | Claude CLI installer script |
-| `api.anthropic.com` | Claude CLI binary download |
+| `storage.googleapis.com` | Claude CLI binaries (GCS bucket) |
 | `deb.nodesource.com` | Node.js repository |
 | `archive.ubuntu.com` | APT packages (x86_64) |
 | `ports.ubuntu.com` | APT packages (ARM64) |
@@ -205,7 +205,6 @@ The online installer requires access to:
 | `pypi.org` | Python package index |
 | `files.pythonhosted.org` | Python package downloads |
 | `raw.githubusercontent.com` | Databricks skills |
-| `storage.googleapis.com` | Binary downloads |
 | `${DATABRICKS_HOST}` | Databricks API endpoints |
 
 > **Tip**: Run `./scripts/check-network-deps.sh` to verify all dependencies are accessible before installation.
@@ -251,7 +250,7 @@ Example output:
 Checking required domains...
 
 [OK] claude.ai
-[OK] api.anthropic.com
+[OK] storage.googleapis.com
 [OK] deb.nodesource.com
 [OK] archive.ubuntu.com
 [OK] ports.ubuntu.com
@@ -259,10 +258,9 @@ Checking required domains...
 [OK] pypi.org
 [OK] files.pythonhosted.org
 [OK] raw.githubusercontent.com
-[OK] storage.googleapis.com
 
 ----------------------------------------
-Result: 10/10 dependencies reachable
+Result: 9/9 dependencies reachable
 
 SUCCESS: All dependencies are accessible
 ```
@@ -272,7 +270,7 @@ If any dependencies fail, the script provides troubleshooting guidance:
 [OK] claude.ai
 [FAIL] deb.nodesource.com - Connection timed out
 ...
-Result: 9/10 dependencies reachable
+Result: 8/9 dependencies reachable
 
 FAILED: Some dependencies are not accessible
 
