@@ -16,16 +16,16 @@ cmd_exists() { command -v "$1" >/dev/null 2>&1; }
 # Install Claude Code CLI
 install_claude() {
     if cmd_exists claude; then
-        log "✓ Claude Code already installed"
+        log "[OK] Claude Code already installed"
         return 0
     fi
 
     log "Installing Claude Code CLI..."
     if curl -fsSL https://claude.ai/install.sh | bash &>>$L; then
-        log "✓ Claude Code installation completed"
+        log "[OK] Claude Code installation completed"
         return 0
     else
-        log "⚠ Claude Code installation failed (will be available after manual install)"
+        log "[WARN] Claude Code installation failed (will be available after manual install)"
         return 1
     fi
 }
@@ -33,7 +33,7 @@ install_claude() {
 # Install Node.js (required for Claude Code CLI)
 install_nodejs() {
     if cmd_exists node && cmd_exists npm; then
-        log "✓ Node.js already installed ($(node --version))"
+        log "[OK] Node.js already installed ($(node --version))"
         return 0
     fi
 
@@ -41,13 +41,13 @@ install_nodejs() {
     if curl -fsSL --max-time 300 --retry 3 https://deb.nodesource.com/setup_20.x | sudo -E bash - &>>$L; then
         if sudo apt-get update -qq -y &>>$L && sudo apt-get install -y -qq nodejs &>>$L; then
             if cmd_exists node && cmd_exists npm; then
-                log "✓ Node.js/npm installed successfully ($(node --version))"
+                log "[OK] Node.js/npm installed successfully ($(node --version))"
                 return 0
             fi
         fi
     fi
 
-    log "⚠ Node.js installation failed (Claude Code CLI will not work)"
+    log "[WARN] Node.js installation failed (Claude Code CLI will not work)"
     return 1
 }
 
@@ -93,6 +93,7 @@ if [ -n "$DATABRICKS_TOKEN" ] && [ -n "$DATABRICKS_HOST" ]; then
     export ANTHROPIC_BASE_URL="${DATABRICKS_HOST}/serving-endpoints/anthropic"
     export ANTHROPIC_MODEL="databricks-claude-sonnet-4-5"
     export ANTHROPIC_CUSTOM_HEADERS="x-databricks-disable-beta-headers: true"
+    export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1
 fi
 
 # Internal function to generate Claude settings (single source of truth)
@@ -113,7 +114,7 @@ CLAUDE_CONFIG
     # Validate JSON if jq is available
     if command -v jq >/dev/null 2>&1; then
         if ! jq empty "$config_file" 2>/dev/null; then
-            echo "⚠ Claude settings JSON validation failed" >&2
+            echo "[WARN] Claude settings JSON validation failed" >&2
             return 1
         fi
     fi
@@ -157,7 +158,7 @@ _check_and_refresh_token() {
     if _generate_claude_config >/dev/null 2>&1; then
         # Only show message if in interactive shell (not cron)
         if [ -t 0 ]; then
-            echo "✓ Claude Code token refreshed automatically"
+            echo "[OK] Claude Code token refreshed automatically"
         fi
         return 0
     fi
@@ -172,9 +173,9 @@ _check_and_refresh_token() {
 if [ ! -f "$HOME/.claude/settings.json" ] && [ -n "$DATABRICKS_TOKEN" ] && [ -n "$DATABRICKS_HOST" ]; then
     mkdir -p "$HOME/.claude"
     if _generate_claude_config; then
-        echo "✓ Claude Code settings.json created (fallback - env vars take precedence)"
+        echo "[OK] Claude Code settings.json created (fallback - env vars take precedence)"
     else
-        echo "⚠ Failed to generate Claude settings (run claude-refresh-token to retry)"
+        echo "[WARN] Failed to generate Claude settings (run claude-refresh-token to retry)"
     fi
 fi
 
@@ -187,18 +188,18 @@ fi
 # Regenerate Claude settings from current environment
 claude-refresh-token() {
     if [ -z "$DATABRICKS_TOKEN" ] || [ -z "$DATABRICKS_HOST" ]; then
-        echo "⚠ DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
+        echo "[WARN] DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
         echo "  On Databricks clusters, these should be automatically available"
         return 1
     fi
 
     mkdir -p "$HOME/.claude"
     if _generate_claude_config; then
-        echo "✓ Claude Code settings updated with:"
+        echo "[OK] Claude Code settings updated with:"
         echo "  DATABRICKS_HOST: $DATABRICKS_HOST"
         echo "  DATABRICKS_TOKEN: ${DATABRICKS_TOKEN:0:20}..."
     else
-        echo "⚠ Failed to update Claude settings"
+        echo "[WARN] Failed to update Claude settings"
         return 1
     fi
 }
@@ -228,17 +229,17 @@ CRON_SCRIPT
 
     # Check if cron job already exists
     if crontab -l 2>/dev/null | grep -q "token-refresh-cron"; then
-        echo "✓ Token refresh cron job already configured"
+        echo "[OK] Token refresh cron job already configured"
         return 0
     fi
 
     # Add cron job
     (crontab -l 2>/dev/null; echo "0 * * * * $cron_file") | crontab -
     if [ $? -eq 0 ]; then
-        echo "✓ Token refresh cron job configured (runs hourly)"
+        echo "[OK] Token refresh cron job configured (runs hourly)"
         echo "  To remove: crontab -e"
     else
-        echo "⚠ Failed to setup cron job (may require cron service)"
+        echo "[WARN] Failed to setup cron job (may require cron service)"
         return 1
     fi
 }
@@ -247,16 +248,16 @@ CRON_SCRIPT
 claude-remove-token-refresh() {
     if crontab -l 2>/dev/null | grep -q "token-refresh-cron"; then
         crontab -l 2>/dev/null | grep -v "token-refresh-cron" | crontab -
-        echo "✓ Token refresh cron job removed"
+        echo "[OK] Token refresh cron job removed"
     else
-        echo "ℹ No token refresh cron job found"
+        echo "[INFO] No token refresh cron job found"
     fi
 }
 
 # Check token freshness status
 claude-token-status() {
     if [ -z "$DATABRICKS_TOKEN" ] || [ -z "$DATABRICKS_HOST" ]; then
-        echo "⚠ DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
+        echo "[WARN] DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
         return 1
     fi
 
@@ -268,7 +269,7 @@ claude-token-status() {
 
     # Check if config file exists
     if [ -f "$config_file" ]; then
-        echo "✓ Settings file: $config_file"
+        echo "[OK] Settings file: $config_file"
         local file_age
         file_age=$(stat -c %Y "$config_file" 2>/dev/null || stat -f %m "$config_file" 2>/dev/null || echo "0")
         local current_time
@@ -277,7 +278,7 @@ claude-token-status() {
         age_hours=$(( (current_time - file_age) / 3600 ))
         echo "  Last updated: ${age_hours} hour(s) ago"
     else
-        echo "✗ Settings file: missing"
+        echo "[ERROR] Settings file: missing"
     fi
 
     echo ""
@@ -289,35 +290,35 @@ claude-token-status() {
         local stored_hash
         stored_hash=$(cat "$token_hash_file" 2>/dev/null || echo "")
         if [ "$current_hash" = "$stored_hash" ] && [ -n "$current_hash" ]; then
-            echo "✓ Token: matches stored hash (up to date)"
+            echo "[OK] Token: matches stored hash (up to date)"
         else
-            echo "⚠ Token: differs from stored hash (needs refresh)"
+            echo "[WARN] Token: differs from stored hash (needs refresh)"
             echo "  Run: claude-refresh-token"
         fi
     else
-        echo "ℹ Token hash: not stored (will be created on next refresh)"
+        echo "[INFO] Token hash: not stored (will be created on next refresh)"
     fi
 
     echo ""
 
     # Check cron job
     if crontab -l 2>/dev/null | grep -q "token-refresh-cron"; then
-        echo "✓ Auto-refresh: enabled (hourly cron job)"
+        echo "[OK] Auto-refresh: enabled (hourly cron job)"
     else
-        echo "ℹ Auto-refresh: disabled"
+        echo "[INFO] Auto-refresh: disabled"
         echo "  Enable with: claude-setup-token-refresh"
     fi
 }
 
 claude-tracing-enable() {
     if [ -z "$DATABRICKS_TOKEN" ] || [ -z "$DATABRICKS_HOST" ]; then
-        echo "⚠ DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
+        echo "[WARN] DATABRICKS_TOKEN and DATABRICKS_HOST must be set"
         echo "  On Databricks clusters, these should be automatically available"
         return 1
     fi
 
     if ! command -v mlflow >/dev/null 2>&1; then
-        echo "⚠ MLflow is not installed"
+        echo "[WARN] MLflow is not installed"
         return 1
     fi
 
@@ -329,16 +330,16 @@ try:
     exp = mlflow.get_experiment_by_name("$MLFLOW_EXPERIMENT_NAME")
     if not exp:
         mlflow.create_experiment("$MLFLOW_EXPERIMENT_NAME")
-        print("✓ Created MLflow experiment: $MLFLOW_EXPERIMENT_NAME")
+        print("[OK] Created MLflow experiment: $MLFLOW_EXPERIMENT_NAME")
     else:
-        print("✓ Using existing MLflow experiment: $MLFLOW_EXPERIMENT_NAME")
+        print("[OK] Using existing MLflow experiment: $MLFLOW_EXPERIMENT_NAME")
 except Exception as e:
-    print(f"⚠ Could not setup experiment: {e}")
+    print(f"[WARN] Could not setup experiment: {e}")
 MLFLOW_SETUP
 
     # Enable autologging
     mlflow autolog claude "${1:-.}" -u databricks -n "$MLFLOW_EXPERIMENT_NAME"
-    echo "✓ Claude Code MLflow tracing enabled"
+    echo "[OK] Claude Code MLflow tracing enabled"
 }
 
 claude-tracing-status() {
@@ -356,15 +357,15 @@ check-claude() {
 
     # Check PATH
     echo "PATH includes:"
-    echo "$PATH" | tr ':' '\n' | grep -E "(claude|local/bin)" || echo "  ⚠ No Claude paths found in PATH"
+    echo "$PATH" | tr ':' '\n' | grep -E "(claude|local/bin)" || echo "  [WARN] No Claude paths found in PATH"
     echo ""
 
     # Check Claude
     if command -v claude >/dev/null 2>&1; then
-        echo "✓ Claude Code CLI: $(which claude)"
+        echo "[OK] Claude Code CLI: $(which claude)"
         claude --version 2>&1 | head -1 || echo "  (version check failed)"
     else
-        echo "✗ Claude Code CLI: not found"
+        echo "[ERROR] Claude Code CLI: not found"
         [ -f "$HOME/.claude/bin/claude" ] && echo "  Binary exists at: $HOME/.claude/bin/claude"
         [ -f "$HOME/.local/bin/claude" ] && echo "  Binary exists at: $HOME/.local/bin/claude"
     fi
@@ -373,29 +374,29 @@ check-claude() {
     # Check configs
     echo "Configuration files:"
     if [ -f "$HOME/.claude/settings.json" ]; then
-        echo "  ✓ Claude settings: $HOME/.claude/settings.json"
+        echo "  [OK] Claude settings: $HOME/.claude/settings.json"
         echo "    Preview: $(head -3 $HOME/.claude/settings.json | tail -1)"
     else
-        echo "  ✗ Claude settings: missing"
+        echo "  [ERROR] Claude settings: missing"
     fi
     echo ""
 
     # Check environment
     echo "Environment variables:"
-    [ -n "$DATABRICKS_HOST" ] && echo "  ✓ DATABRICKS_HOST: ${DATABRICKS_HOST}" || echo "  ✗ DATABRICKS_HOST: not set"
-    [ -n "$DATABRICKS_TOKEN" ] && echo "  ✓ DATABRICKS_TOKEN: ${DATABRICKS_TOKEN:0:20}..." || echo "  ✗ DATABRICKS_TOKEN: not set"
-    [ -n "$ANTHROPIC_API_KEY" ] && echo "  ✓ ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:0:20}..." || echo "  ✗ ANTHROPIC_API_KEY: not set"
-    [ -n "$ANTHROPIC_AUTH_TOKEN" ] && echo "  ✓ ANTHROPIC_AUTH_TOKEN: ${ANTHROPIC_AUTH_TOKEN:0:20}..." || echo "  ✗ ANTHROPIC_AUTH_TOKEN: not set"
-    [ -n "$ANTHROPIC_BASE_URL" ] && echo "  ✓ ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL}" || echo "  ✗ ANTHROPIC_BASE_URL: not set"
-    [ -n "$ANTHROPIC_MODEL" ] && echo "  ✓ ANTHROPIC_MODEL: ${ANTHROPIC_MODEL}" || echo "  ✗ ANTHROPIC_MODEL: not set"
-    [ -n "$ANTHROPIC_CUSTOM_HEADERS" ] && echo "  ✓ ANTHROPIC_CUSTOM_HEADERS: ${ANTHROPIC_CUSTOM_HEADERS}" || echo "  ✗ ANTHROPIC_CUSTOM_HEADERS: not set"
+    [ -n "$DATABRICKS_HOST" ] && echo "  [OK] DATABRICKS_HOST: ${DATABRICKS_HOST}" || echo "  [ERROR] DATABRICKS_HOST: not set"
+    [ -n "$DATABRICKS_TOKEN" ] && echo "  [OK] DATABRICKS_TOKEN: ${DATABRICKS_TOKEN:0:20}..." || echo "  [ERROR] DATABRICKS_TOKEN: not set"
+    [ -n "$ANTHROPIC_API_KEY" ] && echo "  [OK] ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:0:20}..." || echo "  [ERROR] ANTHROPIC_API_KEY: not set"
+    [ -n "$ANTHROPIC_AUTH_TOKEN" ] && echo "  [OK] ANTHROPIC_AUTH_TOKEN: ${ANTHROPIC_AUTH_TOKEN:0:20}..." || echo "  [ERROR] ANTHROPIC_AUTH_TOKEN: not set"
+    [ -n "$ANTHROPIC_BASE_URL" ] && echo "  [OK] ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL}" || echo "  [ERROR] ANTHROPIC_BASE_URL: not set"
+    [ -n "$ANTHROPIC_MODEL" ] && echo "  [OK] ANTHROPIC_MODEL: ${ANTHROPIC_MODEL}" || echo "  [ERROR] ANTHROPIC_MODEL: not set"
+    [ -n "$ANTHROPIC_CUSTOM_HEADERS" ] && echo "  [OK] ANTHROPIC_CUSTOM_HEADERS: ${ANTHROPIC_CUSTOM_HEADERS}" || echo "  [ERROR] ANTHROPIC_CUSTOM_HEADERS: not set"
     echo ""
 
     # Check MLflow
     if command -v mlflow >/dev/null 2>&1; then
-        echo "✓ MLflow: $(mlflow --version 2>&1)"
+        echo "[OK] MLflow: $(mlflow --version 2>&1)"
     else
-        echo "✗ MLflow: not found"
+        echo "[ERROR] MLflow: not found"
     fi
     echo ""
 
@@ -403,10 +404,10 @@ check-claude() {
     echo "Testing Claude CLI authentication:"
     if command -v claude >/dev/null 2>&1; then
         if [ -n "$ANTHROPIC_API_KEY" ] || [ -n "$ANTHROPIC_AUTH_TOKEN" ]; then
-            echo "  ✓ Authentication configured via environment variables"
+            echo "  [OK] Authentication configured via environment variables"
             echo "  Test with: echo 'what is 1+1?' | claude --print"
         else
-            echo "  ⚠ ANTHROPIC_API_KEY/ANTHROPIC_AUTH_TOKEN not set"
+            echo "  [WARN] ANTHROPIC_API_KEY/ANTHROPIC_AUTH_TOKEN not set"
             echo "  Run: source ~/.bashrc"
         fi
     fi
@@ -417,10 +418,10 @@ check-claude() {
     local venv_path
     venv_path=$(claude-vscode-env 2>/dev/null)
     if [ $? -eq 0 ] && [ -n "$venv_path" ]; then
-        echo "  ✓ Python virtual environment: $venv_path"
+        echo "  [OK] Python virtual environment: $venv_path"
         echo "  Run 'claude-vscode-setup' for setup instructions"
     else
-        echo "  ℹ Run 'claude-vscode-setup' for Remote SSH setup guide"
+        echo "  [INFO] Run 'claude-vscode-setup' for Remote SSH setup guide"
     fi
     echo ""
 
@@ -452,7 +453,7 @@ claude-vscode-env() {
         if [ -n "$python_envs" ]; then
             echo "$python_envs"
         else
-            echo "⚠ DATABRICKS_VIRTUAL_ENV not set and pythonEnv-* not found"
+            echo "[WARN] DATABRICKS_VIRTUAL_ENV not set and pythonEnv-* not found"
             echo "  Try: echo \$DATABRICKS_VIRTUAL_ENV"
             return 1
         fi
@@ -468,7 +469,7 @@ claude-vscode-setup() {
     echo ""
     echo "2. Configure Default Extensions"
     echo "   Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P):"
-    echo "   → Remote-SSH: Settings"
+    echo "   -> Remote-SSH: Settings"
     echo ""
     echo "   Or edit settings.json and add:"
     echo ""
@@ -480,7 +481,7 @@ claude-vscode-setup() {
 VSCODE_SETTINGS
     echo ""
     echo "3. Connect to Cluster"
-    echo "   - Command Palette → Remote-SSH: Connect to Host"
+    echo "   - Command Palette -> Remote-SSH: Connect to Host"
     echo "   - Enter your cluster SSH connection details"
     echo ""
     echo "4. Select Python Interpreter"
@@ -495,17 +496,17 @@ VSCODE_SETTINGS
         echo "   $venv_path"
         echo ""
         echo "   Then in VS Code/Cursor:"
-        echo "   - Command Palette → Python: Select Interpreter"
+        echo "   - Command Palette -> Python: Select Interpreter"
         echo "   - Paste the path above or browse to it"
     else
         echo "   Run 'echo \$DATABRICKS_VIRTUAL_ENV' to find the path"
     fi
     echo ""
     echo "5. Important Notes"
-    echo "   • IPYNB notebooks and *.py Databricks notebooks have access to"
+    echo "   * IPYNB notebooks and *.py Databricks notebooks have access to"
     echo "     Databricks globals (dbutils, spark, etc.)"
-    echo "   • Regular Python *.py files do NOT have access to Databricks globals"
-    echo "   • Always select the pythonEnv-xxx interpreter for full Databricks"
+    echo "   * Regular Python *.py files do NOT have access to Databricks globals"
+    echo "   * Always select the pythonEnv-xxx interpreter for full Databricks"
     echo "     Runtime library access"
     echo ""
     echo "6. Verify Setup"
@@ -520,31 +521,31 @@ claude-vscode-check() {
     local venv_path
     venv_path=$(claude-vscode-env 2>/dev/null)
     if [ $? -eq 0 ] && [ -n "$venv_path" ]; then
-        echo "✓ Python Virtual Environment:"
+        echo "[OK] Python Virtual Environment:"
         echo "  $venv_path"
         if [ -d "$venv_path/bin" ]; then
-            echo "  ✓ Virtual environment directory exists"
+            echo "  [OK] Virtual environment directory exists"
             if [ -f "$venv_path/bin/python" ]; then
-                echo "  ✓ Python executable found"
+                echo "  [OK] Python executable found"
                 echo "  Python version: $($venv_path/bin/python --version 2>&1 || echo 'unknown')"
             else
-                echo "  ⚠ Python executable not found"
+                echo "  [WARN] Python executable not found"
             fi
         else
-            echo "  ⚠ Virtual environment directory not found"
+            echo "  [WARN] Virtual environment directory not found"
         fi
     else
-        echo "✗ Python Virtual Environment: Not found"
+        echo "[ERROR] Python Virtual Environment: Not found"
         echo "  Run: echo \$DATABRICKS_VIRTUAL_ENV"
     fi
     echo ""
     
     # Check for Python
     if command -v python3 >/dev/null 2>&1; then
-        echo "✓ Python3 available: $(which python3)"
+        echo "[OK] Python3 available: $(which python3)"
         echo "  Version: $(python3 --version 2>&1)"
     else
-        echo "✗ Python3 not found in PATH"
+        echo "[ERROR] Python3 not found in PATH"
     fi
     echo ""
     
@@ -564,16 +565,16 @@ for lib in libraries:
         missing.append(lib)
 
 if found:
-    print(f"  ✓ Available: {', '.join(found)}")
+    print(f"  [OK] Available: {', '.join(found)}")
 if missing:
-    print(f"  ⚠ Missing: {', '.join(missing)}")
+    print(f"  [WARN] Missing: {', '.join(missing)}")
 
 # Check for Databricks globals (only available in notebooks)
 try:
     import dbutils
-    print("  ✓ dbutils available (notebook context)")
+    print("  [OK] dbutils available (notebook context)")
 except:
-    print("  ℹ dbutils not available (normal for .py files)")
+    print("  [INFO] dbutils not available (normal for .py files)")
 PYTHON_CHECK
     
     echo ""
@@ -607,7 +608,7 @@ claude-vscode-config() {
         echo "  $venv_path/bin/python"
         echo ""
         echo "To set this in VS Code/Cursor:"
-        echo "  1. Command Palette → Python: Select Interpreter"
+        echo "  1. Command Palette -> Python: Select Interpreter"
         echo "  2. Enter interpreter path: $venv_path/bin/python"
     else
         echo "To find Python interpreter path, run:"
@@ -618,8 +619,69 @@ claude-vscode-config() {
 EOF
 
     sed -i "s|WS_PH|$W|g; s|EXP_PH|$E|g" "$HOME/.bashrc"
-    log "✓ Bashrc helpers added"
+    log "[OK] Bashrc helpers added"
     log "  Experiment: $E"
+}
+
+# Install Databricks skills for Claude Code
+install_databricks_skills() {
+    local skills_dir="$HOME/.claude/skills"
+    local repo_url="https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/databricks-skills"
+    
+    # Core skills to install (curated list for most common use cases)
+    local core_skills=(
+        "databricks-config"
+        "databricks-python-sdk"
+        "databricks-unity-catalog"
+        "databricks-jobs"
+        "asset-bundles"
+        "databricks-app-python"
+        "model-serving"
+        "mlflow-evaluation"
+        "aibi-dashboards"
+        "spark-declarative-pipelines"
+    )
+    
+    log "Installing Databricks skills for Claude Code..."
+    
+    # Create skills directory
+    mkdir -p "$skills_dir"
+    
+    local installed=0
+    local failed=0
+    
+    for skill in "${core_skills[@]}"; do
+        local skill_dir="$skills_dir/$skill"
+        
+        # Skip if already exists
+        if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then
+            log "  [INFO] Skill '$skill' already installed"
+            installed=$((installed + 1))
+            continue
+        fi
+        
+        # Create skill directory
+        mkdir -p "$skill_dir"
+        
+        # Download SKILL.md (required)
+        if curl -sSL -f "${repo_url}/${skill}/SKILL.md" -o "$skill_dir/SKILL.md" 2>>$L; then
+            log "  [OK] Installed skill: $skill"
+            installed=$((installed + 1))
+        else
+            log "  [WARN] Failed to download skill: $skill"
+            rm -rf "$skill_dir"
+            failed=$((failed + 1))
+        fi
+    done
+    
+    if [ $installed -gt 0 ]; then
+        log "[OK] Databricks skills installed: $installed skills"
+        [ $failed -gt 0 ] && log "[WARN] Failed to install: $failed skills"
+        return 0
+    else
+        log "[WARN] No Databricks skills installed"
+        return 1
+    fi
 }
 
 # Main installation
@@ -630,41 +692,54 @@ main() {
     log "Installing system dependencies..."
     if sudo apt-get update -qq -y &>>$L; then
         if sudo apt-get install -y -qq curl git jq &>>$L; then
-            log "✓ System dependencies installed (curl, git, jq)"
+            log "[OK] System dependencies installed (curl, git, jq)"
         else
-            log "⚠ Some system dependencies failed to install"
+            log "[WARN] Some system dependencies failed to install"
         fi
     else
-        log "⚠ apt-get update failed"
+        log "[WARN] apt-get update failed"
     fi
 
     # Install MLflow with Databricks support
     log "Installing MLflow with Databricks support..."
     if pip install --quiet --upgrade "mlflow[databricks]>=3.4" &>>$L; then
-        log "✓ MLflow installed successfully"
+        log "[OK] MLflow installed successfully"
     else
-        log "⚠ MLflow installation failed (tracing features will not work)"
+        log "[WARN] MLflow installation failed (tracing features will not work)"
     fi
 
     # Install tools (continue even if some fail)
-    install_nodejs || log "⚠ Node.js installation skipped or failed"
-    install_claude || log "⚠ Claude Code installation skipped or failed"
+    install_nodejs || log "[WARN] Node.js installation skipped or failed"
+    install_claude || log "[WARN] Claude Code installation skipped or failed"
+
+    # Install Databricks skills for Claude Code
+    install_databricks_skills || log "[WARN] Databricks skills installation incomplete"
 
     # Configure tools
     if setup_bashrc; then
-        log "✓ Bashrc configuration completed"
+        log "[OK] Bashrc configuration completed"
     else
-        log "⚠ Bashrc configuration failed"
+        log "[WARN] Bashrc configuration failed"
     fi
 
     log ""
     log "=== Installation Summary ==="
     log "Installation complete. Full log: $L"
     log ""
+    log "Installed components:"
+    log "  - Claude Code CLI"
+    log "  - Node.js runtime"
+    log "  - MLflow with Databricks support"
+    log "  - Databricks skills (patterns and best practices)"
+    log ""
     log "Next steps (on cluster login):"
     log "  1. Run: source ~/.bashrc"
     log "  2. Verify: check-claude"
     log "  3. Use: claude command"
+    log ""
+    log "Databricks skills installed in: ~/.claude/skills/"
+    log "Skills available: databricks-config, python-sdk, unity-catalog,"
+    log "  jobs, asset-bundles, apps, model-serving, mlflow, dashboards, pipelines"
     log ""
     log "Helper commands:"
     log "  - check-claude: Verify installation status"
