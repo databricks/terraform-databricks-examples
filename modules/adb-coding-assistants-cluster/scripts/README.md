@@ -190,22 +190,29 @@ claude < prompt.txt
 claude --stream < task.md
 ```
 
-## Internet Dependencies (Online Mode)
+## Internet dependencies (online mode)
 
 The online installer requires access to:
 
 | Domain | Purpose |
 |--------|---------|
-| `claude.ai` | Claude CLI installer |
+| `claude.ai` | Claude CLI installer script |
+| `api.anthropic.com` | Claude CLI binary download |
 | `deb.nodesource.com` | Node.js repository |
-| `*.ubuntu.com` | System packages |
-| `pypi.org` / `files.pythonhosted.org` | Python packages |
+| `archive.ubuntu.com` | APT packages (x86_64) |
+| `ports.ubuntu.com` | APT packages (ARM64) |
 | `registry.npmjs.org` | NPM packages |
+| `pypi.org` | Python package index |
+| `files.pythonhosted.org` | Python package downloads |
+| `raw.githubusercontent.com` | Databricks skills |
+| `storage.googleapis.com` | Binary downloads |
 | `${DATABRICKS_HOST}` | Databricks API endpoints |
 
-## Firewall Configuration
+> **Tip**: Run `./scripts/check-network-deps.sh` to verify all dependencies are accessible before installation.
 
-If using a firewall, allow HTTPS (443) to these domains, or use the offline installation method.
+## Firewall configuration
+
+If using a firewall, allow HTTPS (443) and HTTP (80) to these domains, or use the offline installation method.
 
 ## Environment Variables
 
@@ -224,6 +231,56 @@ The installer supports:
 
 - ✅ **amd64** (x86_64) - Default
 - ✅ **arm64** (aarch64) - Auto-detected
+
+## Network dependency checker
+
+Before installation, you can verify that all required domains are accessible using the network dependency checker:
+
+```bash
+# Standard check
+./scripts/check-network-deps.sh
+
+# Detailed output with HTTP status codes
+./scripts/check-network-deps.sh --verbose
+```
+
+Example output:
+```
+=== Claude Code Network Dependency Check ===
+
+Checking required domains...
+
+[OK] claude.ai
+[OK] api.anthropic.com
+[OK] deb.nodesource.com
+[OK] archive.ubuntu.com
+[OK] ports.ubuntu.com
+[OK] registry.npmjs.org
+[OK] pypi.org
+[OK] files.pythonhosted.org
+[OK] raw.githubusercontent.com
+[OK] storage.googleapis.com
+
+----------------------------------------
+Result: 10/10 dependencies reachable
+
+SUCCESS: All dependencies are accessible
+```
+
+If any dependencies fail, the script provides troubleshooting guidance:
+```
+[OK] claude.ai
+[FAIL] deb.nodesource.com - Connection timed out
+...
+Result: 9/10 dependencies reachable
+
+FAILED: Some dependencies are not accessible
+
+Troubleshooting tips:
+  - Check firewall rules allow HTTPS (443) to the failed domains
+  - Verify proxy settings if behind a corporate proxy
+  - For air-gapped environments, use the offline installation module
+```
 
 ## Troubleshooting
 
@@ -256,11 +313,12 @@ check-claude
 claude-debug
 ```
 
-## File Structure
+## File structure
 
 ```
 scripts/
 ├── install-claude.sh              # Online installer
+├── check-network-deps.sh          # Network dependency checker
 └── README.md                       # This file
 ```
 
