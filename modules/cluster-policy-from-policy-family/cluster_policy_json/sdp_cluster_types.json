@@ -1,0 +1,8 @@
+{
+    "cluster_type": {
+        "type": "allowlist",
+        "values": [
+        "dlt"
+        ]
+    }
+}
