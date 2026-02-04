@@ -55,7 +55,7 @@ resource "databricks_permissions" "policy_usage" {
     for_each = toset(var.service_principal_assignments)
 
     content {
-      group_name = access_control.value
+      service_principal_name = access_control.value
       permission_level = "CAN_USE"
     }
   }

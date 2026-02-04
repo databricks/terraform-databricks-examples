@@ -19,7 +19,7 @@ variable "policy_version" {
 }
 
 variable "policy_key" {
-  description = "Used to lookup default JSON configuration.  Similar to policy_family_id, but allows for additional configurations not supported by policy familes, such as Spark Declarative Pipelines (sdp)"
+  description = "Used to lookup default JSON configuration.  Similar to policy_family_id, but allows for additional configurations not supported by policy families, such as Spark Declarative Pipelines (sdp)"
   type = string
 
   validation {
@@ -50,7 +50,7 @@ variable "group_assignments" {
 }
 
 variable "service_principal_assignments" {
-  description = "Service Principles to assign to cluster policy"
+  description = "Service Principals to assign to cluster policy"
   type = list(string)
   default = []
 }
