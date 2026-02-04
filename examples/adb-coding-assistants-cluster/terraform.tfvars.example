@@ -1,0 +1,88 @@
+# Example terraform.tfvars file for Claude Code CLI Cluster
+# Copy this to terraform.tfvars and customize for your environment
+
+#=============================================================================
+# AUTHENTICATION - Choose ONE approach
+#=============================================================================
+
+# OPTION 1: Profile-based (Recommended - Simple and cloud-agnostic)
+# Uses your ~/.databrickscfg profile
+databricks_profile = "my-profile"  # Replace with your profile name from ~/.databrickscfg
+
+# OPTION 2: Azure Resource ID (Azure-specific)
+# Comment out databricks_profile above and uncomment below to use Azure resource ID
+# databricks_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-rg/providers/Microsoft.Databricks/workspaces/my-workspace"
+
+#=============================================================================
+# REQUIRED VARIABLES
+#=============================================================================
+
+cluster_name = "claude-coding-assistant"
+catalog_name = "main"
+
+#=============================================================================
+# OPTIONAL VARIABLES
+#=============================================================================
+
+# Unity Catalog configuration
+schema_name = "default"
+volume_name = "coding_assistants"
+
+# Cluster configuration
+spark_version           = "17.3.x-cpu-ml-scala2.13"
+node_type_id            = "Standard_D8pds_v6"  # Azure: Standard_D8pds_v6 (8 vCPU, 32 GB RAM, Premium SSD + local NVMe). Fallback: Standard_DS13_v2 if unavailable in region
+autotermination_minutes = 30
+
+# Cluster mode options:
+# - "SINGLE_NODE": Cost-effective for individual development (recommended)
+# - "STANDARD": Multi-node for team environments
+cluster_mode = "SINGLE_NODE"
+
+# Worker configuration (ignored if cluster_mode = "SINGLE_NODE")
+num_workers = 0 # Set to null to enable autoscaling, or a specific number
+
+# Autoscaling configuration (only used if num_workers = null)
+min_workers = 1
+max_workers = 3
+
+# MLflow experiment for Claude Code tracing
+mlflow_experiment_name = "/Workspace/Shared/claude-code-tracing"
+
+# Optional: Custom init script path (defaults to bundled script)
+# init_script_source_path = "./custom-install-claude.sh"
+
+# Custom tags
+tags = {
+  Environment = "development"
+  Purpose     = "ai-coding"
+  Owner       = "data-engineering"
+  CostCenter  = "engineering"
+}
+
+#=============================================================================
+# CLOUD-SPECIFIC NODE TYPES REFERENCE
+#=============================================================================
+
+# Azure VM Types (Premium SSD):
+# Modern Dpdsv6-series (Cobalt 100 processor, Premium SSD + local NVMe):
+#   - Standard_D4pds_v6 (4 cores, 16 GB RAM) - Cost-effective
+#   - Standard_D8pds_v6 (8 cores, 32 GB RAM) - Recommended default (modern)
+#   - Standard_D16pds_v6 (16 cores, 64 GB RAM) - For larger workloads
+#   Note: Dpdsv6-series may have limited regional availability
+#
+# DS-series (Premium SSD, widely available):
+#   - Standard_DS3_v2 (4 cores, 14 GB RAM) - Cost-effective for development
+#   - Standard_DS4_v2 (8 cores, 28 GB RAM) - Good for medium workloads
+#   - Standard_DS13_v2 (8 cores, 56 GB RAM) - Good fallback if Dpdsv6 unavailable
+#   - Standard_DS5_v2 (16 cores, 56 GB RAM) - More CPU, same RAM as DS13_v2
+#   - Standard_DS14_v2 (16 cores, 112 GB RAM) - For large-scale workloads
+#
+# AWS:
+#   - i3.xlarge (4 cores, 30.5 GB RAM) - Recommended for single-node
+#   - i3.2xlarge (8 cores, 61 GB RAM) - For larger workloads
+#   - r5.xlarge (4 cores, 32 GB RAM) - Memory-optimized
+#
+# GCP:
+#   - n1-highmem-4 (4 cores, 26 GB RAM) - Recommended for single-node
+#   - n1-highmem-8 (8 cores, 52 GB RAM) - For larger workloads
+#   - n2-standard-4 (4 cores, 16 GB RAM) - Cost-optimized
