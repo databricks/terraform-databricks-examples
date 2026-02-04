@@ -1,9 +1,7 @@
 module "cluster-policies" {
   for_each = var.cluster-policies
   source = "../../modules/cluster-policy-from-policy-family"
-  providers = {
-    databricks = databricks.workspace
-  }
+
   team = each.value.team
   environment = each.value.environment
   policy_version = each.value.policy_version

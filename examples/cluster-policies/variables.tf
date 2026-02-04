@@ -1,8 +1,10 @@
 variable "workspace_host" {
+  description = "URL of the workspace to execute this module against"
   type = string
 }
 
 variable "cluster-policies" {
+  description = "Convenience variable that bundles all required variables for cluster-policy-from-policy-family module.  Each object in the map represents one policy to create."  
   type = map(object({
     team = string
     environment = string

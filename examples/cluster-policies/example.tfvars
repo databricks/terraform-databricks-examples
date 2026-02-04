@@ -4,8 +4,8 @@ cluster-policies = {
     team = "teamA"
     environment = "dev"
     policy_version = "1.0.0"
-    policy_key = "personal-vm"
-    policy_family_id = "personal-vm"
+    policy_key = "sdp-cluster"
+    policy_family_id = "job-cluster"
     group_assignments = ["groupA"]
     service_principal_assignments = []
   },
