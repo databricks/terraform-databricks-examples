@@ -24,31 +24,83 @@ This module can be used to deploy the following:
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│ Unity Catalog Volume                                 │
-│ /Volumes/<catalog>/<schema>/<volume>/               │
-│   └── install-claude.sh                             │
-└─────────────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────┐
-│ Databricks Cluster (on startup)                     │
-│                                                       │
-│ 1. Executes init script from volume                 │
-│ 2. Installs Node.js, OpenCode, Claude CLI          │
-│ 3. Configures bashrc with helper functions         │
-│ 4. Auto-generates configs on user login            │
-└─────────────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────┐
-│ User Login                                           │
-│                                                       │
-│ • DATABRICKS_TOKEN available from environment       │
-│ • Configs auto-generate:                            │
-│   - ~/.claude/settings.json                         │
-│   - ~/.opencode/config.json                         │
-│ • Commands ready: claude, opencode                  │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              LOCAL MACHINE                                       │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐               │
+│  │  Local Terminal  │  │  Databricks CLI  │  │ VS Code / Cursor │               │
+│  │                  │  │  (SSH Setup)     │  │ (Remote SSH Ext) │               │
+│  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘               │
+└───────────┼─────────────────────┼─────────────────────┼─────────────────────────┘
+            │                     │                     │
+            │    ┌────────────────┴─────────────────────┘
+            │    │  3. databricks ssh setup
+            ▼    ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           CONNECTION LAYER                                       │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │  SSH Tunnel  ─────────────────────────────────────────────────────────────│  │
+│  │  Port Forwarding (8501 for Streamlit, etc.)                               │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────┬───────────────────────────────────────┘
+                                          │ 4. VS Code connects
+                                          ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           DATABRICKS WORKSPACE                                   │
+│                                                                                  │
+│  ┌─────────────────────────────┐      ┌─────────────────────────────────────┐   │
+│  │      UNITY CATALOG          │      │      SINGLE-NODE DEV CLUSTER        │   │
+│  │  ┌───────────────────────┐  │      │                                     │   │
+│  │  │ Catalog               │  │      │  ┌───────────────────────────────┐  │   │
+│  │  │   └── Schema          │  │      │  │  Init Script Execution        │  │   │
+│  │  │        └── Volume     │──┼──────│──│  (on cluster startup)         │  │   │
+│  │  │            └── init   │  │ 2.   │  └───────────────┬───────────────┘  │   │
+│  │  │               script  │  │      │                  │ installs         │   │
+│  │  └───────────────────────┘  │      │                  ▼                  │   │
+│  │         ▲                   │      │  ┌───────────────────────────────┐  │   │
+│  │         │ 1. Deploy via    │      │  │        DRIVER NODE             │  │   │
+│  │         │    Terraform     │      │  │  ┌────────────┬────────────┐   │  │   │
+│  └─────────┼───────────────────┘      │  │  │Claude Code │  Node.js   │   │  │   │
+│            │                          │  │  │   CLI      │  Runtime   │   │  │   │
+│            │                          │  │  ├────────────┼────────────┤   │  │   │
+│            │                          │  │  │ Databricks │   Bash     │   │  │   │
+│            │                          │  │  │   Python   │  Helpers   │   │  │   │
+│            │                          │  │  ├────────────┴────────────┤   │  │   │
+│            │                          │  │  │   tmux (persistent)     │   │  │   │
+│            │                          │  │  └─────────────────────────┘   │  │   │
+│            │                          │  └───────────────────────────────┘  │   │
+│            │                          │                                     │   │
+│            │                          │  ┌───────────────────────────────┐  │   │
+│            │                          │  │  Workspace Storage            │  │   │
+│            │                          │  │  /Workspace/Users/<email>/    │  │   │
+│            │                          │  └───────────────┬───────────────┘  │   │
+│            │                          │                  │ 5. git commit    │   │
+│            │                          └──────────────────┼──────────────────┘   │
+└────────────┼─────────────────────────────────────────────┼──────────────────────┘
+             │                                             │
+             │                    ┌────────────────────────┘
+             │                    │
+             ▼                    ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           EXTERNAL SERVICES                                      │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐               │
+│  │   Claude AI API  │  │      MLflow      │  │   GitHub / Git   │               │
+│  │   (Anthropic)    │  │ (Session Tracing)│  │ (Version Control)│               │
+│  └──────────────────┘  └──────────────────┘  └──────────────────┘               │
+│         ▲                      ▲                      ▲                          │
+│         │ 6. API calls         │ 7. Trace sessions    │                          │
+│         └──────────────────────┴──────────────────────┘                          │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Workflow
+
+1. **Terraform deploys** the Unity Catalog volume and cluster configuration
+2. **Init script runs** on cluster startup, installing Claude Code CLI and tools
+3. **User configures SSH** via `databricks ssh setup` command
+4. **VS Code connects** via Remote SSH extension to the cluster
+5. **Code is stored** in `/Workspace/Users/<email>/` and committed to Git
+6. **Claude Code CLI** calls the Claude AI API for coding assistance
+7. **Sessions traced** to MLflow for observability
 
 ## Prerequisites
 
@@ -349,7 +401,7 @@ Check cluster logs:
 source ~/.bashrc
 
 # Check PATH
-echo $PATH | grep -E "(claude|opencode)"
+echo $PATH | grep -E "(claude)"
 
 # Verify installation
 check-coding-assistants
@@ -366,7 +418,7 @@ echo $DATABRICKS_TOKEN
 
 # Regenerate configs
 claude-refresh-token
-opencode-refresh-config
+claude-refresh-token
 ```
 
 ### Script Size Limit
@@ -395,7 +447,7 @@ GRANT READ VOLUME ON VOLUME <catalog>.<schema>.<volume> TO <principal>;
 - Tokens are **never hardcoded** in configs
 - Read from environment: `$DATABRICKS_TOKEN`
 - Configs regenerate per session
-- Settings files are user-readable only (`~/.claude/`, `~/.opencode/`)
+- Settings files are user-readable only (`~/.claude/`)
 
 ## Maintenance
 
@@ -458,4 +510,4 @@ For issues related to:
 - **Module**: Open an issue in this repository
 - **Init Script**: See the init script documentation
 - **Databricks Platform**: Contact Databricks support
-- **Claude/OpenCode**: Contact Anthropic or OpenCode support respectively
+- **Claude**: Contact Anthropic support

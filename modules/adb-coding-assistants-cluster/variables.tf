@@ -33,7 +33,7 @@ variable "spark_version" {
 }
 
 variable "node_type_id" {
-  description = "Node type for the cluster. Default is Standard_D8pds_v6 (modern, premium SSD + local NVMe). If unavailable in your region, consider Standard_DS13_v2 as fallback."
+  description = "Node type for the cluster. Default is Standard_D4ds_v5 (modern, premium SSD). If unavailable in your region, consider Standard_DS13_v2 as fallback."
   type        = string
   default     = "Standard_D4ds_v5"
 }

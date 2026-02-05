@@ -68,7 +68,7 @@ setup_bashrc() {
         fi
     fi
 
-    W="${DATABRICKS_HOST}"
+    W="${DATABRICKS_HOST:-}"
     E="${MLFLOW_EXPERIMENT_NAME:-/Workspace/Shared/claude-code-tracing}"
 
     log "Adding helpers to bashrc..."
@@ -206,8 +206,6 @@ claude-refresh-token() {
 
 # Setup cron job for periodic token refresh (runs hourly)
 claude-setup-token-refresh() {
-    local cron_cmd="[ -n \"\$DATABRICKS_TOKEN\" ] && [ -n \"\$DATABRICKS_HOST\" ] && source \"\$HOME/.bashrc\" && _check_and_refresh_token >/dev/null 2>&1"
-    local cron_job="0 * * * * $cron_cmd"
     local cron_file="$HOME/.claude/token-refresh-cron"
 
     # Create cron wrapper script
@@ -586,8 +584,10 @@ PYTHON_CHECK
 claude-vscode-config() {
     # Generate VS Code settings.json snippet
     local venv_path
+    local venv_rc
     venv_path=$(claude-vscode-env 2>/dev/null)
-    
+    venv_rc=$?
+
     echo "=== VS Code/Cursor settings.json Configuration ==="
     echo ""
     echo "Add this to your VS Code/Cursor settings.json:"
@@ -597,13 +597,13 @@ claude-vscode-config() {
     echo "    \"ms-Python.python\","
     echo "    \"ms-toolsai.jupyter\""
     echo "  ]"
-    if [ $? -eq 0 ] && [ -n "$venv_path" ]; then
+    if [ $venv_rc -eq 0 ] && [ -n "$venv_path" ]; then
         echo ","
         echo "  \"python.defaultInterpreterPath\": \"$venv_path/bin/python\""
     fi
     echo "}"
     echo ""
-    if [ $? -eq 0 ] && [ -n "$venv_path" ]; then
+    if [ $venv_rc -eq 0 ] && [ -n "$venv_path" ]; then
         echo "Python interpreter path:"
         echo "  $venv_path/bin/python"
         echo ""
@@ -702,7 +702,7 @@ main() {
 
     # Install MLflow with Databricks support
     log "Installing MLflow with Databricks support..."
-    if pip install --quiet --upgrade "mlflow[databricks]>=3.4" &>>$L; then
+    if python3 -m pip install --quiet --upgrade "mlflow[databricks]>=3.4" &>>$L; then
         log "[OK] MLflow installed successfully"
     else
         log "[WARN] MLflow installation failed (tracing features will not work)"

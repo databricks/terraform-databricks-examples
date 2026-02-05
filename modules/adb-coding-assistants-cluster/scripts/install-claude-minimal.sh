@@ -28,6 +28,8 @@ else
 fi
 
 # Install Claude Code CLI
+# Note: Uses official Anthropic installer. For supply-chain verification,
+# consider npm install @anthropic-ai/claude-code instead.
 if ! command -v claude >/dev/null 2>&1; then
     log "Installing Claude Code CLI..."
     curl -fsSL https://claude.ai/install.sh | bash >> "$LOG_FILE" 2>&1

@@ -6,7 +6,10 @@ This directory contains installation scripts for Claude Code CLI on Databricks c
 
 | Script | Purpose | Network Required |
 |--------|---------|------------------|
-| `install-claude.sh` | Online installation (default) | ✅ Yes |
+| `install-claude.sh` | Full online installation with MLflow tracing | Yes |
+| `install-claude-minimal.sh` | Minimal installation (Claude CLI only) | Yes |
+| `vscode-setup.sh` | VS Code/Cursor Remote SSH helper | No |
+| `check-network-deps.sh` | Network connectivity preflight check | Yes |
 
 > **Note**: For offline/air-gapped installations, use the separate [`adb-coding-assistants-cluster-offline`](../adb-coding-assistants-cluster-offline/README.md) module.
 
@@ -40,7 +43,7 @@ The script installs:
 - ✅ **Node.js 20.x** - Required runtime for Claude CLI
 - ✅ **Claude Code CLI** - AI coding assistant
 - ✅ **MLflow** - For tracing Claude interactions
-- ✅ **System tools** - curl, wget, git, jq
+- ✅ **System tools** - curl, git, jq
 - ✅ **Bash helpers** - Convenience functions for using Claude
 
 ## Helper Commands
@@ -315,9 +318,11 @@ claude-debug
 
 ```
 scripts/
-├── install-claude.sh              # Online installer
+├── install-claude.sh              # Full online installer with MLflow
+├── install-claude-minimal.sh      # Minimal installer (Claude CLI only)
+├── vscode-setup.sh                # VS Code/Cursor Remote SSH helper
 ├── check-network-deps.sh          # Network dependency checker
-└── README.md                       # This file
+└── README.md                      # This file
 ```
 
 > **Offline Installation**: See the [`adb-coding-assistants-cluster-offline`](../adb-coding-assistants-cluster-offline/README.md) module for offline/air-gapped installation support.
