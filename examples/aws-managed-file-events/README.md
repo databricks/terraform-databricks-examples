@@ -114,7 +114,7 @@ def my_table():
 | Name | Version |
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0 |
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.24.1 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >= 1.65.0 |
 
 ## Providers
 
