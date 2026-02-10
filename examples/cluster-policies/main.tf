@@ -1,5 +1,5 @@
 module "cluster-policies" {
-  for_each = var.cluster-policies
+  for_each = var.cluster_policies
   source = "../../modules/cluster-policy-from-policy-family"
 
   team = each.value.team

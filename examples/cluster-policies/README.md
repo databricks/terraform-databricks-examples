@@ -9,7 +9,9 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_databricks"></a> [databricks](#provider_databricks) | n/a |
 
 ## Modules
 

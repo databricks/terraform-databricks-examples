@@ -5,7 +5,7 @@ This module creates specific Databricks Cluster Policy using a Policy Family.  [
 ### Policy JSON
 Each policy that is created from a policy family contains default JSON configurations prescribed by Databricks to match that persona.  In addition, this module provides two additional ways to override or augment those defaults.
 
-The first override provided is an override that applies to all policies created by this module.  Effectively, this enables this module to ensure certains standards are met across all policies in a customer environment.  Those configurations are contained within the `cluster_policy_json` folder and they are selected for use by a combination of the `policy_key` and `environment` variables.  For example, `job-cluster` and `dev` will match to the following default configuration.  This policy will use the JSON configurations for `dev_runtimes`, `job_cluster_types`, etc.  These configurations supercede the Databricks defaults for the policy family.
+The first override provided is an override that applies to all policies created by this module.  Effectively, this enables this module to ensure certain standards are met across all policies in a customer environment.  Those configurations are contained within the `cluster_policy_json` folder and they are selected for use by a combination of the `policy_key` and `environment` variables.  For example, `job-cluster` and `dev` will match to the following default configuration.  This policy will use the JSON configurations for `dev_runtimes`, `job_cluster_types`, etc.  These configurations supercede the Databricks defaults for the policy family.
 
 ```
 "job-cluster-dev" = merge(local.job_cluster_types, local.required_tags, local.dev_runtimes)
@@ -46,12 +46,12 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | development environment policy belongs to | `string` | n/a | yes |
-| <a name="input_policy_family_id"></a> [policy\_family\_id](#input\_policy\_family\_id) | Id of policy family | `any` | n/a | yes |
+| <a name="input_policy_family_id"></a> [policy\_family\_id](#input\_policy\_family\_id) | Id of policy family | `string` | n/a | yes |
 | <a name="input_policy_key"></a> [policy\_key](#input\_policy\_key) | Used to lookup default JSON configuration | `string` | n/a | yes |
 | <a name="input_policy_version"></a> [policy\_version](#input\_policy\_version) | Cluster policy version (e.g. 0.0.1) | `string` | n/a | yes |
 | <a name="input_team"></a> [team](#input\_team) | line of business that owns the workloads | `string` | n/a | yes |
 | <a name="input_group_assignments"></a> [group\_assignments](#input\_group\_assignments) | Groups to assign to use cluster policy | `list(string)` | `[]` | no |
-| <a name="input_policy_overrides"></a> [policy\_overrides](#input\_policy\_overrides) | Cluster policy overrides | `map` | `{}` | no |
+| <a name="input_policy_overrides"></a> [policy\_overrides](#input\_policy\_overrides) | Cluster policy overrides | `string` | `{}` | no |
 | <a name="input_service_principal_assignments"></a> [service\_principal\_assignments](#input\_service\_principal\_assignments) | Service Principals to assign to cluster policy | `list(string)` | `[]` | no |
 
 ## Outputs
