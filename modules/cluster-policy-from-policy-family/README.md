@@ -47,12 +47,13 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | development environment policy belongs to | `string` | n/a | yes |
 | <a name="input_policy_family_id"></a> [policy\_family\_id](#input\_policy\_family\_id) | Id of policy family | `string` | n/a | yes |
-| <a name="input_policy_key"></a> [policy\_key](#input\_policy\_key) | Used to lookup default JSON configuration | `string` | n/a | yes |
+| <a name="input_policy_key"></a> [policy\_key](#input\_policy\_key) | Used to lookup default JSON configuration.  Similar to policy\_family\_id, but allows for additional configurations not supported by policy families, such as Spark Declarative Pipelines (sdp) | `string` | n/a | yes |
 | <a name="input_policy_version"></a> [policy\_version](#input\_policy\_version) | Cluster policy version (e.g. 0.0.1) | `string` | n/a | yes |
 | <a name="input_team"></a> [team](#input\_team) | line of business that owns the workloads | `string` | n/a | yes |
 | <a name="input_group_assignments"></a> [group\_assignments](#input\_group\_assignments) | Groups to assign to use cluster policy | `list(string)` | `[]` | no |
-| <a name="input_policy_overrides"></a> [policy\_overrides](#input\_policy\_overrides) | Cluster policy overrides | `string` | `{}` | no |
+| <a name="input_policy_overrides"></a> [policy\_overrides](#input\_policy\_overrides) | Cluster policy overrides | `string` | `"{}"` | no |
 | <a name="input_service_principal_assignments"></a> [service\_principal\_assignments](#input\_service\_principal\_assignments) | Service Principals to assign to cluster policy | `list(string)` | `[]` | no |
+| <a name="input_user_assignments"></a> [user\_assignments](#input\_user\_assignments) | Users to assign to use cluster policy | `list(string)` | `[]` | no |
 
 ## Outputs
 

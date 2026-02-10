@@ -8,6 +8,7 @@ cluster-policies = {
     policy_family_id = "job-cluster"
     group_assignments = ["groupA"]
     service_principal_assignments = []
+    user_assignments = ["userA"]
   },
   "teamB" = {
     team = "teamB"
@@ -17,6 +18,7 @@ cluster-policies = {
     policy_family_id = "power-user"
     group_assignments = ["groupB"]
     service_principal_assignments = []
+    user_assignments = []    
     policy_overrides = "{\"autotermination_minutes\":{\"type\":\"fixed\",\"value\":60,\"hidden\": true}}"
   }
 }

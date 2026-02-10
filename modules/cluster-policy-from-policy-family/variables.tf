@@ -55,3 +55,9 @@ variable "service_principal_assignments" {
   type = list(string)
   default = []
 }
+
+variable "user_assignments" {
+  description = "Users to assign to use cluster policy"
+  type = list(string)
+  default = []
+}

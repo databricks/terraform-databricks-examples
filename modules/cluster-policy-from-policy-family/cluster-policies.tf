@@ -59,5 +59,14 @@ resource "databricks_permissions" "policy_usage" {
       permission_level = "CAN_USE"
     }
   }
+
+  dynamic "access_control" {
+    for_each = toset(var.user_assignments)
+
+    content {
+      user_name = access_control.value
+      permission_level = "CAN_USE"
+    }
+  }  
   
 }

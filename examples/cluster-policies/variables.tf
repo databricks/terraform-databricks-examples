@@ -14,6 +14,7 @@ variable "cluster_policies" {
     policy_overrides = optional(string, "{}")
     group_assignments = list(string)
     service_principal_assignments = list(string)
+    user_assignments = list(string)
   }))
   default = {}
 }

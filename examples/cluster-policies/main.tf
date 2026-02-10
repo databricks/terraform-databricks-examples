@@ -10,4 +10,5 @@ module "cluster-policies" {
   policy_overrides = each.value.policy_overrides
   group_assignments = each.value.group_assignments
   service_principal_assignments = each.value.service_principal_assignments
+  user_assignments = each.value.user_assignments
 }
