@@ -40,7 +40,8 @@ variable "policy_family_id" {
 
 variable "policy_overrides" {
   description = "Cluster policy overrides"
-  default = {}
+  type        = string
+  default     = "{}"
 }
 
 variable "group_assignments" {
