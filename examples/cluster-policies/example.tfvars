@@ -1,5 +1,5 @@
 workspace_host = "https://WORKSPACEURL"
-cluster-policies = {
+cluster_policies = {
   "teamA" = {
     team = "teamA"
     environment = "dev"
@@ -7,8 +7,7 @@ cluster-policies = {
     policy_key = "sdp-cluster"
     policy_family_id = "job-cluster"
     group_assignments = ["groupA"]
-    service_principal_assignments = []
-    user_assignments = ["userA"]
+    user_assignments = ["userA@corporateemail.com"]
   },
   "teamB" = {
     team = "teamB"
@@ -16,9 +15,7 @@ cluster-policies = {
     policy_version = "1.0.0"
     policy_key = "power-user"
     policy_family_id = "power-user"
-    group_assignments = ["groupB"]
-    service_principal_assignments = []
-    user_assignments = []    
+    group_assignments = ["groupB"]   
     policy_overrides = "{\"autotermination_minutes\":{\"type\":\"fixed\",\"value\":60,\"hidden\": true}}"
   }
 }

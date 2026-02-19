@@ -12,9 +12,9 @@ variable "cluster_policies" {
     policy_key = string
     policy_family_id = string
     policy_overrides = optional(string, "{}")
-    group_assignments = list(string)
-    service_principal_assignments = list(string)
-    user_assignments = list(string)
+    group_assignments = optional(list(string), [])
+    service_principal_assignments = optional(list(string), [])
+    user_assignments = optional(list(string), [])
   }))
   default = {}
 }
