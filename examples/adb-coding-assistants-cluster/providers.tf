@@ -21,10 +21,10 @@ locals {
   use_profile_auth = var.databricks_profile != null
 
   # For Azure resource ID approach
-  resource_regex            = var.databricks_resource_id != null ? "(?i)subscriptions/(.+)/resourceGroups/(.+)/providers/Microsoft.Databricks/workspaces/(.+)" : ""
+  resource_regex                = var.databricks_resource_id != null ? "(?i)subscriptions/(.+)/resourceGroups/(.+)/providers/Microsoft.Databricks/workspaces/(.+)" : ""
   subscription_id_from_resource = var.databricks_resource_id != null ? regex(local.resource_regex, var.databricks_resource_id)[0] : null
-  resource_group            = var.databricks_resource_id != null ? regex(local.resource_regex, var.databricks_resource_id)[1] : null
-  databricks_workspace_name = var.databricks_resource_id != null ? regex(local.resource_regex, var.databricks_resource_id)[2] : null
+  resource_group                = var.databricks_resource_id != null ? regex(local.resource_regex, var.databricks_resource_id)[1] : null
+  databricks_workspace_name     = var.databricks_resource_id != null ? regex(local.resource_regex, var.databricks_resource_id)[2] : null
 }
 
 # Get Azure subscription ID from Azure CLI or environment variable when not provided via resource ID
@@ -60,7 +60,7 @@ provider "azurerm" {
   subscription_id = local.subscription_id
   features {}
   skip_provider_registration = local.use_profile_auth
-  
+
   # Allow provider to work without explicit subscription_id when using profile auth
   # It will attempt to auto-detect from Azure CLI or environment variables
 }

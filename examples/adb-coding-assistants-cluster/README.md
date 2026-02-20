@@ -1,8 +1,6 @@
 # Provisioning Databricks Cluster with Claude Code CLI
 
-This example uses the [adb-coding-assistants-cluster](../../modules/adb-coding-assistants-cluster) module.
-
-This template provides an example deployment of a Databricks cluster pre-configured with Claude Code CLI for AI-assisted development directly on the cluster.
+This template provides a self-contained deployment of a Databricks cluster pre-configured with Claude Code CLI for AI-assisted development directly on the cluster.
 
 ## What Gets Deployed
 
@@ -13,20 +11,16 @@ This template provides an example deployment of a Databricks cluster pre-configu
 
 ##  How to use
 
-> **Note**  
-> A detailed module README with full configuration options can be found in [modules/adb-coding-assistants-cluster](../../modules/adb-coding-assistants-cluster)
-
-1. Reference this module using one of the different [module source types](https://developer.hashicorp.com/terraform/language/modules/sources)
-2. Copy `terraform.tfvars.example` to `terraform.tfvars`
-3. Update `terraform.tfvars` with your values:
+1. Copy `terraform.tfvars.example` to `terraform.tfvars`
+2. Update `terraform.tfvars` with your values:
    - `databricks_resource_id`: Your Azure Databricks workspace resource ID
    - `cluster_name`: Name for your cluster
    - `catalog_name`: Unity Catalog name to use
-4. (Optional) Customize cluster configuration in `terraform.tfvars` (node type, autoscaling, etc.)
-5. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
-6. Run `terraform init` to initialize terraform and get provider ready
-7. Run `terraform plan` to review the resources that will be created
-8. Run `terraform apply` to create the resources
+3. (Optional) Customize cluster configuration in `terraform.tfvars` (node type, autoscaling, etc.)
+4. (Optional) Configure your [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm)
+5. Run `terraform init` to initialize terraform and get provider ready
+6. Run `terraform plan` to review the resources that will be created
+7. Run `terraform apply` to create the resources
 
 ## Prerequisites
 
@@ -303,10 +297,7 @@ claude-refresh-token
 
 ## Additional Resources
 
-- [Module Documentation](../../modules/adb-coding-assistants-cluster/README.md)
-- [Offline Module Documentation](../../modules/adb-coding-assistants-cluster-offline/README.md)
-- [Offline Installation Guide](../../modules/adb-coding-assistants-cluster-offline/scripts/OFFLINE-INSTALLATION.md)
-- [Scripts Documentation](../../modules/adb-coding-assistants-cluster/scripts/README.md)
+- [Scripts Documentation](scripts/README.md)
 - [Databricks Init Scripts Documentation](https://docs.databricks.com/clusters/init-scripts.html)
 - [Unity Catalog Volumes Documentation](https://docs.databricks.com/data-governance/unity-catalog/volumes.html)
 
@@ -327,9 +318,7 @@ claude-refresh-token
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_claude_cluster"></a> [claude\_cluster](#module\_claude\_cluster) | ../../modules/adb-coding-assistants-cluster | n/a |
+No modules.
 
 ## Resources
 
