@@ -7,6 +7,10 @@ data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
 
+# Captures the timestamp once at resource creation time and remains static thereafter,
+# preventing unnecessary plan diffs on every apply.
+resource "time_static" "created" {}
+
 locals {
   # Common tags applied to all resources
   common_tags = merge(var.tags, {
@@ -14,7 +18,7 @@ locals {
     "Module"      = "aws-infra"
     "Prefix"      = var.prefix
     "Region"      = var.region
-    "CreatedDate" = formatdate("YYYY-MM-DD", timestamp())
+    "CreatedDate" = formatdate("YYYY-MM-DD", time_static.created.rfc3339)
   })
 
   # Availability Zones
@@ -39,17 +43,15 @@ locals {
   iam_config = {
     cross_account_role_name = "${var.prefix}-cross-account-role"
     unity_catalog_role_name = "${var.prefix}-unity-catalog-role"
-
-    # Databricks trust relationship principal
-    databricks_principals = ["arn:aws:iam::${var.databricks_account_id}:root"]
-
-    # Unity Catalog specific configuration
-    unity_catalog_external_id = var.external_id
-    unity_catalog_principal   = "arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL"
   }
 
   # Enable firewall if explicitly enabled OR if hub-spoke architecture is enabled
   enable_firewall = var.security.enable_network_firewall || var.advanced_networking.hub_spoke_architecture
+
+  # When hub-spoke is enabled the spoke VPC routes egress through the hub, so a
+  # local NAT gateway is not needed. Callers can still override by setting
+  # networking.enable_nat_gateway = true explicitly.
+  enable_nat_gateway = var.advanced_networking.hub_spoke_architecture ? false : var.networking.enable_nat_gateway
 
   # Advanced networking configuration
   transit_gateway_config = var.advanced_networking.enable_transit_gateway ? {

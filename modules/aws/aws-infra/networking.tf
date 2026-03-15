@@ -10,14 +10,14 @@ module "vpc" {
 
   azs             = local.availability_zones
   private_subnets = local.private_subnet_cidrs
-  public_subnets  = var.networking.enable_nat_gateway ? local.public_subnet_cidrs : []
+  public_subnets  = local.enable_nat_gateway ? local.public_subnet_cidrs : []
 
   # DNS
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  # NAT Gateway
-  enable_nat_gateway = var.networking.enable_nat_gateway
+  # NAT Gateway — disabled automatically when hub-spoke is active (hub handles egress)
+  enable_nat_gateway = local.enable_nat_gateway
   single_nat_gateway = true
 
   # Tags

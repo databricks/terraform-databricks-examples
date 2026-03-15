@@ -27,12 +27,13 @@ resource "aws_s3_bucket" "data" {
 # S3 Bucket Server-Side Encryption Configuration - Metastore Bucket
 resource "aws_s3_bucket_server_side_encryption_configuration" "metastore" {
   count = var.create_metastore_bucket ? 1 : 0
-  
+
   bucket = aws_s3_bucket.metastore[0].id
-  
+
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.storage_encryption.type == "SSE-KMS" ? "aws:kms" : "AES256"
+      kms_master_key_id = var.storage_encryption.type == "SSE-KMS" ? var.storage_encryption.kms_key_id : null
     }
   }
 }
@@ -40,10 +41,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "metastore" {
 # S3 Bucket Server-Side Encryption Configuration - Data Bucket
 resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
   bucket = aws_s3_bucket.data.id
-  
+
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.storage_encryption.type == "SSE-KMS" ? "aws:kms" : "AES256"
+      kms_master_key_id = var.storage_encryption.type == "SSE-KMS" ? var.storage_encryption.kms_key_id : null
     }
   }
 }
@@ -71,5 +73,3 @@ resource "aws_s3_bucket_public_access_block" "data" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-
-

@@ -15,10 +15,11 @@ resource "aws_s3_bucket" "root" {
 # S3 Bucket Server-Side Encryption Configuration - Root Bucket
 resource "aws_s3_bucket_server_side_encryption_configuration" "root" {
   bucket = aws_s3_bucket.root.id
-  
+
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.storage_encryption.type == "SSE-KMS" ? "aws:kms" : "AES256"
+      kms_master_key_id = var.storage_encryption.type == "SSE-KMS" ? var.storage_encryption.kms_key_id : null
     }
   }
 }
@@ -47,5 +48,3 @@ resource "aws_s3_bucket_policy" "root" {
   
   depends_on = [aws_s3_bucket_public_access_block.root]
 }
-
-

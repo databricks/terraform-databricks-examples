@@ -12,4 +12,3 @@ locals {
   # Current region (for firewall rules)
   current_region = var.region
 }
-

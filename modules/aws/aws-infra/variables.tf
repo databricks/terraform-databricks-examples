@@ -34,6 +34,25 @@ variable "create_metastore_bucket" {
   default     = false
 }
 
+variable "storage_encryption" {
+  description = "S3 bucket encryption configuration. Use 'SSE-S3' for AWS-managed keys or 'SSE-KMS' for KMS-managed keys."
+  type = object({
+    type       = optional(string, "SSE-S3")
+    kms_key_id = optional(string, null)
+  })
+  default = {}
+
+  validation {
+    condition     = contains(["SSE-S3", "SSE-KMS"], var.storage_encryption.type)
+    error_message = "storage_encryption.type must be either 'SSE-S3' or 'SSE-KMS'."
+  }
+
+  validation {
+    condition     = var.storage_encryption.type != "SSE-KMS" || var.storage_encryption.kms_key_id != null
+    error_message = "storage_encryption.kms_key_id must be set when using SSE-KMS encryption."
+  }
+}
+
 # IAM Configuration - Split into individual variables
 
 # Instance Profiles (Optional)
@@ -43,15 +62,13 @@ variable "create_instance_profiles" {
   default     = false
 }
 
-# Cross-Account Configuration (Always created)
 variable "databricks_account_id" {
-  description = "Databricks AWS account ID for cross-account role trust relationship"
+  description = "Databricks Account ID (UUID). Found at accounts.cloud.databricks.com → top-right menu. Used to scope the cross-account IAM role trust policy to your Databricks account only."
   type        = string
-  default     = null
 }
 
 variable "external_id" {
-  description = "External ID for Unity Catalog role trust relationship"
+  description = "External ID for Unity Catalog IAM role trust relationship. When null, a basic trust policy (no ExternalId condition) is used. Set and re-apply once available."
   type        = string
   default     = null
 }
@@ -68,6 +85,17 @@ variable "roles_to_assume" {
   description = "Additional IAM role ARNs that the cross-account role should be able to assume"
   type        = list(string)
   default     = []
+}
+
+variable "cross_account_policy_type" {
+  description = "Databricks cross-account IAM policy type. Options: 'managed' (default AWS-managed policy), 'restricted' (least-privilege), 'customer-managed' (customer-managed VPC)"
+  type        = string
+  default     = "managed"
+
+  validation {
+    condition     = contains(["managed", "restricted", "customer-managed"], var.cross_account_policy_type)
+    error_message = "cross_account_policy_type must be one of: managed, restricted, customer-managed."
+  }
 }
 
 # Security Configuration  

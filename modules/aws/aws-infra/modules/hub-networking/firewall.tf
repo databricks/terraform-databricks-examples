@@ -128,23 +128,20 @@ resource "aws_networkfirewall_firewall_policy" "main" {
     dynamic "stateful_rule_group_reference" {
       for_each = length(var.allowed_fqdns) > 0 ? [1] : []
       content {
-        priority     = 1
         resource_arn = aws_networkfirewall_rule_group.allow_fqdns[0].arn
       }
     }
-    
+
     # Reference Network rule group if network rules are provided
     dynamic "stateful_rule_group_reference" {
       for_each = length(var.allowed_network_rules) > 0 ? [1] : []
       content {
-        priority     = 2
         resource_arn = aws_networkfirewall_rule_group.allow_network[0].arn
       }
     }
-    
-    # Deny all - lowest priority (always applied)
+
+    # Deny all - evaluated last under DEFAULT_ACTION_ORDER (specific allow rules win)
     stateful_rule_group_reference {
-      priority     = 100
       resource_arn = aws_networkfirewall_rule_group.deny_all.arn
     }
     
