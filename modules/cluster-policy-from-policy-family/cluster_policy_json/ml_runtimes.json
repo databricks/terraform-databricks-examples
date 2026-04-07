@@ -1,0 +1,9 @@
+{
+    "spark_version": {
+        "type": "allowlist",
+        "values": [
+        "auto:latest-lts-ml",
+        "auto:prev-lts-ml"
+        ]
+    }
+}

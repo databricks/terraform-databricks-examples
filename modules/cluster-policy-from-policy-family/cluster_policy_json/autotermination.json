@@ -1,0 +1,7 @@
+{
+    "autotermination_minutes": {
+      "type": "fixed",
+      "value": 30,
+      "hidden": true
+    }
+}
