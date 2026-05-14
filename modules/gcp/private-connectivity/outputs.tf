@@ -1,0 +1,34 @@
+output "psc_subnet_self_link" {
+  value       = google_compute_subnetwork.psc_subnet.self_link
+  description = "Self-link of the PSC subnet"
+}
+
+output "frontend_psc_fr_id" {
+  value       = var.enable_frontend ? google_compute_forwarding_rule.frontend_fr_spoke[0].name : null
+  description = "Name of the frontend PSC forwarding rule (null when enable_frontend=false)"
+}
+
+output "backend_psc_fr_id" {
+  value       = var.enable_backend ? google_compute_forwarding_rule.backend_fr[0].name : null
+  description = "Name of the backend (SCC) PSC forwarding rule (null when enable_backend=false)"
+}
+
+output "hub_frontend_psc_fr_id" {
+  value       = local.hub_present && var.enable_frontend ? google_compute_forwarding_rule.frontend_fr_hub[0].name : null
+  description = "Name of the hub-side frontend PSC forwarding rule (null when no hub or no frontend)"
+}
+
+output "frontend_psc_ip_spoke" {
+  value       = var.enable_frontend ? google_compute_address.frontend_address_spoke[0].address : null
+  description = "IP address of the spoke-side frontend PSC endpoint"
+}
+
+output "backend_psc_ip_spoke" {
+  value       = var.enable_backend ? google_compute_address.backend_address[0].address : null
+  description = "IP address of the spoke-side backend PSC endpoint"
+}
+
+output "frontend_psc_ip_hub" {
+  value       = local.hub_present && var.enable_frontend ? google_compute_address.frontend_address_hub[0].address : null
+  description = "IP address of the hub-side frontend PSC endpoint (null when no hub)"
+}

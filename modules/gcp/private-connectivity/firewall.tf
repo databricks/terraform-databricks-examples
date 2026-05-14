@@ -1,0 +1,97 @@
+# Egress firewall stack — only emitted when restrict_egress = true.
+
+# === Spoke deny-egress ==================================================
+resource "google_compute_firewall" "spoke_default_deny_egress" {
+  count = var.restrict_egress ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-default-deny-egress"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction          = "EGRESS"
+  priority           = 1100
+  destination_ranges = ["0.0.0.0/0"]
+  source_ranges      = []
+
+  deny {
+    protocol = "all"
+  }
+}
+
+# === Spoke allow Google APIs ============================================
+resource "google_compute_firewall" "spoke_allow_google_apis" {
+  count = var.restrict_egress ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-to-google-apis"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction = "EGRESS"
+  priority  = 1000
+  destination_ranges = [
+    "199.36.153.4/30",
+    "199.36.153.8/30",
+    "34.126.0.0/18"
+  ]
+
+  allow {
+    protocol = "all"
+  }
+}
+
+# === Spoke allow Databricks control plane (to PSC IPs) ==================
+resource "google_compute_firewall" "spoke_allow_ctl_plane" {
+  count = var.restrict_egress && var.enable_frontend && var.enable_backend ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-to-databricks-control-plane"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction = "EGRESS"
+  priority  = 1000
+  destination_ranges = [
+    "${google_compute_forwarding_rule.backend_fr[0].ip_address}/32",
+    "${google_compute_forwarding_rule.frontend_fr_spoke[0].ip_address}/32"
+  ]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+}
+
+# === Spoke allow managed Hive (conditional on hive_metastore_ip) ========
+resource "google_compute_firewall" "spoke_allow_hive" {
+  count = var.restrict_egress && local.hive_metastore_ip != "" ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-to-${var.google_region}-managed-hive"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction          = "EGRESS"
+  priority           = 1000
+  destination_ranges = ["${local.hive_metastore_ip}/32"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["3306"]
+  }
+}
+
+# === Hub ingress from spoke =============================================
+resource "google_compute_firewall" "hub_ingress" {
+  count = var.restrict_egress && local.hub_present ? 1 : 0
+
+  name    = "${var.prefix}-hub-${var.suffix}-ingress"
+  project = var.hub_vpc_google_project
+  network = var.hub_vpc_self_link
+
+  direction          = "INGRESS"
+  priority           = 1000
+  destination_ranges = []
+  source_ranges      = [var.spoke_vpc_cidr]
+
+  allow {
+    protocol = "all"
+  }
+}
