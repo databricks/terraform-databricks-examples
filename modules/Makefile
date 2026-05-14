@@ -1,8 +1,11 @@
 PROJECTS := $(dir $(wildcard */README.md))
 
-docs: $(PROJECTS)
+docs: $(PROJECTS) gcp-recursive
 
 $(PROJECTS):
 	$(MAKE) -C $@ docs
 
-.PHONY: $(PROJECTS)
+gcp-recursive:
+	$(MAKE) -C gcp docs
+
+.PHONY: $(PROJECTS) docs gcp-recursive
