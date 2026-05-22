@@ -6,7 +6,7 @@ provider "databricks" {
 provider "databricks" {
   alias = "workspace"
 
-  host = module.gcp_with_data_exfiltration_protection.workspace_url
+  host = module.workspace.workspace_url
 }
 
 provider "google" {

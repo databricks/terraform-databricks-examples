@@ -1,16 +1,26 @@
-module "gcp_with_data_exfiltration_protection" {
-  source = "../../modules/gcp-with-psc-exfiltration-protection"
+module "workspace" {
+  source = "../../modules/gcp/databricks-workspace"
 
-  databricks_account_id    = var.databricks_account_id
+  prefix                = var.prefix
+  databricks_account_id = var.databricks_account_id
+  google_project        = var.workspace_google_project
+  google_region         = var.google_region
+
+  vpc_source     = "create"
+  spoke_vpc_cidr = var.spoke_vpc_cidr
+  subnet_cidr    = var.subnet_cidr
+
+  private_link_frontend = true
+  private_link_backend  = true
+  private_access_only   = true
+  restricted_egress     = true
+
+  spoke_vpc_google_project = var.spoke_vpc_google_project
   hub_vpc_google_project   = var.hub_vpc_google_project
   is_spoke_vpc_shared      = var.is_spoke_vpc_shared
-  prefix                   = var.prefix
-  spoke_vpc_google_project = var.spoke_vpc_google_project
-  workspace_google_project = var.workspace_google_project
-  google_region            = var.google_region
-  hive_metastore_ip        = var.hive_metastore_ip
   hub_vpc_cidr             = var.hub_vpc_cidr
   psc_subnet_cidr          = var.psc_subnet_cidr
-  spoke_vpc_cidr           = var.spoke_vpc_cidr
-  tags                     = var.tags
+  hive_metastore_ip        = var.hive_metastore_ip
+
+  tags = var.tags
 }

@@ -8,11 +8,6 @@ output "workspace_url" {
   description = "Databricks workspace URL"
 }
 
-output "vpc_id" {
-  value       = module.workspace.vpc_id
-  description = "ID of the spoke VPC created by the module"
-}
-
 output "network_id" {
   value       = module.workspace.network_id
   description = "databricks_mws_networks ID"

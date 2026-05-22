@@ -1,25 +1,39 @@
-# Provisioning Databricks workspace on GCP with a custom VPC
-=========================
+# examples/gcp-byovpc — Customer-managed VPC
 
-In this template, we show how to deploy a workspace with a custom vpc.
+Calls `modules/gcp/databricks-workspace` with `vpc_source = "create"`. Terraform
+creates the spoke VPC + subnet + Cloud Router + NAT, then registers the network
+with the Databricks account and provisions a workspace inside it.
 
+## Prerequisites
 
-## Requirements
+- A GCP project with the Databricks platform onboarded
+- A service account with workspace-creator role (see `examples/gcp-sa-provisioning`)
+- Databricks account ID
+- CIDR ranges for the spoke VPC and subnet that don't overlap with existing networks
 
-- You need to have run gcp-sa-provisionning and have a service account to fill in the variables.
-- If you want to deploy to a new project, you will need to grant the custom role generated in that template to the service acount in the new project.
-- The sizing of the custom vpc subnets needs to be appropriate for the usage of the workspace. [This documentation covers it](https://docs.gcp.databricks.com/administration-guide/cloud-configurations/gcp/network-sizing.html)
+## Apply
 
-## Run as an SA 
+```bash
+terraform init
+terraform apply
+```
 
-You can do the same thing by provisionning a service account that will have the same permissions - and associate the key associated to it.
+## Migrating from the old example
 
+This example previously called `modules/gcp-workspace-byovpc`. Several variable
+names changed to match the new composer API:
 
-## Run the tempalte
+| Old name | New name |
+|----------|----------|
+| `subnet_ip_cidr_range` | `subnet_cidr` |
+| `pod_ip_cidr_range` | `pod_cidr` |
+| `svc_ip_cidr_range` | `svc_cidr` |
+| `subnet_name`, `router_name`, `nat_name` | (removed — composer derives from `prefix` + random suffix) |
+| `delegate_from` | (removed — handled by `examples/gcp-sa-provisioning`) |
+| _(new)_ | `spoke_vpc_cidr` (VPC primary CIDR, distinct from subnet CIDR) |
 
-- You need to fill in the variables.tf 
-- run `terraform init`
-- run `teraform apply`
+State from the old apply does **not** migrate cleanly to the new composer
+because resource addresses differ. Re-apply on clean state.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -30,13 +44,13 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 4.63.1 |
+| <a name="provider_google"></a> [google](#provider\_google) | 6.46.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gcp-byovpc"></a> [gcp-byovpc](#module\_gcp-byovpc) | github.com/databricks/terraform-databricks-examples/modules/gcp-workspace-byovpc | n/a |
+| <a name="module_workspace"></a> [workspace](#module\_workspace) | ../../modules/gcp/databricks-workspace | n/a |
 
 ## Resources
 
@@ -50,23 +64,23 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
-| <a name="input_databricks_google_service_account"></a> [databricks\_google\_service\_account](#input\_databricks\_google\_service\_account) | Email of the service account used for deployment | `string` | n/a | yes |
-| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
-| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VCP/workspace deployment | `string` | n/a | yes |
-| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | Google region for VCP/workspace deployment | `string` | n/a | yes |
-| <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | Zone in GCP region | `string` | n/a | yes |
-| <a name="input_nat_name"></a> [nat\_name](#input\_nat\_name) | Name of the NAT service in compute router | `string` | n/a | yes |
-| <a name="input_pod_ip_cidr_range"></a> [pod\_ip\_cidr\_range](#input\_pod\_ip\_cidr\_range) | IP Range for Pods subnet (secondary) | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated VPC name | `string` | n/a | yes |
-| <a name="input_router_name"></a> [router\_name](#input\_router\_name) | Name of the compute router to create | `string` | n/a | yes |
-| <a name="input_subnet_ip_cidr_range"></a> [subnet\_ip\_cidr\_range](#input\_subnet\_ip\_cidr\_range) | IP Range for Nodes subnet (primary) | `string` | n/a | yes |
-| <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Name of the subnet to create | `string` | n/a | yes |
-| <a name="input_svc_ip_cidr_range"></a> [svc\_ip\_cidr\_range](#input\_svc\_ip\_cidr\_range) | IP Range for Services subnet (secondary) | `string` | n/a | yes |
+| <a name="input_databricks_google_service_account"></a> [databricks\_google\_service\_account](#input\_databricks\_google\_service\_account) | Service account email used for Databricks provider authentication | `string` | n/a | yes |
+| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | GCP project where the workspace VPC and resources will be created | `string` | n/a | yes |
+| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region for workspace deployment | `string` | n/a | yes |
+| <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | GCP zone (used by the google provider) | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated resources | `string` | n/a | yes |
+| <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for the spoke VPC (e.g. 10.0.0.0/16) | `string` | n/a | yes |
+| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR for the GKE nodes subnet primary range (e.g. 10.0.0.0/22) | `string` | n/a | yes |
+| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Workspace name | `string` | n/a | yes |
+| <a name="input_pod_cidr"></a> [pod\_cidr](#input\_pod\_cidr) | Optional secondary range for GKE pods | `string` | `null` | no |
+| <a name="input_svc_cidr"></a> [svc\_cidr](#input\_svc\_cidr) | Optional secondary range for GKE services | `string` | `null` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_databricks_host"></a> [databricks\_host](#output\_databricks\_host) | n/a |
-| <a name="output_databricks_token"></a> [databricks\_token](#output\_databricks\_token) | n/a |
+| <a name="output_network_id"></a> [network\_id](#output\_network\_id) | databricks\_mws\_networks ID |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the spoke VPC created by the module |
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | Databricks workspace ID |
+| <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | Databricks workspace URL |
 <!-- END_TF_DOCS -->

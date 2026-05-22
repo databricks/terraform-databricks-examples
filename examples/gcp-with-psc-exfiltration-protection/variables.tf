@@ -10,64 +10,69 @@ variable "google_region" {
 
 variable "workspace_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Databricks workspace"
+  description = "Google Cloud project ID where the Databricks workspace lives"
 }
 
 variable "spoke_vpc_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Spoke VPC"
+  description = "Google Cloud project ID hosting the spoke VPC (often the same as workspace project)"
 }
 
 variable "hub_vpc_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Hub VPC"
+  description = "Google Cloud project ID hosting the hub VPC"
 }
 
 variable "is_spoke_vpc_shared" {
   type        = bool
-  description = "Whether the Spoke VPC is a Shared or a dedicated VPC"
+  description = "Whether the spoke VPC project hosts a Shared VPC and the workspace project is bound as a service project"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to use in generated resources name"
+  description = "Prefix used to name generated resources"
 }
 
 # For the value of the regional Hive Metastore IP, refer to the Databricks documentation
-# Here - https://docs.gcp.databricks.com/en/resources/ip-domain-region.html#addresses-for-default-metastore
+# https://docs.gcp.databricks.com/en/resources/ip-domain-region.html#addresses-for-default-metastore
 variable "hive_metastore_ip" {
   type        = string
-  description = "Value of regional default Hive Metastore IP"
+  description = "Regional default Hive Metastore IP (used by the spoke egress firewall to allow MySQL/3306)"
 }
 
 variable "hub_vpc_cidr" {
   type        = string
-  description = "CIDR for Hub VPC"
+  description = "CIDR for the hub subnet"
 }
 
 variable "spoke_vpc_cidr" {
   type        = string
-  description = "CIDR for Spoke VPC"
+  description = "CIDR of the spoke VPC address space (used as source_ranges for the hub ingress firewall)"
+}
+
+variable "subnet_cidr" {
+  type        = string
+  description = "CIDR for the spoke subnet (must be within spoke_vpc_cidr)"
 }
 
 variable "psc_subnet_cidr" {
   type        = string
-  description = "CIDR for Spoke VPC"
+  description = "CIDR for the dedicated PSC subnet in the spoke VPC"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "Map of tags to add to all resources"
+  description = "Map of tags applied to the composer (the composer accepts this but does not currently propagate to all submodules)"
 
   default = {}
 }
 
 variable "metastore_name" {
   type        = string
-  description = "Name to assign to regional metastore"
+  description = "Name to assign to regional Unity Catalog metastore"
 }
 
 variable "catalog_name" {
   type        = string
-  description = "Name to assign to default catalog"
+  description = "Name to assign to default Unity Catalog catalog"
 }

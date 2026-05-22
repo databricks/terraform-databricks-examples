@@ -10,12 +10,12 @@ variable "databricks_google_service_account" {
 
 variable "google_project" {
   type        = string
-  description = "GCP project where the workspace will be created"
+  description = "GCP project hosting the existing VPC and subnet (also the workspace project)"
 }
 
 variable "google_region" {
   type        = string
-  description = "GCP region for workspace deployment"
+  description = "GCP region for workspace deployment (must match the existing subnet's region)"
 }
 
 variable "google_zone" {
@@ -25,7 +25,7 @@ variable "google_zone" {
 
 variable "prefix" {
   type        = string
-  description = "Prefix used to name generated resources"
+  description = "Prefix used to name Databricks-side resources (mws_networks, mws_workspaces)"
 }
 
 variable "workspace_name" {
@@ -33,3 +33,12 @@ variable "workspace_name" {
   description = "Workspace name"
 }
 
+variable "existing_vpc_name" {
+  type        = string
+  description = "Name of the pre-existing GCP VPC to deploy the workspace into"
+}
+
+variable "existing_subnet_name" {
+  type        = string
+  description = "Name of the pre-existing subnet inside the VPC (must be in google_region)"
+}

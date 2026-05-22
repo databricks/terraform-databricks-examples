@@ -13,8 +13,10 @@ prefix = ""
 hive_metastore_ip = ""
 hub_vpc_cidr      = ""
 spoke_vpc_cidr    = ""
+subnet_cidr       = ""
 psc_subnet_cidr   = ""
 
 metastore_name = ""
 catalog_name   = ""
 
+tags = {}

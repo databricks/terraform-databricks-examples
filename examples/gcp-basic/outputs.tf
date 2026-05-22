@@ -1,9 +1,9 @@
-
-output "databricks_host" {
-  value = databricks_mws_workspaces.databricks_workspace.workspace_url
+output "workspace_id" {
+  value       = module.workspace.workspace_id
+  description = "Databricks workspace ID"
 }
 
-output "databricks_token" {
-  value     = databricks_mws_workspaces.databricks_workspace.token[0].token_value
-  sensitive = true
+output "workspace_url" {
+  value       = module.workspace.workspace_url
+  description = "Databricks workspace URL"
 }

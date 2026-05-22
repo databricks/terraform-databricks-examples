@@ -4,61 +4,53 @@ variable "databricks_account_id" {
 }
 
 variable "databricks_google_service_account" {
-  description = "Email of the service account used for deployment"
   type        = string
+  description = "Service account email used for Databricks provider authentication"
 }
 
 variable "google_project" {
   type        = string
-  description = "Google project for VCP/workspace deployment"
+  description = "GCP project where the workspace VPC and resources will be created"
 }
 
 variable "google_region" {
   type        = string
-  description = "Google region for VCP/workspace deployment"
+  description = "GCP region for workspace deployment"
 }
 
 variable "google_zone" {
-  description = "Zone in GCP region"
   type        = string
+  description = "GCP zone (used by the google provider)"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to use in generated VPC name"
+  description = "Prefix used to name generated resources"
 }
 
-variable "subnet_ip_cidr_range" {
+variable "workspace_name" {
   type        = string
-  description = "IP Range for Nodes subnet (primary)"
+  description = "Workspace name"
 }
 
-variable "pod_ip_cidr_range" {
+variable "spoke_vpc_cidr" {
   type        = string
-  description = "IP Range for Pods subnet (secondary)"
+  description = "CIDR for the spoke VPC (e.g. 10.0.0.0/16)"
 }
 
-variable "svc_ip_cidr_range" {
+variable "subnet_cidr" {
   type        = string
-  description = "IP Range for Services subnet (secondary)"
+  description = "CIDR for the GKE nodes subnet primary range (e.g. 10.0.0.0/22)"
 }
 
-variable "subnet_name" {
+variable "pod_cidr" {
   type        = string
-  description = "Name of the subnet to create"
+  default     = null
+  description = "Optional secondary range for GKE pods"
 }
 
-variable "router_name" {
+variable "svc_cidr" {
   type        = string
-  description = "Name of the compute router to create"
-}
-
-variable "nat_name" {
-  type        = string
-  description = "Name of the NAT service in compute router"
-}
-
-variable "delegate_from" {
-  description = "Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com)"
-  type        = list(string)
+  default     = null
+  description = "Optional secondary range for GKE services"
 }
