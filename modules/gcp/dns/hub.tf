@@ -1,8 +1,3 @@
-locals {
-  # Regex extracts the workspace DNS id (numeric.numeric) from the URL.
-  workspace_dns_id = regex("[0-9]+\\.[0-9]+", var.workspace_url)
-}
-
 # === gcp.databricks.com (hub) ============================================
 resource "google_dns_managed_zone" "hub_dbx" {
   name        = "${var.prefix}-hub-gcp-databricks-com"

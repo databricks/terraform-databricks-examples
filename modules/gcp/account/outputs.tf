@@ -14,16 +14,16 @@ output "network_id" {
 }
 
 output "frontend_endpoint_id" {
-  value       = var.enable_frontend && var.frontend_psc_fr_id != null ? databricks_mws_vpc_endpoint.frontend[0].vpc_endpoint_id : null
+  value       = var.enable_frontend && var.frontend_forwarding_rule_name != null ? databricks_mws_vpc_endpoint.frontend[0].vpc_endpoint_id : null
   description = "Frontend mws_vpc_endpoint ID (null when no PSC)"
 }
 
 output "backend_endpoint_id" {
-  value       = var.enable_backend && var.backend_psc_fr_id != null ? databricks_mws_vpc_endpoint.backend[0].vpc_endpoint_id : null
+  value       = var.enable_backend && var.backend_forwarding_rule_name != null ? databricks_mws_vpc_endpoint.backend[0].vpc_endpoint_id : null
   description = "Backend mws_vpc_endpoint ID (null when no PSC)"
 }
 
 output "transit_endpoint_id" {
-  value       = var.enable_frontend && var.hub_frontend_psc_fr_id != null ? databricks_mws_vpc_endpoint.transit[0].vpc_endpoint_id : null
+  value       = var.enable_frontend && var.hub_frontend_forwarding_rule_name != null ? databricks_mws_vpc_endpoint.transit[0].vpc_endpoint_id : null
   description = "Hub-side mws_vpc_endpoint ID (null when no hub)"
 }

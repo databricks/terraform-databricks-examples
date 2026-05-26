@@ -52,17 +52,17 @@ variable "hub_vpc_google_project" {
 }
 
 # Forwarding-rule names from private-connectivity module (gate vpc_endpoint creation)
-variable "frontend_psc_fr_id" {
+variable "frontend_forwarding_rule_name" {
   type    = string
   default = null
 }
 
-variable "backend_psc_fr_id" {
+variable "backend_forwarding_rule_name" {
   type    = string
   default = null
 }
 
-variable "hub_frontend_psc_fr_id" {
+variable "hub_frontend_forwarding_rule_name" {
   type    = string
   default = null
 }

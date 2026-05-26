@@ -26,9 +26,9 @@ module "account" {
   spoke_vpc_google_project = "fixture-spoke"
   hub_vpc_google_project   = "fixture-hub"
 
-  frontend_psc_fr_id     = "fixture-psc-ws-ep-abc123"
-  backend_psc_fr_id      = "fixture-psc-scc-ep-abc123"
-  hub_frontend_psc_fr_id = "fixture-hub-psc-ws-ep-abc123"
+  frontend_forwarding_rule_name     = "fixture-psc-ws-ep-abc123"
+  backend_forwarding_rule_name      = "fixture-psc-scc-ep-abc123"
+  hub_frontend_forwarding_rule_name = "fixture-hub-psc-ws-ep-abc123"
 
   enable_frontend     = true
   enable_backend      = true
