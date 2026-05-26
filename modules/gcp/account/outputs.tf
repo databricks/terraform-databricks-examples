@@ -27,3 +27,8 @@ output "transit_endpoint_id" {
   value       = var.enable_frontend && var.hub_frontend_forwarding_rule_name != null ? databricks_mws_vpc_endpoint.transit[0].vpc_endpoint_id : null
   description = "Hub-side mws_vpc_endpoint ID (null when no hub)"
 }
+
+output "private_access_settings_id" {
+  value       = local.emit_pas ? databricks_mws_private_access_settings.this[0].private_access_settings_id : null
+  description = "databricks_mws_private_access_settings ID (null when private_access_only=false)"
+}

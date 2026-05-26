@@ -1,30 +1,37 @@
 variable "prefix" {
-  type = string
+  type        = string
+  description = "Prefix used to name generated resources"
 }
 
 variable "suffix" {
-  type = string
+  type        = string
+  description = "Random suffix appended to resource names for uniqueness (passed by the composer)"
 }
 
 variable "workspace_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Optional workspace name override. Defaults to \"prefix-ws-suffix\" when null"
 }
 
 variable "databricks_account_id" {
-  type = string
+  type        = string
+  description = "Databricks account ID (GUID) where this workspace will be registered"
 }
 
 variable "google_project" {
-  type = string
+  type        = string
+  description = "GCP project ID hosting the workspace data plane"
 }
 
 variable "google_region" {
-  type = string
+  type        = string
+  description = "GCP region where the workspace will be deployed"
 }
 
 variable "vpc_source" {
-  type = string
+  type        = string
+  description = "One of: databricks_managed (no mws_networks), create (we built the VPC), existing (data-source lookup)"
   validation {
     condition     = contains(["databricks_managed", "create", "existing"], var.vpc_source)
     error_message = "vpc_source must be one of: databricks_managed, create, existing."
@@ -32,58 +39,68 @@ variable "vpc_source" {
 }
 
 variable "spoke_vpc_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Name of the spoke VPC used in databricks_mws_networks.gcp_network_info.vpc_id (null when vpc_source=databricks_managed)"
 }
 
 variable "spoke_subnet_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Name of the spoke subnet used in databricks_mws_networks.gcp_network_info.subnet_id (null when vpc_source=databricks_managed)"
 }
 
 variable "spoke_vpc_google_project" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "GCP project hosting the spoke VPC (used in databricks_mws_networks.gcp_network_info.network_project_id)"
 }
 
 variable "hub_vpc_google_project" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "GCP project hosting the hub VPC (used for the transit databricks_mws_vpc_endpoint when restricted_egress is enabled)"
 }
 
 # Forwarding-rule names from private-connectivity module (gate vpc_endpoint creation)
 variable "frontend_forwarding_rule_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Name of the frontend PSC forwarding rule from private-connectivity; gates frontend mws_vpc_endpoint creation"
 }
 
 variable "backend_forwarding_rule_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Name of the backend (SCC) PSC forwarding rule from private-connectivity; gates backend mws_vpc_endpoint creation"
 }
 
 variable "hub_frontend_forwarding_rule_name" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
+  description = "Name of the hub-side frontend PSC forwarding rule from private-connectivity; gates transit mws_vpc_endpoint creation"
 }
 
 variable "enable_frontend" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
+  description = "Create the frontend mws_vpc_endpoint (and, if hub_frontend_forwarding_rule_name is set, the transit endpoint)"
 }
 
 variable "enable_backend" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
+  description = "Create the backend (SCC) mws_vpc_endpoint"
 }
 
 variable "private_access_only" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
+  description = "Create databricks_mws_private_access_settings with public_access_enabled=false and attach it to the workspace"
 }
 
 variable "nat_dependency" {
   type        = any
   default     = null
-  description = "Opaque value used as depends_on for the workspace to ensure NAT readiness"
+  description = "Opaque value (typically the Cloud NAT ID) used as depends_on for the workspace to ensure NAT readiness before workspace creation"
 }

@@ -9,7 +9,7 @@ output "workspace_id" {
 }
 
 output "vpc_id" {
-  value       = module.workspace.vpc_id
+  value       = module.workspace.spoke_vpc_id
   description = "ID of the spoke VPC"
 }
 

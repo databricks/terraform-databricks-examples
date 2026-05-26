@@ -25,5 +25,15 @@ resource "null_resource" "preconditions" {
       condition     = !local.databricks_managed || (!var.private_link_frontend && !var.private_link_backend && !var.restricted_egress)
       error_message = "vpc_source=\"databricks_managed\" forbids private_link_frontend, private_link_backend, and restricted_egress."
     }
+    precondition {
+      condition = (
+        !local.any_private_link && !var.restricted_egress
+        ) || contains([
+        "asia-northeast1", "asia-south1", "asia-southeast1", "australia-southeast1",
+        "europe-west1", "europe-west2", "europe-west3", "northamerica-northeast1",
+        "southamerica-east1", "us-central1", "us-east1", "us-east4", "us-west1", "us-west4"
+      ], var.google_region)
+      error_message = "google_region must be a region supported by Databricks PSC when any private_link_* flag or restricted_egress is true."
+    }
   }
 }
