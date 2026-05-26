@@ -2,6 +2,23 @@
 
 All `databricks_mws_*` resources for the GCP composer: `mws_networks`, `mws_workspaces`, `mws_vpc_endpoint`, `mws_private_access_settings`.
 
+## Usage
+
+Typically called by `modules/gcp/databricks-workspace` (the composer). Direct consumption is supported but unusual.
+
+```hcl
+module "account" {
+  source = "github.com/databricks/terraform-databricks-examples//modules/gcp/account"
+
+  prefix                = "acme"
+  suffix                = "abc123"
+  databricks_account_id = var.databricks_account_id
+  google_project        = "my-workspace-project"
+  google_region         = "us-central1"
+  vpc_source            = "databricks_managed"
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -35,24 +52,24 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | n/a | `string` | n/a | yes |
-| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | n/a | `string` | n/a | yes |
-| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | n/a | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_suffix"></a> [suffix](#input\_suffix) | n/a | `string` | n/a | yes |
-| <a name="input_vpc_source"></a> [vpc\_source](#input\_vpc\_source) | n/a | `string` | n/a | yes |
-| <a name="input_backend_psc_fr_id"></a> [backend\_psc\_fr\_id](#input\_backend\_psc\_fr\_id) | n/a | `string` | `null` | no |
-| <a name="input_enable_backend"></a> [enable\_backend](#input\_enable\_backend) | n/a | `bool` | `false` | no |
-| <a name="input_enable_frontend"></a> [enable\_frontend](#input\_enable\_frontend) | n/a | `bool` | `false` | no |
-| <a name="input_frontend_psc_fr_id"></a> [frontend\_psc\_fr\_id](#input\_frontend\_psc\_fr\_id) | Forwarding-rule names from private-connectivity module (gate vpc\_endpoint creation) | `string` | `null` | no |
-| <a name="input_hub_frontend_psc_fr_id"></a> [hub\_frontend\_psc\_fr\_id](#input\_hub\_frontend\_psc\_fr\_id) | n/a | `string` | `null` | no |
-| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | n/a | `string` | `null` | no |
-| <a name="input_nat_dependency"></a> [nat\_dependency](#input\_nat\_dependency) | Opaque value used as depends\_on for the workspace to ensure NAT readiness | `any` | `null` | no |
-| <a name="input_private_access_only"></a> [private\_access\_only](#input\_private\_access\_only) | n/a | `bool` | `false` | no |
-| <a name="input_spoke_subnet_name"></a> [spoke\_subnet\_name](#input\_spoke\_subnet\_name) | n/a | `string` | `null` | no |
-| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | n/a | `string` | `null` | no |
-| <a name="input_spoke_vpc_name"></a> [spoke\_vpc\_name](#input\_spoke\_vpc\_name) | n/a | `string` | `null` | no |
-| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | n/a | `string` | `null` | no |
+| <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks account ID (GUID) where this workspace will be registered | `string` | n/a | yes |
+| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | GCP project ID hosting the workspace data plane | `string` | n/a | yes |
+| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region where the workspace will be deployed | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated resources | `string` | n/a | yes |
+| <a name="input_suffix"></a> [suffix](#input\_suffix) | Random suffix appended to resource names for uniqueness (passed by the composer) | `string` | n/a | yes |
+| <a name="input_vpc_source"></a> [vpc\_source](#input\_vpc\_source) | One of: databricks\_managed (no mws\_networks), create (we built the VPC), existing (data-source lookup) | `string` | n/a | yes |
+| <a name="input_backend_forwarding_rule_name"></a> [backend\_forwarding\_rule\_name](#input\_backend\_forwarding\_rule\_name) | Name of the backend (SCC) PSC forwarding rule from private-connectivity; gates backend mws\_vpc\_endpoint creation | `string` | `null` | no |
+| <a name="input_enable_backend"></a> [enable\_backend](#input\_enable\_backend) | Create the backend (SCC) mws\_vpc\_endpoint | `bool` | `false` | no |
+| <a name="input_enable_frontend"></a> [enable\_frontend](#input\_enable\_frontend) | Create the frontend mws\_vpc\_endpoint (and, if hub\_frontend\_forwarding\_rule\_name is set, the transit endpoint) | `bool` | `false` | no |
+| <a name="input_frontend_forwarding_rule_name"></a> [frontend\_forwarding\_rule\_name](#input\_frontend\_forwarding\_rule\_name) | Name of the frontend PSC forwarding rule from private-connectivity; gates frontend mws\_vpc\_endpoint creation | `string` | `null` | no |
+| <a name="input_hub_frontend_forwarding_rule_name"></a> [hub\_frontend\_forwarding\_rule\_name](#input\_hub\_frontend\_forwarding\_rule\_name) | Name of the hub-side frontend PSC forwarding rule from private-connectivity; gates transit mws\_vpc\_endpoint creation | `string` | `null` | no |
+| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (used for the transit databricks\_mws\_vpc\_endpoint when restricted\_egress is enabled) | `string` | `null` | no |
+| <a name="input_nat_dependency"></a> [nat\_dependency](#input\_nat\_dependency) | Opaque value (typically the Cloud NAT ID) used as depends\_on for the workspace to ensure NAT readiness before workspace creation | `any` | `null` | no |
+| <a name="input_private_access_only"></a> [private\_access\_only](#input\_private\_access\_only) | Create databricks\_mws\_private\_access\_settings with public\_access\_enabled=false and attach it to the workspace | `bool` | `false` | no |
+| <a name="input_spoke_subnet_name"></a> [spoke\_subnet\_name](#input\_spoke\_subnet\_name) | Name of the spoke subnet used in databricks\_mws\_networks.gcp\_network\_info.subnet\_id (null when vpc\_source=databricks\_managed) | `string` | `null` | no |
+| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | GCP project hosting the spoke VPC (used in databricks\_mws\_networks.gcp\_network\_info.network\_project\_id) | `string` | `null` | no |
+| <a name="input_spoke_vpc_name"></a> [spoke\_vpc\_name](#input\_spoke\_vpc\_name) | Name of the spoke VPC used in databricks\_mws\_networks.gcp\_network\_info.vpc\_id (null when vpc\_source=databricks\_managed) | `string` | `null` | no |
+| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Optional workspace name override. Defaults to "prefix-ws-suffix" when null | `string` | `null` | no |
 
 ## Outputs
 
@@ -61,6 +78,7 @@ No modules.
 | <a name="output_backend_endpoint_id"></a> [backend\_endpoint\_id](#output\_backend\_endpoint\_id) | Backend mws\_vpc\_endpoint ID (null when no PSC) |
 | <a name="output_frontend_endpoint_id"></a> [frontend\_endpoint\_id](#output\_frontend\_endpoint\_id) | Frontend mws\_vpc\_endpoint ID (null when no PSC) |
 | <a name="output_network_id"></a> [network\_id](#output\_network\_id) | mws\_networks ID (null when databricks\_managed) |
+| <a name="output_private_access_settings_id"></a> [private\_access\_settings\_id](#output\_private\_access\_settings\_id) | databricks\_mws\_private\_access\_settings ID (null when private\_access\_only=false) |
 | <a name="output_transit_endpoint_id"></a> [transit\_endpoint\_id](#output\_transit\_endpoint\_id) | Hub-side mws\_vpc\_endpoint ID (null when no hub) |
 | <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | Databricks workspace ID |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | Databricks workspace URL |

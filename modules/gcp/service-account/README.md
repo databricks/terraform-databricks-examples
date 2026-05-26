@@ -25,16 +25,35 @@ You can do the same thing by provisioning a service account that will have the s
 - run `terraform init`
 - run `teraform apply`
 
+## Usage
+
+Run once per GCP project to provision the service account Databricks uses to deploy workspaces.
+
+```hcl
+module "service_account" {
+  source = "github.com/databricks/terraform-databricks-examples//modules/gcp/service-account"
+
+  google_project = "my-project"
+  prefix         = "acme"
+  delegate_from  = ["user:alice@example.com"]
+}
+```
+
+The consumer must also configure `provider "google" {}` (project + region/zone) — this module does not carry its own provider configuration.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 7.31.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.32.0 |
 
 ## Modules
 

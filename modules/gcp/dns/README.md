@@ -2,6 +2,33 @@
 
 Private DNS zones (hub + spoke) used with restricted-egress workspaces.
 
+## Usage
+
+Typically called by `modules/gcp/databricks-workspace` (the composer) when `restricted_egress=true`. Direct consumption is unusual; this module is terminal (no outputs).
+
+```hcl
+module "dns" {
+  source = "github.com/databricks/terraform-databricks-examples//modules/gcp/dns"
+
+  prefix        = "acme"
+  google_region = "us-central1"
+
+  hub_vpc_id             = module.network.hub_vpc_id
+  hub_vpc_self_link      = module.network.hub_vpc_self_link
+  hub_vpc_google_project = "my-hub-project"
+
+  spoke_vpc_id             = module.network.spoke_vpc_id
+  spoke_vpc_self_link      = module.network.spoke_vpc_self_link
+  spoke_vpc_google_project = "my-spoke-project"
+
+  workspace_url = module.account.workspace_url
+
+  frontend_psc_ip_spoke = module.private_connectivity.frontend_psc_ip_spoke
+  frontend_psc_ip_hub   = module.private_connectivity.frontend_psc_ip_hub
+  backend_psc_ip_spoke  = module.private_connectivity.backend_psc_ip_spoke
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -46,18 +73,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_backend_psc_ip_spoke"></a> [backend\_psc\_ip\_spoke](#input\_backend\_psc\_ip\_spoke) | n/a | `string` | n/a | yes |
-| <a name="input_frontend_psc_ip_spoke"></a> [frontend\_psc\_ip\_spoke](#input\_frontend\_psc\_ip\_spoke) | PSC IPs | `string` | n/a | yes |
-| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | n/a | `string` | n/a | yes |
-| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | n/a | `string` | n/a | yes |
-| <a name="input_hub_vpc_id"></a> [hub\_vpc\_id](#input\_hub\_vpc\_id) | Hub | `string` | n/a | yes |
-| <a name="input_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#input\_hub\_vpc\_self\_link) | n/a | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | n/a | `string` | n/a | yes |
-| <a name="input_spoke_vpc_id"></a> [spoke\_vpc\_id](#input\_spoke\_vpc\_id) | Spoke | `string` | n/a | yes |
-| <a name="input_spoke_vpc_self_link"></a> [spoke\_vpc\_self\_link](#input\_spoke\_vpc\_self\_link) | n/a | `string` | n/a | yes |
-| <a name="input_workspace_url"></a> [workspace\_url](#input\_workspace\_url) | Workspace | `string` | n/a | yes |
-| <a name="input_frontend_psc_ip_hub"></a> [frontend\_psc\_ip\_hub](#input\_frontend\_psc\_ip\_hub) | n/a | `string` | `null` | no |
+| <a name="input_backend_psc_ip_spoke"></a> [backend\_psc\_ip\_spoke](#input\_backend\_psc\_ip\_spoke) | Spoke-side backend (SCC) PSC endpoint IP (used in the spoke tunnel.<region>.gcp.databricks.com A record) | `string` | n/a | yes |
+| <a name="input_frontend_psc_ip_spoke"></a> [frontend\_psc\_ip\_spoke](#input\_frontend\_psc\_ip\_spoke) | Spoke-side frontend PSC endpoint IP (used in the spoke gcp.databricks.com A records) | `string` | n/a | yes |
+| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region (used in the spoke tunnel DNS record name) | `string` | n/a | yes |
+| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (used for the hub DNS zones) | `string` | n/a | yes |
+| <a name="input_hub_vpc_id"></a> [hub\_vpc\_id](#input\_hub\_vpc\_id) | ID of the hub VPC (DNS zones with this VPC's visibility) | `string` | n/a | yes |
+| <a name="input_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#input\_hub\_vpc\_self\_link) | Self-link of the hub VPC | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated DNS managed zones | `string` | n/a | yes |
+| <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | GCP project hosting the spoke VPC (used for the spoke DNS zone) | `string` | n/a | yes |
+| <a name="input_spoke_vpc_id"></a> [spoke\_vpc\_id](#input\_spoke\_vpc\_id) | ID of the spoke VPC (DNS zone with this VPC's visibility) | `string` | n/a | yes |
+| <a name="input_spoke_vpc_self_link"></a> [spoke\_vpc\_self\_link](#input\_spoke\_vpc\_self\_link) | Self-link of the spoke VPC | `string` | n/a | yes |
+| <a name="input_workspace_url"></a> [workspace\_url](#input\_workspace\_url) | Workspace URL from databricks\_mws\_workspaces; used to extract the workspace DNS ID via regex | `string` | n/a | yes |
+| <a name="input_frontend_psc_ip_hub"></a> [frontend\_psc\_ip\_hub](#input\_frontend\_psc\_ip\_hub) | Hub-side frontend PSC endpoint IP (used in the hub gcp.databricks.com A records) | `string` | `null` | no |
 
 ## Outputs
 

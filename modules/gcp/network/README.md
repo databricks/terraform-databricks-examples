@@ -2,6 +2,24 @@
 
 VPC, subnet, router, NAT, peering, and Shared-VPC binding for the Databricks GCP composer.
 
+## Usage
+
+Typically called by `modules/gcp/databricks-workspace` (the composer). Direct consumption is supported but unusual; you'll need to wire the outputs yourself.
+
+```hcl
+module "network" {
+  source = "github.com/databricks/terraform-databricks-examples//modules/gcp/network"
+
+  prefix                   = "acme"
+  suffix                   = "abc123"
+  google_region            = "us-central1"
+  vpc_source               = "create"
+  spoke_vpc_google_project = "my-project"
+  spoke_vpc_cidr           = "10.0.0.0/16"
+  subnet_cidr              = "10.0.0.0/22"
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

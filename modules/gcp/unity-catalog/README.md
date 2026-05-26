@@ -2,6 +2,31 @@
 
 Unity Catalog metastore, GCS bucket, storage credential, external location, and catalog for GCP Databricks workspaces. Called by examples after the workspace exists (uses workspace-scoped Databricks provider alias).
 
+## Usage
+
+Called after `modules/gcp/databricks-workspace` to create a metastore, GCS bucket, storage credential, external location, and default catalog.
+
+```hcl
+module "unity_catalog" {
+  source = "github.com/databricks/terraform-databricks-examples//modules/gcp/unity-catalog"
+
+  providers = {
+    databricks           = databricks
+    databricks.workspace = databricks.workspace
+  }
+
+  databricks_workspace_id  = module.workspace.workspace_id
+  databricks_workspace_url = module.workspace.workspace_url
+  google_project           = "my-workspace-project"
+  google_region            = "us-central1"
+  prefix                   = "acme"
+  metastore_name           = "main-metastore"
+  catalog_name             = "main"
+}
+```
+
+The consumer must declare a `databricks.workspace` provider alias pointing at the workspace URL.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -11,9 +36,9 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.114.2 |
-| <a name="provider_databricks.workspace"></a> [databricks.workspace](#provider\_databricks.workspace) | 1.114.2 |
-| <a name="provider_google"></a> [google](#provider\_google) | 7.31.0 |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.115.0 |
+| <a name="provider_databricks.workspace"></a> [databricks.workspace](#provider\_databricks.workspace) | 1.115.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.32.0 |
 
 ## Modules
 

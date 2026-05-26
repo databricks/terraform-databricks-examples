@@ -1,11 +1,10 @@
 terraform {
   required_providers {
-
+    databricks = {
+      source = "databricks/databricks"
+    }
     google = {
       source = "hashicorp/google"
     }
   }
-}
-
-data "google_client_openid_userinfo" "me" {
 }
