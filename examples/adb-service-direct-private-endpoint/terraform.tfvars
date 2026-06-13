@@ -11,7 +11,10 @@ private_endpoint_subnet_id = "/subscriptions/<sub>/resourceGroups/<rg>/providers
 # Databricks per-region PLS resource ID for performance-intensive services.
 # Pull the current value from the MS Learn region table:
 # https://learn.microsoft.com/en-us/azure/databricks/resources/ip-domain-region#service-direct-resource-ids
-databricks_pls_resource_id = "/subscriptions/<databricks-sub>/resourceGroups/<rg>/providers/Microsoft.Network/privateLinkServices/<pls>"
+# NOTE: this is a Microsoft.Databricks/workspaces resource ID (the Databricks-owned
+# per-region ingress workspace), NOT a Microsoft.Network/privateLinkServices path.
+# The PE connects to it by resource ID with subresource service_direct.
+databricks_pls_resource_id = "/subscriptions/<databricks-sub>/resourceGroups/regional_ingress_<region>_resource_group/providers/Microsoft.Databricks/workspaces/regional_ingress_<region>_workspace"
 
 # Create privatelink.azuredatabricks.net here and link the VNet hosting the PE.
 # Set false (and pre-create the zone) if the workspace already uses inbound PL.

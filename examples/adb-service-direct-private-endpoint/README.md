@@ -30,6 +30,22 @@ registration that drives it from `PENDING` to `APPROVED`.
 5. Confirm `endpoint_state` is `APPROVED` and `endpoint_use_case` is
    `SERVICE_DIRECT` in the outputs.
 
+> **Authentication — account provider**
+> The `databricks_endpoint` registration uses an **account-level** provider
+> (`host` + `account_id`). All Azure Databricks accounts share the host
+> `accounts.azuredatabricks.net`, so if you have more than one account profile
+> in `~/.databrickscfg`, the CLI auth resolver cannot pick one and `apply`
+> fails with `... match https://accounts.azuredatabricks.net ... Use --profile`.
+> Disambiguate by exporting `DATABRICKS_CONFIG_PROFILE=<your-account-profile>`
+> (or add `profile = "<name>"` to the `databricks.accounts` provider block).
+
+> **Approval is asynchronous**
+> After `apply`, `endpoint_state` is typically `PENDING` — Databricks approves
+> the cross-tenant connection out-of-band, usually within a few minutes. This
+> is expected, not a failure. Run `terraform refresh` (or re-`plan`) after a
+> few minutes to see `APPROVED`; the Azure private endpoint connection flips
+> from `Pending` to `Approved` at the same time.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
