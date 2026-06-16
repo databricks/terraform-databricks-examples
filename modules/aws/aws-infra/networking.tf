@@ -108,7 +108,7 @@ resource "aws_security_group" "default" {
     self        = true
     description = "Allow all internal UDP traffic from self"
   }
-  
+
   tags = merge(local.common_tags, {
     Name = "${var.prefix}-databricks-sg"
     Type = "Databricks"

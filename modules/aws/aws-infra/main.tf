@@ -25,24 +25,26 @@
 module "hub_networking" {
   count  = var.advanced_networking.hub_spoke_architecture ? 1 : 0
   source = "./modules/hub-networking"
-  
+
   prefix = var.prefix
   region = var.region
-  
+
   common_tags = local.common_tags
-  
+
   # Spoke VPC configuration
-  spoke_vpc_id              = module.vpc.vpc_id
-  spoke_vpc_cidr            = var.networking.vpc_cidr
-  spoke_private_subnet_ids  = module.vpc.private_subnets
-  spoke_route_table_ids     = module.vpc.private_route_table_ids
-  
+  spoke_vpc_id             = module.vpc.vpc_id
+  spoke_vpc_cidr           = var.networking.vpc_cidr
+  spoke_private_subnet_ids = module.vpc.private_subnets
+  spoke_route_table_ids    = module.vpc.private_route_table_ids
+
   # Hub VPC configuration
   hub_vpc_cidr       = var.advanced_networking.hub_vpc_cidr
   availability_zones = local.availability_zones
-  
+
   # Network Firewall configuration
-  enable_firewall        = local.enable_firewall
-  allowed_fqdns          = var.security.allowed_fqdns
-  allowed_network_rules  = var.security.allowed_network_rules
+  enable_firewall       = local.enable_firewall
+  allowed_fqdns         = var.security.allowed_fqdns
+  allowed_network_rules = var.security.allowed_network_rules
+
+  enable_dns_support = var.advanced_networking.enable_dns_support
 }

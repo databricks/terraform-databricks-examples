@@ -10,7 +10,7 @@ data "databricks_aws_assume_role_policy" "cross_account" {
 resource "aws_iam_role" "cross_account" {
   name               = local.iam_config.cross_account_role_name
   assume_role_policy = data.databricks_aws_assume_role_policy.cross_account.json
-  
+
   tags = merge(local.common_tags, {
     Name    = local.iam_config.cross_account_role_name
     Purpose = "Databricks Cross-Account Access"
@@ -62,7 +62,7 @@ resource "aws_iam_role" "unity_catalog" {
   name = local.iam_config.unity_catalog_role_name
   assume_role_policy = var.external_id != null ? (
     data.databricks_aws_unity_catalog_assume_role_policy.unity_catalog[0].json
-  ) : (
+    ) : (
     data.aws_iam_policy_document.unity_catalog_assume_role_basic[0].json
   )
 
@@ -76,7 +76,7 @@ resource "aws_iam_role" "unity_catalog" {
 data "databricks_aws_unity_catalog_policy" "unity_catalog" {
   aws_account_id = local.account_id
   role_name      = local.iam_config.unity_catalog_role_name
-  bucket_name    = var.create_metastore_bucket ? aws_s3_bucket.metastore[0].bucket : ""
+  bucket_name    = var.create_metastore_bucket ? aws_s3_bucket.metastore[0].bucket : aws_s3_bucket.data.bucket
 }
 
 resource "aws_iam_role_policy" "unity_catalog_inline" {
@@ -88,10 +88,10 @@ resource "aws_iam_role_policy" "unity_catalog_inline" {
 # Instance Profiles (optional)
 resource "aws_iam_instance_profile" "databricks" {
   count = var.create_instance_profiles ? 1 : 0
-  
+
   name = "${var.prefix}-databricks-instance-profile"
   role = aws_iam_role.cross_account.name
-  
+
   tags = merge(local.common_tags, {
     Name    = "${var.prefix}-databricks-instance-profile"
     Purpose = "Databricks Compute Instance Profile"

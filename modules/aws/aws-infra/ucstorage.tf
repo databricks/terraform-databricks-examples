@@ -4,9 +4,9 @@
 # Metastore Bucket (for Unity Catalog)
 resource "aws_s3_bucket" "metastore" {
   count = var.create_metastore_bucket ? 1 : 0
-  
+
   bucket = local.metastore_bucket_name
-  
+
   tags = merge(local.common_tags, {
     Name       = local.metastore_bucket_name
     BucketType = "metastore"
@@ -16,7 +16,7 @@ resource "aws_s3_bucket" "metastore" {
 
 resource "aws_s3_bucket" "data" {
   bucket = local.data_bucket_name
-  
+
   tags = merge(local.common_tags, {
     Name       = local.data_bucket_name
     BucketType = "data"
@@ -55,9 +55,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
 # S3 Bucket Public Access Block - Metastore Bucket
 resource "aws_s3_bucket_public_access_block" "metastore" {
   count = var.create_metastore_bucket ? 1 : 0
-  
+
   bucket = aws_s3_bucket.metastore[0].id
-  
+
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -67,7 +67,7 @@ resource "aws_s3_bucket_public_access_block" "metastore" {
 # S3 Bucket Public Access Block - Data Bucket
 resource "aws_s3_bucket_public_access_block" "data" {
   bucket = aws_s3_bucket.data.id
-  
+
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true

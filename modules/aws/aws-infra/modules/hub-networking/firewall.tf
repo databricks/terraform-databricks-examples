@@ -8,7 +8,7 @@ resource "aws_networkfirewall_rule_group" "allow_fqdns" {
   capacity = 100
   name     = "${var.prefix}-allow-fqdns-rg"
   type     = "STATEFUL"
-  
+
   rule_group {
     rule_variables {
       ip_sets {
@@ -18,7 +18,7 @@ resource "aws_networkfirewall_rule_group" "allow_fqdns" {
         }
       }
     }
-    
+
     rules_source {
       # Domain-based rules
       rules_source_list {
@@ -28,7 +28,7 @@ resource "aws_networkfirewall_rule_group" "allow_fqdns" {
       }
     }
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-allow-fqdns-rg"
   })
@@ -40,7 +40,7 @@ resource "aws_networkfirewall_rule_group" "allow_network" {
   capacity = 100
   name     = "${var.prefix}-allow-network-rg"
   type     = "STATEFUL"
-  
+
   rule_group {
     rule_variables {
       ip_sets {
@@ -50,7 +50,7 @@ resource "aws_networkfirewall_rule_group" "allow_network" {
         }
       }
     }
-    
+
     rules_source {
       # Network-level rules from variable
       dynamic "stateful_rule" {
@@ -73,7 +73,7 @@ resource "aws_networkfirewall_rule_group" "allow_network" {
       }
     }
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-allow-network-rg"
   })
@@ -84,17 +84,17 @@ resource "aws_networkfirewall_rule_group" "deny_all" {
   capacity = 10
   name     = "${var.prefix}-deny-all-rg"
   type     = "STATEFUL"
-  
+
   rule_group {
     rule_variables {
       ip_sets {
-        key = "HOME_NET" 
+        key = "HOME_NET"
         ip_set {
           definition = [var.spoke_vpc_cidr]
         }
       }
     }
-    
+
     rules_source {
       stateful_rule {
         action = "DROP"
@@ -113,7 +113,7 @@ resource "aws_networkfirewall_rule_group" "deny_all" {
       }
     }
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-deny-all-rg"
   })
@@ -122,7 +122,7 @@ resource "aws_networkfirewall_rule_group" "deny_all" {
 # Firewall Policy
 resource "aws_networkfirewall_firewall_policy" "main" {
   name = "${var.prefix}-firewall-policy"
-  
+
   firewall_policy {
     # Reference FQDN rule group if FQDNs are provided
     dynamic "stateful_rule_group_reference" {
@@ -144,12 +144,12 @@ resource "aws_networkfirewall_firewall_policy" "main" {
     stateful_rule_group_reference {
       resource_arn = aws_networkfirewall_rule_group.deny_all.arn
     }
-    
+
     # Default action for stateless rules - forward to stateful engine
     stateless_default_actions          = ["aws:forward_to_sfe"]
     stateless_fragment_default_actions = ["aws:forward_to_sfe"]
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-firewall-policy"
   })
@@ -160,12 +160,12 @@ resource "aws_networkfirewall_firewall" "main" {
   name                = "${var.prefix}-network-firewall"
   firewall_policy_arn = aws_networkfirewall_firewall_policy.main.arn
   vpc_id              = aws_vpc.hub.id
-  
+
   # Deploy firewall endpoint in hub VPC firewall subnet
   subnet_mapping {
     subnet_id = aws_subnet.hub_firewall.id
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-network-firewall"
   })

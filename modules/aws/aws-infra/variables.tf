@@ -73,13 +73,6 @@ variable "external_id" {
   default     = null
 }
 
-# Unity Catalog Configuration (Always created)
-variable "unity_catalog_account_id" {
-  description = "Unity Catalog AWS account ID (Databricks account for Unity Catalog)"
-  type        = string
-  default     = null
-}
-
 # Additional IAM Permissions
 variable "roles_to_assume" {
   description = "Additional IAM role ARNs that the cross-account role should be able to assume"
@@ -104,7 +97,7 @@ variable "security" {
   type = object({
     # Firewall configuration
     enable_network_firewall = optional(bool, false)
-    allowed_fqdns = optional(list(string), [])
+    allowed_fqdns           = optional(list(string), [])
     allowed_network_rules = optional(list(object({
       protocol         = string
       source_ip        = string
@@ -113,9 +106,9 @@ variable "security" {
     })), [])
 
     # Private Link configuration
-    enable_private_link     = optional(bool, false)
-    backend_service_name    = optional(string, null)
-    relay_service_name      = optional(string, null)
+    enable_private_link  = optional(bool, false)
+    backend_service_name = optional(string, null)
+    relay_service_name   = optional(string, null)
   })
 
   default = {}
@@ -132,17 +125,7 @@ variable "advanced_networking" {
     # Hub VPC configuration (when hub-spoke enabled)
     hub_vpc_cidr = optional(string, "10.1.0.0/16")
 
-    # Additional VPC attachments
-    additional_vpc_attachments = optional(list(object({
-      vpc_id     = string
-      vpc_cidr   = string
-      route_cidr = string
-      subnet_ids = list(string)
-    })), [])
-
-    # Routing configuration
-    propagate_default_routes = optional(bool, false)
-    enable_dns_support       = optional(bool, true)
+    enable_dns_support = optional(bool, true)
   })
 
   default = {}
@@ -153,13 +136,3 @@ variable "advanced_networking" {
   }
 }
 
-# Data Sources Configuration
-variable "databricks_config" {
-  description = "Databricks-specific configuration for policy generation"
-  type = object({
-    account_id = optional(string, null)
-    # This helps generate proper Databricks policies but doesn't create Databricks resources
-  })
-
-  default = {}
-}

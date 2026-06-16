@@ -213,9 +213,8 @@ module "databricks_infra" {
   databricks_account_id = "414351767826"
   
   # Unity Catalog Configuration
-  create_metastore_bucket     = true
-  unity_catalog_account_id    = "414351767826"
-  external_id                 = "12345678-1234-1234-1234-123456789abc"
+  create_metastore_bucket = true
+  external_id             = "12345678-1234-1234-1234-123456789abc"
   
   tags = {
     Environment = "production"
@@ -230,21 +229,19 @@ module "databricks_infra" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_advanced_networking"></a> [advanced\_networking](#input\_advanced\_networking) | Advanced networking features | <pre>object({<br/>    # Transit Gateway<br/>    enable_transit_gateway = optional(bool, false)<br/>    hub_spoke_architecture = optional(bool, false)<br/><br/>    # Hub VPC configuration (when hub-spoke enabled)<br/>    hub_vpc_cidr = optional(string, "10.1.0.0/16")<br/><br/>    # Additional VPC attachments<br/>    additional_vpc_attachments = optional(list(object({<br/>      vpc_id     = string<br/>      vpc_cidr   = string<br/>      route_cidr = string<br/>      subnet_ids = list(string)<br/>    })), [])<br/><br/>    # Routing configuration<br/>    propagate_default_routes = optional(bool, false)<br/>    enable_dns_support       = optional(bool, true)<br/>  })</pre> | `{}` | no |
+| <a name="input_advanced_networking"></a> [advanced\_networking](#input\_advanced\_networking) | Advanced networking features | <pre>object({<br/>    # Transit Gateway<br/>    enable_transit_gateway = optional(bool, false)<br/>    hub_spoke_architecture = optional(bool, false)<br/><br/>    # Hub VPC configuration (when hub-spoke enabled)<br/>    hub_vpc_cidr = optional(string, "10.1.0.0/16")<br/><br/>    enable_dns_support = optional(bool, true)<br/>  })</pre> | `{}` | no |
 | <a name="input_create_instance_profiles"></a> [create\_instance\_profiles](#input\_create\_instance\_profiles) | Create IAM instance profiles for Databricks clusters | `bool` | `false` | no |
 | <a name="input_create_metastore_bucket"></a> [create\_metastore\_bucket](#input\_create\_metastore\_bucket) | Create Unity Catalog metastore bucket | `bool` | `false` | no |
 | <a name="input_cross_account_policy_type"></a> [cross\_account\_policy\_type](#input\_cross\_account\_policy\_type) | Databricks cross-account IAM policy type. Options: 'managed' (default AWS-managed policy), 'restricted' (least-privilege), 'customer-managed' (customer-managed VPC) | `string` | `"managed"` | no |
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID (UUID). Found at accounts.cloud.databricks.com → top-right menu. Used to scope the cross-account IAM role trust policy to your Databricks account only. | `string` | n/a | yes |
-| <a name="input_databricks_config"></a> [databricks\_config](#input\_databricks\_config) | Databricks-specific configuration for policy generation | <pre>object({<br/>    account_id = optional(string, null)<br/>    # This helps generate proper Databricks policies but doesn't create Databricks resources<br/>  })</pre> | `{}` | no |
 | <a name="input_external_id"></a> [external\_id](#input\_external\_id) | External ID for Unity Catalog IAM role trust relationship. When null, a basic trust policy (no ExternalId condition) is used. Set and re-apply once available. | `string` | `null` | no |
 | <a name="input_networking"></a> [networking](#input\_networking) | VPC and networking configuration | <pre>object({<br/>    vpc_cidr             = string<br/>    availability_zones   = optional(list(string), [])<br/>    enable_nat_gateway   = optional(bool, true)<br/>    private_subnet_cidrs = optional(list(string), [])<br/>    public_subnet_cidrs  = optional(list(string), [])<br/>  })</pre> | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix for all AWS resources | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | AWS region for resource deployment | `string` | n/a | yes |
 | <a name="input_roles_to_assume"></a> [roles\_to\_assume](#input\_roles\_to\_assume) | Additional IAM role ARNs that the cross-account role should be able to assume | `list(string)` | `[]` | no |
-| <a name="input_security"></a> [security](#input\_security) | Advanced security configuration | <pre>object({<br/>    # Firewall configuration<br/>    enable_network_firewall = optional(bool, false)<br/>    allowed_fqdns = optional(list(string), [])<br/>    allowed_network_rules = optional(list(object({<br/>      protocol         = string<br/>      source_ip        = string<br/>      destination_ip   = string<br/>      destination_port = string<br/>    })), [])<br/><br/>    # Private Link configuration<br/>    enable_private_link     = optional(bool, false)<br/>    backend_service_name    = optional(string, null)<br/>    relay_service_name      = optional(string, null)<br/>  })</pre> | `{}` | no |
+| <a name="input_security"></a> [security](#input\_security) | Advanced security configuration | <pre>object({<br/>    # Firewall configuration<br/>    enable_network_firewall = optional(bool, false)<br/>    allowed_fqdns           = optional(list(string), [])<br/>    allowed_network_rules = optional(list(object({<br/>      protocol         = string<br/>      source_ip        = string<br/>      destination_ip   = string<br/>      destination_port = string<br/>    })), [])<br/><br/>    # Private Link configuration<br/>    enable_private_link  = optional(bool, false)<br/>    backend_service_name = optional(string, null)<br/>    relay_service_name   = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_storage_encryption"></a> [storage\_encryption](#input\_storage\_encryption) | S3 bucket encryption configuration. Use 'SSE-S3' for AWS-managed keys or 'SSE-KMS' for KMS-managed keys. | <pre>object({<br/>    type       = optional(string, "SSE-S3")<br/>    kms_key_id = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Common tags for all resources | `map(string)` | `{}` | no |
-| <a name="input_unity_catalog_account_id"></a> [unity\_catalog\_account\_id](#input\_unity\_catalog\_account\_id) | Unity Catalog AWS account ID (Databricks account for Unity Catalog) | `string` | `null` | no |
 
 ## Outputs
 
@@ -373,7 +370,7 @@ terraform {
 - **Solution**: Run `terraform init -upgrade` to download required modules
 
 **Issue**: Network Firewall blocks Databricks traffic
-- **Solution**: Ensure `allowed_fqdns` includes `*.cloud.databricks.com` and required AWS services
+- **Solution**: Ensure `allowed_fqdns` includes `.cloud.databricks.com` and required AWS services
 
 **Issue**: Unity Catalog role trust relationship fails
 - **Solution**: Verify `external_id` matches your Databricks Unity Catalog configuration

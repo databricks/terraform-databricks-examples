@@ -5,7 +5,7 @@ resource "aws_ec2_transit_gateway" "main" {
   description                     = "Transit Gateway for ${var.prefix}"
   default_route_table_association = "disable"
   default_route_table_propagation = "disable"
-  dns_support                     = "enable"
+  dns_support                     = var.enable_dns_support ? "enable" : "disable"
   tags = merge(var.common_tags, {
     Name = local.transit_gateway_name
   })
@@ -82,7 +82,7 @@ resource "aws_nat_gateway" "hub" {
 # Hub VPC Route Tables
 resource "aws_route_table" "hub_public" {
   vpc_id = aws_vpc.hub.id
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-hub-public-rt"
     Type = "HubPublic"
@@ -91,17 +91,17 @@ resource "aws_route_table" "hub_public" {
 
 resource "aws_route_table" "hub_private" {
   vpc_id = aws_vpc.hub.id
-  
+
   route {
     cidr_block         = var.spoke_vpc_cidr
     transit_gateway_id = aws_ec2_transit_gateway.main.id
   }
-  
+
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.hub.id
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-hub-private-rt"
     Type = "HubPrivate"
@@ -111,12 +111,12 @@ resource "aws_route_table" "hub_private" {
 
 resource "aws_route_table" "hub_firewall" {
   vpc_id = aws_vpc.hub.id
-  
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.hub.id
   }
-  
+
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-hub-firewall-rt"
     Type = "HubFirewall"
@@ -136,21 +136,28 @@ resource "aws_route_table_association" "hub_firewall" {
   route_table_id = aws_route_table.hub_firewall.id
 }
 
+# Return route: hub public subnet (where NAT GW lives) back to spoke via TGW
+resource "aws_route" "hub_public_to_spoke" {
+  route_table_id         = aws_route_table.hub_public.id
+  destination_cidr_block = var.spoke_vpc_cidr
+  transit_gateway_id     = aws_ec2_transit_gateway.main.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.hub]
+}
 # Route from Hub Public (NAT location) to Firewall for Internet-bound traffic
 resource "aws_route" "hub_public_to_firewall" {
   count = var.enable_firewall ? 1 : 0
-  
+
   route_table_id         = aws_route_table.hub_public.id
   destination_cidr_block = "0.0.0.0/0"
   vpc_endpoint_id        = one([for k, v in aws_networkfirewall_firewall.main.firewall_status[0].sync_states : v.attachment[0].endpoint_id])
-  
+
   depends_on = [aws_networkfirewall_firewall.main]
 }
 
 # Route from Hub Public to IGW when firewall is NOT enabled
 resource "aws_route" "hub_public_to_igw" {
   count = var.enable_firewall ? 0 : 1
-  
+
   route_table_id         = aws_route_table.hub_public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.hub.id
@@ -160,8 +167,8 @@ resource "aws_route" "hub_public_to_igw" {
 resource "aws_ec2_transit_gateway_vpc_attachment" "spoke" {
   subnet_ids         = var.spoke_private_subnet_ids
   transit_gateway_id = aws_ec2_transit_gateway.main.id
-  vpc_id      = var.spoke_vpc_id
-  dns_support = "enable"
+  vpc_id             = var.spoke_vpc_id
+  dns_support        = "enable"
   tags = merge(var.common_tags, {
     Name = "${var.prefix}-spoke-tgw-attachment"
     Type = "Spoke"
@@ -211,11 +218,16 @@ resource "aws_ec2_transit_gateway_route" "hub_to_spoke" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.spoke.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.hub.id
 }
+resource "aws_ec2_transit_gateway_route" "spoke_default_to_hub" {
+  destination_cidr_block         = "0.0.0.0/0"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.hub.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.spoke.id
+}
 # Update main VPC route tables to route to Transit Gateway
 resource "aws_route" "private_to_tgw" {
   count                  = length(var.spoke_route_table_ids)
   route_table_id         = var.spoke_route_table_ids[count.index]
-  destination_cidr_block = var.hub_vpc_cidr
+  destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.main.id
   depends_on             = [aws_ec2_transit_gateway_vpc_attachment.spoke]
 }

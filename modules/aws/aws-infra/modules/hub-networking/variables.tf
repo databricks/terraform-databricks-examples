@@ -70,3 +70,9 @@ variable "allowed_network_rules" {
   default = []
 }
 
+variable "enable_dns_support" {
+  description = "Enable DNS support on the Transit Gateway"
+  type        = bool
+  default     = true
+}
+
