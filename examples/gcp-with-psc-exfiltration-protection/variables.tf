@@ -4,7 +4,7 @@ variable "databricks_account_id" {
   description = "Databricks Account ID"
 
   validation {
-    condition     = can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", var.databricks_account_id))
+    condition     = can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", lower(var.databricks_account_id)))
     error_message = "databricks_account_id must be a valid UUID (e.g., 12345678-1234-1234-1234-123456789012)."
   }
 }
