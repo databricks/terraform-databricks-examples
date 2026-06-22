@@ -97,7 +97,7 @@ variable "hive_metastore_ip" {
   description = "IP address of the regional default Hive Metastore"
 
   validation {
-    condition     = can(regex("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$", var.hive_metastore_ip))
+    condition     = can(cidrhost("${var.hive_metastore_ip}/32", 0))
     error_message = "hive_metastore_ip must be a valid IPv4 address."
   }
 }
