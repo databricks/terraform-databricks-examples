@@ -45,7 +45,9 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 
 ## Providers
 
@@ -119,12 +121,12 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region) | Google Cloud region where the resources will be created | `string` | n/a | yes |
-| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | Value of regional default Hive Metastore IP | `string` | n/a | yes |
+| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | IP address of the regional default Hive Metastore | `string` | n/a | yes |
 | <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for Hub VPC | `string` | n/a | yes |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | Google Cloud project ID related to Hub VPC | `string` | n/a | yes |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared) | Whether the Spoke VPC is a Shared or a dedicated VPC | `bool` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated resources name | `string` | n/a | yes |
-| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated resource names | `string` | n/a | yes |
+| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr) | CIDR for PSC subnet within the Spoke VPC | `string` | n/a | yes |
 | <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to add to all resources | `map(string)` | n/a | yes |
@@ -134,6 +136,14 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_backend_psc_endpoint_ip"></a> [backend\_psc\_endpoint\_ip](#output\_backend\_psc\_endpoint\_ip) | The IP address of the backend (SCC) PSC endpoint |
+| <a name="output_hub_frontend_psc_endpoint_ip"></a> [hub\_frontend\_psc\_endpoint\_ip](#output\_hub\_frontend\_psc\_endpoint\_ip) | The IP address of the workspace frontend PSC endpoint in the Hub VPC |
+| <a name="output_hub_vpc_id"></a> [hub\_vpc\_id](#output\_hub\_vpc\_id) | The ID of the Hub VPC network |
+| <a name="output_network_id"></a> [network\_id](#output\_network\_id) | The Databricks MWS network configuration ID |
+| <a name="output_psc_subnetwork_id"></a> [psc\_subnetwork\_id](#output\_psc\_subnetwork\_id) | The ID of the PSC subnet within the Spoke VPC |
+| <a name="output_spoke_frontend_psc_endpoint_ip"></a> [spoke\_frontend\_psc\_endpoint\_ip](#output\_spoke\_frontend\_psc\_endpoint\_ip) | The IP address of the workspace frontend PSC endpoint in the Spoke VPC |
+| <a name="output_spoke_subnetwork_id"></a> [spoke\_subnetwork\_id](#output\_spoke\_subnetwork\_id) | The ID of the primary Spoke subnet |
+| <a name="output_spoke_vpc_id"></a> [spoke\_vpc\_id](#output\_spoke\_vpc\_id) | The ID of the Spoke VPC network |
 | <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | The Databricks workspace ID |
 | <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | The workspace URL which is of the format '{workspaceId}.{random}.gcp.databricks.com' |
 <!-- END_TF_DOCS -->

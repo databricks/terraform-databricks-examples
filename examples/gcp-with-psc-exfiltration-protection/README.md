@@ -38,8 +38,9 @@ Most values are related to resources managed by Databricks. The required values 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.81.1 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | 6.17.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.85.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 6.45 |
 
 ## Providers
 
@@ -63,17 +64,17 @@ No resources.
 | <a name="input_catalog_name"></a> [catalog\_name](#input\_catalog\_name) | Name to assign to default catalog | `string` | n/a | yes |
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region) | Google Cloud region where the resources will be created | `string` | n/a | yes |
-| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | Value of regional default Hive Metastore IP | `string` | n/a | yes |
+| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | IP address of the regional default Hive Metastore | `string` | n/a | yes |
 | <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for Hub VPC | `string` | n/a | yes |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | Google Cloud project ID related to Hub VPC | `string` | n/a | yes |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared) | Whether the Spoke VPC is a Shared or a dedicated VPC | `bool` | n/a | yes |
 | <a name="input_metastore_name"></a> [metastore\_name](#input\_metastore\_name) | Name to assign to regional metastore | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated resources name | `string` | n/a | yes |
-| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated resource names | `string` | n/a | yes |
+| <a name="input_psc_subnet_cidr"></a> [psc\_subnet\_cidr](#input\_psc\_subnet\_cidr) | CIDR for PSC subnet within the Spoke VPC | `string` | n/a | yes |
 | <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for Spoke VPC | `string` | n/a | yes |
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | Google Cloud project ID related to Spoke VPC | `string` | n/a | yes |
-| <a name="input_workspace_google_project"></a> [workspace\_google\_project](#input\_workspace\_google\_project) | Google Cloud project ID related to Databricks workspace | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to add to all resources | `map(string)` | `{}` | no |
+| <a name="input_workspace_google_project"></a> [workspace\_google\_project](#input\_workspace\_google\_project) | Google Cloud project ID related to Databricks workspace | `string` | n/a | yes |
 
 ## Outputs
 
