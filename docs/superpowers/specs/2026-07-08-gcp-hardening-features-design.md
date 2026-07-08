@@ -82,20 +82,23 @@ Restore to `private-connectivity/firewall.tf`:
 - `<prefix>-spoke-ingress-intra` — INGRESS allow from `spoke_vpc_cidr`
   (satisfies the documented `db-<subnet>-ingress` BYOVPC requirement).
 
-### A4. `restricted_egress` requires both PSC flags (F4, major)
+### A4 + A5 (revised). PSC flags must be enabled together on GCP (F4 + F5)
 
-The DNS records and control-plane allow rule structurally assume both frontend
-and backend PSC. The composer precondition changes from "at least one flag" to
-`private_link_frontend && private_link_backend` when `restricted_egress=true`,
-with an error message explaining why. (This matches the old module, which had
-no single-sided mode.)
+Verified against the GCP PSC docs: the workspace network configuration
+(`vpc_endpoints`) requires **both** the `dataplane_relay` and `rest_api`
+endpoint references — a network config with only one endpoint type is not
+accepted. Single-sided PSC is therefore not expressible through
+`databricks_mws_networks` on GCP, and the original A5 design (dynamic
+single-sided wiring) is wrong.
 
-### A5. Single-sided PSC endpoint wiring (F5, major)
-
-`databricks_mws_networks.vpc_endpoints` is built dynamically from whichever
-endpoints exist (`compact()` over conditionally-null IDs) instead of the
-all-or-nothing `emit_vpc_endpoints`. Backend-only PSC then correctly attaches
-its endpoint; frontend-only likewise.
+Fix: one new composer precondition
+`private_link_frontend == private_link_backend` (GCP dialect note in the
+contract doc: the two flags stay independent cross-cloud for AWS/Azure, GCP
+constrains them equal). This subsumes the original A4 — combined with the
+existing "restricted_egress requires at least one flag" rule, restricted
+egress now implies both. `emit_vpc_endpoints = enable_frontend && enable_backend`
+is then correct as written, and the F4 breakages (null `rrdatas` in
+`dns/spoke.tf`, missing control-plane allow rule) become unreachable.
 
 ### A6. `psc_subnet_cidr` precondition (F6, major)
 
@@ -140,8 +143,9 @@ from the intermediate state of this branch.
 - Resource-level `account_id` removed from all `databricks_mws_*` resources;
   the account-level provider carries it (examples already configure this).
 - Constraint policy: modules declare floors (`google >= 6.0`,
-  `databricks >= 1.85`); examples pin pessimistically (`~> 6.17`, `~> 1.85`).
-  One policy, stated in the contract doc.
+  `databricks >= 1.81.1` — the network-policy resources shipped in provider
+  v1.81.0); examples pin pessimistically (`~> 6.17`, `~> 1.81`). One policy,
+  stated in the contract doc.
 
 ### A13. Idiom cleanups (F13, nits)
 
@@ -242,10 +246,12 @@ key-reference type is the per-cloud noun):
 
 - `cmek_managed_services_key_id` (string, null) — Cloud KMS key resource ID.
 - `cmek_storage_key_id` (string, null).
-- `cmek_grant_key_permissions` (bool, true) — when true the module creates the
-  `google_kms_crypto_key_iam_member` grants (`cloudkms.cryptoKeyEncrypterDecrypter`)
-  for the Databricks service agent; false for orgs where key IAM is centrally
-  managed. README documents the required grants for the false path.
+
+No Terraform-managed IAM grants (verified against docs + provider examples):
+on GCP, Databricks itself sets the key's IAM policy during workspace creation —
+which is why the principal running Terraform needs
+`cloudkms.cryptoKeys.getIamPolicy` and `setIamPolicy` on the key. The README
+documents that permission requirement instead of the module granting anything.
 
 GA on GCP, Enterprise tier. Keys are create-time only on the workspace —
 documented; no in-place update promises.
@@ -293,20 +299,20 @@ official Databricks repo, drifting until release.
 
 Added: `serverless_egress_mode`, `serverless_allowed_internet_destinations`,
 `serverless_allowed_storage_destinations`, `serverless_egress_enforcement`,
-`cmek_managed_services_key_id`, `cmek_storage_key_id`,
-`cmek_grant_key_permissions`.
+`cmek_managed_services_key_id`, `cmek_storage_key_id`.
 Removed: `pod_cidr`, `svc_cidr`.
-Changed: precondition table (A4, A6); `hive_metastore_ip` description (A7).
+Changed: precondition table (A4/A5 flag-equality rule, A6); `hive_metastore_ip`
+description (A7).
 
 ## Migration impact
 
 | Change | Impact |
 |---|---|
 | `account` → `workspace` module rename | Module addresses change; PR already mandates clean-state re-apply |
-| `restricted_egress` now requires both PSC flags | Configs with one flag failed at apply/runtime before; now fail at plan with a clear message |
+| PSC flags must now be equal (both on / both off) | Single-sided configs failed at apply/runtime before (GCP requires both endpoint refs); now fail at plan with a clear message |
 | `pod_cidr`/`svc_cidr` removed | GKE-era BYOVPC configs must drop the inputs; release-noted |
 | PAT `token {}` removed | Consumers relying on the module-created token must create their own |
-| `databricks >= 1.85` floor | Needed for network-policy resources |
+| `databricks >= 1.81.1` floor | Needed for network-policy resources (shipped in v1.81.0) |
 
 ## Implementation phasing
 
