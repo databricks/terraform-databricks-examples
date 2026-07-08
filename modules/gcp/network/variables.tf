@@ -102,3 +102,9 @@ variable "workspace_google_project" {
   default     = null
   description = "Workspace project (used for Shared-VPC service binding)"
 }
+
+variable "enable_nat" {
+  type        = bool
+  default     = true
+  description = "Create Cloud Router + NAT for internet egress. The composer disables this under restricted_egress, where no internet egress path may exist"
+}

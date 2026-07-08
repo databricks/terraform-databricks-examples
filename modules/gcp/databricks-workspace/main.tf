@@ -21,6 +21,7 @@ module "network" {
   hub_vpc_cidr             = var.hub_vpc_cidr
   is_spoke_vpc_shared      = var.is_spoke_vpc_shared
   workspace_google_project = var.google_project
+  enable_nat               = !var.restricted_egress
 }
 
 module "private_connectivity" {

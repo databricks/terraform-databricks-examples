@@ -41,8 +41,8 @@ output "spoke_subnet_self_link" {
 }
 
 output "nat_id" {
-  value       = local.create_vpc ? google_compute_router_nat.nat[0].id : null
-  description = "ID of the Cloud NAT (null when vpc_source=existing)"
+  value       = local.create_vpc && var.enable_nat ? google_compute_router_nat.nat[0].id : null
+  description = "ID of the Cloud NAT (null when vpc_source=existing or enable_nat=false)"
 }
 
 output "hub_vpc_id" {

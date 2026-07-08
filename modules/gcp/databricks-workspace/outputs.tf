@@ -67,8 +67,8 @@ output "hub_vpc_self_link" {
 }
 
 output "nat_id" {
-  value       = local.create_vpc ? module.network[0].nat_id : null
-  description = "Cloud NAT ID (null when vpc_source != create)"
+  value       = local.create_vpc && !var.restricted_egress ? module.network[0].nat_id : null
+  description = "Cloud NAT ID (null when vpc_source != create or when restricted_egress=true)"
 }
 
 # === Private connectivity ===============================================
