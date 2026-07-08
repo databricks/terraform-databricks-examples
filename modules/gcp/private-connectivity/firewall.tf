@@ -95,3 +95,41 @@ resource "google_compute_firewall" "hub_ingress" {
     protocol = "all"
   }
 }
+
+# === Intra-VPC traffic (cluster node-to-node) ===========================
+# The deny-egress rule above also covers RFC1918 space, and GCP ingress is
+# implied-deny. Without these two allows, Spark clusters cannot form.
+# The legacy module scoped ingress with workspace-id target_tags; this
+# module runs before the workspace exists, so the rule applies VPC-wide -
+# acceptable because the spoke VPC is dedicated to Databricks.
+resource "google_compute_firewall" "spoke_intra_egress" {
+  count = var.restrict_egress ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-intra-egress"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction          = "EGRESS"
+  priority           = 1000
+  destination_ranges = [var.spoke_vpc_cidr]
+
+  allow {
+    protocol = "all"
+  }
+}
+
+resource "google_compute_firewall" "spoke_intra_ingress" {
+  count = var.restrict_egress ? 1 : 0
+
+  name    = "${var.prefix}-spoke-${var.suffix}-intra-ingress"
+  project = var.spoke_vpc_google_project
+  network = var.spoke_vpc_self_link
+
+  direction     = "INGRESS"
+  priority      = 1000
+  source_ranges = [var.spoke_vpc_cidr]
+
+  allow {
+    protocol = "all"
+  }
+}
