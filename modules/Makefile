@@ -1,6 +1,6 @@
 PROJECTS := $(dir $(wildcard */README.md))
 
-docs: $(PROJECTS) gcp-recursive
+docs: $(PROJECTS) gcp-recursive databricks-recursive
 
 $(PROJECTS):
 	$(MAKE) -C $@ docs
@@ -8,4 +8,7 @@ $(PROJECTS):
 gcp-recursive:
 	$(MAKE) -C gcp docs
 
-.PHONY: $(PROJECTS) docs gcp-recursive
+databricks-recursive:
+	$(MAKE) -C databricks docs
+
+.PHONY: $(PROJECTS) docs gcp-recursive databricks-recursive

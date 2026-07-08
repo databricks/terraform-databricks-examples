@@ -26,3 +26,9 @@ serverless_egress_enforcement            = "enforced"
 
 cmek_managed_services_key_id = null
 cmek_storage_key_id          = null
+
+enable_compliance_security_profile  = false
+compliance_standards                = []
+enable_enhanced_security_monitoring = false
+enable_automatic_cluster_update     = false
+ip_access_lists                     = []
