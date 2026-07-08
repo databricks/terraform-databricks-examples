@@ -40,17 +40,5 @@ variable "spoke_vpc_cidr" {
 
 variable "subnet_cidr" {
   type        = string
-  description = "CIDR for the GKE nodes subnet primary range (e.g. 10.0.0.0/22)"
-}
-
-variable "pod_cidr" {
-  type        = string
-  default     = null
-  description = "Optional secondary range for GKE pods"
-}
-
-variable "svc_cidr" {
-  type        = string
-  default     = null
-  description = "Optional secondary range for GKE services"
+  description = "CIDR for the workspace subnet primary range (e.g. 10.0.0.0/22)"
 }

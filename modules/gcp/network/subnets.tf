@@ -8,22 +8,6 @@ resource "google_compute_subnetwork" "spoke_subnet" {
   region                   = var.google_region
   ip_cidr_range            = var.subnet_cidr
   private_ip_google_access = true
-
-  dynamic "secondary_ip_range" {
-    for_each = var.pod_cidr != null ? [1] : []
-    content {
-      range_name    = "pods"
-      ip_cidr_range = var.pod_cidr
-    }
-  }
-
-  dynamic "secondary_ip_range" {
-    for_each = var.svc_cidr != null ? [1] : []
-    content {
-      range_name    = "services"
-      ip_cidr_range = var.svc_cidr
-    }
-  }
 }
 
 # === Hub subnet =========================================================

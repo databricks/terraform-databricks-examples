@@ -7,5 +7,3 @@ prefix                            = ""
 workspace_name                    = ""
 spoke_vpc_cidr                    = ""
 subnet_cidr                       = ""
-pod_cidr                          = null
-svc_cidr                          = null

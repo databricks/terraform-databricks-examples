@@ -10,6 +10,4 @@ module "workspace" {
   vpc_source     = "create"
   spoke_vpc_cidr = var.spoke_vpc_cidr
   subnet_cidr    = var.subnet_cidr
-  pod_cidr       = var.pod_cidr
-  svc_cidr       = var.svc_cidr
 }

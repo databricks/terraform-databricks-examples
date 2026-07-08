@@ -9,8 +9,6 @@ module "network" {
   spoke_vpc_google_project = local.spoke_project
 
   subnet_cidr = var.subnet_cidr
-  pod_cidr    = var.pod_cidr
-  svc_cidr    = var.svc_cidr
 
   existing_vpc_name    = var.existing_vpc_name
   existing_subnet_name = var.existing_subnet_name

@@ -55,18 +55,6 @@ variable "subnet_cidr" {
   description = "CIDR of the spoke subnet primary range (e.g. 10.0.0.0/22). Required when vpc_source=create"
 }
 
-variable "pod_cidr" {
-  type        = string
-  default     = null
-  description = "Optional CIDR for the GKE pods secondary range. Adds a secondary_ip_range to the spoke subnet when set"
-}
-
-variable "svc_cidr" {
-  type        = string
-  default     = null
-  description = "Optional CIDR for the GKE services secondary range. Adds a secondary_ip_range to the spoke subnet when set"
-}
-
 # When vpc_source = "existing"
 variable "existing_vpc_name" {
   type        = string

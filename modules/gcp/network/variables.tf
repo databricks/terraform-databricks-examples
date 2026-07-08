@@ -41,18 +41,6 @@ variable "subnet_name" {
   description = "Override for spoke subnet name (default: \"{prefix}-subnet-{suffix}\")"
 }
 
-variable "pod_cidr" {
-  type        = string
-  default     = null
-  description = "GKE secondary range for pods (optional)"
-}
-
-variable "svc_cidr" {
-  type        = string
-  default     = null
-  description = "GKE secondary range for services (optional)"
-}
-
 # === Used when vpc_source = "existing" ==================================
 variable "existing_vpc_name" {
   type        = string
