@@ -41,4 +41,7 @@ module "workspace" {
 
   serverless_egress_mode                   = "restricted"
   serverless_allowed_internet_destinations = ["pypi.org"]
+
+  cmek_managed_services_key_id = "projects/fixture-workspace/locations/us-central1/keyRings/fixture-kr/cryptoKeys/fixture-ms-key"
+  cmek_storage_key_id          = "projects/fixture-workspace/locations/us-central1/keyRings/fixture-kr/cryptoKeys/fixture-storage-key"
 }

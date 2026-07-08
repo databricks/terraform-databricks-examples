@@ -26,4 +26,7 @@ module "workspace" {
   serverless_allowed_internet_destinations = var.serverless_allowed_internet_destinations
   serverless_allowed_storage_destinations  = var.serverless_allowed_storage_destinations
   serverless_egress_enforcement            = var.serverless_egress_enforcement
+
+  cmek_managed_services_key_id = var.cmek_managed_services_key_id
+  cmek_storage_key_id          = var.cmek_storage_key_id
 }

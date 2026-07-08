@@ -23,3 +23,6 @@ serverless_egress_mode                   = "restricted"
 serverless_allowed_internet_destinations = []
 serverless_allowed_storage_destinations  = []
 serverless_egress_enforcement            = "enforced"
+
+cmek_managed_services_key_id = null
+cmek_storage_key_id          = null

@@ -174,3 +174,16 @@ variable "serverless_egress_enforcement" {
     error_message = "serverless_egress_enforcement must be one of: enforced, dry_run."
   }
 }
+
+# === Customer-managed keys (CMEK) =======================================
+variable "cmek_managed_services_key_id" {
+  type        = string
+  default     = null
+  description = "Cloud KMS key resource ID for managed-services CMEK (control-plane data: notebooks, secrets, queries). Null disables. The principal running Terraform needs cloudkms.cryptoKeys.getIamPolicy and setIamPolicy on the key - Databricks sets the key's IAM policy at workspace creation. Enterprise tier; set at creation only"
+}
+
+variable "cmek_storage_key_id" {
+  type        = string
+  default     = null
+  description = "Cloud KMS key resource ID for workspace-storage CMEK (GCS buckets and GCE persistent disks). Null disables. Same permission and tier requirements as cmek_managed_services_key_id; set at creation only"
+}
