@@ -10,8 +10,16 @@ resource "null_resource" "preconditions" {
       error_message = "restricted_egress=true requires at least one of private_link_frontend or private_link_backend."
     }
     precondition {
-      condition     = !var.restricted_egress || (var.hub_vpc_google_project != null && var.hub_vpc_cidr != null && var.psc_subnet_cidr != null)
-      error_message = "restricted_egress=true requires hub_vpc_google_project, hub_vpc_cidr, and psc_subnet_cidr."
+      condition     = var.private_link_frontend == var.private_link_backend
+      error_message = "On GCP, private_link_frontend and private_link_backend must be enabled together: databricks_mws_networks.vpc_endpoints requires both dataplane_relay and rest_api endpoint references. (The flags stay independent in the cross-cloud contract for clouds that support single-sided PrivateLink.)"
+    }
+    precondition {
+      condition     = !local.any_private_link || var.psc_subnet_cidr != null
+      error_message = "psc_subnet_cidr is required when any private_link_* flag is true."
+    }
+    precondition {
+      condition     = !var.restricted_egress || (var.hub_vpc_google_project != null && var.hub_vpc_cidr != null)
+      error_message = "restricted_egress=true requires hub_vpc_google_project and hub_vpc_cidr."
     }
     precondition {
       condition     = !local.create_vpc || (var.spoke_vpc_cidr != null && var.subnet_cidr != null)

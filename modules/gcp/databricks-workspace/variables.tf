@@ -84,13 +84,13 @@ variable "existing_subnet_name" {
 variable "private_link_frontend" {
   type        = bool
   default     = false
-  description = "Create the frontend (workspace UI/API) PSC endpoint and a frontend databricks_mws_vpc_endpoint"
+  description = "Create the frontend (workspace UI/API) PSC endpoint and a frontend databricks_mws_vpc_endpoint. On GCP both flags must be enabled together (see preconditions.tf)"
 }
 
 variable "private_link_backend" {
   type        = bool
   default     = false
-  description = "Create the backend (SCC, data plane) PSC endpoint and a backend databricks_mws_vpc_endpoint"
+  description = "Create the backend (SCC, data plane) PSC endpoint and a backend databricks_mws_vpc_endpoint. On GCP both flags must be enabled together (see preconditions.tf)"
 }
 
 variable "private_access_only" {
