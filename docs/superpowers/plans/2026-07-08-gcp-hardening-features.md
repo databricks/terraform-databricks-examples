@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Repo: `/Users/michele.daddetta/Documents/Databricks/terraform-databricks-examples`, branch `issue-165/gcp-psc-exfiltration-hardening` (draft PR #233). Work directly on this branch.
+- Repo: `/Users/michele.daddetta/Documents/Databricks/terraform-databricks-examples`, branch `feature/gcp-modules-refactor` (head branch of draft PR #233). Work directly on this branch.
 - Module version floors: `google >= 6.0`, `databricks >= 1.81.1`, `random >= 3.0`. Examples pin `~> 6.17` (google) and `~> 1.81` (databricks). No `null` provider anywhere after Task 9. No `provider {}` blocks inside modules.
 - "Validate" for a module means: `terraform init -backend=false -upgrade >/dev/null && terraform validate` run in the module directory. "Fixture plan" means the same init then `terraform plan` in `tests/<scenario>/`. Fixture plans run offline — no GCP/Databricks credentials needed (the `tests/existing-vpc` and `modules/gcp/network/tests/existing` fixtures are the exception: they hit real data sources and are excluded from checks).
 - Negative fixtures must FAIL `terraform plan` with the exact error message asserted in the task.
@@ -1660,7 +1660,7 @@ Co-authored-by: Isaac"
 STOP. Present to Michele: the commit list, the verification sweep results, and the proposed updated PR body (rewrite of the current #233 description reflecting: the fixed findings, the flag-equality dialect rule, the rename, the contract doc, the four features, the corrected test-plan checklist with Phase B items unchecked). Only after approval:
 
 ```bash
-git push origin issue-165/gcp-psc-exfiltration-hardening
+git push origin feature/gcp-modules-refactor
 gh pr edit 233 --title "feat(gcp): composer + submodules refactor, hardening fixes, cross-cloud contract, serverless egress & CMEK" --body-file <approved-body-file>
 ```
 
