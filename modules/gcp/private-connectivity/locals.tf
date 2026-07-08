@@ -40,6 +40,4 @@ locals {
   }
 
   hive_metastore_ip = var.hive_metastore_ip != null ? var.hive_metastore_ip : try(local.default_hive_metastore_ips[var.google_region], "")
-
-  hub_present = var.hub_vpc_id != null
 }

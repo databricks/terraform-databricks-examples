@@ -1,5 +1,5 @@
 resource "databricks_mws_vpc_endpoint" "frontend" {
-  count = var.enable_frontend && var.frontend_forwarding_rule_name != null ? 1 : 0
+  count = var.enable_frontend ? 1 : 0
 
   account_id        = var.databricks_account_id
   vpc_endpoint_name = "${var.prefix}-ws-ep-${var.suffix}"
@@ -12,7 +12,7 @@ resource "databricks_mws_vpc_endpoint" "frontend" {
 }
 
 resource "databricks_mws_vpc_endpoint" "backend" {
-  count = var.enable_backend && var.backend_forwarding_rule_name != null ? 1 : 0
+  count = var.enable_backend ? 1 : 0
 
   account_id        = var.databricks_account_id
   vpc_endpoint_name = "${var.prefix}-scc-ep-${var.suffix}"
@@ -25,7 +25,7 @@ resource "databricks_mws_vpc_endpoint" "backend" {
 }
 
 resource "databricks_mws_vpc_endpoint" "transit" {
-  count = var.enable_frontend && var.hub_frontend_forwarding_rule_name != null ? 1 : 0
+  count = var.enable_frontend && var.create_hub ? 1 : 0
 
   account_id        = var.databricks_account_id
   vpc_endpoint_name = "${var.prefix}-hub-ep-${var.suffix}"

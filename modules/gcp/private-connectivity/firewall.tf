@@ -80,7 +80,7 @@ resource "google_compute_firewall" "spoke_allow_hive" {
 
 # === Hub ingress from spoke =============================================
 resource "google_compute_firewall" "hub_ingress" {
-  count = var.restrict_egress && local.hub_present ? 1 : 0
+  count = var.restrict_egress && var.create_hub ? 1 : 0
 
   name    = "${var.prefix}-hub-${var.suffix}-ingress"
   project = var.hub_vpc_google_project

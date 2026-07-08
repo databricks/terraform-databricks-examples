@@ -66,19 +66,19 @@ variable "hub_vpc_google_project" {
 variable "frontend_forwarding_rule_name" {
   type        = string
   default     = null
-  description = "Name of the frontend PSC forwarding rule from private-connectivity; gates frontend mws_vpc_endpoint creation"
+  description = "Name of the frontend PSC forwarding rule from private-connectivity; used as gcp_vpc_endpoint_info.psc_endpoint_name"
 }
 
 variable "backend_forwarding_rule_name" {
   type        = string
   default     = null
-  description = "Name of the backend (SCC) PSC forwarding rule from private-connectivity; gates backend mws_vpc_endpoint creation"
+  description = "Name of the backend (SCC) PSC forwarding rule from private-connectivity; used as gcp_vpc_endpoint_info.psc_endpoint_name"
 }
 
 variable "hub_frontend_forwarding_rule_name" {
   type        = string
   default     = null
-  description = "Name of the hub-side frontend PSC forwarding rule from private-connectivity; gates transit mws_vpc_endpoint creation"
+  description = "Name of the hub-side frontend PSC forwarding rule from private-connectivity; used as gcp_vpc_endpoint_info.psc_endpoint_name"
 }
 
 variable "enable_frontend" {
@@ -103,4 +103,10 @@ variable "nat_dependency" {
   type        = any
   default     = null
   description = "Opaque value (typically the Cloud NAT ID) used as depends_on for the workspace to ensure NAT readiness before workspace creation"
+}
+
+variable "create_hub" {
+  type        = bool
+  default     = false
+  description = "Whether a hub VPC exists (composer passes restricted_egress). Gates the transit mws_vpc_endpoint; must be plan-time static"
 }

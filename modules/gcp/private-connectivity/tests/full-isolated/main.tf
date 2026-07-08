@@ -28,5 +28,6 @@ module "pc" {
   enable_frontend = true
   enable_backend  = true
   restrict_egress = true
+  create_hub      = true
   psc_subnet_cidr = "10.0.255.0/28"
 }

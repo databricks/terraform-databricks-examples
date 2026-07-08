@@ -45,6 +45,7 @@ module "private_connectivity" {
   enable_frontend = var.private_link_frontend
   enable_backend  = var.private_link_backend
   restrict_egress = var.restricted_egress
+  create_hub      = var.restricted_egress
   psc_subnet_cidr = var.psc_subnet_cidr
 
   hive_metastore_ip = var.hive_metastore_ip
@@ -73,6 +74,7 @@ module "account" {
   enable_frontend     = var.private_link_frontend
   enable_backend      = var.private_link_backend
   private_access_only = var.private_access_only
+  create_hub          = var.restricted_egress
 
   nat_dependency = local.databricks_managed ? null : module.network[0].nat_id
 }

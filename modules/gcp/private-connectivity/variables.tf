@@ -103,3 +103,9 @@ variable "hive_metastore_ip" {
   default     = null
   description = "Regional Hive metastore IP used by the managed-hive allow rule. Looked up via internal map when null; firewall rule is skipped if the lookup also yields empty"
 }
+
+variable "create_hub" {
+  type        = bool
+  default     = false
+  description = "Whether the hub VPC exists (composer passes restricted_egress). Gates hub-side PSC and firewall resources; must be plan-time static"
+}

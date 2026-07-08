@@ -33,4 +33,5 @@ module "account" {
   enable_frontend     = true
   enable_backend      = true
   private_access_only = true
+  create_hub          = true
 }

@@ -56,7 +56,7 @@ resource "google_compute_forwarding_rule" "frontend_fr_spoke" {
 
 # === Frontend PSC endpoint — hub (transit) ==============================
 resource "google_compute_address" "frontend_address_hub" {
-  count = local.hub_present && var.enable_frontend ? 1 : 0
+  count = var.create_hub && var.enable_frontend ? 1 : 0
 
   name         = "${var.prefix}-hub-psc-ws-ip-${var.suffix}"
   project      = var.hub_vpc_google_project
@@ -66,7 +66,7 @@ resource "google_compute_address" "frontend_address_hub" {
 }
 
 resource "google_compute_forwarding_rule" "frontend_fr_hub" {
-  count = local.hub_present && var.enable_frontend ? 1 : 0
+  count = var.create_hub && var.enable_frontend ? 1 : 0
 
   name                  = "${var.prefix}-hub-psc-ws-ep-${var.suffix}"
   project               = var.hub_vpc_google_project
