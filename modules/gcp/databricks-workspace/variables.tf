@@ -121,7 +121,7 @@ variable "spoke_vpc_google_project" {
 variable "is_spoke_vpc_shared" {
   type        = bool
   default     = false
-  description = "If true, bind the spoke VPC project as a Shared-VPC host and the workspace project as a service project. Only takes effect when restricted_egress=true and the two projects differ"
+  description = "If true and the spoke VPC project differs from the workspace project, bind the spoke project as a Shared-VPC host and the workspace project as a service project. Works with or without restricted_egress"
 }
 
 variable "hub_vpc_cidr" {
