@@ -69,3 +69,27 @@ variable "catalog_name" {
   type        = string
   description = "Name to assign to default Unity Catalog catalog"
 }
+
+variable "serverless_egress_mode" {
+  type        = string
+  default     = "restricted"
+  description = "Serverless egress control mode (unmanaged, full, restricted). Default restricted: deny-by-default for serverless, matching this example's classic-compute posture. Requires Enterprise tier"
+}
+
+variable "serverless_allowed_internet_destinations" {
+  type        = list(string)
+  default     = []
+  description = "FQDNs serverless workloads may reach (only with serverless_egress_mode=restricted)"
+}
+
+variable "serverless_allowed_storage_destinations" {
+  type        = list(string)
+  default     = []
+  description = "GCS bucket names serverless workloads may reach (only with serverless_egress_mode=restricted)"
+}
+
+variable "serverless_egress_enforcement" {
+  type        = string
+  default     = "enforced"
+  description = "enforced or dry_run (log-only evaluation)"
+}

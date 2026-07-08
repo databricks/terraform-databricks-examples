@@ -76,6 +76,11 @@ module "workspace" {
   create_hub          = var.restricted_egress
 
   nat_dependency = local.databricks_managed ? null : module.network[0].nat_id
+
+  serverless_egress_mode                   = var.serverless_egress_mode
+  serverless_allowed_internet_destinations = var.serverless_allowed_internet_destinations
+  serverless_allowed_storage_destinations  = var.serverless_allowed_storage_destinations
+  serverless_egress_enforcement            = var.serverless_egress_enforcement
 }
 
 module "dns" {

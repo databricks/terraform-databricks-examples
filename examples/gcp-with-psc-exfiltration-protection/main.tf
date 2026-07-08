@@ -21,4 +21,9 @@ module "workspace" {
   hub_vpc_cidr             = var.hub_vpc_cidr
   psc_subnet_cidr          = var.psc_subnet_cidr
   hive_metastore_ip        = var.hive_metastore_ip
+
+  serverless_egress_mode                   = var.serverless_egress_mode
+  serverless_allowed_internet_destinations = var.serverless_allowed_internet_destinations
+  serverless_allowed_storage_destinations  = var.serverless_allowed_storage_destinations
+  serverless_egress_enforcement            = var.serverless_egress_enforcement
 }

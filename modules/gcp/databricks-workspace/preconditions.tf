@@ -43,5 +43,9 @@ resource "terraform_data" "preconditions" {
       ], var.google_region)
       error_message = "google_region must be a region supported by Databricks PSC when any private_link_* flag or restricted_egress is true."
     }
+    precondition {
+      condition     = var.serverless_egress_mode == "restricted" || (length(var.serverless_allowed_internet_destinations) == 0 && length(var.serverless_allowed_storage_destinations) == 0)
+      error_message = "serverless_allowed_internet_destinations and serverless_allowed_storage_destinations require serverless_egress_mode=\"restricted\"."
+    }
   }
 }

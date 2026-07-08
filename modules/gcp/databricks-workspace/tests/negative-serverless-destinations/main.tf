@@ -16,6 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
+# precondition fail: destinations without serverless_egress_mode=restricted
 module "workspace" {
   source = "../.."
 
@@ -24,21 +25,8 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source     = "create"
-  spoke_vpc_cidr = "10.0.0.0/16"
-  subnet_cidr    = "10.0.0.0/22"
+  vpc_source = "databricks_managed"
 
-  private_link_frontend = true
-  private_link_backend  = true
-  private_access_only   = true
-  restricted_egress     = true
-
-  spoke_vpc_google_project = "fixture-spoke"
-  hub_vpc_google_project   = "fixture-hub"
-  is_spoke_vpc_shared      = true
-  hub_vpc_cidr             = "10.1.0.0/24"
-  psc_subnet_cidr          = "10.0.255.0/28"
-
-  serverless_egress_mode                   = "restricted"
-  serverless_allowed_internet_destinations = ["pypi.org"]
+  serverless_egress_mode                   = "full"
+  serverless_allowed_internet_destinations = ["example.com"]
 }

@@ -34,4 +34,8 @@ module "workspace" {
   enable_backend      = true
   private_access_only = true
   create_hub          = true
+
+  serverless_egress_mode                   = "restricted"
+  serverless_allowed_internet_destinations = ["pypi.org"]
+  serverless_allowed_storage_destinations  = ["fixture-allowed-bucket"]
 }

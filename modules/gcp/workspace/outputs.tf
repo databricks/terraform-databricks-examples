@@ -32,3 +32,8 @@ output "private_access_settings_id" {
   value       = local.emit_pas ? databricks_mws_private_access_settings.this[0].private_access_settings_id : null
   description = "databricks_mws_private_access_settings ID (null when private_access_only=false)"
 }
+
+output "serverless_network_policy_id" {
+  value       = local.manage_serverless_egress ? databricks_account_network_policy.this[0].network_policy_id : null
+  description = "Serverless egress network-policy ID bound to the workspace (null when serverless_egress_mode=unmanaged)"
+}

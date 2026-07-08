@@ -141,3 +141,36 @@ variable "hive_metastore_ip" {
   default     = null
   description = "Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region"
 }
+
+# === Serverless egress control ===========================================
+variable "serverless_egress_mode" {
+  type        = string
+  default     = "unmanaged"
+  description = "Serverless egress control. unmanaged: no network policy resources; full: policy with FULL_ACCESS; restricted: deny-by-default policy allowing only the listed destinations. Requires the workspace to be on the Enterprise tier"
+  validation {
+    condition     = contains(["unmanaged", "full", "restricted"], var.serverless_egress_mode)
+    error_message = "serverless_egress_mode must be one of: unmanaged, full, restricted."
+  }
+}
+
+variable "serverless_allowed_internet_destinations" {
+  type        = list(string)
+  default     = []
+  description = "FQDNs serverless workloads may reach when serverless_egress_mode=restricted (max 100)"
+}
+
+variable "serverless_allowed_storage_destinations" {
+  type        = list(string)
+  default     = []
+  description = "GCS bucket names serverless workloads may reach when serverless_egress_mode=restricted (max 100); region is taken from google_region"
+}
+
+variable "serverless_egress_enforcement" {
+  type        = string
+  default     = "enforced"
+  description = "enforced: violations are blocked; dry_run: violations are only logged (use to evaluate a policy before enforcing)"
+  validation {
+    condition     = contains(["enforced", "dry_run"], var.serverless_egress_enforcement)
+    error_message = "serverless_egress_enforcement must be one of: enforced, dry_run."
+  }
+}

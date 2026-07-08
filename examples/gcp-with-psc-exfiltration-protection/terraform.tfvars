@@ -18,3 +18,8 @@ psc_subnet_cidr   = ""
 
 metastore_name = ""
 catalog_name   = ""
+
+serverless_egress_mode                   = "restricted"
+serverless_allowed_internet_destinations = []
+serverless_allowed_storage_destinations  = []
+serverless_egress_enforcement            = "enforced"

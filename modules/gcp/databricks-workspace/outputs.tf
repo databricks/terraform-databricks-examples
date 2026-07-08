@@ -19,6 +19,11 @@ output "private_access_settings_id" {
   description = "databricks_mws_private_access_settings ID (null when private_access_only=false)"
 }
 
+output "serverless_network_policy_id" {
+  value       = module.workspace.serverless_network_policy_id
+  description = "Serverless egress network-policy ID bound to the workspace (null when serverless_egress_mode=unmanaged)"
+}
+
 # === mws_vpc_endpoint IDs (Databricks-side PSC registration) ============
 output "frontend_endpoint_id" {
   value       = module.workspace.frontend_endpoint_id
