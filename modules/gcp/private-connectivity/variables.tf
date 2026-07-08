@@ -67,12 +67,6 @@ variable "hub_subnet_name" {
   description = "Name of the hub subnet (used as the subnetwork reference for the hub-side PSC address)"
 }
 
-variable "hub_vpc_cidr" {
-  type        = string
-  default     = null
-  description = "CIDR of the hub VPC address space (reserved for future use)"
-}
-
 # Feature flags
 variable "enable_frontend" {
   type        = bool

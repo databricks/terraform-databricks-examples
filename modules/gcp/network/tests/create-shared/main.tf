@@ -16,7 +16,6 @@ module "network" {
   google_region            = "us-central1"
   vpc_source               = "create"
   spoke_vpc_google_project = "fixture-host-project"
-  spoke_vpc_cidr           = "10.0.0.0/16"
   subnet_cidr              = "10.0.0.0/22"
 
   is_spoke_vpc_shared      = true

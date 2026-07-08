@@ -23,7 +23,6 @@ module "pc" {
   hub_vpc_self_link      = "https://www.googleapis.com/compute/v1/projects/fixture-hub/global/networks/hub-vpc"
   hub_vpc_google_project = "fixture-hub"
   hub_subnet_name        = "fixture-hub-subnet-abc123"
-  hub_vpc_cidr           = "10.1.0.0/24"
 
   enable_frontend = true
   enable_backend  = true

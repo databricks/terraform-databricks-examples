@@ -29,12 +29,6 @@ variable "spoke_vpc_google_project" {
 }
 
 # === Used when vpc_source = "create" ====================================
-variable "spoke_vpc_cidr" {
-  type        = string
-  default     = null
-  description = "CIDR for the spoke subnet primary range (required when vpc_source=create)"
-}
-
 variable "subnet_cidr" {
   type        = string
   default     = null

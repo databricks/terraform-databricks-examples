@@ -60,13 +60,6 @@ variable "psc_subnet_cidr" {
   description = "CIDR for the dedicated PSC subnet in the spoke VPC"
 }
 
-variable "tags" {
-  type        = map(string)
-  description = "Map of tags applied to the composer (the composer accepts this but does not currently propagate to all submodules)"
-
-  default = {}
-}
-
 variable "metastore_name" {
   type        = string
   description = "Name to assign to regional Unity Catalog metastore"

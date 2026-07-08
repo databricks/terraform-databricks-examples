@@ -8,10 +8,9 @@ module "network" {
   vpc_source               = var.vpc_source
   spoke_vpc_google_project = local.spoke_project
 
-  spoke_vpc_cidr = var.spoke_vpc_cidr
-  subnet_cidr    = var.subnet_cidr
-  pod_cidr       = var.pod_cidr
-  svc_cidr       = var.svc_cidr
+  subnet_cidr = var.subnet_cidr
+  pod_cidr    = var.pod_cidr
+  svc_cidr    = var.svc_cidr
 
   existing_vpc_name    = var.existing_vpc_name
   existing_subnet_name = var.existing_subnet_name
@@ -41,7 +40,6 @@ module "private_connectivity" {
   hub_vpc_self_link      = var.restricted_egress ? module.network[0].hub_vpc_self_link : null
   hub_vpc_google_project = var.hub_vpc_google_project
   hub_subnet_name        = var.restricted_egress ? module.network[0].hub_subnet_name : null
-  hub_vpc_cidr           = var.hub_vpc_cidr
 
   enable_frontend = var.private_link_frontend
   enable_backend  = var.private_link_backend
@@ -88,11 +86,9 @@ module "dns" {
   google_region = var.google_region
 
   hub_vpc_id             = module.network[0].hub_vpc_id
-  hub_vpc_self_link      = module.network[0].hub_vpc_self_link
   hub_vpc_google_project = var.hub_vpc_google_project
 
   spoke_vpc_id             = module.network[0].spoke_vpc_id
-  spoke_vpc_self_link      = module.network[0].spoke_vpc_self_link
   spoke_vpc_google_project = local.spoke_project
 
   workspace_url = module.account.workspace_url

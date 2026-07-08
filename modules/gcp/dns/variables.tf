@@ -14,11 +14,6 @@ variable "hub_vpc_id" {
   description = "ID of the hub VPC (DNS zones with this VPC's visibility)"
 }
 
-variable "hub_vpc_self_link" {
-  type        = string
-  description = "Self-link of the hub VPC"
-}
-
 variable "hub_vpc_google_project" {
   type        = string
   description = "GCP project hosting the hub VPC (used for the hub DNS zones)"
@@ -28,11 +23,6 @@ variable "hub_vpc_google_project" {
 variable "spoke_vpc_id" {
   type        = string
   description = "ID of the spoke VPC (DNS zone with this VPC's visibility)"
-}
-
-variable "spoke_vpc_self_link" {
-  type        = string
-  description = "Self-link of the spoke VPC"
 }
 
 variable "spoke_vpc_google_project" {

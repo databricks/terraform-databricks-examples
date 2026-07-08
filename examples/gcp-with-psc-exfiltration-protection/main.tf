@@ -21,6 +21,4 @@ module "workspace" {
   hub_vpc_cidr             = var.hub_vpc_cidr
   psc_subnet_cidr          = var.psc_subnet_cidr
   hive_metastore_ip        = var.hive_metastore_ip
-
-  tags = var.tags
 }

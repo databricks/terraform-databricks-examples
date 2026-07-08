@@ -18,5 +18,3 @@ psc_subnet_cidr   = ""
 
 metastore_name = ""
 catalog_name   = ""
-
-tags = {}
