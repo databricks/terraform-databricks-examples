@@ -2,6 +2,8 @@
 
 This module creates a complete Databricks workspace on Google Cloud Platform with full networking, connectivity, and authentication management.
 
+Not to be confused with the workspace submodule (../workspace), which this composer calls to register the workspace with the Databricks control plane.
+
 ## Usage
 
 ```hcl
@@ -23,7 +25,7 @@ See `examples/gcp-basic`, `examples/gcp-byovpc`, `examples/gcp-existing-vpc`, an
 
 - **network**: VPC creation or integration (databricks_managed, create, or existing)
 - **private_connectivity**: Private Service Connect (PSC) with optional frontend/backend
-- **account**: Databricks MWS resources and workspace
+- **workspace**: Databricks MWS resources and workspace
 - **dns**: Private DNS zones for restricted egress scenarios
 
 <!-- BEGIN_TF_DOCS -->

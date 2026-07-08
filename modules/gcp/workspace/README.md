@@ -1,6 +1,6 @@
-# modules/gcp/account
+# modules/gcp/workspace
 
-All `databricks_mws_*` resources for the GCP composer: `mws_networks`, `mws_workspaces`, `mws_vpc_endpoint`, `mws_private_access_settings`.
+Owns workspace registration with the Databricks control plane: `databricks_mws_*` resources for the GCP composer, including `mws_networks`, `mws_workspaces`, `mws_vpc_endpoint`, `mws_private_access_settings`.
 
 ## Usage
 

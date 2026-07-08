@@ -21,7 +21,7 @@ module "dns" {
   spoke_vpc_self_link      = module.network.spoke_vpc_self_link
   spoke_vpc_google_project = "my-spoke-project"
 
-  workspace_url = module.account.workspace_url
+  workspace_url = module.workspace.workspace_url
 
   frontend_psc_ip_spoke = module.private_connectivity.frontend_psc_ip_spoke
   frontend_psc_ip_hub   = module.private_connectivity.frontend_psc_ip_hub

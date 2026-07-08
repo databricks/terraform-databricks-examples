@@ -1,37 +1,37 @@
 # === Workspace ===========================================================
 output "workspace_id" {
-  value       = module.account.workspace_id
+  value       = module.workspace.workspace_id
   description = "Databricks workspace ID"
 }
 
 output "workspace_url" {
-  value       = module.account.workspace_url
+  value       = module.workspace.workspace_url
   description = "Databricks workspace URL (https://<id>.<random>.gcp.databricks.com)"
 }
 
 output "network_id" {
-  value       = module.account.network_id
+  value       = module.workspace.network_id
   description = "databricks_mws_networks ID (null when vpc_source=databricks_managed)"
 }
 
 output "private_access_settings_id" {
-  value       = module.account.private_access_settings_id
+  value       = module.workspace.private_access_settings_id
   description = "databricks_mws_private_access_settings ID (null when private_access_only=false)"
 }
 
 # === mws_vpc_endpoint IDs (Databricks-side PSC registration) ============
 output "frontend_endpoint_id" {
-  value       = module.account.frontend_endpoint_id
+  value       = module.workspace.frontend_endpoint_id
   description = "Frontend mws_vpc_endpoint ID (null when private_link_frontend=false)"
 }
 
 output "backend_endpoint_id" {
-  value       = module.account.backend_endpoint_id
+  value       = module.workspace.backend_endpoint_id
   description = "Backend (SCC) mws_vpc_endpoint ID (null when private_link_backend=false)"
 }
 
 output "transit_endpoint_id" {
-  value       = module.account.transit_endpoint_id
+  value       = module.workspace.transit_endpoint_id
   description = "Hub-side mws_vpc_endpoint ID (null when no hub or no frontend PSC)"
 }
 

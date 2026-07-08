@@ -50,8 +50,8 @@ module "private_connectivity" {
   hive_metastore_ip = var.hive_metastore_ip
 }
 
-module "account" {
-  source = "../account"
+module "workspace" {
+  source = "../workspace"
 
   prefix                = var.prefix
   suffix                = random_string.suffix.result
@@ -91,7 +91,7 @@ module "dns" {
   spoke_vpc_id             = module.network[0].spoke_vpc_id
   spoke_vpc_google_project = local.spoke_project
 
-  workspace_url = module.account.workspace_url
+  workspace_url = module.workspace.workspace_url
 
   frontend_psc_ip_spoke = module.private_connectivity[0].frontend_psc_ip_spoke
   frontend_psc_ip_hub   = module.private_connectivity[0].frontend_psc_ip_hub
