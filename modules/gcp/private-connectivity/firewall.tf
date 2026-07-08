@@ -11,7 +11,6 @@ resource "google_compute_firewall" "spoke_default_deny_egress" {
   direction          = "EGRESS"
   priority           = 1100
   destination_ranges = ["0.0.0.0/0"]
-  source_ranges      = []
 
   deny {
     protocol = "all"
@@ -86,10 +85,9 @@ resource "google_compute_firewall" "hub_ingress" {
   project = var.hub_vpc_google_project
   network = var.hub_vpc_self_link
 
-  direction          = "INGRESS"
-  priority           = 1000
-  destination_ranges = []
-  source_ranges      = [var.spoke_vpc_cidr]
+  direction     = "INGRESS"
+  priority      = 1000
+  source_ranges = [var.spoke_vpc_cidr]
 
   allow {
     protocol = "all"

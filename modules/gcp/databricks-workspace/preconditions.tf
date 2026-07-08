@@ -1,5 +1,5 @@
 # Cross-variable preconditions.
-resource "null_resource" "preconditions" {
+resource "terraform_data" "preconditions" {
   lifecycle {
     precondition {
       condition     = !var.restricted_egress || local.create_vpc
