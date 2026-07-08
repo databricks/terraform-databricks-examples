@@ -62,7 +62,7 @@ resource "google_compute_firewall" "spoke_allow_ctl_plane" {
 
 # === Spoke allow managed Hive (conditional on hive_metastore_ip) ========
 resource "google_compute_firewall" "spoke_allow_hive" {
-  count = var.restrict_egress && local.hive_metastore_ip != "" ? 1 : 0
+  count = var.restrict_egress && var.hive_metastore_ip != null ? 1 : 0
 
   name    = "${var.prefix}-spoke-${var.suffix}-to-${var.google_region}-managed-hive"
   project = var.spoke_vpc_google_project
@@ -70,7 +70,7 @@ resource "google_compute_firewall" "spoke_allow_hive" {
 
   direction          = "EGRESS"
   priority           = 1000
-  destination_ranges = ["${local.hive_metastore_ip}/32"]
+  destination_ranges = ["${var.hive_metastore_ip}/32"]
 
   allow {
     protocol = "tcp"

@@ -101,7 +101,7 @@ variable "psc_subnet_cidr" {
 variable "hive_metastore_ip" {
   type        = string
   default     = null
-  description = "Regional Hive metastore IP used by the managed-hive allow rule. Looked up via internal map when null; firewall rule is skipped if the lookup also yields empty"
+  description = "Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region"
 }
 
 variable "create_hub" {

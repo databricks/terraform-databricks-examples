@@ -32,12 +32,4 @@ locals {
     "us-west1"                = "projects/prod-gcp-us-west1/regions/us-west1/serviceAttachments/ngrok-psc-endpoint"
     "us-west4"                = "projects/prod-gcp-us-west4/regions/us-west4/serviceAttachments/ngrok-psc-endpoint"
   }
-
-  # Regional default Hive Metastore IPs per Databricks docs:
-  # https://docs.gcp.databricks.com/en/resources/ip-domain-region.html#addresses-for-default-metastore
-  # NOTE: kept empty initially; override via var.hive_metastore_ip.
-  default_hive_metastore_ips = {
-  }
-
-  hive_metastore_ip = var.hive_metastore_ip != null ? var.hive_metastore_ip : try(local.default_hive_metastore_ips[var.google_region], "")
 }
