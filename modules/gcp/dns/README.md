@@ -35,13 +35,13 @@ module "dns" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 7.31.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
 
 ## Modules
 
@@ -56,6 +56,9 @@ No modules.
 | [google_dns_managed_zone.hub_dbx](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
 | [google_dns_managed_zone.pkg_dev](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
 | [google_dns_managed_zone.spoke_dbx](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
+| [google_dns_managed_zone.spoke_peering_gcr](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
+| [google_dns_managed_zone.spoke_peering_google_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
+| [google_dns_managed_zone.spoke_peering_pkg_dev](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone) | resource |
 | [google_dns_record_set.gcr_a](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_record_set) | resource |
 | [google_dns_record_set.gcr_cname](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_record_set) | resource |
 | [google_dns_record_set.google_apis_a](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_record_set) | resource |
@@ -78,11 +81,9 @@ No modules.
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region (used in the spoke tunnel DNS record name) | `string` | n/a | yes |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (used for the hub DNS zones) | `string` | n/a | yes |
 | <a name="input_hub_vpc_id"></a> [hub\_vpc\_id](#input\_hub\_vpc\_id) | ID of the hub VPC (DNS zones with this VPC's visibility) | `string` | n/a | yes |
-| <a name="input_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#input\_hub\_vpc\_self\_link) | Self-link of the hub VPC | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated DNS managed zones | `string` | n/a | yes |
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | GCP project hosting the spoke VPC (used for the spoke DNS zone) | `string` | n/a | yes |
 | <a name="input_spoke_vpc_id"></a> [spoke\_vpc\_id](#input\_spoke\_vpc\_id) | ID of the spoke VPC (DNS zone with this VPC's visibility) | `string` | n/a | yes |
-| <a name="input_spoke_vpc_self_link"></a> [spoke\_vpc\_self\_link](#input\_spoke\_vpc\_self\_link) | Self-link of the spoke VPC | `string` | n/a | yes |
 | <a name="input_workspace_url"></a> [workspace\_url](#input\_workspace\_url) | Workspace URL from databricks\_mws\_workspaces; used to extract the workspace DNS ID via regex | `string` | n/a | yes |
 | <a name="input_frontend_psc_ip_hub"></a> [frontend\_psc\_ip\_hub](#input\_frontend\_psc\_ip\_hub) | Hub-side frontend PSC endpoint IP (used in the hub gcp.databricks.com A records) | `string` | `null` | no |
 

@@ -30,15 +30,20 @@ The consumer must declare a `databricks.workspace` provider alias pointing at th
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >= 1.81.1 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.115.0 |
-| <a name="provider_databricks.workspace"></a> [databricks.workspace](#provider\_databricks.workspace) | 1.115.0 |
-| <a name="provider_google"></a> [google](#provider\_google) | 7.32.0 |
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.120.0 |
+| <a name="provider_databricks.workspace"></a> [databricks.workspace](#provider\_databricks.workspace) | 1.120.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
 
 ## Modules
 

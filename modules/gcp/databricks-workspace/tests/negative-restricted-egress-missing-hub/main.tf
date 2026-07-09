@@ -16,7 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
-# precondition fail: restricted_egress=true requires hub_vpc_google_project, hub_vpc_cidr, psc_subnet_cidr
+# precondition fail: restricted_egress=true requires hub_vpc_google_project and hub_vpc_cidr
 module "workspace" {
   source = "../.."
 

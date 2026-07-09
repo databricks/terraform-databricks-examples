@@ -26,13 +26,13 @@ module "network" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 6.46.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
 
 ## Modules
 
@@ -65,16 +65,14 @@ No modules.
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | Random suffix passed by the composer for uniqueness | `string` | n/a | yes |
 | <a name="input_vpc_source"></a> [vpc\_source](#input\_vpc\_source) | Either 'create' (Terraform creates a VPC) or 'existing' (data-source lookup) | `string` | n/a | yes |
 | <a name="input_create_hub"></a> [create\_hub](#input\_create\_hub) | Create a hub VPC + subnet + peering with the spoke. Composer passes restricted\_egress here. | `bool` | `false` | no |
+| <a name="input_enable_nat"></a> [enable\_nat](#input\_enable\_nat) | Create Cloud Router + NAT for internet egress. The composer disables this under restricted\_egress, where no internet egress path may exist | `bool` | `true` | no |
 | <a name="input_existing_subnet_name"></a> [existing\_subnet\_name](#input\_existing\_subnet\_name) | Name of pre-existing subnet (required when vpc\_source=existing) | `string` | `null` | no |
 | <a name="input_existing_vpc_name"></a> [existing\_vpc\_name](#input\_existing\_vpc\_name) | Name of pre-existing VPC (required when vpc\_source=existing) | `string` | `null` | no |
 | <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for the hub subnet (required when create\_hub=true) | `string` | `null` | no |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (required when create\_hub=true) | `string` | `null` | no |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared) | If true, bind the spoke VPC's project as a Shared-VPC host and the workspace project as a service project | `bool` | `false` | no |
-| <a name="input_pod_cidr"></a> [pod\_cidr](#input\_pod\_cidr) | GKE secondary range for pods (optional) | `string` | `null` | no |
-| <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for the spoke subnet primary range (required when vpc\_source=create) | `string` | `null` | no |
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR for the spoke subnet (required when vpc\_source=create) | `string` | `null` | no |
 | <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Override for spoke subnet name (default: "{prefix}-subnet-{suffix}") | `string` | `null` | no |
-| <a name="input_svc_cidr"></a> [svc\_cidr](#input\_svc\_cidr) | GKE secondary range for services (optional) | `string` | `null` | no |
 | <a name="input_workspace_google_project"></a> [workspace\_google\_project](#input\_workspace\_google\_project) | Workspace project (used for Shared-VPC service binding) | `string` | `null` | no |
 
 ## Outputs
@@ -85,7 +83,7 @@ No modules.
 | <a name="output_hub_vpc_id"></a> [hub\_vpc\_id](#output\_hub\_vpc\_id) | ID of the hub VPC (null when create\_hub=false) |
 | <a name="output_hub_vpc_name"></a> [hub\_vpc\_name](#output\_hub\_vpc\_name) | Name of the hub VPC (null when create\_hub=false) |
 | <a name="output_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#output\_hub\_vpc\_self\_link) | Self-link of the hub VPC (null when create\_hub=false) |
-| <a name="output_nat_id"></a> [nat\_id](#output\_nat\_id) | ID of the Cloud NAT (null when vpc\_source=existing) |
+| <a name="output_nat_id"></a> [nat\_id](#output\_nat\_id) | ID of the Cloud NAT (null when vpc\_source=existing or enable\_nat=false) |
 | <a name="output_spoke_subnet_id"></a> [spoke\_subnet\_id](#output\_spoke\_subnet\_id) | ID of the spoke subnet |
 | <a name="output_spoke_subnet_name"></a> [spoke\_subnet\_name](#output\_spoke\_subnet\_name) | Name of the spoke subnet |
 | <a name="output_spoke_subnet_self_link"></a> [spoke\_subnet\_self\_link](#output\_spoke\_subnet\_self\_link) | Self-link of the spoke subnet |

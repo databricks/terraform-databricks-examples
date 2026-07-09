@@ -31,13 +31,13 @@ module "private_connectivity" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 7.31.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
 
 ## Modules
 
@@ -55,6 +55,8 @@ No modules.
 | [google_compute_firewall.spoke_allow_google_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_firewall.spoke_allow_hive](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_firewall.spoke_default_deny_egress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.spoke_intra_egress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.spoke_intra_ingress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_forwarding_rule.backend_fr](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_forwarding_rule) | resource |
 | [google_compute_forwarding_rule.frontend_fr_hub](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_forwarding_rule) | resource |
 | [google_compute_forwarding_rule.frontend_fr_spoke](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_forwarding_rule) | resource |
@@ -72,11 +74,11 @@ No modules.
 | <a name="input_spoke_vpc_id"></a> [spoke\_vpc\_id](#input\_spoke\_vpc\_id) | ID of the spoke VPC (output from the network module) | `string` | n/a | yes |
 | <a name="input_spoke_vpc_self_link"></a> [spoke\_vpc\_self\_link](#input\_spoke\_vpc\_self\_link) | Self-link of the spoke VPC (used as the network reference for firewall rules) | `string` | n/a | yes |
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | Random suffix appended to resource names for uniqueness (passed by the composer) | `string` | n/a | yes |
+| <a name="input_create_hub"></a> [create\_hub](#input\_create\_hub) | Whether the hub VPC exists (composer passes restricted\_egress). Gates hub-side PSC and firewall resources; must be plan-time static | `bool` | `false` | no |
 | <a name="input_enable_backend"></a> [enable\_backend](#input\_enable\_backend) | Create the backend (SCC, data plane) PSC endpoint on the spoke | `bool` | `false` | no |
 | <a name="input_enable_frontend"></a> [enable\_frontend](#input\_enable\_frontend) | Create the frontend (workspace UI/API) PSC endpoint on the spoke and, if hub exists, the hub side | `bool` | `false` | no |
-| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | Regional Hive metastore IP used by the managed-hive allow rule. Looked up via internal map when null; firewall rule is skipped if the lookup also yields empty | `string` | `null` | no |
+| <a name="input_hive_metastore_ip"></a> [hive\_metastore\_ip](#input\_hive\_metastore\_ip) | Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region | `string` | `null` | no |
 | <a name="input_hub_subnet_name"></a> [hub\_subnet\_name](#input\_hub\_subnet\_name) | Name of the hub subnet (used as the subnetwork reference for the hub-side PSC address) | `string` | `null` | no |
-| <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR of the hub VPC address space (reserved for future use) | `string` | `null` | no |
 | <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project that hosts the hub VPC (null when no hub is created) | `string` | `null` | no |
 | <a name="input_hub_vpc_id"></a> [hub\_vpc\_id](#input\_hub\_vpc\_id) | ID of the hub VPC (null when no hub is created) | `string` | `null` | no |
 | <a name="input_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#input\_hub\_vpc\_self\_link) | Self-link of the hub VPC (null when no hub is created) | `string` | `null` | no |
