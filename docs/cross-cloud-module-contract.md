@@ -57,7 +57,7 @@ Tier 2 (native nouns): each cloud names cloud objects with its own noun.
 | Region | `google_region` | `azure_region` | `aws_region` |
 | Resource container | `google_project` | `azure_resource_group` | (account-level, none) |
 | Endpoint subnet | `psc_subnet_cidr` | `private_endpoint_subnet_cidr` | `endpoint_subnet_cidrs` |
-| Endpoint IP outputs | `frontend_psc_ip_<spoke|hub>` | `frontend_endpoint_ip_<spoke|hub>` | n/a (ENI-based) |
+| Endpoint IP outputs | `frontend_psc_ip_<spoke\|hub>` | `frontend_endpoint_ip_<spoke\|hub>` | n/a (ENI-based) |
 
 ## 4. File shape
 
