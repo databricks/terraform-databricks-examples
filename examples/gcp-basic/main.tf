@@ -7,5 +7,5 @@ module "workspace" {
   google_region         = var.google_region
   workspace_name        = var.workspace_name
 
-  vpc_source = "databricks_managed"
+  vpc_source = { spoke = "databricks_managed" }
 }

@@ -24,5 +24,5 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source = "databricks_managed"
+  vpc_source = { spoke = "databricks_managed" }
 }

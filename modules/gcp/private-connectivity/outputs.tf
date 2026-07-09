@@ -14,7 +14,7 @@ output "backend_forwarding_rule_name" {
 }
 
 output "hub_frontend_forwarding_rule_name" {
-  value       = var.create_hub && var.enable_frontend ? google_compute_forwarding_rule.frontend_forwarding_rule_hub[0].name : null
+  value       = var.enable_hub && var.enable_frontend ? google_compute_forwarding_rule.frontend_forwarding_rule_hub[0].name : null
   description = "Name of the hub-side frontend PSC forwarding rule (null when no hub or no frontend)"
 }
 
@@ -29,6 +29,6 @@ output "backend_psc_ip_spoke" {
 }
 
 output "frontend_psc_ip_hub" {
-  value       = var.create_hub && var.enable_frontend ? google_compute_address.frontend_address_hub[0].address : null
+  value       = var.enable_hub && var.enable_frontend ? google_compute_address.frontend_address_hub[0].address : null
   description = "IP address of the hub-side frontend PSC endpoint (null when no hub)"
 }

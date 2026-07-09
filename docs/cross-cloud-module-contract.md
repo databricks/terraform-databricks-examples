@@ -31,8 +31,11 @@ Composer variables: `prefix`, `workspace_name`, `databricks_account_id`,
 (the key-reference format is per-cloud).
 
 The network-source variable uses the cloud's noun (`vpc_source` /
-`vnet_source`) but its values are frozen:
-`databricks_managed | create | existing`.
+`vnet_source`) and is an object with frozen keys and values: `{ spoke =
+databricks_managed | create | existing, hub = create | existing (optional;
+only settable when spoke is customer-managed) }` — `hub` is consumed only by
+egress-restricted topologies. The boolean `enable_hub_spoke_peering` (default
+true) is frozen alongside it.
 
 Composer outputs: `workspace_id`, `workspace_url`, `suffix`,
 `serverless_network_policy_id`, plus per-cloud network outputs following the

@@ -7,7 +7,7 @@ module "workspace" {
   google_region         = var.google_region
   workspace_name        = var.workspace_name
 
-  vpc_source     = "create"
+  vpc_source     = { spoke = "create" }
   spoke_vpc_cidr = var.spoke_vpc_cidr
   subnet_cidr    = var.subnet_cidr
 }

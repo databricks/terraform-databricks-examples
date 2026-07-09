@@ -16,7 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
-# precondition fail: PSC flags without psc_subnet_cidr
+# validation fail: vpc_source.hub is only relevant when vpc_source.spoke is create or existing
 module "workspace" {
   source = "../.."
 
@@ -25,10 +25,5 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source     = { spoke = "create" }
-  spoke_vpc_cidr = "10.0.0.0/16"
-  subnet_cidr    = "10.0.0.0/22"
-
-  private_link_frontend = true
-  private_link_backend  = true
+  vpc_source = { spoke = "databricks_managed", hub = "create" }
 }

@@ -10,7 +10,7 @@ resource "google_compute_network" "spoke_vpc" {
 
 # === Hub VPC ============================================================
 resource "google_compute_network" "hub_vpc" {
-  count = var.create_hub ? 1 : 0
+  count = local.create_hub_vpc ? 1 : 0
 
   name                    = "${var.prefix}-hub-vpc-${var.suffix}"
   project                 = var.hub_vpc_google_project

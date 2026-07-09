@@ -25,7 +25,7 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source = "databricks_managed"
+  vpc_source = { spoke = "databricks_managed" }
 
   serverless_egress_mode                   = "full"
   serverless_allowed_internet_destinations = ["example.com"]

@@ -1,6 +1,6 @@
 # examples/gcp-basic — Databricks-managed VPC
 
-Calls `modules/gcp/databricks-workspace` with `vpc_source = "databricks_managed"`.
+Calls `modules/gcp/databricks-workspace` with `vpc_source = { spoke = "databricks_managed" }`.
 The Databricks platform provisions the workspace VPC; you provide only the GCP
 project, region, and prefix.
 

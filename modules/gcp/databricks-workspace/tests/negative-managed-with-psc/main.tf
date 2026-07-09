@@ -16,7 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
-# precondition fail: vpc_source="databricks_managed" forbids private_link_frontend
+# precondition fail: vpc_source.spoke="databricks_managed" forbids private_link_frontend
 module "workspace" {
   source = "../.."
 
@@ -25,6 +25,6 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source            = "databricks_managed"
+  vpc_source            = { spoke = "databricks_managed" }
   private_link_frontend = true
 }

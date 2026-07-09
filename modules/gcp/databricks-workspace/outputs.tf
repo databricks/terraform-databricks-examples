@@ -11,7 +11,7 @@ output "workspace_url" {
 
 output "network_id" {
   value       = module.workspace.network_id
-  description = "databricks_mws_networks ID (null when vpc_source=databricks_managed)"
+  description = "databricks_mws_networks ID (null when vpc_source.spoke=databricks_managed)"
 }
 
 output "private_access_settings_id" {
@@ -43,22 +43,22 @@ output "transit_endpoint_id" {
 # === Network =============================================================
 output "spoke_vpc_id" {
   value       = local.databricks_managed ? null : module.network[0].spoke_vpc_id
-  description = "Spoke VPC ID (null when vpc_source=databricks_managed)"
+  description = "Spoke VPC ID (null when vpc_source.spoke=databricks_managed)"
 }
 
 output "spoke_vpc_self_link" {
   value       = local.databricks_managed ? null : module.network[0].spoke_vpc_self_link
-  description = "Spoke VPC self-link (null when vpc_source=databricks_managed)"
+  description = "Spoke VPC self-link (null when vpc_source.spoke=databricks_managed)"
 }
 
 output "spoke_subnet_id" {
   value       = local.databricks_managed ? null : module.network[0].spoke_subnet_id
-  description = "Spoke subnet ID (null when vpc_source=databricks_managed)"
+  description = "Spoke subnet ID (null when vpc_source.spoke=databricks_managed)"
 }
 
 output "spoke_subnet_self_link" {
   value       = local.databricks_managed ? null : module.network[0].spoke_subnet_self_link
-  description = "Spoke subnet self-link (null when vpc_source=databricks_managed)"
+  description = "Spoke subnet self-link (null when vpc_source.spoke=databricks_managed)"
 }
 
 output "hub_vpc_id" {
@@ -73,7 +73,7 @@ output "hub_vpc_self_link" {
 
 output "nat_id" {
   value       = local.create_spoke && !var.restricted_egress ? module.network[0].nat_id : null
-  description = "Cloud NAT ID (null when vpc_source != create or when restricted_egress=true)"
+  description = "Cloud NAT ID (null when vpc_source.spoke != create or when restricted_egress=true)"
 }
 
 # === Private connectivity ===============================================

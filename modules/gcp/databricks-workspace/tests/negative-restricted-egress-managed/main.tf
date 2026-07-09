@@ -16,7 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
-# precondition fail: restricted_egress=true requires vpc_source="create"
+# precondition fail: restricted_egress=true requires vpc_source.spoke="create"
 module "workspace" {
   source = "../.."
 
@@ -25,6 +25,6 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source        = "databricks_managed"
+  vpc_source        = { spoke = "databricks_managed" }
   restricted_egress = true
 }

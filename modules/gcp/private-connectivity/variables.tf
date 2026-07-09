@@ -102,8 +102,8 @@ variable "hive_metastore_ip" {
   }
 }
 
-variable "create_hub" {
+variable "enable_hub" {
   type        = bool
   default     = false
-  description = "Whether the hub VPC exists (composer passes restricted_egress). Gates hub-side PSC and firewall resources; must be plan-time static"
+  description = "Whether the hub exists (composer passes restricted_egress). Gates hub-side PSC and firewall resources; must be plan-time static"
 }

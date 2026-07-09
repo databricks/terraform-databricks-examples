@@ -28,7 +28,7 @@ resource "databricks_mws_vpc_endpoint" "backend" {
 }
 
 resource "databricks_mws_vpc_endpoint" "transit" {
-  count = var.enable_frontend && var.create_hub ? 1 : 0
+  count = var.enable_frontend && var.enable_hub ? 1 : 0
 
   account_id        = var.databricks_account_id
   vpc_endpoint_name = "${var.prefix}-hub-ep-${var.suffix}"

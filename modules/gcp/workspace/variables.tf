@@ -105,10 +105,10 @@ variable "nat_dependency" {
   description = "Opaque value (typically the Cloud NAT ID) used as depends_on for the workspace to ensure NAT readiness before workspace creation"
 }
 
-variable "create_hub" {
+variable "enable_hub" {
   type        = bool
   default     = false
-  description = "Whether a hub VPC exists (composer passes restricted_egress). Gates the transit mws_vpc_endpoint; must be plan-time static"
+  description = "Whether the hub exists (composer passes restricted_egress). Gates the transit mws_vpc_endpoint; must be plan-time static"
 }
 
 variable "serverless_egress_mode" {

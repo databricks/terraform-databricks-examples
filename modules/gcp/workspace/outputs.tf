@@ -24,7 +24,7 @@ output "backend_endpoint_id" {
 }
 
 output "transit_endpoint_id" {
-  value       = var.enable_frontend && var.create_hub ? databricks_mws_vpc_endpoint.transit[0].vpc_endpoint_id : null
+  value       = var.enable_frontend && var.enable_hub ? databricks_mws_vpc_endpoint.transit[0].vpc_endpoint_id : null
   description = "Hub-side mws_vpc_endpoint ID (null when no hub)"
 }
 

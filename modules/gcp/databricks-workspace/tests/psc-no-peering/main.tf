@@ -28,10 +28,11 @@ module "workspace" {
   spoke_vpc_cidr = "10.0.0.0/16"
   subnet_cidr    = "10.0.0.0/22"
 
-  private_link_frontend = true
-  private_link_backend  = true
-  private_access_only   = true
-  restricted_egress     = true
+  private_link_frontend    = true
+  private_link_backend     = true
+  private_access_only      = true
+  restricted_egress        = true
+  enable_hub_spoke_peering = false
 
   spoke_vpc_google_project = "fixture-spoke"
   hub_vpc_google_project   = "fixture-hub"

@@ -12,3 +12,18 @@ data "google_compute_subnetwork" "existing_spoke_subnet" {
   project = var.spoke_vpc_google_project
   region  = var.google_region
 }
+
+data "google_compute_network" "existing_hub" {
+  count = local.use_existing_hub ? 1 : 0
+
+  name    = var.existing_hub_vpc_name
+  project = var.hub_vpc_google_project
+}
+
+data "google_compute_subnetwork" "existing_hub_subnet" {
+  count = local.use_existing_hub ? 1 : 0
+
+  name    = var.existing_hub_subnet_name
+  project = var.hub_vpc_google_project
+  region  = var.google_region
+}

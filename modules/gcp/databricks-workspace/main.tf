@@ -5,7 +5,7 @@ module "network" {
   prefix                   = var.prefix
   suffix                   = random_string.suffix.result
   google_region            = var.google_region
-  vpc_source               = var.vpc_source
+  vpc_source               = var.vpc_source.spoke
   spoke_vpc_google_project = local.spoke_project
 
   subnet_cidr = var.subnet_cidr
@@ -13,7 +13,11 @@ module "network" {
   existing_vpc_name    = var.existing_vpc_name
   existing_subnet_name = var.existing_subnet_name
 
-  create_hub               = var.restricted_egress
+  enable_hub               = var.restricted_egress
+  enable_hub_spoke_peering = var.enable_hub_spoke_peering
+  hub_vpc_source           = local.hub_source
+  existing_hub_vpc_name    = var.existing_hub_vpc_name
+  existing_hub_subnet_name = var.existing_hub_subnet_name
   hub_vpc_google_project   = var.hub_vpc_google_project
   hub_vpc_cidr             = var.hub_vpc_cidr
   is_spoke_vpc_shared      = var.is_spoke_vpc_shared
@@ -42,7 +46,7 @@ module "private_connectivity" {
   enable_frontend = var.private_link_frontend
   enable_backend  = var.private_link_backend
   restrict_egress = var.restricted_egress
-  create_hub      = var.restricted_egress
+  enable_hub      = var.restricted_egress
   psc_subnet_cidr = var.psc_subnet_cidr
 
   hive_metastore_ip = var.hive_metastore_ip
@@ -57,7 +61,7 @@ module "workspace" {
   databricks_account_id = var.databricks_account_id
   google_project        = var.google_project
   google_region         = var.google_region
-  vpc_source            = var.vpc_source
+  vpc_source            = var.vpc_source.spoke
 
   spoke_vpc_name           = local.databricks_managed ? null : module.network[0].spoke_vpc_name
   spoke_subnet_name        = local.databricks_managed ? null : module.network[0].spoke_subnet_name
@@ -71,7 +75,7 @@ module "workspace" {
   enable_frontend     = var.private_link_frontend
   enable_backend      = var.private_link_backend
   private_access_only = var.private_access_only
-  create_hub          = var.restricted_egress
+  enable_hub          = var.restricted_egress
 
   nat_dependency = local.databricks_managed ? null : module.network[0].nat_id
 

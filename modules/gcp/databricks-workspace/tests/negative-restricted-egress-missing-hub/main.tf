@@ -16,7 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
-# precondition fail: restricted_egress=true requires hub_vpc_google_project and hub_vpc_cidr
+# precondition fail: restricted_egress=true requires hub_vpc_google_project
 module "workspace" {
   source = "../.."
 
@@ -25,7 +25,7 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source            = "create"
+  vpc_source            = { spoke = "create" }
   spoke_vpc_cidr        = "10.0.0.0/16"
   subnet_cidr           = "10.0.0.0/22"
   private_link_frontend = true

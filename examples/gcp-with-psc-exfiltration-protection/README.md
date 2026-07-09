@@ -2,7 +2,7 @@
 
 Calls `modules/gcp/databricks-workspace` with all PrivateLink and egress-control flags enabled:
 
-- `vpc_source = "create"` — composer creates the spoke VPC + hub VPC + peering
+- `vpc_source = { spoke = "create", hub = "create" }` — composer creates the spoke VPC + hub VPC + peering
 - `private_link_frontend = true` — frontend PSC endpoint (workspace UI/API)
 - `private_link_backend  = true` — backend (SCC) PSC endpoint (data plane)
 - `private_access_only   = true` — `mws_private_access_settings.public_access_enabled = false`
@@ -33,7 +33,7 @@ This example previously called `modules/gcp-with-psc-exfiltration-protection` an
 | Old | New |
 |-----|-----|
 | `module.gcp_with_data_exfiltration_protection` | `module.workspace` |
-| `modules/gcp-with-psc-exfiltration-protection` | `modules/gcp/databricks-workspace` with `vpc_source=create` + 4 PSC/egress flags |
+| `modules/gcp-with-psc-exfiltration-protection` | `modules/gcp/databricks-workspace` with `vpc_source={spoke="create",hub="create"}` + 4 PSC/egress flags |
 | `modules/gcp-unity-catalog` | `modules/gcp/unity-catalog` (relocated, same interface) |
 | `spoke_vpc_cidr` (legacy: was used as subnet CIDR AND firewall source ranges) | Split into `subnet_cidr` (subnet CIDR) and `spoke_vpc_cidr` (broader VPC CIDR for firewall source) |
 

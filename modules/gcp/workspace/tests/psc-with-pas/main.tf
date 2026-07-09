@@ -33,7 +33,7 @@ module "workspace" {
   enable_frontend     = true
   enable_backend      = true
   private_access_only = true
-  create_hub          = true
+  enable_hub          = true
 
   serverless_egress_mode                   = "restricted"
   serverless_allowed_internet_destinations = ["pypi.org"]

@@ -16,6 +16,7 @@ provider "databricks" {
   account_id = "00000000-0000-0000-0000-000000000000"
 }
 
+# precondition fail: vpc_source.hub="existing" requires existing_hub_vpc_name and existing_hub_subnet_name
 module "workspace" {
   source = "../.."
 
@@ -24,7 +25,7 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source     = { spoke = "create" }
+  vpc_source     = { spoke = "create", hub = "existing" }
   spoke_vpc_cidr = "10.0.0.0/16"
   subnet_cidr    = "10.0.0.0/22"
 
@@ -36,7 +37,6 @@ module "workspace" {
   spoke_vpc_google_project = "fixture-spoke"
   hub_vpc_google_project   = "fixture-hub"
   is_spoke_vpc_shared      = true
-  hub_vpc_cidr             = "10.1.0.0/24"
   psc_subnet_cidr          = "10.0.255.0/28"
 
   serverless_egress_mode                   = "restricted"

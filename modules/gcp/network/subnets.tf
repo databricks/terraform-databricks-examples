@@ -12,7 +12,7 @@ resource "google_compute_subnetwork" "spoke_subnet" {
 
 # === Hub subnet =========================================================
 resource "google_compute_subnetwork" "hub_subnet" {
-  count = var.create_hub ? 1 : 0
+  count = local.create_hub_vpc ? 1 : 0
 
   name                     = "${var.prefix}-hub-subnet-${var.suffix}"
   project                  = var.hub_vpc_google_project

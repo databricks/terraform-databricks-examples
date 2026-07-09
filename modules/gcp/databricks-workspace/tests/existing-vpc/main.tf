@@ -24,7 +24,7 @@ module "workspace" {
   google_project        = "fixture-workspace"
   google_region         = "us-central1"
 
-  vpc_source           = "existing"
+  vpc_source           = { spoke = "existing" }
   existing_vpc_name    = "preexisting-vpc"
   existing_subnet_name = "preexisting-subnet"
 }

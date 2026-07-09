@@ -46,21 +46,29 @@ output "nat_id" {
 }
 
 output "hub_vpc_id" {
-  value       = var.create_hub ? google_compute_network.hub_vpc[0].id : null
-  description = "ID of the hub VPC (null when create_hub=false)"
+  value = local.create_hub_vpc ? google_compute_network.hub_vpc[0].id : (
+    local.use_existing_hub ? data.google_compute_network.existing_hub[0].id : null
+  )
+  description = "ID of the hub VPC (null when the hub is disabled)"
 }
 
 output "hub_vpc_name" {
-  value       = var.create_hub ? google_compute_network.hub_vpc[0].name : null
-  description = "Name of the hub VPC (null when create_hub=false)"
+  value = local.create_hub_vpc ? google_compute_network.hub_vpc[0].name : (
+    local.use_existing_hub ? data.google_compute_network.existing_hub[0].name : null
+  )
+  description = "Name of the hub VPC (null when the hub is disabled)"
 }
 
 output "hub_vpc_self_link" {
-  value       = var.create_hub ? google_compute_network.hub_vpc[0].self_link : null
-  description = "Self-link of the hub VPC (null when create_hub=false)"
+  value = local.create_hub_vpc ? google_compute_network.hub_vpc[0].self_link : (
+    local.use_existing_hub ? data.google_compute_network.existing_hub[0].self_link : null
+  )
+  description = "Self-link of the hub VPC (null when the hub is disabled)"
 }
 
 output "hub_subnet_name" {
-  value       = var.create_hub ? google_compute_subnetwork.hub_subnet[0].name : null
-  description = "Name of the hub subnet (null when create_hub=false)"
+  value = local.create_hub_vpc ? google_compute_subnetwork.hub_subnet[0].name : (
+    local.use_existing_hub ? data.google_compute_subnetwork.existing_hub_subnet[0].name : null
+  )
+  description = "Name of the hub subnet (null when the hub is disabled)"
 }

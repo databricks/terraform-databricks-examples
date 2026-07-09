@@ -1,6 +1,6 @@
 # examples/gcp-byovpc — Customer-managed VPC
 
-Calls `modules/gcp/databricks-workspace` with `vpc_source = "create"`. Terraform
+Calls `modules/gcp/databricks-workspace` with `vpc_source = { spoke = "create" }`. Terraform
 creates the spoke VPC + subnet + Cloud Router + NAT, then registers the network
 with the Databricks account and provisions a workspace inside it.
 

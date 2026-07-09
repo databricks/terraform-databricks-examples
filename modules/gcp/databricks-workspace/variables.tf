@@ -33,39 +33,50 @@ variable "tags" {
 
 # === VPC source ==========================================================
 variable "vpc_source" {
-  type        = string
-  default     = "databricks_managed"
-  description = "Where the workspace VPC comes from. One of: databricks_managed (no networking module called), create (Terraform creates VPC + subnet + NAT), existing (data-source lookup)"
+  type = object({
+    spoke = optional(string, "databricks_managed")
+    hub   = optional(string)
+  })
+  default     = {}
+  description = "Where the workspace networks come from. spoke: databricks_managed (no networking module called), create (Terraform creates VPC + subnet + NAT), existing (data-source lookup of existing_vpc_name/existing_subnet_name). hub — only relevant when spoke is create or existing, and only consumed when restricted_egress=true: create (hub VPC + subnet created; hub_vpc_cidr required; the default when unset) or existing (lookup of existing_hub_vpc_name/existing_hub_subnet_name)"
   validation {
-    condition     = contains(["databricks_managed", "create", "existing"], var.vpc_source)
-    error_message = "vpc_source must be one of: databricks_managed, create, existing."
+    condition     = contains(["databricks_managed", "create", "existing"], var.vpc_source.spoke)
+    error_message = "vpc_source.spoke must be one of: databricks_managed, create, existing."
+  }
+  validation {
+    condition     = var.vpc_source.hub == null || contains(["create", "existing"], var.vpc_source.hub)
+    error_message = "vpc_source.hub must be 'create' or 'existing' (or unset)."
+  }
+  validation {
+    condition     = var.vpc_source.hub == null || contains(["create", "existing"], var.vpc_source.spoke)
+    error_message = "vpc_source.hub is only relevant when vpc_source.spoke is create or existing."
   }
 }
 
-# When vpc_source = "create"
+# When vpc_source.spoke = "create"
 variable "spoke_vpc_cidr" {
   type        = string
   default     = null
-  description = "CIDR of the spoke VPC address space (e.g. 10.0.0.0/16). Required when vpc_source=create; ignored otherwise"
+  description = "CIDR of the spoke VPC address space (e.g. 10.0.0.0/16). Required when vpc_source.spoke=create; ignored otherwise"
 }
 
 variable "subnet_cidr" {
   type        = string
   default     = null
-  description = "CIDR of the spoke subnet primary range (e.g. 10.0.0.0/22). Required when vpc_source=create"
+  description = "CIDR of the spoke subnet primary range (e.g. 10.0.0.0/22). Required when vpc_source.spoke=create"
 }
 
-# When vpc_source = "existing"
+# When vpc_source.spoke = "existing"
 variable "existing_vpc_name" {
   type        = string
   default     = null
-  description = "Name of the pre-existing VPC to use. Required when vpc_source=existing"
+  description = "Name of the pre-existing VPC to use. Required when vpc_source.spoke=existing"
 }
 
 variable "existing_subnet_name" {
   type        = string
   default     = null
-  description = "Name of the pre-existing subnet to use (must be in google_region). Required when vpc_source=existing"
+  description = "Name of the pre-existing subnet to use (must be in google_region). Required when vpc_source.spoke=existing"
 }
 
 # === Connectivity feature flags ==========================================
@@ -90,7 +101,7 @@ variable "private_access_only" {
 variable "restricted_egress" {
   type        = bool
   default     = false
-  description = "Create hub VPC + bidirectional peering + deny-egress firewall + private DNS zones. Requires vpc_source=create and at least one private_link_* flag"
+  description = "Create hub VPC + bidirectional peering + deny-egress firewall + private DNS zones. Requires vpc_source.spoke=create and at least one private_link_* flag"
 }
 
 # === Required when restricted_egress = true ==============================
@@ -115,7 +126,25 @@ variable "is_spoke_vpc_shared" {
 variable "hub_vpc_cidr" {
   type        = string
   default     = null
-  description = "CIDR of the hub subnet (e.g. 10.1.0.0/24). Required when restricted_egress=true"
+  description = "CIDR of the hub subnet (e.g. 10.1.0.0/24). Required when restricted_egress=true and vpc_source.hub=create"
+}
+
+variable "enable_hub_spoke_peering" {
+  type        = bool
+  default     = true
+  description = "Create the bidirectional VPC peering between hub and spoke. Disable when hub-spoke connectivity is provided by other means (e.g. Shared VPC or an existing transit). Cloud DNS peering zones do not depend on it. Only takes effect when the hub is enabled"
+}
+
+variable "existing_hub_vpc_name" {
+  type        = string
+  default     = null
+  description = "Name of the pre-existing hub VPC. Required when vpc_source.hub=existing"
+}
+
+variable "existing_hub_subnet_name" {
+  type        = string
+  default     = null
+  description = "Name of the pre-existing hub subnet (must be in google_region). Required when vpc_source.hub=existing"
 }
 
 variable "psc_subnet_cidr" {

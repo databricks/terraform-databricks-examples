@@ -1,6 +1,6 @@
 # examples/gcp-existing-vpc — Use a pre-existing VPC
 
-Calls `modules/gcp/databricks-workspace` with `vpc_source = "existing"`. Instead
+Calls `modules/gcp/databricks-workspace` with `vpc_source = { spoke = "existing" }`. Instead
 of creating a VPC, the composer looks up the named VPC + subnet via Terraform
 data sources and registers them with the Databricks account.
 
@@ -26,10 +26,10 @@ terraform apply
 
 - Does not create the VPC, subnet, router, or NAT — those must already exist
 - Does not enforce that the subnet has Private Google Access enabled — verify in the console
-- Does not configure egress firewalls or PrivateLink (those require `vpc_source = "create"`)
+- Does not configure egress firewalls or PrivateLink (those require `vpc_source = { spoke = "create" }`)
 
 To layer PrivateLink onto an existing network, the current composer requires
-`vpc_source = "create"`. Future work may relax this.
+`vpc_source = { spoke = "create" }`. Future work may relax this.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

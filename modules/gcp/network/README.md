@@ -52,7 +52,9 @@ No modules.
 | [google_compute_shared_vpc_service_project.service](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_shared_vpc_service_project) | resource |
 | [google_compute_subnetwork.hub_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
 | [google_compute_subnetwork.spoke_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
+| [google_compute_network.existing_hub](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/compute_network) | data source |
 | [google_compute_network.existing_spoke](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/compute_network) | data source |
+| [google_compute_subnetwork.existing_hub_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/compute_subnetwork) | data source |
 | [google_compute_subnetwork.existing_spoke_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/compute_subnetwork) | data source |
 
 ## Inputs
@@ -64,12 +66,16 @@ No modules.
 | <a name="input_spoke_vpc_google_project"></a> [spoke\_vpc\_google\_project](#input\_spoke\_vpc\_google\_project) | GCP project hosting the spoke VPC | `string` | n/a | yes |
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | Random suffix passed by the composer for uniqueness | `string` | n/a | yes |
 | <a name="input_vpc_source"></a> [vpc\_source](#input\_vpc\_source) | Either 'create' (Terraform creates a VPC) or 'existing' (data-source lookup) | `string` | n/a | yes |
-| <a name="input_create_hub"></a> [create\_hub](#input\_create\_hub) | Create a hub VPC + subnet + peering with the spoke. Composer passes restricted\_egress here. | `bool` | `false` | no |
+| <a name="input_enable_hub"></a> [enable\_hub](#input\_enable\_hub) | Enable the hub half of the topology: hub VPC/subnet (created or looked up per hub\_vpc\_source) and hub-spoke peering. Composer passes restricted\_egress | `bool` | `false` | no |
+| <a name="input_enable_hub_spoke_peering"></a> [enable\_hub\_spoke\_peering](#input\_enable\_hub\_spoke\_peering) | Create the bidirectional VPC peering between hub and spoke. Disable when hub-spoke connectivity is provided by other means (e.g. Shared VPC or an existing transit). Cloud DNS peering zones do not depend on it. Only takes effect when the hub is enabled | `bool` | `true` | no |
 | <a name="input_enable_nat"></a> [enable\_nat](#input\_enable\_nat) | Create Cloud Router + NAT for internet egress. The composer disables this under restricted\_egress, where no internet egress path may exist | `bool` | `true` | no |
+| <a name="input_existing_hub_subnet_name"></a> [existing\_hub\_subnet\_name](#input\_existing\_hub\_subnet\_name) | Name of the pre-existing hub subnet (must be in google\_region). Required when hub\_vpc\_source=existing | `string` | `null` | no |
+| <a name="input_existing_hub_vpc_name"></a> [existing\_hub\_vpc\_name](#input\_existing\_hub\_vpc\_name) | Name of the pre-existing hub VPC. Required when hub\_vpc\_source=existing | `string` | `null` | no |
 | <a name="input_existing_subnet_name"></a> [existing\_subnet\_name](#input\_existing\_subnet\_name) | Name of pre-existing subnet (required when vpc\_source=existing) | `string` | `null` | no |
 | <a name="input_existing_vpc_name"></a> [existing\_vpc\_name](#input\_existing\_vpc\_name) | Name of pre-existing VPC (required when vpc\_source=existing) | `string` | `null` | no |
-| <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for the hub subnet (required when create\_hub=true) | `string` | `null` | no |
-| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (required when create\_hub=true) | `string` | `null` | no |
+| <a name="input_hub_vpc_cidr"></a> [hub\_vpc\_cidr](#input\_hub\_vpc\_cidr) | CIDR for the hub subnet (required when enable\_hub=true) | `string` | `null` | no |
+| <a name="input_hub_vpc_google_project"></a> [hub\_vpc\_google\_project](#input\_hub\_vpc\_google\_project) | GCP project hosting the hub VPC (required when enable\_hub=true) | `string` | `null` | no |
+| <a name="input_hub_vpc_source"></a> [hub\_vpc\_source](#input\_hub\_vpc\_source) | Where the hub VPC comes from when the hub is enabled. create: Terraform creates the hub VPC and subnet (hub\_vpc\_cidr required); existing: data-source lookup of existing\_hub\_vpc\_name/existing\_hub\_subnet\_name in hub\_vpc\_google\_project | `string` | `"create"` | no |
 | <a name="input_is_spoke_vpc_shared"></a> [is\_spoke\_vpc\_shared](#input\_is\_spoke\_vpc\_shared) | If true, bind the spoke VPC's project as a Shared-VPC host and the workspace project as a service project | `bool` | `false` | no |
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR for the spoke subnet (required when vpc\_source=create) | `string` | `null` | no |
 | <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Override for spoke subnet name (default: "{prefix}-subnet-{suffix}") | `string` | `null` | no |
@@ -79,10 +85,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_hub_subnet_name"></a> [hub\_subnet\_name](#output\_hub\_subnet\_name) | Name of the hub subnet (null when create\_hub=false) |
-| <a name="output_hub_vpc_id"></a> [hub\_vpc\_id](#output\_hub\_vpc\_id) | ID of the hub VPC (null when create\_hub=false) |
-| <a name="output_hub_vpc_name"></a> [hub\_vpc\_name](#output\_hub\_vpc\_name) | Name of the hub VPC (null when create\_hub=false) |
-| <a name="output_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#output\_hub\_vpc\_self\_link) | Self-link of the hub VPC (null when create\_hub=false) |
+| <a name="output_hub_subnet_name"></a> [hub\_subnet\_name](#output\_hub\_subnet\_name) | Name of the hub subnet (null when the hub is disabled) |
+| <a name="output_hub_vpc_id"></a> [hub\_vpc\_id](#output\_hub\_vpc\_id) | ID of the hub VPC (null when the hub is disabled) |
+| <a name="output_hub_vpc_name"></a> [hub\_vpc\_name](#output\_hub\_vpc\_name) | Name of the hub VPC (null when the hub is disabled) |
+| <a name="output_hub_vpc_self_link"></a> [hub\_vpc\_self\_link](#output\_hub\_vpc\_self\_link) | Self-link of the hub VPC (null when the hub is disabled) |
 | <a name="output_nat_id"></a> [nat\_id](#output\_nat\_id) | ID of the Cloud NAT (null when vpc\_source=existing or enable\_nat=false) |
 | <a name="output_spoke_subnet_id"></a> [spoke\_subnet\_id](#output\_spoke\_subnet\_id) | ID of the spoke subnet |
 | <a name="output_spoke_subnet_name"></a> [spoke\_subnet\_name](#output\_spoke\_subnet\_name) | Name of the spoke subnet |
