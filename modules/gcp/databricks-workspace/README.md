@@ -15,7 +15,7 @@ module "workspace" {
   google_project        = "my-workspace-project"
   google_region         = "us-central1"
 
-  vpc_source = { spoke = "databricks_managed" }   # spoke: or "create" / "existing"
+  vpc_source = { spoke = "databricks_managed" }   # spoke: databricks_managed | create | existing; hub (optional): create | existing
 }
 ```
 
