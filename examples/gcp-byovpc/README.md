@@ -26,8 +26,8 @@ names changed to match the new composer API:
 | Old name | New name |
 |----------|----------|
 | `subnet_ip_cidr_range` | `subnet_cidr` |
-| `pod_ip_cidr_range` | `pod_cidr` |
-| `svc_ip_cidr_range` | `svc_cidr` |
+| `pod_ip_cidr_range` | (removed — the GCP data plane runs on GCE; no secondary ranges needed) |
+| `svc_ip_cidr_range` | (removed — the GCP data plane runs on GCE; no secondary ranges needed) |
 | `subnet_name`, `router_name`, `nat_name` | (removed — composer derives from `prefix` + random suffix) |
 | `delegate_from` | (removed — handled by `examples/gcp-sa-provisioning`) |
 | _(new)_ | `spoke_vpc_cidr` (VPC primary CIDR, distinct from subnet CIDR) |
@@ -38,13 +38,15 @@ because resource addresses differ. Re-apply on clean state.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | ~> 1.81 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 6.17 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 6.46.0 |
+No providers.
 
 ## Modules
 
@@ -54,10 +56,7 @@ No requirements.
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [google_client_config.current](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
-| [google_client_openid_userinfo.me](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_openid_userinfo) | data source |
+No resources.
 
 ## Inputs
 
@@ -70,10 +69,8 @@ No requirements.
 | <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | GCP zone (used by the google provider) | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated resources | `string` | n/a | yes |
 | <a name="input_spoke_vpc_cidr"></a> [spoke\_vpc\_cidr](#input\_spoke\_vpc\_cidr) | CIDR for the spoke VPC (e.g. 10.0.0.0/16) | `string` | n/a | yes |
-| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR for the GKE nodes subnet primary range (e.g. 10.0.0.0/22) | `string` | n/a | yes |
+| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR for the workspace subnet primary range (e.g. 10.0.0.0/22) | `string` | n/a | yes |
 | <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Workspace name | `string` | n/a | yes |
-| <a name="input_pod_cidr"></a> [pod\_cidr](#input\_pod\_cidr) | Optional secondary range for GKE pods | `string` | `null` | no |
-| <a name="input_svc_cidr"></a> [svc\_cidr](#input\_svc\_cidr) | Optional secondary range for GKE services | `string` | `null` | no |
 
 ## Outputs
 

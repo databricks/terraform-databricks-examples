@@ -96,6 +96,10 @@ variable "hive_metastore_ip" {
   type        = string
   default     = null
   description = "Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region"
+  validation {
+    condition     = var.hive_metastore_ip == null || can(cidrnetmask("${var.hive_metastore_ip}/32"))
+    error_message = "hive_metastore_ip must be a valid IPv4 address, or null to skip the rule."
+  }
 }
 
 variable "create_hub" {

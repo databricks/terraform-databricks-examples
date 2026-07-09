@@ -62,12 +62,12 @@ output "spoke_subnet_self_link" {
 }
 
 output "hub_vpc_id" {
-  value       = var.restricted_egress ? module.network[0].hub_vpc_id : null
+  value       = local.dns_enabled ? module.network[0].hub_vpc_id : null
   description = "Hub VPC ID (null when restricted_egress=false)"
 }
 
 output "hub_vpc_self_link" {
-  value       = var.restricted_egress ? module.network[0].hub_vpc_self_link : null
+  value       = local.dns_enabled ? module.network[0].hub_vpc_self_link : null
   description = "Hub VPC self-link (null when restricted_egress=false)"
 }
 
@@ -78,17 +78,17 @@ output "nat_id" {
 
 # === Private connectivity ===============================================
 output "frontend_psc_ip_spoke" {
-  value       = local.any_private_link ? module.private_connectivity[0].frontend_psc_ip_spoke : null
+  value       = local.private_connectivity_enabled ? module.private_connectivity[0].frontend_psc_ip_spoke : null
   description = "IP address of the spoke-side frontend PSC endpoint (null when no PSC)"
 }
 
 output "backend_psc_ip_spoke" {
-  value       = local.any_private_link ? module.private_connectivity[0].backend_psc_ip_spoke : null
+  value       = local.private_connectivity_enabled ? module.private_connectivity[0].backend_psc_ip_spoke : null
   description = "IP address of the spoke-side backend PSC endpoint (null when no PSC)"
 }
 
 output "frontend_psc_ip_hub" {
-  value       = var.restricted_egress ? module.private_connectivity[0].frontend_psc_ip_hub : null
+  value       = local.private_connectivity_enabled ? module.private_connectivity[0].frontend_psc_ip_hub : null
   description = "IP address of the hub-side frontend PSC endpoint (null when restricted_egress=false)"
 }
 

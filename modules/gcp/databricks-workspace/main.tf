@@ -23,14 +23,14 @@ module "network" {
 
 module "private_connectivity" {
   source = "../private-connectivity"
-  count  = local.any_private_link ? 1 : 0
+  count  = local.private_connectivity_enabled ? 1 : 0
 
   prefix        = var.prefix
   suffix        = random_string.suffix.result
   google_region = var.google_region
 
-  spoke_vpc_id             = module.network[0].spoke_vpc_id
-  spoke_vpc_self_link      = module.network[0].spoke_vpc_self_link
+  spoke_vpc_id             = local.databricks_managed ? null : module.network[0].spoke_vpc_id
+  spoke_vpc_self_link      = local.databricks_managed ? null : module.network[0].spoke_vpc_self_link
   spoke_vpc_google_project = local.spoke_project
   spoke_vpc_cidr           = var.spoke_vpc_cidr
 
@@ -64,9 +64,9 @@ module "workspace" {
   spoke_vpc_google_project = local.spoke_project
   hub_vpc_google_project   = var.hub_vpc_google_project
 
-  frontend_forwarding_rule_name     = local.any_private_link ? module.private_connectivity[0].frontend_forwarding_rule_name : null
-  backend_forwarding_rule_name      = local.any_private_link ? module.private_connectivity[0].backend_forwarding_rule_name : null
-  hub_frontend_forwarding_rule_name = local.any_private_link ? module.private_connectivity[0].hub_frontend_forwarding_rule_name : null
+  frontend_forwarding_rule_name     = local.private_connectivity_enabled ? module.private_connectivity[0].frontend_forwarding_rule_name : null
+  backend_forwarding_rule_name      = local.private_connectivity_enabled ? module.private_connectivity[0].backend_forwarding_rule_name : null
+  hub_frontend_forwarding_rule_name = local.private_connectivity_enabled ? module.private_connectivity[0].hub_frontend_forwarding_rule_name : null
 
   enable_frontend     = var.private_link_frontend
   enable_backend      = var.private_link_backend
@@ -86,20 +86,20 @@ module "workspace" {
 
 module "dns" {
   source = "../dns"
-  count  = var.restricted_egress ? 1 : 0
+  count  = local.dns_enabled ? 1 : 0
 
   prefix        = var.prefix
   google_region = var.google_region
 
-  hub_vpc_id             = module.network[0].hub_vpc_id
+  hub_vpc_id             = local.databricks_managed ? null : module.network[0].hub_vpc_id
   hub_vpc_google_project = var.hub_vpc_google_project
 
-  spoke_vpc_id             = module.network[0].spoke_vpc_id
+  spoke_vpc_id             = local.databricks_managed ? null : module.network[0].spoke_vpc_id
   spoke_vpc_google_project = local.spoke_project
 
   workspace_url = module.workspace.workspace_url
 
-  frontend_psc_ip_spoke = module.private_connectivity[0].frontend_psc_ip_spoke
-  frontend_psc_ip_hub   = module.private_connectivity[0].frontend_psc_ip_hub
-  backend_psc_ip_spoke  = module.private_connectivity[0].backend_psc_ip_spoke
+  frontend_psc_ip_spoke = local.private_connectivity_enabled ? module.private_connectivity[0].frontend_psc_ip_spoke : null
+  frontend_psc_ip_hub   = local.private_connectivity_enabled ? module.private_connectivity[0].frontend_psc_ip_hub : null
+  backend_psc_ip_spoke  = local.private_connectivity_enabled ? module.private_connectivity[0].backend_psc_ip_spoke : null
 }

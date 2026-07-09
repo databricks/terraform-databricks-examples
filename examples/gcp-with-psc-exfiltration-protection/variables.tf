@@ -33,11 +33,10 @@ variable "prefix" {
   description = "Prefix used to name generated resources"
 }
 
-# For the value of the regional Hive Metastore IP, refer to the Databricks documentation
-# https://docs.gcp.databricks.com/en/resources/ip-domain-region.html#addresses-for-default-metastore
 variable "hive_metastore_ip" {
   type        = string
-  description = "Regional default Hive Metastore IP (used by the spoke egress firewall to allow MySQL/3306)"
+  default     = null
+  description = "Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region"
 }
 
 variable "hub_vpc_cidr" {
@@ -98,13 +97,13 @@ variable "serverless_egress_enforcement" {
 variable "cmek_managed_services_key_id" {
   type        = string
   default     = null
-  description = "Cloud KMS key resource ID for managed-services CMEK (control-plane data: notebooks, secrets, queries). Null disables. The principal running Terraform needs cloudkms.cryptoKeys.getIamPolicy and setIamPolicy on the key - Databricks sets the key's IAM policy at workspace creation. Enterprise tier; set at creation only"
+  description = "Cloud KMS key resource ID for managed-services CMEK (control-plane data: notebooks, secrets, queries). Null disables. The principal running Terraform needs cloudkms.cryptoKeys.getIamPolicy and setIamPolicy on the key - Databricks sets the key's IAM policy at workspace creation. Enterprise tier; set at creation only. The key must exist before plan (a key created in the same configuration makes the count unknown and fails plan)"
 }
 
 variable "cmek_storage_key_id" {
   type        = string
   default     = null
-  description = "Cloud KMS key resource ID for workspace-storage CMEK (GCS buckets and GCE persistent disks). Null disables. Same permission and tier requirements as cmek_managed_services_key_id; set at creation only"
+  description = "Cloud KMS key resource ID for workspace-storage CMEK (GCS buckets and GCE persistent disks). Null disables. Same permission and tier requirements as cmek_managed_services_key_id; set at creation only. The key must exist before plan (a key created in the same configuration makes the count unknown and fails plan)"
 }
 
 variable "enable_compliance_security_profile" {

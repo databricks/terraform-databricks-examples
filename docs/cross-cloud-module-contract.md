@@ -77,6 +77,7 @@ Every variable and output has a `description`. Module READMEs carry a
   `terraform_data` resource; the PR description documents the rule table.
 - `count`/`for_each` must never depend on apply-time values.
 - Each composer scenario has a positive fixture under `tests/<scenario>/`
-  that completes `terraform plan` offline; each precondition has a
-  `tests/negative-*` fixture that fails plan with the expected message.
+  that completes `terraform plan` offline; preconditions are covered by
+  `tests/negative-*` fixtures that fail plan with the expected message (at
+  minimum, every rule that guards a scenario flag combination).
 - Submodules carry per-scenario plan fixtures.

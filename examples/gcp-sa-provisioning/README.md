@@ -34,13 +34,13 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | n/a |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gcp-sa-provisioning"></a> [gcp-sa-provisioning](#module\_gcp-sa-provisioning) | github.com/databricks/terraform-databricks-examples/modules/gcp-sa-provisioning | n/a |
+| <a name="module_gcp-sa-provisioning"></a> [gcp-sa-provisioning](#module\_gcp-sa-provisioning) | ../../modules/gcp/service-account | n/a |
 
 ## Resources
 

@@ -26,7 +26,11 @@ old apply does **not** migrate cleanly to the new composer because the
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | ~> 1.81 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 6.17 |
 
 ## Providers
 
