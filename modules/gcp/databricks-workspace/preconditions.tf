@@ -2,7 +2,7 @@
 resource "terraform_data" "preconditions" {
   lifecycle {
     precondition {
-      condition     = !var.restricted_egress || local.create_vpc
+      condition     = !var.restricted_egress || local.create_spoke
       error_message = "restricted_egress=true requires vpc_source=\"create\" (hub-spoke topology needs us to own both VPCs)."
     }
     precondition {
@@ -22,11 +22,11 @@ resource "terraform_data" "preconditions" {
       error_message = "restricted_egress=true requires hub_vpc_google_project and hub_vpc_cidr."
     }
     precondition {
-      condition     = !local.create_vpc || (var.spoke_vpc_cidr != null && var.subnet_cidr != null)
+      condition     = !local.create_spoke || (var.spoke_vpc_cidr != null && var.subnet_cidr != null)
       error_message = "vpc_source=\"create\" requires spoke_vpc_cidr and subnet_cidr."
     }
     precondition {
-      condition     = !local.use_existing_vpc || (var.existing_vpc_name != null && var.existing_subnet_name != null)
+      condition     = !local.use_existing_spoke || (var.existing_vpc_name != null && var.existing_subnet_name != null)
       error_message = "vpc_source=\"existing\" requires existing_vpc_name and existing_subnet_name."
     }
     precondition {

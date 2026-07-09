@@ -1,6 +1,6 @@
 # === Spoke subnet =======================================================
 resource "google_compute_subnetwork" "spoke_subnet" {
-  count = local.create_vpc ? 1 : 0
+  count = local.create_spoke ? 1 : 0
 
   name                     = local.subnet_name
   project                  = var.spoke_vpc_google_project

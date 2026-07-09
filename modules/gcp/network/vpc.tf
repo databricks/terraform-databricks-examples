@@ -1,6 +1,6 @@
 # === Spoke VPC (created) ================================================
 resource "google_compute_network" "spoke_vpc" {
-  count = local.create_vpc ? 1 : 0
+  count = local.create_spoke ? 1 : 0
 
   name                    = "${var.prefix}-spoke-vpc-${var.suffix}"
   project                 = var.spoke_vpc_google_project

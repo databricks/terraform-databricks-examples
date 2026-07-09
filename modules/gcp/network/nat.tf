@@ -1,5 +1,5 @@
 resource "google_compute_router" "router" {
-  count = local.create_vpc && var.enable_nat ? 1 : 0
+  count = local.create_spoke && var.enable_nat ? 1 : 0
 
   name    = "${var.prefix}-router-${var.suffix}"
   project = var.spoke_vpc_google_project
@@ -8,7 +8,7 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_router_nat" "nat" {
-  count = local.create_vpc && var.enable_nat ? 1 : 0
+  count = local.create_spoke && var.enable_nat ? 1 : 0
 
   name                               = "${var.prefix}-nat-${var.suffix}"
   project                            = var.spoke_vpc_google_project
