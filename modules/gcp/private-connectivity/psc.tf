@@ -19,7 +19,7 @@ resource "google_compute_address" "backend_address" {
   address_type = "INTERNAL"
 }
 
-resource "google_compute_forwarding_rule" "backend_fr" {
+resource "google_compute_forwarding_rule" "backend_forwarding_rule" {
   count = var.enable_backend ? 1 : 0
 
   name                  = "${var.prefix}-psc-scc-ep-${var.suffix}"
@@ -42,7 +42,7 @@ resource "google_compute_address" "frontend_address_spoke" {
   address_type = "INTERNAL"
 }
 
-resource "google_compute_forwarding_rule" "frontend_fr_spoke" {
+resource "google_compute_forwarding_rule" "frontend_forwarding_rule_spoke" {
   count = var.enable_frontend ? 1 : 0
 
   name                  = "${var.prefix}-psc-ws-ep-${var.suffix}"
@@ -65,7 +65,7 @@ resource "google_compute_address" "frontend_address_hub" {
   address_type = "INTERNAL"
 }
 
-resource "google_compute_forwarding_rule" "frontend_fr_hub" {
+resource "google_compute_forwarding_rule" "frontend_forwarding_rule_hub" {
   count = var.create_hub && var.enable_frontend ? 1 : 0
 
   name                  = "${var.prefix}-hub-psc-ws-ep-${var.suffix}"

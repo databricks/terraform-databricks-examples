@@ -19,7 +19,7 @@ resource "databricks_storage_credential" "this" {
 resource "databricks_external_location" "this" {
   provider = databricks.workspace
   name     = "${var.prefix}-external-location"
-  url      = "gs://${google_storage_bucket.ext_bucket.name}/"
+  url      = "gs://${google_storage_bucket.catalog_storage.name}/"
 
   credential_name = databricks_storage_credential.this.id
 

@@ -1,4 +1,4 @@
-module "gcp-sa-provisioning" {
+module "service_account" {
   source         = "../../modules/gcp/service-account"
   google_project = var.google_project
   prefix         = var.prefix

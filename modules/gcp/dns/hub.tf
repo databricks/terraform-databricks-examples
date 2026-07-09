@@ -1,5 +1,5 @@
 # === gcp.databricks.com (hub) ============================================
-resource "google_dns_managed_zone" "hub_dbx" {
+resource "google_dns_managed_zone" "hub_databricks" {
   name        = "${var.prefix}-hub-gcp-databricks-com"
   project     = var.hub_vpc_google_project
   dns_name    = "gcp.databricks.com."
@@ -14,27 +14,27 @@ resource "google_dns_managed_zone" "hub_dbx" {
 }
 
 resource "google_dns_record_set" "hub_workspace_url" {
-  name         = "${local.workspace_dns_id}.${google_dns_managed_zone.hub_dbx.dns_name}"
+  name         = "${local.workspace_dns_id}.${google_dns_managed_zone.hub_databricks.dns_name}"
   project      = var.hub_vpc_google_project
-  managed_zone = google_dns_managed_zone.hub_dbx.name
+  managed_zone = google_dns_managed_zone.hub_databricks.name
   type         = "A"
   ttl          = 300
   rrdatas      = [var.frontend_psc_ip_hub]
 }
 
 resource "google_dns_record_set" "hub_psc_auth" {
-  name         = "${var.google_region}.psc-auth.${google_dns_managed_zone.hub_dbx.dns_name}"
+  name         = "${var.google_region}.psc-auth.${google_dns_managed_zone.hub_databricks.dns_name}"
   project      = var.hub_vpc_google_project
-  managed_zone = google_dns_managed_zone.hub_dbx.name
+  managed_zone = google_dns_managed_zone.hub_databricks.name
   type         = "A"
   ttl          = 300
   rrdatas      = [var.frontend_psc_ip_hub]
 }
 
 resource "google_dns_record_set" "hub_dp" {
-  name         = "dp-${local.workspace_dns_id}.${google_dns_managed_zone.hub_dbx.dns_name}"
+  name         = "dp-${local.workspace_dns_id}.${google_dns_managed_zone.hub_databricks.dns_name}"
   project      = var.hub_vpc_google_project
-  managed_zone = google_dns_managed_zone.hub_dbx.name
+  managed_zone = google_dns_managed_zone.hub_databricks.name
   type         = "A"
   ttl          = 300
   rrdatas      = [var.frontend_psc_ip_hub]

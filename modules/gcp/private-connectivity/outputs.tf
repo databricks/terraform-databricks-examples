@@ -4,17 +4,17 @@ output "psc_subnet_self_link" {
 }
 
 output "frontend_forwarding_rule_name" {
-  value       = var.enable_frontend ? google_compute_forwarding_rule.frontend_fr_spoke[0].name : null
+  value       = var.enable_frontend ? google_compute_forwarding_rule.frontend_forwarding_rule_spoke[0].name : null
   description = "Name of the spoke-side frontend PSC forwarding rule (null when enable_frontend=false)"
 }
 
 output "backend_forwarding_rule_name" {
-  value       = var.enable_backend ? google_compute_forwarding_rule.backend_fr[0].name : null
+  value       = var.enable_backend ? google_compute_forwarding_rule.backend_forwarding_rule[0].name : null
   description = "Name of the backend (SCC) PSC forwarding rule (null when enable_backend=false)"
 }
 
 output "hub_frontend_forwarding_rule_name" {
-  value       = var.create_hub && var.enable_frontend ? google_compute_forwarding_rule.frontend_fr_hub[0].name : null
+  value       = var.create_hub && var.enable_frontend ? google_compute_forwarding_rule.frontend_forwarding_rule_hub[0].name : null
   description = "Name of the hub-side frontend PSC forwarding rule (null when no hub or no frontend)"
 }
 

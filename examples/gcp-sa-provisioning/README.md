@@ -32,21 +32,17 @@ No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 7.39.0 |
+No providers.
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gcp-sa-provisioning"></a> [gcp-sa-provisioning](#module\_gcp-sa-provisioning) | ../../modules/gcp/service-account | n/a |
+| <a name="module_service_account"></a> [service\_account](#module\_service\_account) | ../../modules/gcp/service-account | n/a |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [google_client_openid_userinfo.me](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_openid_userinfo) | data source |
+No resources.
 
 ## Inputs
 

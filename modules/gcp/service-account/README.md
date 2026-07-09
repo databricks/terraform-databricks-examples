@@ -64,25 +64,22 @@ No modules.
 | Name | Type |
 |------|------|
 | [google_project_iam_custom_role.workspace_creator](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
-| [google_project_iam_member.sa2_can_create_workspaces](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
-| [google_service_account.sa2](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
+| [google_project_iam_member.workspace_creator](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [google_service_account.this](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
 | [google_service_account_iam_policy.impersonatable](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_policy) | resource |
-| [google_client_config.current](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
-| [google_client_openid_userinfo.me](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_openid_userinfo) | data source |
 | [google_iam_policy.this](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/iam_policy) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
-| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VCP/workspace deployment | `string` | n/a | yes |
+| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:deployer@my-project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
+| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VPC/workspace deployment | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated service account name | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_custom_role_url"></a> [custom\_role\_url](#output\_custom\_role\_url) | n/a |
-| <a name="output_service_account"></a> [service\_account](#output\_service\_account) | Add this email as a user in the Databricks account console |
+| <a name="output_service_account_email"></a> [service\_account\_email](#output\_service\_account\_email) | Add this email as a user in the Databricks account console |
 <!-- END_TF_DOCS -->

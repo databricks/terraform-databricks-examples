@@ -49,8 +49,8 @@ resource "google_compute_firewall" "spoke_allow_ctl_plane" {
   direction = "EGRESS"
   priority  = 1000
   destination_ranges = [
-    "${google_compute_forwarding_rule.backend_fr[0].ip_address}/32",
-    "${google_compute_forwarding_rule.frontend_fr_spoke[0].ip_address}/32"
+    "${google_compute_forwarding_rule.backend_forwarding_rule[0].ip_address}/32",
+    "${google_compute_forwarding_rule.frontend_forwarding_rule_spoke[0].ip_address}/32"
   ]
 
   allow {

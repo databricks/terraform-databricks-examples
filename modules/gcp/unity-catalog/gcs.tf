@@ -1,4 +1,4 @@
-resource "google_storage_bucket" "ext_bucket" {
+resource "google_storage_bucket" "catalog_storage" {
   name = "${var.prefix}-bucket"
 
   project       = var.google_project
@@ -7,13 +7,13 @@ resource "google_storage_bucket" "ext_bucket" {
 }
 
 resource "google_storage_bucket_iam_member" "unity_cred_admin" {
-  bucket = google_storage_bucket.ext_bucket.name
+  bucket = google_storage_bucket.catalog_storage.name
   role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${databricks_storage_credential.this.databricks_gcp_service_account[0].email}"
 }
 
 resource "google_storage_bucket_iam_member" "unity_cred_reader" {
-  bucket = google_storage_bucket.ext_bucket.name
+  bucket = google_storage_bucket.catalog_storage.name
   role   = "roles/storage.legacyBucketReader"
   member = "serviceAccount:${databricks_storage_credential.this.databricks_gcp_service_account[0].email}"
 }
