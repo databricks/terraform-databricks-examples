@@ -48,8 +48,8 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
-| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VCP/workspace deployment | `string` | n/a | yes |
+| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:deployer@my-project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
+| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VPC/workspace deployment | `string` | n/a | yes |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region for deployment | `string` | n/a | yes |
 | <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | Zone in GCP region | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated service account name.  This should not contain underscores or dashes. | `string` | n/a | yes |
