@@ -1,0 +1,12 @@
+aws_region         = "ap-southeast-2"
+aws_profile        = "my-aws-profile"
+databricks_profile = "my-workspace-profile"
+
+databricks_account_id = "00000000-0000-0000-0000-000000000000"
+
+name_prefix              = "file-events-demo"
+bucket_name              = "my-globally-unique-uc-demo-bucket"
+external_location_name   = "file_events_landing"
+external_location_prefix = "landing"
+
+grant_principal = "data-engineers"
