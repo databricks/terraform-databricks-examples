@@ -2,16 +2,16 @@
 
 This module deploys an Azure Databricks workspace with VNet injection and connects it to an Azure Storage account (used for Unity Catalog external storage and DBFS) using **service endpoints**, allowing access from both classic (VNet-injected) compute and serverless compute while keeping the storage account off the public internet.
 
-It is the public-endpoint (service-endpoint) variant of the sibling [`adb-data-storage-vnet-ncc-private-endpoint`](../adb-data-storage-vnet-ncc-private-endpoint) module: rather than routing storage traffic through Azure private endpoints and private DNS, it restricts the storage account's network rules so that only the workspace VNet subnets and the serverless NCC subnets are permitted.
+It is the public-endpoint (service-endpoint) variant of the sibling [`adb-data-storage-vnet-ncc-private-endpoint`](../adb-data-storage-vnet-ncc-private-endpoint) module: rather than routing storage traffic through Azure private endpoints and private DNS, it restricts the storage account's network rules so that only the workspace's host subnet and the serverless NCC storage subnets are permitted.
 
 ## Module content
 
 This module can be used to deploy the following:
 
-* A resource group containing a virtual network with private and public subnets, network security groups, a Databricks access connector and a VNet-injected Databricks workspace (assigned to a metastore).
+* A resource group containing a virtual network with host and container subnets, network security groups, a Databricks access connector and a VNet-injected Databricks workspace (assigned to a metastore).
 * A network connectivity configuration (NCC) bound to the workspace, from which the serverless storage subnets are read and added to the storage account's network rules.
 * A second resource group containing the data storage account and container, a user-assigned identity and a Databricks access connector.
-* **Storage account network rules** (`azurerm_storage_account_network_rules`) that allow connections only from the workspace VNet subnets and the serverless NCC subnets.
+* **Storage account network rules** (`azurerm_storage_account_network_rules`) that allow connections only from the workspace's host subnet and the serverless NCC storage subnets.
 * Databricks storage credential, external location and catalog backed by the storage container, plus grants.
 
 ## How to use

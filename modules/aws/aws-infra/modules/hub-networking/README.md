@@ -4,9 +4,9 @@ Submodule of [`aws-infra`](../../README.md) that implements a hub-and-spoke netw
 
 * **Transit Gateway** — an `aws_ec2_transit_gateway` with dedicated hub and spoke route tables, VPC attachments, and routes that steer all spoke egress through the hub VPC.
 * **Hub VPC** — an `aws_vpc` with public, private and firewall subnets across the provided availability zones, an internet gateway, NAT gateway and associated route tables.
-* **Network Firewall** — an optional `aws_networkfirewall_firewall` with FQDN allow-list, network-level allow rules and a default deny, so outbound traffic from the spoke VPC is inspected and filtered before reaching the internet.
+* **Network Firewall** — an `aws_networkfirewall_firewall` with a default-deny policy, plus an optional FQDN allow-list and network-level allow rules (created only when `allowed_fqdns` / `allowed_network_rules` are set), so outbound traffic from the spoke VPC can be inspected and filtered before reaching the internet. The firewall is always created; the `enable_firewall` variable (default `true`) controls whether spoke egress is **routed through** it — when `false`, the hub public route table's default route points straight at the internet gateway and bypasses the firewall.
 
-Spoke traffic is routed to the Transit Gateway, into the hub VPC, through the Network Firewall, and out via the NAT/internet gateway — giving a single, centrally controlled egress point.
+Spoke traffic is routed to the Transit Gateway, into the hub VPC, through the Network Firewall, and out via the NAT/internet gateway (when `enable_firewall` is `true`) — giving a single, centrally controlled egress point.
 
 This is an internal submodule consumed by the `aws-infra` module and is not intended to be deployed standalone. It expects an existing spoke VPC (its ID, CIDR, private subnets and route tables are passed in as variables).
 

@@ -2,13 +2,13 @@
 
 This module deploys an Azure Databricks workspace with VNet injection and connects it to an Azure Storage account (used for Unity Catalog external storage and DBFS) over **private endpoints** from both classic (VNet-injected) compute and serverless compute.
 
-It is the private-endpoint variant of the sibling [`adb-data-storage-vnet-ncc-public-endpoint`](../adb-data-storage-vnet-ncc-public-endpoint) module: instead of allowing the workspace VNet subnets and serverless NCC subnets through storage network (service-endpoint) rules, all storage access flows through private endpoints and private DNS.
+It is the private-endpoint variant of the sibling [`adb-data-storage-vnet-ncc-public-endpoint`](../adb-data-storage-vnet-ncc-public-endpoint) module: instead of allowing the workspace's host subnet and serverless NCC subnets through storage network (service-endpoint) rules, all storage access flows through private endpoints and private DNS.
 
 ## Module content
 
 This module can be used to deploy the following:
 
-* A resource group containing a virtual network with private and public subnets, a Private Link subnet, network security groups, a Databricks access connector and a VNet-injected Databricks workspace (assigned to a metastore).
+* A resource group containing a virtual network with host and container subnets, a Private Link subnet, network security groups, a Databricks access connector and a VNet-injected Databricks workspace (assigned to a metastore).
 * A network connectivity configuration (NCC) for the workspace, with **private endpoint rules** (`databricks_mws_ncc_private_endpoint_rule`) so that serverless compute reaches the storage account privately.
 * A second resource group containing the data storage account and container, a user-assigned identity and a Databricks access connector.
 * **Azure private endpoints** for the storage account (blob and dfs, for both the data and DBFS storage), with private DNS zones and VNet links, and approval of the private endpoint connections.
