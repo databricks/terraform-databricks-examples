@@ -1,30 +1,36 @@
-# Provisioning Databricks workspace on GCP with managed VPC
-=========================
+# examples/gcp-basic — Databricks-managed VPC
 
-In this template, we show how to deploy a workspace with managed VPC.
+Calls `modules/gcp/databricks-workspace` with `vpc_source = { spoke = "databricks_managed" }`.
+The Databricks platform provisions the workspace VPC; you provide only the GCP
+project, region, and prefix.
 
+## Prerequisites
 
-## Requirements
+- A GCP project with the Databricks platform onboarded
+- A service account with workspace-creator role (see `examples/gcp-sa-provisioning`)
+- Databricks account ID
 
-- You need to have run gcp-sa-provisionning and have a service account to fill in the variables.
-- If you want to deploy to a new project, you will need to grant the custom role generated in that template to the service acount in the new project.
-- The Service Account needs to be added as Databricks Admin in the account console
+## Apply
 
-## Run as an SA 
+```bash
+terraform init
+terraform apply
+```
 
-You can do the same thing by provisionning a service account that will have the same permissions - and associate the key associated to it.
+## Migrating from the old example
 
-
-## Run the tempalte
-
-- You need to fill in the `variables.tf`
-- run `terraform init`
-- run `teraform apply`
+This example previously called `modules/gcp-workspace-basic`. State from the
+old apply does **not** migrate cleanly to the new composer because the
+`databricks_mws_workspaces` resource address differs. Re-apply on clean state.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | ~> 1.81 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 6.17 |
 
 ## Providers
 
@@ -34,7 +40,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gcp-basic"></a> [gcp-basic](#module\_gcp-basic) | github.com/databricks/terraform-databricks-examples/modules/gcp-workspace-basic | n/a |
+| <a name="module_workspace"></a> [workspace](#module\_workspace) | ../../modules/gcp/databricks-workspace | n/a |
 
 ## Resources
 
@@ -45,18 +51,17 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_databricks_account_id"></a> [databricks\_account\_id](#input\_databricks\_account\_id) | Databricks Account ID | `string` | n/a | yes |
-| <a name="input_databricks_google_service_account"></a> [databricks\_google\_service\_account](#input\_databricks\_google\_service\_account) | Email of the service account used for deployment | `string` | n/a | yes |
-| <a name="input_delegate_from"></a> [delegate\_from](#input\_delegate\_from) | Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com) | `list(string)` | n/a | yes |
-| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | Google project for VCP/workspace deployment | `string` | n/a | yes |
-| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | Google region for VCP/workspace deployment | `string` | n/a | yes |
-| <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | Zone in GCP region | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to use in generated VPC name | `string` | n/a | yes |
-| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Name of the workspace to create | `string` | n/a | yes |
+| <a name="input_databricks_google_service_account"></a> [databricks\_google\_service\_account](#input\_databricks\_google\_service\_account) | Service account email used for Databricks provider authentication | `string` | n/a | yes |
+| <a name="input_google_project"></a> [google\_project](#input\_google\_project) | GCP project where the workspace will be created | `string` | n/a | yes |
+| <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region for workspace deployment | `string` | n/a | yes |
+| <a name="input_google_zone"></a> [google\_zone](#input\_google\_zone) | GCP zone (used by the google provider) | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix used to name generated resources | `string` | n/a | yes |
+| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Workspace name | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_databricks_host"></a> [databricks\_host](#output\_databricks\_host) | n/a |
-| <a name="output_databricks_token"></a> [databricks\_token](#output\_databricks\_token) | n/a |
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | Databricks workspace ID |
+| <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | Databricks workspace URL |
 <!-- END_TF_DOCS -->

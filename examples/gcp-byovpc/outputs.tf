@@ -1,8 +1,19 @@
-output "databricks_host" {
-  value = databricks_mws_workspaces.databricks_workspace.workspace_url
+output "workspace_id" {
+  value       = module.workspace.workspace_id
+  description = "Databricks workspace ID"
 }
 
-output "databricks_token" {
-  value     = databricks_mws_workspaces.databricks_workspace.token[0].token_value
-  sensitive = true
+output "workspace_url" {
+  value       = module.workspace.workspace_url
+  description = "Databricks workspace URL"
+}
+
+output "vpc_id" {
+  value       = module.workspace.spoke_vpc_id
+  description = "ID of the spoke VPC created by the module"
+}
+
+output "network_id" {
+  value       = module.workspace.network_id
+  description = "databricks_mws_networks ID"
 }

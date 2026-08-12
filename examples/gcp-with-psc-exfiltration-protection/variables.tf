@@ -10,64 +10,136 @@ variable "google_region" {
 
 variable "workspace_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Databricks workspace"
+  description = "Google Cloud project ID where the Databricks workspace lives"
 }
 
 variable "spoke_vpc_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Spoke VPC"
+  description = "Google Cloud project ID hosting the spoke VPC (often the same as workspace project)"
 }
 
 variable "hub_vpc_google_project" {
   type        = string
-  description = "Google Cloud project ID related to Hub VPC"
+  description = "Google Cloud project ID hosting the hub VPC"
 }
 
 variable "is_spoke_vpc_shared" {
   type        = bool
-  description = "Whether the Spoke VPC is a Shared or a dedicated VPC"
+  description = "Whether the spoke VPC project hosts a Shared VPC and the workspace project is bound as a service project"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to use in generated resources name"
+  description = "Prefix used to name generated resources"
 }
 
-# For the value of the regional Hive Metastore IP, refer to the Databricks documentation
-# Here - https://docs.gcp.databricks.com/en/resources/ip-domain-region.html#addresses-for-default-metastore
 variable "hive_metastore_ip" {
   type        = string
-  description = "Value of regional default Hive Metastore IP"
+  default     = null
+  description = "Regional legacy Hive metastore IP. When set, an egress allow rule (tcp/3306) is created under restricted egress; when null, no rule is created. Workspaces using Unity Catalog (the default) do not need this. Regional IPs: https://docs.databricks.com/gcp/en/resources/ip-domain-region"
 }
 
 variable "hub_vpc_cidr" {
   type        = string
-  description = "CIDR for Hub VPC"
+  description = "CIDR for the hub subnet"
 }
 
 variable "spoke_vpc_cidr" {
   type        = string
-  description = "CIDR for Spoke VPC"
+  description = "CIDR of the spoke VPC address space (used as source_ranges for the hub ingress firewall)"
+}
+
+variable "subnet_cidr" {
+  type        = string
+  description = "CIDR for the spoke subnet (must be within spoke_vpc_cidr)"
 }
 
 variable "psc_subnet_cidr" {
   type        = string
-  description = "CIDR for Spoke VPC"
-}
-
-variable "tags" {
-  type        = map(string)
-  description = "Map of tags to add to all resources"
-
-  default = {}
+  description = "CIDR for the dedicated PSC subnet in the spoke VPC"
 }
 
 variable "metastore_name" {
   type        = string
-  description = "Name to assign to regional metastore"
+  description = "Name to assign to regional Unity Catalog metastore"
 }
 
 variable "catalog_name" {
   type        = string
-  description = "Name to assign to default catalog"
+  description = "Name to assign to default Unity Catalog catalog"
+}
+
+variable "serverless_egress_mode" {
+  type        = string
+  default     = "restricted"
+  description = "Serverless egress control mode (unmanaged, full, restricted). Default restricted: deny-by-default for serverless, matching this example's classic-compute posture. Requires Enterprise tier"
+}
+
+variable "serverless_allowed_internet_destinations" {
+  type        = list(string)
+  default     = []
+  description = "FQDNs serverless workloads may reach (only with serverless_egress_mode=restricted)"
+}
+
+variable "serverless_allowed_storage_destinations" {
+  type        = list(string)
+  default     = []
+  description = "GCS bucket names serverless workloads may reach (only with serverless_egress_mode=restricted)"
+}
+
+variable "serverless_egress_enforcement" {
+  type        = string
+  default     = "enforced"
+  description = "enforced or dry_run (log-only evaluation)"
+}
+
+# === Customer-managed keys (CMEK) =======================================
+variable "cmek_managed_services_key_id" {
+  type        = string
+  default     = null
+  description = "Cloud KMS key resource ID for managed-services CMEK (control-plane data: notebooks, secrets, queries). Null disables. The principal running Terraform needs cloudkms.cryptoKeys.getIamPolicy and setIamPolicy on the key - Databricks sets the key's IAM policy at workspace creation. Enterprise tier; set at creation only. The key must exist before plan (a key created in the same configuration makes the count unknown and fails plan)"
+}
+
+variable "cmek_storage_key_id" {
+  type        = string
+  default     = null
+  description = "Cloud KMS key resource ID for workspace-storage CMEK (GCS buckets and GCE persistent disks). Null disables. Same permission and tier requirements as cmek_managed_services_key_id; set at creation only. The key must exist before plan (a key created in the same configuration makes the count unknown and fails plan)"
+}
+
+variable "enable_compliance_security_profile" {
+  type        = bool
+  default     = false
+  description = "Enable the Compliance Security Profile on the workspace. WARNING: irreversible - CSP cannot be disabled once enabled. Requires enable_enhanced_security_monitoring=true"
+}
+
+variable "compliance_standards" {
+  type        = list(string)
+  default     = []
+  description = "Compliance standards for the CSP (e.g. [\"HIPAA\"]). Only meaningful when enable_compliance_security_profile=true"
+}
+
+variable "enable_enhanced_security_monitoring" {
+  type        = bool
+  default     = false
+  description = "Enable Enhanced Security Monitoring (hardened images, monitoring agents)"
+}
+
+variable "enable_automatic_cluster_update" {
+  type        = bool
+  default     = false
+  description = "Enable automatic cluster update for the workspace"
+}
+
+variable "ip_access_lists" {
+  type = list(object({
+    label        = string
+    list_type    = string
+    ip_addresses = list(string)
+  }))
+  default     = []
+  description = "Workspace IP access lists. list_type is ALLOW or BLOCK. A non-empty list also flips the enableIpAccessLists workspace conf"
+  validation {
+    condition     = alltrue([for l in var.ip_access_lists : contains(["ALLOW", "BLOCK"], l.list_type)])
+    error_message = "ip_access_lists[*].list_type must be ALLOW or BLOCK."
+  }
 }

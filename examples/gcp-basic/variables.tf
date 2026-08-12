@@ -4,38 +4,32 @@ variable "databricks_account_id" {
 }
 
 variable "databricks_google_service_account" {
-  description = "Email of the service account used for deployment"
   type        = string
+  description = "Service account email used for Databricks provider authentication"
 }
 
 variable "google_project" {
   type        = string
-  description = "Google project for VCP/workspace deployment"
+  description = "GCP project where the workspace will be created"
 }
 
 variable "google_region" {
   type        = string
-  description = "Google region for VCP/workspace deployment"
+  description = "GCP region for workspace deployment"
 }
 
 variable "google_zone" {
-  description = "Zone in GCP region"
   type        = string
+  description = "GCP zone (used by the google provider)"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to use in generated VPC name"
+  description = "Prefix used to name generated resources"
 }
 
 variable "workspace_name" {
-  description = "Name of the workspace to create"
   type        = string
+  description = "Workspace name"
 }
-
-variable "delegate_from" {
-  description = "Identities to allow to impersonate created service account (in form of user:user.name@example.com, group:deployers@example.com or serviceAccount:sa1@project.iam.gserviceaccount.com)"
-  type        = list(string)
-}
-
 
