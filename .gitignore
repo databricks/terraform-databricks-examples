@@ -30,3 +30,7 @@
 .vscode/
 
 .idea/
+
+# Claude Code
+.claude/
+CLAUDE.md
