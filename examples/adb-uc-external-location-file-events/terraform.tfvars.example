@@ -1,0 +1,8 @@
+databricks_host         = "https://adb-xxxxxxxxxxxx.azuredatabricks.net"
+name_prefix             = "file-events-demo"
+access_connector_id     = "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.Databricks/accessConnectors/<name>"
+storage_account_id      = "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.Storage/storageAccounts/<name>"
+resource_group_name     = "<rg>"
+external_location_name  = "file-events-landing"
+external_location_url   = "abfss://landing@<storage>.dfs.core.windows.net/incoming"
+grant_principal         = "data-engineers"
