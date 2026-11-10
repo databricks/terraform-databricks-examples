@@ -1,0 +1,26 @@
+azure_subscription_id = "00000000-0000-0000-0000-000000000000"
+azure_tenant_id       = "00000000-0000-0000-0000-000000000000"
+databricks_account_id = "00000000-0000-0000-0000-000000000000"
+
+prefix   = "png-example"
+location = "eastus2"
+
+# Pattern A: route specific private names through the gateway.
+traffic_mode = "SPECIFIC_DESTINATIONS"
+destinations = [
+  "db.example.internal",
+  "myserver.database.windows.net",
+]
+
+# Pattern B: route all serverless egress through the gateway and NAT gateway.
+# traffic_mode       = "ALL_TRAFFIC"
+# destinations       = []
+# attach_nat_gateway = true
+
+# Optional: link existing private DNS zones to the VNet.
+# private_dns_zone_ids = [
+#   "/subscriptions/<subscription_id>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/example.internal",
+# ]
+
+# Optional: attach the NCC to an existing workspace in the same region.
+# workspace_id = "1234567890123456"
